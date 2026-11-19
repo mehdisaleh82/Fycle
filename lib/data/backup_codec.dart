@@ -220,6 +220,7 @@ final class BackupCodec {
   /// {
   ///   "content": 1,
   ///   "usualCycleLength": 28,
+  ///   "birthYear": 1990,
   ///   "days": [
   ///     {
   ///       "day": "2026-03-05",
@@ -240,6 +241,7 @@ final class BackupCodec {
   static Map<String, Object?> _toJson(FycleData data) => {
     'content': _contentVersion,
     'usualCycleLength': ?data.usualCycleLength,
+    'birthYear': ?data.birthYear,
     'days': [
       for (final entry in data.days)
         {
@@ -275,6 +277,12 @@ final class BackupCodec {
             length < PeriodPredictor.minCycleLength ||
             length > PeriodPredictor.maxCycleLength)) {
       throw const FormatException('Invalid cycle length');
+    }
+
+    final birthYear = json['birthYear'];
+    if (birthYear != null &&
+        (birthYear is! int || birthYear < 1900 || birthYear > 2200)) {
+      throw const FormatException('Invalid year of birth');
     }
 
     final days = json['days'];
@@ -314,7 +322,11 @@ final class BackupCodec {
 
     final sorted = byDay.values.where((entry) => !entry.isEmpty).toList()
       ..sort((a, b) => a.day.compareTo(b.day));
-    return FycleData(usualCycleLength: length as int?, days: sorted);
+    return FycleData(
+      usualCycleLength: length as int?,
+      birthYear: birthYear as int?,
+      days: sorted,
+    );
   }
 }
 

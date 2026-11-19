@@ -1571,7 +1571,7 @@ abstract class AppLocalizations {
   /// No description provided for @todayEntryTitle.
   ///
   /// In en, this message translates to:
-  /// **'Today'**
+  /// **'My journal today'**
   String get todayEntryTitle;
 
   /// No description provided for @todayEntryProgress.
@@ -1801,6 +1801,360 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Reference'**
   String get referenceCaption;
+
+  /// No description provided for @studyCardTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'What the studies say'**
+  String get studyCardTitle;
+
+  /// Medical wording drawn from a published study: to be reviewed by a health professional before any release outside private testing.
+  ///
+  /// In en, this message translates to:
+  /// **'Only about 13% of cycles last exactly 28 days.'**
+  String get factExactly28;
+
+  /// Medical wording drawn from a published study: to be reviewed by a health professional before any release outside private testing.
+  ///
+  /// In en, this message translates to:
+  /// **'For about 4 women in 10, the length of the cycle varies by more than 7 days from one cycle to another.'**
+  String get factVariesMoreThan7;
+
+  /// Medical wording drawn from a published study: to be reviewed by a health professional before any release outside private testing.
+  ///
+  /// In en, this message translates to:
+  /// **'95% of the cycles measured lasted between 22 and 36 days.'**
+  String get factRange22to36;
+
+  /// Medical wording drawn from a published study: to be reviewed by a health professional before any release outside private testing.
+  ///
+  /// In en, this message translates to:
+  /// **'Between 25 and 45, the cycle shortens by about 0.18 day a year.'**
+  String get factShortensWithAge;
+
+  /// Medical wording drawn from a published study: to be reviewed by a health professional before any release outside private testing.
+  ///
+  /// In en, this message translates to:
+  /// **'The first part of the cycle, before ovulation, is the one that varies most. The second hardly moves.'**
+  String get factFirstPartVaries;
+
+  /// Medical wording drawn from a published study: to be reviewed by a health professional before any release outside private testing.
+  ///
+  /// In en, this message translates to:
+  /// **'Conception was observed only in the six days ending on the day of ovulation.'**
+  String get factSixDayWindow;
+
+  /// Medical wording drawn from a published study: to be reviewed by a health professional before any release outside private testing.
+  ///
+  /// In en, this message translates to:
+  /// **'A cycle of 24 to 38 days and a period of up to 8 days are within the usual range used by gynaecologists.'**
+  String get factFigoRanges;
+
+  /// No description provided for @youMeanCycle.
+  ///
+  /// In en, this message translates to:
+  /// **'Your average cycle: {days} days.'**
+  String youMeanCycle(String days);
+
+  /// No description provided for @youVariation.
+  ///
+  /// In en, this message translates to:
+  /// **'{days, plural, =0{Yours: your cycles all had the same length.} =1{Yours: 1 day between your shortest and your longest cycle.} other{Yours: {days} days between your shortest and your longest cycle.}}'**
+  String youVariation(int days);
+
+  /// No description provided for @youAgeReference.
+  ///
+  /// In en, this message translates to:
+  /// **'At {age}, the reference cycle is {days} days.'**
+  String youAgeReference(int age, int days);
+
+  /// No description provided for @youAgeUnknown.
+  ///
+  /// In en, this message translates to:
+  /// **'Give your year of birth in the settings to start from a reference closer to your age.'**
+  String get youAgeUnknown;
+
+  /// No description provided for @youFollicular.
+  ///
+  /// In en, this message translates to:
+  /// **'Yours is estimated at {min} to {max} days.'**
+  String youFollicular(int min, int max);
+
+  /// No description provided for @youWindow.
+  ///
+  /// In en, this message translates to:
+  /// **'Your estimated window: {start} to {end}.'**
+  String youWindow(String start, String end);
+
+  /// No description provided for @youFigo.
+  ///
+  /// In en, this message translates to:
+  /// **'Your cycle: {cycle} days. Your period: {period} days.'**
+  String youFigo(String cycle, String period);
+
+  /// No description provided for @youNotYet.
+  ///
+  /// In en, this message translates to:
+  /// **'Log two periods to see where you stand.'**
+  String get youNotYet;
+
+  /// No description provided for @sourcesTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Sources'**
+  String get sourcesTitle;
+
+  /// No description provided for @sourcesIntro.
+  ///
+  /// In en, this message translates to:
+  /// **'The reference figures come from these published studies. They describe groups of women, not you: your own entries always take over.'**
+  String get sourcesIntro;
+
+  /// No description provided for @sourceBull2019.
+  ///
+  /// In en, this message translates to:
+  /// **'Bull et al., npj Digital Medicine, 2019. 612,613 cycles.'**
+  String get sourceBull2019;
+
+  /// No description provided for @sourceFehring2006.
+  ///
+  /// In en, this message translates to:
+  /// **'Fehring, Schneider and Raviele, 2006. 1,060 cycles.'**
+  String get sourceFehring2006;
+
+  /// No description provided for @sourceWilcox1995.
+  ///
+  /// In en, this message translates to:
+  /// **'Wilcox, Weinberg and Baird, New England Journal of Medicine, 1995.'**
+  String get sourceWilcox1995;
+
+  /// No description provided for @sourceFigo2018.
+  ///
+  /// In en, this message translates to:
+  /// **'Munro, Critchley and Fraser for FIGO, International Journal of Gynecology & Obstetrics, 2018.'**
+  String get sourceFigo2018;
+
+  /// No description provided for @clinicalTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Clinical sheet'**
+  String get clinicalTitle;
+
+  /// No description provided for @clinicalIntro.
+  ///
+  /// In en, this message translates to:
+  /// **'Your log, read with the four parameters gynaecologists use.'**
+  String get clinicalIntro;
+
+  /// No description provided for @clinicalBasis.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{Based on 1 complete cycle over the last 12 months.} other{Based on {count} complete cycles over the last 12 months.}}'**
+  String clinicalBasis(int count);
+
+  /// No description provided for @clinicalEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'Shown for now: the reference ranges. Your own figures come in once a first cycle has ended.'**
+  String get clinicalEmpty;
+
+  /// No description provided for @clinicalFrequency.
+  ///
+  /// In en, this message translates to:
+  /// **'Frequency'**
+  String get clinicalFrequency;
+
+  /// No description provided for @clinicalFrequencyValue.
+  ///
+  /// In en, this message translates to:
+  /// **'A cycle of {days} days on average'**
+  String clinicalFrequencyValue(String days);
+
+  /// No description provided for @clinicalFrequencyRef.
+  ///
+  /// In en, this message translates to:
+  /// **'Usual range: 24 to 38 days'**
+  String get clinicalFrequencyRef;
+
+  /// No description provided for @clinicalRegularity.
+  ///
+  /// In en, this message translates to:
+  /// **'Regularity'**
+  String get clinicalRegularity;
+
+  /// No description provided for @clinicalRegularityValue.
+  ///
+  /// In en, this message translates to:
+  /// **'{variation, plural, =0{Cycles of {min} days, all the same length} =1{Cycles of {min} to {max} days, 1 day apart} other{Cycles of {min} to {max} days, {variation} days apart}}'**
+  String clinicalRegularityValue(int min, int max, int variation);
+
+  /// No description provided for @clinicalRegularityRef.
+  ///
+  /// In en, this message translates to:
+  /// **'Usual: up to {limit} days apart'**
+  String clinicalRegularityRef(int limit);
+
+  /// No description provided for @clinicalRegularityTooFew.
+  ///
+  /// In en, this message translates to:
+  /// **'Three complete cycles are needed to tell.'**
+  String get clinicalRegularityTooFew;
+
+  /// No description provided for @clinicalDuration.
+  ///
+  /// In en, this message translates to:
+  /// **'Period length'**
+  String get clinicalDuration;
+
+  /// No description provided for @clinicalDurationValue.
+  ///
+  /// In en, this message translates to:
+  /// **'{days} days on average, {max} at most'**
+  String clinicalDurationValue(String days, int max);
+
+  /// No description provided for @clinicalDurationRef.
+  ///
+  /// In en, this message translates to:
+  /// **'Usual: up to 8 days'**
+  String get clinicalDurationRef;
+
+  /// No description provided for @clinicalVolume.
+  ///
+  /// In en, this message translates to:
+  /// **'Flow'**
+  String get clinicalVolume;
+
+  /// No description provided for @clinicalVolumeLight.
+  ///
+  /// In en, this message translates to:
+  /// **'Light, as you logged it'**
+  String get clinicalVolumeLight;
+
+  /// No description provided for @clinicalVolumeModerate.
+  ///
+  /// In en, this message translates to:
+  /// **'Moderate, as you logged it'**
+  String get clinicalVolumeModerate;
+
+  /// No description provided for @clinicalVolumeHeavy.
+  ///
+  /// In en, this message translates to:
+  /// **'Heavy, as you logged it'**
+  String get clinicalVolumeHeavy;
+
+  /// No description provided for @clinicalPhases.
+  ///
+  /// In en, this message translates to:
+  /// **'Two parts of the cycle (estimate)'**
+  String get clinicalPhases;
+
+  /// No description provided for @clinicalPhasesValue.
+  ///
+  /// In en, this message translates to:
+  /// **'Before ovulation: {min} to {max} days. After: about {luteal} days.'**
+  String clinicalPhasesValue(int min, int max, int luteal);
+
+  /// No description provided for @clinicalSpotting.
+  ///
+  /// In en, this message translates to:
+  /// **'Spotting between periods'**
+  String get clinicalSpotting;
+
+  /// No description provided for @clinicalSpottingValue.
+  ///
+  /// In en, this message translates to:
+  /// **'{days, plural, =0{None logged} =1{1 day logged} other{{days} days logged}}'**
+  String clinicalSpottingValue(int days);
+
+  /// No description provided for @statusWithin.
+  ///
+  /// In en, this message translates to:
+  /// **'Within the usual range'**
+  String get statusWithin;
+
+  /// No description provided for @statusOutside.
+  ///
+  /// In en, this message translates to:
+  /// **'Outside the usual range'**
+  String get statusOutside;
+
+  /// Medical wording drawn from a published study: to be reviewed by a health professional before any release outside private testing.
+  ///
+  /// In en, this message translates to:
+  /// **'A value outside the usual range is not a diagnosis. This sheet is worth showing to a doctor.'**
+  String get clinicalOutsideNote;
+
+  /// No description provided for @clinicalSource.
+  ///
+  /// In en, this message translates to:
+  /// **'Reference ranges: FIGO, 2018.'**
+  String get clinicalSource;
+
+  /// No description provided for @birthYearLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Year of birth (optional)'**
+  String get birthYearLabel;
+
+  /// No description provided for @birthYearHelper.
+  ///
+  /// In en, this message translates to:
+  /// **'Used to start from a reference cycle closer to your age. It stays on this phone.'**
+  String get birthYearHelper;
+
+  /// No description provided for @birthYearError.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter a year between {min} and {max}.'**
+  String birthYearError(int min, int max);
+
+  /// No description provided for @settingsBirthYear.
+  ///
+  /// In en, this message translates to:
+  /// **'Year of birth'**
+  String get settingsBirthYear;
+
+  /// No description provided for @sourceAssumedAge.
+  ///
+  /// In en, this message translates to:
+  /// **'reference for your age, to adjust'**
+  String get sourceAssumedAge;
+
+  /// No description provided for @settingsBirthYearUnknown.
+  ///
+  /// In en, this message translates to:
+  /// **'Not given'**
+  String get settingsBirthYearUnknown;
+
+  /// No description provided for @doctorReportTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Report for your doctor'**
+  String get doctorReportTitle;
+
+  /// No description provided for @doctorReportIntro.
+  ///
+  /// In en, this message translates to:
+  /// **'Drawn up on {date} from what you logged. It describes and compares; it is not a diagnosis.'**
+  String doctorReportIntro(String date);
+
+  /// No description provided for @doctorReportAge.
+  ///
+  /// In en, this message translates to:
+  /// **'Age: {age}'**
+  String doctorReportAge(int age);
+
+  /// No description provided for @clinicalToFill.
+  ///
+  /// In en, this message translates to:
+  /// **'Your figure will replace this line'**
+  String get clinicalToFill;
+
+  /// No description provided for @clinicalRegularityRefAny.
+  ///
+  /// In en, this message translates to:
+  /// **'Usual: up to 7 to 9 days apart, depending on age'**
+  String get clinicalRegularityRefAny;
 
   /// No description provided for @lockTurnedOff.
   ///

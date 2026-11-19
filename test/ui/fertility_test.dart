@@ -31,13 +31,16 @@ void main() {
       await harness.read((store) => store.database.fertilityEstimateEnabled),
       isTrue,
     );
-    expect(find.text('Estimated fertile window'), findsOneWidget);
-    expect(find.text('Between Mar 4 and Mar 22'), findsOneWidget);
-    // In its own card and in the card at the top.
+    // On the home tab, in the card at the top.
     expect(
       find.text('Ovulation estimated between Mar 9 and Mar 21'),
-      findsNWidgets(2),
+      findsOneWidget,
     );
+
+    // The detail is in the review.
+    await openReview(tester);
+    expect(find.text('Estimated fertile window'), findsOneWidget);
+    expect(find.text('Between Mar 4 and Mar 22'), findsOneWidget);
     // Always in sight: nothing had to be accepted first.
     expect(
       find.text('An estimate: neither contraception nor a diagnosis.'),
@@ -142,6 +145,7 @@ void main() {
     final harness = Harness(tester);
     await harness.seed(days: threePeriods());
     await harness.pumpApp();
+    await openReview(tester);
 
     await tapVisible(tester, find.text('How it is calculated'));
     expect(find.byType(AlertDialog), findsOneWidget);
@@ -160,6 +164,8 @@ void main() {
       ],
     );
     await harness.pumpApp();
+    expect(find.textContaining('Ovulation estimated'), findsNothing);
+    await openReview(tester);
 
     expect(find.text('Estimated fertile window'), findsOneWidget);
     expect(
@@ -187,12 +193,13 @@ void main() {
     await harness.seed(days: threePeriods());
     await harness.pumpApp(locale: 'fr');
 
-    expect(find.text('Fenêtre de fertilité estimée'), findsOneWidget);
-    expect(find.text('Entre le 4 mars et le 22 mars'), findsOneWidget);
     expect(
       find.text('Ovulation estimée entre le 9 mars et le 21 mars'),
-      findsNWidgets(2),
+      findsOneWidget,
     );
+    await openReview(tester);
+    expect(find.text('Fenêtre de fertilité estimée'), findsOneWidget);
+    expect(find.text('Entre le 4 mars et le 22 mars'), findsOneWidget);
     expect(
       find.text('Une estimation : ni contraception ni diagnostic.'),
       findsOneWidget,
@@ -219,6 +226,7 @@ void main() {
           themeMode: ThemeMode.dark,
           textDirection: TextDirection.rtl,
         );
+        await openReview(tester);
 
         expect(find.byKey(const ValueKey('fertile-window')), findsOneWidget);
         await tapVisible(

@@ -29,6 +29,8 @@ De la V2, quatre jalons du sprint 1 sont faits :
 
 Aucune autre fonction de la V2 n'est encore écrite. Une refonte de l'accueil et de la navigation a suivi le premier essai de la testeuse (décisions 103 à 112) : quatre onglets nommés (Accueil, Journal, Bilan, Réglages), un accueil centré sur les chiffres clés avec un anneau du cycle, un cycle de repère que les saisies ajustent, les étapes que les saisies débloquent, un journal en pages, un compte rendu du cycle lisible à tout moment. L'estimation de l'ovulation et les rappels sont actifs dès le début.
 
+S'y ajoute un regard clinique (décisions 113 à 119) : une fiche clinique fondée sur le référentiel FIGO, un résultat d'étude publié chaque jour à côté du chiffre de l'utilisatrice, un cycle de repère ajusté sur l'année de naissance, et un rapport pour le médecin à un appui de l'accueil.
+
 Suite prévue (décision 89) : migraines (D), puis F à L.
 
 ## Objectifs

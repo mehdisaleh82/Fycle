@@ -41,6 +41,7 @@ class CycleLengthField extends StatelessWidget {
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
     return TextField(
+      key: const ValueKey('cycle-length-field'),
       controller: controller,
       autofocus: autofocus,
       keyboardType: TextInputType.number,

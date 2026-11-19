@@ -39,6 +39,7 @@ final class CycleOverview {
     required this.daysUntilLatest,
     required this.daysLogged,
     required this.completeCycles,
+    this.referenceCycleLength = PeriodPredictor.defaultCycleLength,
   });
 
   /// 1 on the first day of the last logged period. Null when no period was
@@ -66,6 +67,9 @@ final class CycleOverview {
 
   /// Number of complete, plausible cycles in the log.
   final int completeCycles;
+
+  /// The reference cycle length her figures are set against.
+  final int referenceCycleLength;
 }
 
 /// Builds the overview for [today] from what the log gives.
@@ -75,6 +79,7 @@ CycleOverview cycleOverviewOn(
   required PeriodPrediction? prediction,
   required int? usualCycleLength,
   required int daysLogged,
+  int referenceCycleLength = PeriodPredictor.defaultCycleLength,
 }) {
   final averages = cycleAverages(cycles, today: today);
   final current = cycles.isEmpty ? null : cycles.last;
@@ -88,7 +93,7 @@ CycleOverview cycleOverviewOn(
     cycleLength = usualCycleLength;
     cycleSource = LengthSource.declared;
   } else {
-    cycleLength = PeriodPredictor.defaultCycleLength;
+    cycleLength = referenceCycleLength;
     cycleSource = LengthSource.assumed;
   }
 
@@ -120,6 +125,7 @@ CycleOverview cycleOverviewOn(
       for (final cycle in cycles)
         if (cycle.isPlausible) cycle,
     ].length,
+    referenceCycleLength: referenceCycleLength,
   );
 }
 

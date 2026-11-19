@@ -110,7 +110,8 @@ class _RootScreenState extends State<RootScreen> with WidgetsBindingObserver {
         store.close();
         return;
       }
-      final model = CycleModel(store)..addListener(_onModelChanged);
+      final model = CycleModel(store, today: widget.environment.today)
+        ..addListener(_onModelChanged);
       // Before the first screen is built: a locked app shows nothing.
       widget.lock.start(enabled: model.appLockEnabled);
       widget.onAppearance(model.appearance);

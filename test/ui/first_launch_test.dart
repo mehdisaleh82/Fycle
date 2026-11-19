@@ -52,7 +52,10 @@ void main() {
     await tester.pumpAndSettle();
     expect(find.text('Sunday, March 1, 2026'), findsOneWidget);
 
-    await tester.enterText(find.byType(TextField), '30');
+    await tester.enterText(
+      find.byKey(const ValueKey('cycle-length-field')),
+      '30',
+    );
     await tester.tap(find.text('Start'));
     await tester.pumpAndSettle();
 
@@ -102,7 +105,10 @@ void main() {
     expect(find.textContaining('based on a cycle of 28 days'), findsOneWidget);
 
     // It follows the usual length as it is typed.
-    await tester.enterText(find.byType(TextField), '30');
+    await tester.enterText(
+      find.byKey(const ValueKey('cycle-length-field')),
+      '30',
+    );
     await tester.pumpAndSettle();
     expect(
       find.text('Next period expected between Apr 14 and Apr 24'),
@@ -178,7 +184,10 @@ void main() {
     await tester.pumpAndSettle();
     await tester.tap(find.text('OK'));
     await tester.pumpAndSettle();
-    await tester.enterText(find.byType(TextField), '9');
+    await tester.enterText(
+      find.byKey(const ValueKey('cycle-length-field')),
+      '9',
+    );
     await tester.tap(find.text('Start'));
     await tester.pumpAndSettle();
 

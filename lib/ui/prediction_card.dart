@@ -6,7 +6,6 @@ import '../domain/cycle_overview.dart';
 import '../domain/cycle_status.dart';
 import '../domain/fertility_estimate.dart';
 import '../domain/period_prediction.dart';
-import '../domain/period_predictor.dart';
 import '../l10n/app_localizations.dart';
 import 'cycle_ring.dart';
 import 'labels.dart';
@@ -65,7 +64,7 @@ class PredictionCard extends StatelessWidget {
     final declared = usualCycleLength;
     return declared != null
         ? l10n.estimateBasisDeclared(declared)
-        : l10n.estimateBasisDefault(PeriodPredictor.defaultCycleLength);
+        : l10n.estimateBasisDefault(overview.cycleLength);
   }
 
   String _confidence(AppLocalizations l10n, PeriodPrediction prediction) =>

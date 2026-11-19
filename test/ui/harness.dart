@@ -193,6 +193,10 @@ Finder dialogField([int index = 0]) => find
 Future<void> openJournal(WidgetTester tester) =>
     tapVisible(tester, find.byIcon(Icons.menu_book_outlined));
 
+/// Opens the review tab.
+Future<void> openReview(WidgetTester tester) =>
+    tapVisible(tester, find.byIcon(Icons.insights_outlined));
+
 /// Comes back to the home tab.
 Future<void> openHome(WidgetTester tester) =>
     tapVisible(tester, find.byIcon(Icons.home_outlined));

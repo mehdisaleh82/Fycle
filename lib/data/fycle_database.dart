@@ -88,6 +88,7 @@ final class FycleDatabase {
   static const int schemaVersion = 3;
 
   static const String _usualCycleLength = 'usual_cycle_length';
+  static const String _birthYear = 'birth_year';
 
   static const String _periodReminder = 'reminder_period_enabled';
   static const String _periodReminderDays = 'reminder_period_days_before';
@@ -210,6 +211,17 @@ final class FycleDatabase {
     return rows.isEmpty ? null : int.tryParse(rows.single['value'] as String);
   }
 
+  /// Year of birth, if the user gave it. Part of an export.
+  int? get birthYear {
+    final rows = _db.select('SELECT value FROM setting WHERE name = ?', [
+      _birthYear,
+    ]);
+    return rows.isEmpty ? null : int.tryParse(rows.single['value'] as String);
+  }
+
+  /// Stores the year of birth, or forgets it if [year] is null.
+  set birthYear(int? year) => _transaction(() => _writeBirthYear(year));
+
   /// Stores the declared cycle length, or forgets it if [days] is null.
   /// Throws an [ArgumentError] outside the range accepted by the predictor.
   set usualCycleLength(int? days) => _transaction(() => _writeLength(days));
@@ -303,8 +315,11 @@ final class FycleDatabase {
       _writeDeviceSetting('$_suggestionDismissed$name', _on);
 
   /// Everything stored, for export.
-  FycleData readAll() =>
-      FycleData(usualCycleLength: usualCycleLength, days: readDays());
+  FycleData readAll() => FycleData(
+    usualCycleLength: usualCycleLength,
+    birthYear: birthYear,
+    days: readDays(),
+  );
 
   /// Replaces everything stored with [data], in one step: if anything fails,
   /// the previous content is kept untouched. The settings of this phone
@@ -314,6 +329,7 @@ final class FycleDatabase {
       _db.execute('DELETE FROM day_entry');
       _db.execute('DELETE FROM setting');
       _writeLength(data.usualCycleLength);
+      _writeBirthYear(data.birthYear);
       data.days.forEach(_writeDay);
     });
   }
@@ -340,6 +356,20 @@ final class FycleDatabase {
       'INSERT OR REPLACE INTO device_setting (name, value) VALUES (?, ?)',
       [name, value],
     );
+  }
+
+  void _writeBirthYear(int? year) {
+    if (year == null) {
+      _db.execute('DELETE FROM setting WHERE name = ?', [_birthYear]);
+      return;
+    }
+    if (year < 1900 || year > 2200) {
+      throw ArgumentError.value(year, 'birthYear', 'Not a year of birth');
+    }
+    _db.execute('INSERT OR REPLACE INTO setting (name, value) VALUES (?, ?)', [
+      _birthYear,
+      '$year',
+    ]);
   }
 
   void _writeLength(int? days) {

@@ -468,6 +468,35 @@ Demandée par l'utilisateur après le premier essai de la testeuse sur iPhone : 
     - **Règles de repère : 5 jours.** Valeur courante, non sourcée à ce jour comme une moyenne mesurée. Le seul repère vérifié est celui de la FIGO : des règles de 8 jours au plus et un cycle de 24 à 38 jours sont dans les limites habituelles. Ces limites serviront au jalon F (signaux à montrer à un médecin).
     - Le texte « Comment c'est calculé » dit que les chiffres viennent d'études publiées et que ce sont des moyennes, pas des mesures du corps de l'utilisatrice.
 
+## Regard clinique et études publiées (19 novembre 2026)
+
+Demandé par l'utilisateur après la compilation n° 8, jugée correcte : aller au-delà des fonctions de base, penser « gynécologue », s'appuyer sur des études, surprendre dès l'ouverture, rendre le rapport pour le médecin accessible tout de suite, épurer. Aucun paquet ajouté. Tous les textes de cette partie sont marqués « à relire par un professionnel de santé » dans les fichiers de textes.
+
+114. **Fiche clinique** (`lib/domain/clinical_review.dart`, Dart pur ; `lib/ui/clinical_card.dart`). Le journal lu avec les quatre paramètres du référentiel FIGO de 2018 (Munro, Critchley et Fraser, International Journal of Gynecology & Obstetrics), sur les cycles complets des 12 derniers mois.
+    - Fréquence : durée moyenne du cycle, plage habituelle de 24 à 38 jours.
+    - Régularité : écart entre le cycle le plus court et le plus long. Le référentiel donne 7 à 9 jours ; l'appli retient 7 jours de 26 à 41 ans et 9 jours avant, après, ou quand l'âge n'est pas connu. **Cette répartition par âge vient d'une source secondaire et n'a pas été vérifiée dans l'article d'origine.** Pas de jugement avant trois cycles.
+    - Durée des règles : plage habituelle jusqu'à 8 jours.
+    - Abondance : d'après les intensités saisies (le jour le plus fort de chaque période), sans plage de référence, comme le prévoit le référentiel.
+    - En plus : les deux parties du cycle en estimation (décision 113) et les jours de traces entre les règles.
+    - Chaque ligne donne la valeur, la plage publiée, et « dans la plage habituelle » ou « hors de la plage habituelle ». Aucun nom de maladie. Une valeur hors plage ajoute une seule phrase : ce n'est pas un diagnostic, la fiche mérite d'être montrée à un médecin (règle 7). Remplace en partie le jalon F prévu.
+
+115. **« Ce que disent les études »** (`lib/domain/study_facts.dart`, `lib/ui/study_card.dart`). Sur l'accueil, juste sous l'anneau : un résultat publié, différent chaque jour, à côté du chiffre de l'utilisatrice (« Seuls 13 % environ des cycles durent exactement 28 jours. Votre cycle moyen : 31 jours. »), avec sa source. Un bouton ouvre la liste des sources.
+    - Sept résultats, tirés de quatre publications vérifiées sur leurs résumés : Bull et al., npj Digital Medicine, 2019 (612 613 cycles) ; Fehring, Schneider et Raviele, 2006 (1 060 cycles ; la revue n'est pas citée, faute de l'avoir vérifiée) ; Wilcox, Weinberg et Baird, New England Journal of Medicine, 1995 ; FIGO, 2018.
+    - Les études décrivent des groupes de femmes, pas l'utilisatrice : c'est écrit dans la liste des sources, et ses propres saisies prennent toujours le dessus.
+
+116. **Année de naissance et repère selon l'âge** (`lib/domain/reference_cycle.dart`, Dart pur). Facultative, demandée au démarrage et modifiable dans les réglages ; elle voyage avec la sauvegarde chiffrée.
+    - Le cycle de repère suit la pente de l'étude de 2019 : 29,3 jours en moyenne, moins 0,18 jour par année entre 25 et 45 ans, stable avant et après. Soit 30 jours à 25 ans, 29 à 30 ans, 28 à 35 ans, 27 à 45 ans.
+    - **Hypothèse de l'appli : la moyenne de l'étude est placée à 30 ans.** L'étude ne donne pas ce point d'ancrage dans son résumé ; à vérifier dans le texte complet.
+    - Sans durée indiquée ni cycle saisi, ce repère sert aussi à l'estimation des prochaines règles. Les cycles saisis le remplacent. Sans année de naissance, le repère reste 28 jours (décision 105).
+    - L'âge ajuste aussi la limite de régularité de la décision 114.
+    - **Poids, taille, sport : pas demandés pour l'instant.** Demande de l'utilisateur, à instruire : n'ajouter une donnée que si une étude vérifiée lui donne un effet utilisé dans un calcul. Un résultat est déjà vérifié (étude de 2019 : variation du cycle un peu plus forte au-delà d'un indice de masse corporelle de 35) ; rien de vérifié à ce jour pour le sport.
+
+117. **Rapport pour le médecin à un appui de l'accueil** (`DoctorReportScreen`). Une page à montrer sur le téléphone : date d'établissement, âge s'il est connu, fiche clinique, cycle en cours, moyennes, ce qui revient, historique. L'export en PDF reste au jalon H : il demande le paquet `pdf`, à relire et à faire approuver (règle 4).
+
+118. **Accueil épuré.** Dans l'ordre : la phrase sur le caractère privé, l'anneau et l'estimation, l'étude du jour, le rapport pour le médecin, les chiffres, « Mon journal du jour », puis les étapes, le bilan de fin de cycle, « d'habitude vers ce jour » et les propositions. Le détail de la fenêtre de fertilité passe dans le Bilan ; l'estimation de l'ovulation reste dans la carte du haut. En haut à gauche, un bouton « Accueil » remplace le nom de l'appli (modifie la décision 103).
+
+119. **Ce qui est vérifié, et où.** Sous Windows : les calculs de la fiche clinique, du repère selon l'âge et de l'étude du jour ; les écrans en anglais et en français, mode sombre, de droite à gauche, grand texte sur petit écran. En attente de l'iPhone : le rendu réel, la longueur de l'accueil, VoiceOver. En attente d'un professionnel de santé : tous les textes et toutes les valeurs de cette partie.
+
 ## Questions ouvertes
 
 - **Profil de départ** (demande de l'utilisateur du 19 novembre 2026) : demander la date de naissance, le poids, etc. au démarrage pour partir d'un repère personnalisé et donner une vision à long terme. À cadrer avant tout code : l'année de naissance a un effet publié sur la durée du cycle (décision 113) ; le poids est une donnée sensible, à ne demander que si un effet publié est réellement utilisé ; une « vision à long terme » ne doit jamais devenir une prévision médicale (règle 7).

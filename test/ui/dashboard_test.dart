@@ -255,7 +255,7 @@ void main() {
       await harness.pumpApp(locale: 'fr');
 
       for (final label in ['Accueil', 'Journal', 'Bilan', 'Réglages']) {
-        expect(find.text(label), findsOneWidget, reason: label);
+        expect(find.text(label), findsWidgets, reason: label);
       }
       expect(textOf(tester, 'tab-hint'), contains('Vos chiffres du jour'));
       await openJournal(tester);

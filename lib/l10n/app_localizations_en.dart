@@ -924,7 +924,7 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String get todayEntryTitle => 'Today';
+  String get todayEntryTitle => 'My journal today';
 
   @override
   String todayEntryProgress(int done, int total) {
@@ -1093,6 +1093,260 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get referenceCaption => 'Reference';
+
+  @override
+  String get studyCardTitle => 'What the studies say';
+
+  @override
+  String get factExactly28 => 'Only about 13% of cycles last exactly 28 days.';
+
+  @override
+  String get factVariesMoreThan7 =>
+      'For about 4 women in 10, the length of the cycle varies by more than 7 days from one cycle to another.';
+
+  @override
+  String get factRange22to36 =>
+      '95% of the cycles measured lasted between 22 and 36 days.';
+
+  @override
+  String get factShortensWithAge =>
+      'Between 25 and 45, the cycle shortens by about 0.18 day a year.';
+
+  @override
+  String get factFirstPartVaries =>
+      'The first part of the cycle, before ovulation, is the one that varies most. The second hardly moves.';
+
+  @override
+  String get factSixDayWindow =>
+      'Conception was observed only in the six days ending on the day of ovulation.';
+
+  @override
+  String get factFigoRanges =>
+      'A cycle of 24 to 38 days and a period of up to 8 days are within the usual range used by gynaecologists.';
+
+  @override
+  String youMeanCycle(String days) {
+    return 'Your average cycle: $days days.';
+  }
+
+  @override
+  String youVariation(int days) {
+    String _temp0 = intl.Intl.pluralLogic(
+      days,
+      locale: localeName,
+      other: 'Yours: $days days between your shortest and your longest cycle.',
+      one: 'Yours: 1 day between your shortest and your longest cycle.',
+      zero: 'Yours: your cycles all had the same length.',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String youAgeReference(int age, int days) {
+    return 'At $age, the reference cycle is $days days.';
+  }
+
+  @override
+  String get youAgeUnknown =>
+      'Give your year of birth in the settings to start from a reference closer to your age.';
+
+  @override
+  String youFollicular(int min, int max) {
+    return 'Yours is estimated at $min to $max days.';
+  }
+
+  @override
+  String youWindow(String start, String end) {
+    return 'Your estimated window: $start to $end.';
+  }
+
+  @override
+  String youFigo(String cycle, String period) {
+    return 'Your cycle: $cycle days. Your period: $period days.';
+  }
+
+  @override
+  String get youNotYet => 'Log two periods to see where you stand.';
+
+  @override
+  String get sourcesTitle => 'Sources';
+
+  @override
+  String get sourcesIntro =>
+      'The reference figures come from these published studies. They describe groups of women, not you: your own entries always take over.';
+
+  @override
+  String get sourceBull2019 =>
+      'Bull et al., npj Digital Medicine, 2019. 612,613 cycles.';
+
+  @override
+  String get sourceFehring2006 =>
+      'Fehring, Schneider and Raviele, 2006. 1,060 cycles.';
+
+  @override
+  String get sourceWilcox1995 =>
+      'Wilcox, Weinberg and Baird, New England Journal of Medicine, 1995.';
+
+  @override
+  String get sourceFigo2018 =>
+      'Munro, Critchley and Fraser for FIGO, International Journal of Gynecology & Obstetrics, 2018.';
+
+  @override
+  String get clinicalTitle => 'Clinical sheet';
+
+  @override
+  String get clinicalIntro =>
+      'Your log, read with the four parameters gynaecologists use.';
+
+  @override
+  String clinicalBasis(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Based on $count complete cycles over the last 12 months.',
+      one: 'Based on 1 complete cycle over the last 12 months.',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get clinicalEmpty =>
+      'Shown for now: the reference ranges. Your own figures come in once a first cycle has ended.';
+
+  @override
+  String get clinicalFrequency => 'Frequency';
+
+  @override
+  String clinicalFrequencyValue(String days) {
+    return 'A cycle of $days days on average';
+  }
+
+  @override
+  String get clinicalFrequencyRef => 'Usual range: 24 to 38 days';
+
+  @override
+  String get clinicalRegularity => 'Regularity';
+
+  @override
+  String clinicalRegularityValue(int min, int max, int variation) {
+    String _temp0 = intl.Intl.pluralLogic(
+      variation,
+      locale: localeName,
+      other: 'Cycles of $min to $max days, $variation days apart',
+      one: 'Cycles of $min to $max days, 1 day apart',
+      zero: 'Cycles of $min days, all the same length',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String clinicalRegularityRef(int limit) {
+    return 'Usual: up to $limit days apart';
+  }
+
+  @override
+  String get clinicalRegularityTooFew =>
+      'Three complete cycles are needed to tell.';
+
+  @override
+  String get clinicalDuration => 'Period length';
+
+  @override
+  String clinicalDurationValue(String days, int max) {
+    return '$days days on average, $max at most';
+  }
+
+  @override
+  String get clinicalDurationRef => 'Usual: up to 8 days';
+
+  @override
+  String get clinicalVolume => 'Flow';
+
+  @override
+  String get clinicalVolumeLight => 'Light, as you logged it';
+
+  @override
+  String get clinicalVolumeModerate => 'Moderate, as you logged it';
+
+  @override
+  String get clinicalVolumeHeavy => 'Heavy, as you logged it';
+
+  @override
+  String get clinicalPhases => 'Two parts of the cycle (estimate)';
+
+  @override
+  String clinicalPhasesValue(int min, int max, int luteal) {
+    return 'Before ovulation: $min to $max days. After: about $luteal days.';
+  }
+
+  @override
+  String get clinicalSpotting => 'Spotting between periods';
+
+  @override
+  String clinicalSpottingValue(int days) {
+    String _temp0 = intl.Intl.pluralLogic(
+      days,
+      locale: localeName,
+      other: '$days days logged',
+      one: '1 day logged',
+      zero: 'None logged',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get statusWithin => 'Within the usual range';
+
+  @override
+  String get statusOutside => 'Outside the usual range';
+
+  @override
+  String get clinicalOutsideNote =>
+      'A value outside the usual range is not a diagnosis. This sheet is worth showing to a doctor.';
+
+  @override
+  String get clinicalSource => 'Reference ranges: FIGO, 2018.';
+
+  @override
+  String get birthYearLabel => 'Year of birth (optional)';
+
+  @override
+  String get birthYearHelper =>
+      'Used to start from a reference cycle closer to your age. It stays on this phone.';
+
+  @override
+  String birthYearError(int min, int max) {
+    return 'Enter a year between $min and $max.';
+  }
+
+  @override
+  String get settingsBirthYear => 'Year of birth';
+
+  @override
+  String get sourceAssumedAge => 'reference for your age, to adjust';
+
+  @override
+  String get settingsBirthYearUnknown => 'Not given';
+
+  @override
+  String get doctorReportTitle => 'Report for your doctor';
+
+  @override
+  String doctorReportIntro(String date) {
+    return 'Drawn up on $date from what you logged. It describes and compares; it is not a diagnosis.';
+  }
+
+  @override
+  String doctorReportAge(int age) {
+    return 'Age: $age';
+  }
+
+  @override
+  String get clinicalToFill => 'Your figure will replace this line';
+
+  @override
+  String get clinicalRegularityRefAny =>
+      'Usual: up to 7 to 9 days apart, depending on age';
 
   @override
   String get lockTurnedOff =>

@@ -6,6 +6,7 @@ import '../domain/reminders.dart';
 import '../l10n/app_localizations.dart';
 import 'app_environment.dart';
 import 'backup_flows.dart';
+import 'birth_year_field.dart';
 import 'cycle_length_field.dart';
 import 'cycle_model.dart';
 import 'dialogs.dart';
@@ -39,6 +40,19 @@ class SettingsScreen extends StatelessWidget {
     );
     if (result != null) {
       model.setUsualCycleLength(result.days);
+    }
+  }
+
+  Future<void> _editBirthYear(BuildContext context) async {
+    final result = await showDialog<({int? year})>(
+      context: context,
+      builder: (context) => _BirthYearDialog(
+        initial: model.birthYear,
+        currentYear: environment.today().year,
+      ),
+    );
+    if (result != null) {
+      model.setBirthYear(result.year);
     }
   }
 
@@ -218,6 +232,17 @@ class SettingsScreen extends StatelessWidget {
                           : l10n.settingsCycleLengthValue(length),
                     ),
                     onTap: () => _editCycleLength(context),
+                  ),
+                  ListTile(
+                    key: const ValueKey('birth-year'),
+                    leading: const Icon(Icons.cake_outlined),
+                    title: Text(l10n.settingsBirthYear),
+                    subtitle: Text(
+                      model.birthYear == null
+                          ? l10n.settingsBirthYearUnknown
+                          : '${model.birthYear}',
+                    ),
+                    onTap: () => _editBirthYear(context),
                   ),
                   SwitchListTile(
                     key: const ValueKey('fertility-estimate'),
@@ -535,6 +560,67 @@ class _CycleLengthDialogState extends State<_CycleLengthDialog> {
       title: Text(l10n.settingsCycleLength),
       content: CycleLengthField(
         controller: _controller,
+        showError: _error,
+        autofocus: true,
+        onChanged: (_) {
+          if (_error) {
+            setState(() => _error = false);
+          }
+        },
+      ),
+      actions: [
+        TextButton(
+          onPressed: () => Navigator.of(context).pop(),
+          child: Text(l10n.cancel),
+        ),
+        FilledButton(onPressed: _save, child: Text(l10n.save)),
+      ],
+    );
+  }
+}
+
+/// Pops with the year of birth typed (null to forget it), or with nothing
+/// if cancelled.
+class _BirthYearDialog extends StatefulWidget {
+  const _BirthYearDialog({required this.initial, required this.currentYear});
+
+  final int? initial;
+  final int currentYear;
+
+  @override
+  State<_BirthYearDialog> createState() => _BirthYearDialogState();
+}
+
+class _BirthYearDialogState extends State<_BirthYearDialog> {
+  late final _controller = TextEditingController(
+    text: widget.initial?.toString() ?? '',
+  );
+  bool _error = false;
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  void _save() {
+    final year = readBirthYear(_controller.text, widget.currentYear);
+    if (!year.valid) {
+      setState(() => _error = true);
+      return;
+    }
+    Navigator.of(context).pop((year: year.year));
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
+    return AlertDialog(
+      scrollable: true,
+      title: Text(l10n.settingsBirthYear),
+      content: BirthYearField(
+        controller: _controller,
+        currentYear: widget.currentYear,
         showError: _error,
         autofocus: true,
         onChanged: (_) {

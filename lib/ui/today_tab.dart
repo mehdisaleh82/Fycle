@@ -2,19 +2,22 @@ import 'package:material_ui/material_ui.dart';
 
 import '../data/device_auth.dart';
 import '../domain/calendar_day.dart';
+import '../domain/clinical_review.dart';
 import '../domain/cycle_overview.dart';
 import '../domain/cycle_status.dart';
+import '../domain/study_facts.dart';
 import '../l10n/app_localizations.dart';
 import 'app_environment.dart';
 import 'cycle_model.dart';
 import 'cycle_summary_card.dart';
 import 'dialogs.dart';
 import 'disclaimer_card.dart';
-import 'fertility_card.dart';
 import 'home_cards.dart';
 import 'home_screen.dart';
+import 'insights_screen.dart';
 import 'labels.dart';
 import 'prediction_card.dart';
+import 'study_card.dart';
 import 'today_card.dart';
 
 /// Names of the suggestions made once on the home tab.
@@ -141,6 +144,13 @@ class TodayTab extends StatelessWidget {
           prediction: model.prediction,
           usualCycleLength: model.usualCycleLength,
           daysLogged: model.loggedDays.length,
+          referenceCycleLength: model.referenceCycleLength,
+        );
+        final review = clinicalReview(
+          cycles: model.cycles,
+          flowByDay: model.flowByDay,
+          today: today,
+          age: model.age,
         );
         final current = status is NoEstimate || status is EstimateOutdated
             ? null
@@ -213,14 +223,36 @@ class TodayTab extends StatelessWidget {
                     ? null
                     : current.windowEnd.daysSince(cycleStart) + 1,
               ),
-              if (model.fertilityEstimateEnabled &&
-                  status is! NoEstimate &&
-                  status is! EstimateOutdated) ...[
-                gap,
-                FertilityCard(estimate: model.fertilityEstimate),
-              ],
               gap,
-              KeyFiguresCard(overview: overview),
+              // A finding of a study, a new one each day, next to her own
+              // figure: what changes first when the app is opened.
+              StudyCard(
+                fact: studyFactOn(today),
+                review: review,
+                fertility: current,
+                age: model.age,
+                referenceCycleLength: model.referenceCycleLength,
+              ),
+              const SizedBox(height: 12),
+              // What a doctor would look at, one tap away.
+              FilledButton.tonalIcon(
+                key: const ValueKey('open-doctor-report'),
+                onPressed: () => Navigator.of(context).push(
+                  MaterialPageRoute<void>(
+                    builder: (context) => DoctorReportScreen(
+                      model: model,
+                      environment: environment,
+                    ),
+                  ),
+                ),
+                icon: const Icon(Icons.assignment_outlined),
+                label: Text(l10n.doctorReportTitle),
+              ),
+              gap,
+              KeyFiguresCard(
+                overview: overview,
+                referenceFromAge: model.age != null,
+              ),
               gap,
               TodayCard(
                 model: model,

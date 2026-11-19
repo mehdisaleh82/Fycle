@@ -5,7 +5,9 @@ import '../domain/day_entry.dart';
 import '../domain/flow_intensity.dart';
 import '../domain/period_prediction.dart';
 import '../domain/period_predictor.dart';
+import '../domain/reference_cycle.dart';
 import '../l10n/app_localizations.dart';
+import 'birth_year_field.dart';
 import 'cycle_length_field.dart';
 import 'cycle_model.dart';
 import 'disclaimer_card.dart';
@@ -45,6 +47,8 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
   static const int _maxDaysBack = 366;
 
   final _length = TextEditingController();
+  final _birthYear = TextEditingController();
+  bool _birthYearError = false;
   CalendarDay? _lastPeriod;
   bool _lengthError = false;
 
@@ -57,6 +61,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
   @override
   void dispose() {
     _length.dispose();
+    _birthYear.dispose();
     super.dispose();
   }
 
@@ -121,7 +126,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
     final length = readCycleLength(_length.text);
     final prediction = const PeriodPredictor().predict(
       periodStarts: [day, ..._earlier],
-      usualCycleLength: length.valid ? length.days : null,
+      usualCycleLength: (length.valid ? length.days : null) ?? _ageReference(),
     );
     if (prediction == null || prediction.latestStart.isBefore(widget.today())) {
       return null;
@@ -129,13 +134,26 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
     return prediction;
   }
 
+  /// The reference cycle length for the year of birth typed so far, or
+  /// null when none is given.
+  int? _ageReference() {
+    final year = readBirthYear(_birthYear.text, widget.today().year);
+    final age = ageIn(widget.today().year, year.year);
+    return age == null ? null : referenceCycleLengthForAge(age);
+  }
+
   void _start() {
     final day = _lastPeriod;
     final length = readCycleLength(_length.text);
-    setState(() => _lengthError = !length.valid);
-    if (day == null || !length.valid) {
+    final birthYear = readBirthYear(_birthYear.text, widget.today().year);
+    setState(() {
+      _lengthError = !length.valid;
+      _birthYearError = !birthYear.valid;
+    });
+    if (day == null || !length.valid || !birthYear.valid) {
       return;
     }
+    widget.model.setBirthYear(birthYear.year);
     // Only the day is asked. It is stored as a day of medium flow, which can
     // be corrected from the calendar.
     widget.model
@@ -276,6 +294,15 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                               onChanged: (_) =>
                                   setState(() => _lengthError = false),
                             ),
+                            const SizedBox(height: 20),
+                            BirthYearField(
+                              controller: _birthYear,
+                              currentYear: today.year,
+                              showError: _birthYearError,
+                              // The estimate below follows what is typed.
+                              onChanged: (_) =>
+                                  setState(() => _birthYearError = false),
+                            ),
                             if (day != null) ...[
                               const SizedBox(height: 20),
                               Text(
@@ -324,6 +351,9 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                       _EstimatePreview(
                         prediction: preview,
                         usualCycleLength: readCycleLength(_length.text).days,
+                        referenceCycleLength:
+                            _ageReference() ??
+                            PeriodPredictor.defaultCycleLength,
                       ),
                     ],
                     const SizedBox(height: 16),
@@ -359,12 +389,16 @@ class _EstimatePreview extends StatelessWidget {
   const _EstimatePreview({
     required this.prediction,
     required this.usualCycleLength,
+    required this.referenceCycleLength,
   });
 
   final PeriodPrediction prediction;
 
   /// The cycle length typed so far, if it is a valid one.
   final int? usualCycleLength;
+
+  /// The reference length used when none is typed.
+  final int referenceCycleLength;
 
   @override
   Widget build(BuildContext context) {
@@ -397,9 +431,7 @@ class _EstimatePreview extends StatelessWidget {
               Text(
                 declared != null
                     ? l10n.estimateBasisDeclared(declared)
-                    : l10n.estimateBasisDefault(
-                        PeriodPredictor.defaultCycleLength,
-                      ),
+                    : l10n.estimateBasisDefault(referenceCycleLength),
                 style: theme.textTheme.bodyMedium?.copyWith(
                   color: accent.onCard,
                 ),

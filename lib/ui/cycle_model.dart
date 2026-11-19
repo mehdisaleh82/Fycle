@@ -10,17 +10,22 @@ import '../domain/flow_intensity.dart';
 import '../domain/period_prediction.dart';
 import '../domain/period_predictor.dart';
 import '../domain/period_starts.dart';
+import '../domain/reference_cycle.dart';
 import '../domain/reminders.dart';
 
 /// What the screens show, read from the local store and recomputed after
 /// every change: the flow log, the days with any entry, the prediction, and
 /// the settings of this phone (reminders, app lock, appearance).
 class CycleModel extends ChangeNotifier {
-  CycleModel(this.store) {
+  CycleModel(this.store, {this.today}) {
     _load();
   }
 
   final LocalStore store;
+
+  /// The current day, used to turn the year of birth into an age. Without
+  /// it, the age stays unknown.
+  final CalendarDay Function()? today;
 
   Map<CalendarDay, FlowIntensity> _flowByDay = const {};
   Set<CalendarDay> _loggedDays = const {};
@@ -32,6 +37,7 @@ class CycleModel extends ChangeNotifier {
   List<FertilityEstimate> _pastFertilityEstimates = const [];
   PeriodPrediction? _prediction;
   int? _usualCycleLength;
+  int? _birthYear;
   ReminderSettings _reminderSettings = ReminderSettings();
   bool _appLockEnabled = false;
   Appearance _appearance = Appearance.light;
@@ -69,6 +75,19 @@ class CycleModel extends ChangeNotifier {
   /// Usual cycle length declared by the user, if any.
   int? get usualCycleLength => _usualCycleLength;
 
+  /// Year of birth given by the user, if any.
+  int? get birthYear => _birthYear;
+
+  /// Her age this year, or null when the year of birth is unknown.
+  int? get age {
+    final now = today;
+    return now == null ? null : ageIn(now().year, _birthYear);
+  }
+
+  /// The reference cycle length she starts from: for her age when it is
+  /// known, the common one otherwise.
+  int get referenceCycleLength => referenceCycleLengthForAge(age);
+
   /// The reminders chosen on this phone.
   ReminderSettings get reminderSettings => _reminderSettings;
 
@@ -98,6 +117,13 @@ class CycleModel extends ChangeNotifier {
   /// prediction.
   void setUsualCycleLength(int? days) {
     store.database.usualCycleLength = days;
+    reload();
+  }
+
+  /// Stores the year of birth (null to forget it) and recomputes the
+  /// prediction.
+  void setBirthYear(int? year) {
+    store.database.birthYear = year;
     reload();
   }
 
@@ -157,13 +183,16 @@ class CycleModel extends ChangeNotifier {
     _cycles = List.unmodifiable(cycleHistory(_flowByDay));
     _dismissedSummaryStart = database.dismissedSummaryStart;
     _usualCycleLength = database.usualCycleLength;
+    _birthYear = database.birthYear;
     _reminderSettings = database.reminderSettings;
     _appLockEnabled = database.appLockEnabled;
     _appearance = database.appearance;
     _onboardingDone = database.onboardingDone;
     _prediction = const PeriodPredictor().predict(
       periodStarts: periodStartsFrom(_flowByDay),
-      usualCycleLength: _usualCycleLength,
+      // Without a declared length, the reference for her age stands in.
+      usualCycleLength:
+          _usualCycleLength ?? (age == null ? null : referenceCycleLength),
     );
     _fertilityEstimateEnabled = database.fertilityEstimateEnabled;
     final prediction = _prediction;

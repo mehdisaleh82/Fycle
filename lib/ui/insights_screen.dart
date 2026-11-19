@@ -1,11 +1,15 @@
 import 'package:material_ui/material_ui.dart';
 
+import '../domain/clinical_review.dart';
 import '../domain/cycle_history.dart';
 import '../domain/cycle_overview.dart';
+import '../domain/cycle_status.dart';
 import '../domain/cycle_trends.dart';
 import '../l10n/app_localizations.dart';
 import 'app_environment.dart';
+import 'clinical_card.dart';
 import 'cycle_model.dart';
+import 'fertility_card.dart';
 import 'home_cards.dart';
 import 'labels.dart';
 
@@ -39,6 +43,15 @@ class InsightsScreen extends StatelessWidget {
           cycles: cycles,
           prediction: model.prediction,
         );
+        final status = cycleStatusOn(
+          today,
+          flowByDay: model.flowByDay,
+          prediction: model.prediction,
+        );
+        final showFertility =
+            model.fertilityEstimateEnabled &&
+            status is! NoEstimate &&
+            status is! EstimateOutdated;
         return SingleChildScrollView(
           padding: const EdgeInsetsDirectional.fromSTEB(16, 0, 16, 24),
           child: Column(
@@ -52,6 +65,19 @@ class InsightsScreen extends StatelessWidget {
                   today: today,
                 ),
               ),
+              const SizedBox(height: 16),
+              ClinicalCard(
+                review: clinicalReview(
+                  cycles: cycles,
+                  flowByDay: model.flowByDay,
+                  today: today,
+                  age: model.age,
+                ),
+              ),
+              if (showFertility) ...[
+                const SizedBox(height: 16),
+                FertilityCard(estimate: model.fertilityEstimate),
+              ],
               const SizedBox(height: 16),
               _AveragesCard(
                 averages: cycleAverages(cycles, today: environment.today()),
@@ -324,6 +350,92 @@ class _HistoryCard extends StatelessWidget {
             ),
           ),
       ],
+    );
+  }
+}
+
+/// Everything a doctor would look at, on one page to show on the phone: the
+/// clinical sheet, the current cycle, the averages, what comes back and the
+/// history. It describes and compares; it is no diagnosis.
+class DoctorReportScreen extends StatelessWidget {
+  const DoctorReportScreen({
+    super.key,
+    required this.model,
+    required this.environment,
+  });
+
+  final CycleModel model;
+  final AppEnvironment environment;
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
+    final theme = Theme.of(context);
+    return Scaffold(
+      appBar: AppBar(title: Text(l10n.doctorReportTitle)),
+      body: SafeArea(
+        child: ListenableBuilder(
+          listenable: model,
+          builder: (context, _) {
+            final cycles = model.cycles;
+            final today = environment.today();
+            final age = model.age;
+            const gap = SizedBox(height: 16);
+            return SingleChildScrollView(
+              padding: const EdgeInsetsDirectional.fromSTEB(16, 0, 16, 24),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  Padding(
+                    padding: const EdgeInsetsDirectional.fromSTEB(4, 0, 4, 12),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          l10n.doctorReportIntro(mediumDate(l10n, today)),
+                          key: const ValueKey('doctor-report-intro'),
+                          style: theme.textTheme.bodyMedium,
+                        ),
+                        if (age != null) ...[
+                          const SizedBox(height: 4),
+                          Text(
+                            l10n.doctorReportAge(age),
+                            style: theme.textTheme.bodyMedium,
+                          ),
+                        ],
+                      ],
+                    ),
+                  ),
+                  ClinicalCard(
+                    review: clinicalReview(
+                      cycles: cycles,
+                      flowByDay: model.flowByDay,
+                      today: today,
+                      age: age,
+                    ),
+                  ),
+                  gap,
+                  _ReportCard(
+                    report: currentCycleReport(
+                      cycles: cycles,
+                      days: model.days,
+                      today: today,
+                    ),
+                  ),
+                  gap,
+                  _AveragesCard(averages: cycleAverages(cycles, today: today)),
+                  gap,
+                  _TrendsCard(
+                    trends: cycleTrends(cycles: cycles, days: model.days),
+                  ),
+                  gap,
+                  _HistoryCard(cycles: cycles),
+                ],
+              ),
+            );
+          },
+        ),
+      ),
     );
   }
 }

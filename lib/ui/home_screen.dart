@@ -102,16 +102,17 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
     return Scaffold(
       appBar: AppBar(
         titleSpacing: 8,
-        // The name of the app always leads home.
+        // Always in the same place: the way back to the home tab.
         title: Align(
           alignment: AlignmentDirectional.centerStart,
           child: Tooltip(
             message: l10n.homeTooltip,
-            child: TextButton(
+            child: TextButton.icon(
               key: const ValueKey('app-title'),
               onPressed: () => _select(HomeTab.home),
-              child: Text(
-                l10n.appTitle,
+              icon: const Icon(Icons.home_rounded),
+              label: Text(
+                l10n.tabHome,
                 style: theme.appBarTheme.titleTextStyle,
               ),
             ),
