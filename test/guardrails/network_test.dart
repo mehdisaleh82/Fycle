@@ -34,6 +34,18 @@ void main() {
       expect(networkUsages("import 'package:http/http.dart';"), isNotEmpty);
       expect(networkUsages("import 'package:dio/dio.dart';"), isNotEmpty);
       expect(networkUsages("import 'dart:html';"), isNotEmpty);
+      expect(
+        networkUsages("import 'package:timezone/standalone.dart';"),
+        isNotEmpty,
+      );
+      expect(
+        networkUsages("import 'package:timezone/browser.dart';"),
+        isNotEmpty,
+      );
+      expect(
+        networkUsages("import 'package:timezone/timezone.dart';"),
+        isEmpty,
+      );
     });
 
     test('flags network classes', () {

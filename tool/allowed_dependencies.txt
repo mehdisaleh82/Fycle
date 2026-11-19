@@ -8,10 +8,13 @@ file_picker             # system dialogs to save an export and pick an import
 flutter                 # SDK
 flutter_localizations   # SDK, English and French
 intl                    # dart.dev, dates and plurals for localization
+flutter_local_notifications  # reminders scheduled on the phone, no server
 flutter_secure_storage  # database key in the Keychain / Keystore
+local_auth              # flutter.dev, Face ID / fingerprint / phone passcode
 material_ui             # flutter.dev, Material widgets
 path_provider           # flutter.dev, private folder of the app
 sqlite3                 # encrypted local database (SQLite3 Multiple Ciphers)
+timezone                # date type required by flutter_local_notifications
 
 # Direct, development only
 flutter_lints           # flutter.dev, static analysis rules
@@ -38,6 +41,11 @@ file_picker_darwin      # file_picker on iOS and macOS
 file_picker_linux
 file_picker_platform_interface
 file_picker_web         # unused on mobile
+flutter_local_notifications_linux
+flutter_local_notifications_platform_interface
+flutter_local_notifications_web  # unused on mobile
+flutter_local_notifications_windows
+flutter_plugin_android_lifecycle  # flutter.dev, required by local_auth_android
 flutter_secure_storage_darwin
 flutter_secure_storage_linux
 flutter_secure_storage_platform_interface
@@ -46,6 +54,8 @@ flutter_secure_storage_windows
 flutter_web_plugins     # SDK
 glob
 hooks                   # dart.dev, build hook of sqlite3
+http                    # required by timezone for its web loader; never imported (guardrail)
+http_parser             # required by http
 jni                     # dart.dev, required by path_provider_android
 jni_flutter
 jni_util
@@ -54,6 +64,10 @@ leak_tracker_flutter_testing
 leak_tracker_testing
 lints
 listen                  # flutter.dev
+local_auth_android
+local_auth_darwin       # local_auth on iOS and macOS
+local_auth_platform_interface
+local_auth_windows
 logging
 matcher
 material_color_utilities
