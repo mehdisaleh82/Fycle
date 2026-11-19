@@ -315,6 +315,36 @@ Décisions de l'utilisateur, reprises de sa note de cadrage du 19 novembre 2026.
 
 81. **Police du système et mode sombre à trois choix.** Police du système plutôt qu'Inter ou Manrope : elle couvre toutes les écritures sans fichier embarqué (règle 11). Réglage d'apparence : clair (par défaut), sombre, comme le téléphone. Précise la décision 77.
 
+## Décisions du jalon A du sprint 1 (19 novembre 2026)
+
+82. **Palette « bleu nuit et ambre »** (`lib/ui/theme.dart`), valeurs proposées puis validées par l'utilisateur. Applique la décision 77 et remplace les couleurs de la décision 61 ; les formes de la décision 61 et les repères de la décision 37 sont inchangés.
+
+    | Rôle | Clair | Sombre |
+    |---|---|---|
+    | Fond de page | `#F7F5F0` | `#0F1626` |
+    | Cartes, champs, pastilles | `#FFFFFF`, contour `#E3E0D8` | `#1A2338` |
+    | Base : en-têtes, boutons, interrupteurs, icônes | `#1B2A4A` | `#AFC3EE` |
+    | Texte, texte secondaire | `#2B2F36`, `#5A606B` | `#ECE9E2`, `#B4B9C4` |
+    | Ambre : anneau des jours prévus, icône de l'estimation | `#B67A14` | `#E3B45C` |
+    | Carte d'estimation et son texte | `#FAF0DA`, `#1B2A4A` | `#3A2F17`, `#F6E6C2` |
+    | Halo d'aujourd'hui | `#F3DDAE` | `#4A3C1C` |
+    | Jours de règles (disque plein, chiffre blanc) | `#7A2E3B` | `#B04E64` |
+    | Erreur, suppression | `#A63A2B` | `#F2A99B` |
+
+    - **L'ambre n'apparaît qu'à trois endroits** : la carte d'estimation, l'anneau des jours prévus, le halo d'aujourd'hui (`AccentColors`). Tout le reste est bleu nuit ou neutre.
+    - **Bordeaux en sombre** : éclairci pour rester visible sur le bleu nuit (contraste 3:1 avec la carte), sans aller jusqu'au rose. Un premier essai (`#C0617A`) tirait sur le rose et a été écarté.
+    - Les erreurs et la suppression sont en rouge brique, pas en rouge vif.
+
+83. **Réglage « Apparence »** (applique les décisions 77 et 81, remplace la décision 62). Trois choix dans les réglages : clair (par défaut, même sur un téléphone en sombre), sombre, comme le téléphone.
+    - Rangé dans `device_setting` sous le nom `appearance` (décision 50) : hors export, hors import, effacé par « Tout supprimer ». Le choix « clair » n'est pas écrit : c'est la valeur par défaut, et celle qui s'applique si la valeur lue est inconnue.
+    - Le choix est lu à l'ouverture de la base par `lib/ui/root_screen.dart`, qui le transmet à `lib/ui/app.dart`. Avant l'ouverture de la base (quelques millisecondes), la page vide est claire : en mode sombre, un bref éclair clair est possible au lancement. À observer sur l'iPhone ; l'éviter demanderait de ranger ce choix hors de la base chiffrée.
+
+84. **Mise en page miroir** (règle 11). Les marges de `lib/ui/` sont directionnelles (`EdgeInsetsDirectional`), et les flèches du calendrier suivent le sens d'écriture : « mois précédent » est du côté où la ligne commence. Le calendrier se lit alors de droite à gauche, comme le reste.
+    - `FycleApp` accepte un sens d'écriture forcé, pour les tests seulement. `test/ui/rtl_test.dart` parcourt chaque écran et chaque fenêtre de droite à gauche, en anglais et en français, en texte normal et agrandi 2,5 fois : un débordement fait échouer le test. Aucune langue n'est ajoutée.
+    - Non vérifié : une vraie langue de droite à gauche (longueur des textes, chiffres locaux), faute de traduction.
+
+85. **Ce qui est vérifié, et où (jalon A).** Sous Windows : contraste, zones tactiles et grand texte en clair et en sombre avec la nouvelle palette ; le réglage d'apparence (défaut, choix, relance, suppression, export) ; la mise en page miroir. En attente de l'iPhone : le rendu réel des couleurs sur l'écran du téléphone, la police du système d'iOS, VoiceOver, l'éclair clair éventuel au lancement en mode sombre.
+
 ## Questions ouvertes
 
 - **Partage partenaire et règle 2** (décision 76) : un relais, même chiffré de bout en bout, est un serveur et fait sortir des données du téléphone. L'échange direct entre téléphones (code à scanner, fichier) respecte les règles 1 et 2 ; le relais demande de les modifier. À trancher à la conception du sprint 2.
