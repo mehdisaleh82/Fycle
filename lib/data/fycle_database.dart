@@ -94,6 +94,7 @@ final class FycleDatabase {
   static const String _dailyReminderTime = 'reminder_daily_minutes';
   static const String _appLock = 'app_lock_enabled';
   static const String _appearance = 'appearance';
+  static const String _onboardingDone = 'onboarding_done';
 
   final Database _db;
 
@@ -257,6 +258,13 @@ final class FycleDatabase {
     _appearance,
     value == Appearance.light ? null : value.name,
   );
+
+  /// Whether the first-launch screen was passed on this phone, with or
+  /// without an answer. Not part of an export.
+  bool get onboardingDone => _deviceSetting(_onboardingDone) == _on;
+
+  set onboardingDone(bool done) =>
+      _writeDeviceSetting(_onboardingDone, done ? _on : null);
 
   /// Everything stored, for export.
   FycleData readAll() =>

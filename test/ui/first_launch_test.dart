@@ -68,6 +68,108 @@ void main() {
     expect(stored.$2, 30);
   });
 
+  testWidgets('today or yesterday is chosen in one tap', (tester) async {
+    final harness = Harness(tester);
+    await harness.pumpApp();
+
+    await tester.tap(find.byKey(const ValueKey('last-period-yesterday')));
+    await tester.pumpAndSettle();
+    expect(find.text('Thursday, March 19, 2026'), findsOneWidget);
+
+    await tester.tap(find.byKey(const ValueKey('last-period-today')));
+    await tester.pumpAndSettle();
+    expect(find.text('Friday, March 20, 2026'), findsOneWidget);
+
+    await tester.tap(find.text('Start'));
+    await tester.pumpAndSettle();
+    final flow = await harness.read((store) => store.database.flowByDay());
+    expect(flow, {CalendarDay(2026, 3, 20): FlowIntensity.medium});
+  });
+
+  testWidgets('the estimate shows as soon as a date is chosen', (tester) async {
+    final harness = Harness(tester);
+    await harness.pumpApp();
+    expect(find.byKey(const ValueKey('estimate-preview')), findsNothing);
+
+    await tester.tap(find.byKey(const ValueKey('last-period-today')));
+    await tester.pumpAndSettle();
+
+    // 20 March + 28 days, 7 days on each side: a range, never a single date.
+    expect(
+      find.text('Next period expected between Apr 10 and Apr 24'),
+      findsOneWidget,
+    );
+    expect(find.textContaining('based on a cycle of 28 days'), findsOneWidget);
+
+    // It follows the usual length as it is typed.
+    await tester.enterText(find.byType(TextField), '30');
+    await tester.pumpAndSettle();
+    expect(
+      find.text('Next period expected between Apr 14 and Apr 24'),
+      findsOneWidget,
+    );
+    expect(find.textContaining('you gave (30 days)'), findsOneWidget);
+
+    // Nothing is saved before "Start".
+    final days = await harness.read((store) => store.database.readDays());
+    expect(days, isEmpty);
+  });
+
+  testWidgets('the estimate is shown in French', (tester) async {
+    final harness = Harness(tester);
+    await harness.pumpApp(locale: 'fr');
+
+    await tester.tap(find.text('Hier'));
+    await tester.pumpAndSettle();
+
+    expect(
+      find.text('Prochaines règles prévues entre le 9 avr. et le 23 avr.'),
+      findsOneWidget,
+    );
+    expect(find.text('Je ne sais plus'), findsOneWidget);
+  });
+
+  testWidgets('a date long past shows no estimate that is already behind', (
+    tester,
+  ) async {
+    final harness = Harness(tester, today: CalendarDay(2026, 6, 20));
+    await harness.pumpApp();
+
+    await tester.tap(find.text('Choose a date'));
+    await tester.pumpAndSettle();
+    await tester.tap(find.byTooltip('Previous month'));
+    await tester.pumpAndSettle();
+    await tester.tap(find.byTooltip('Previous month'));
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('1'));
+    await tester.tap(find.text('OK'));
+    await tester.pumpAndSettle();
+
+    expect(find.text('Wednesday, April 1, 2026'), findsOneWidget);
+    expect(find.byKey(const ValueKey('estimate-preview')), findsNothing);
+  });
+
+  testWidgets('the app can be entered without a date, once and for all', (
+    tester,
+  ) async {
+    final harness = Harness(tester);
+    await harness.pumpApp();
+
+    await tester.tap(find.text("I don't remember"));
+    await tester.pumpAndSettle();
+
+    expect(find.text('Welcome to Fycle'), findsNothing);
+    expect(find.text('No estimate yet'), findsOneWidget);
+    expect(find.text('Log today'), findsOneWidget);
+    final days = await harness.read((store) => store.database.readDays());
+    expect(days, isEmpty);
+
+    // The question is not asked again at the next launch.
+    await harness.pumpApp();
+    expect(find.text('Welcome to Fycle'), findsNothing);
+    expect(find.text('No estimate yet'), findsOneWidget);
+  });
+
   testWidgets('a cycle length out of range is refused', (tester) async {
     final harness = Harness(tester);
     await harness.pumpApp();

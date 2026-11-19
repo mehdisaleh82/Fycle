@@ -16,7 +16,7 @@ import 'reminder_sync.dart';
 enum _Phase { opening, unreadable, ready }
 
 /// Opens the local store, then shows the right screen: the first-launch
-/// screen while nothing is entered, the home screen afterwards, or an
+/// screen until it is passed, the home screen afterwards, or an
 /// explanation when the stored data can no longer be read. It also keeps the
 /// app lock and the reminders of the phone in step with what is stored.
 class RootScreen extends StatefulWidget {
@@ -116,7 +116,7 @@ class _RootScreenState extends State<RootScreen> with WidgetsBindingObserver {
       widget.onAppearance(model.appearance);
       setState(() {
         _model = model;
-        _onboarded = !model.isEmpty;
+        _onboarded = !model.isEmpty || model.onboardingDone;
         _phase = _Phase.ready;
       });
       _syncReminders();
@@ -206,7 +206,10 @@ class _RootScreenState extends State<RootScreen> with WidgetsBindingObserver {
       return OnboardingScreen(
         model: model,
         today: widget.environment.today,
-        onDone: () => setState(() => _onboarded = true),
+        onDone: () {
+          model.completeOnboarding();
+          setState(() => _onboarded = true);
+        },
         onRestore: () => _restore(model),
       );
     }

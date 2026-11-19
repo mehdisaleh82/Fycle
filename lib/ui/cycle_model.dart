@@ -27,6 +27,7 @@ class CycleModel extends ChangeNotifier {
   ReminderSettings _reminderSettings = ReminderSettings();
   bool _appLockEnabled = false;
   Appearance _appearance = Appearance.light;
+  bool _onboardingDone = false;
 
   /// Flow intensity of each day with flow.
   Map<CalendarDay, FlowIntensity> get flowByDay => _flowByDay;
@@ -49,8 +50,11 @@ class CycleModel extends ChangeNotifier {
   /// Light, dark, or like the phone.
   Appearance get appearance => _appearance;
 
-  /// True until something is entered: the first-launch screen is shown.
+  /// True while nothing is entered.
   bool get isEmpty => _loggedDays.isEmpty && _usualCycleLength == null;
+
+  /// True once the first-launch screen was passed, even without an answer.
+  bool get onboardingDone => _onboardingDone;
 
   /// What is logged for [day]; an empty entry if nothing is.
   DayEntry entryFor(CalendarDay day) =>
@@ -84,6 +88,12 @@ class CycleModel extends ChangeNotifier {
     reload();
   }
 
+  /// Remembers that the first-launch screen was passed on this phone.
+  void completeOnboarding() {
+    store.database.onboardingDone = true;
+    reload();
+  }
+
   /// Reads everything again, for example after an import.
   void reload() {
     _load();
@@ -98,6 +108,7 @@ class CycleModel extends ChangeNotifier {
     _reminderSettings = database.reminderSettings;
     _appLockEnabled = database.appLockEnabled;
     _appearance = database.appearance;
+    _onboardingDone = database.onboardingDone;
     _prediction = const PeriodPredictor().predict(
       periodStarts: periodStartsFrom(_flowByDay),
       usualCycleLength: _usualCycleLength,

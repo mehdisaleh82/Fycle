@@ -59,6 +59,12 @@ void main() {
       }
     });
 
+    test('the first-launch screen is not passed by default, then stored', () {
+      expect(db.onboardingDone, isFalse);
+      db.onboardingDone = true;
+      expect(db.onboardingDone, isTrue);
+    });
+
     test('an import replaces the data, not the settings of the phone', () {
       final chosen = ReminderSettings(dailyEnabled: true);
       db
