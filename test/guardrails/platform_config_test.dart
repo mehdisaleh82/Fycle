@@ -45,6 +45,36 @@ void main() {
     expect(delegate, contains('.applicationSupportDirectory'));
   });
 
+  test('the iOS widget reaches nothing beyond the shared area', () {
+    // It reads a few values left by the app, and nothing else: no network,
+    // no file of the app, no keychain.
+    final widget = File('ios/FycleWidget/FycleWidget.swift').readAsStringSync();
+    for (final api in ['URLSession', 'URLRequest', 'http://', 'https://']) {
+      expect(widget, isNot(contains(api)), reason: api);
+    }
+    expect(widget, contains('UserDefaults(suiteName: appGroup)'));
+    for (final path in [
+      'ios/FycleWidget/FycleWidget.entitlements',
+      'ios/Runner/Runner.entitlements',
+    ]) {
+      final entitlements = File(path).readAsStringSync();
+      expect(entitlements, contains('group.app.fycle'), reason: path);
+      expect(
+        RegExp('<key>').allMatches(entitlements),
+        hasLength(1),
+        reason: '$path asks for the App Group only',
+      );
+    }
+    final manifest = File('ios/FycleWidget/PrivacyInfo.xcprivacy')
+        .readAsStringSync()
+        .replaceAll(RegExp(r'\s'), '');
+    expect(manifest, contains('<key>NSPrivacyTracking</key><false/>'));
+    expect(
+      manifest,
+      contains('<key>NSPrivacyCollectedDataTypes</key><array/>'),
+    );
+  });
+
   test('iOS declares no remote notification', () {
     // Reminders are scheduled on the phone. Nothing is pushed by a server.
     final plist = File('ios/Runner/Info.plist').readAsStringSync();
