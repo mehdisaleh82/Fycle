@@ -4,6 +4,7 @@
 
 # Direct, shipped in the app
 cryptography            # dint.dev, pure Dart, encrypts the export file
+file_picker             # system dialogs to save an export and pick an import
 flutter                 # SDK
 flutter_localizations   # SDK, English and French
 intl                    # dart.dev, dates and plurals for localization
@@ -17,6 +18,7 @@ flutter_lints           # flutter.dev, static analysis rules
 flutter_test            # SDK, tests
 
 # Transitive, pulled in by the packages above
+android_file_picker     # file_picker on Android, no permission requested
 args
 async
 boolean_selector
@@ -24,12 +26,18 @@ characters
 clock
 code_assets             # dart.dev, build hook of sqlite3
 collection
+cross_file              # flutter.dev, file handle used by file_picker
 crypto                  # dart.dev, hashes
 cupertino_ui            # flutter.dev, required by material_ui
+dbus                    # file_picker on Linux only: local IPC, not on phones
 fake_async
 ffi                     # dart.dev
 ffi_leak_tracker
 file
+file_picker_darwin      # file_picker on iOS and macOS
+file_picker_linux
+file_picker_platform_interface
+file_picker_web         # unused on mobile
 flutter_secure_storage_darwin
 flutter_secure_storage_linux
 flutter_secure_storage_platform_interface
@@ -59,6 +67,7 @@ path_provider_foundation
 path_provider_linux
 path_provider_platform_interface
 path_provider_windows
+petitparser             # required by xml
 platform
 plugin_platform_interface
 process
@@ -76,5 +85,7 @@ vector_math
 vm_service
 web                     # dart.dev, browser bindings, unused on mobile
 win32
+windows_file_picker
 xdg_directories
+xml                     # required by dbus
 yaml
