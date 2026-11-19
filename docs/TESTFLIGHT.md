@@ -21,11 +21,11 @@ Si Apple répond que l'identifiant est déjà pris, s'arrêter : il faudra en ch
 
 ## C. Créer la clé d'accès
 
-1. App Store Connect → « Utilisateurs et accès » → onglet « Intégrations » → « API App Store Connect » → « Clés d'équipe ».
+1. App Store Connect → « Utilisateurs et accès » → onglet « Intégrations » → « API App Store Connect » → « Clés d'équipe ». La première fois, Apple affiche « Demander l'accès » : accepter, puis revenir sur cette page.
 2. Générer une clé. Nom : `GitHub Actions`. Accès : `Admin`.
 3. Noter, sans les partager : l'« Issuer ID » (en haut de la page) et l'« identifiant de clé ».
 4. Télécharger le fichier `.p8`. **Apple ne le propose qu'une seule fois.**
-5. Relever le « Team ID » : <https://developer.apple.com/account>, rubrique « Détails de l'adhésion ».
+5. Relever le « Team ID » : <https://developer.apple.com/account>, rubrique « Détails de l'adhésion ». Il s'affiche aussi à l'étape A, à côté de « App ID Prefix ».
 
 ## D. Ranger les quatre secrets dans GitHub
 
@@ -42,8 +42,8 @@ Ensuite, ranger le fichier `.p8` en lieu sûr hors du dossier du projet, ou le s
 
 ## E. Compiler et installer
 
-1. GitHub → onglet « Actions » → « iOS TestFlight » → « Run workflow » → « Run workflow ». Compter 15 à 25 minutes.
-2. Coche verte : la compilation est partie chez Apple. Croix rouge : copier le message d'erreur (sans aucun secret) et le transmettre.
+1. GitHub → onglet « Actions » → « iOS TestFlight » → « Run workflow » → « Run workflow ». Compter environ 5 minutes.
+2. Coche verte : ouvrir l'exécution et vérifier que l'étape « Sign and send to TestFlight » a bien tourné (coche, et non rond barré). Si oui, la compilation est partie chez Apple. Un rond barré signifie qu'un des quatre secrets manque. Croix rouge : copier le message d'erreur (sans aucun secret) et le transmettre.
 3. App Store Connect → l'appli Fycle → onglet « TestFlight ». La compilation apparaît après quelques minutes de traitement.
 4. Si Apple pose une question sur le chiffrement (« conformité manquante ») : **s'arrêter et transmettre la question avant de répondre** (décision 59).
 5. « Tests internes » → créer un groupe → s'y ajouter comme testeur.
