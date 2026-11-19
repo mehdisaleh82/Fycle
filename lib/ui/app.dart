@@ -1,14 +1,26 @@
 import 'package:material_ui/material_ui.dart';
 
 import '../l10n/app_localizations.dart';
-import 'home_screen.dart';
+import 'app_environment.dart';
+import 'root_screen.dart';
+import 'theme.dart';
 
 /// Root widget: localization, theme and the first screen.
 class FycleApp extends StatelessWidget {
-  const FycleApp({super.key, this.locale});
+  const FycleApp({
+    super.key,
+    this.locale,
+    this.themeMode,
+    this.environment = const AppEnvironment.device(),
+  });
 
   /// Forces a locale. Left null in production so the system language applies.
   final Locale? locale;
+
+  /// Forces light or dark. Left null in production so the phone decides.
+  final ThemeMode? themeMode;
+
+  final AppEnvironment environment;
 
   @override
   Widget build(BuildContext context) {
@@ -22,14 +34,10 @@ class FycleApp extends StatelessWidget {
         ...GlobalMaterialLocalizations.delegates,
       ],
       supportedLocales: AppLocalizations.supportedLocales,
-      theme: ThemeData(colorScheme: .fromSeed(seedColor: Colors.teal)),
-      darkTheme: ThemeData(
-        colorScheme: .fromSeed(
-          seedColor: Colors.teal,
-          brightness: Brightness.dark,
-        ),
-      ),
-      home: const HomeScreen(),
+      theme: fycleTheme(Brightness.light),
+      darkTheme: fycleTheme(Brightness.dark),
+      themeMode: themeMode ?? ThemeMode.system,
+      home: RootScreen(environment: environment),
     );
   }
 }

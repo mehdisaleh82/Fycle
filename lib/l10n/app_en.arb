@@ -4,8 +4,205 @@
   "@appTitle": {
     "description": "Name of the app, shown in the title bar."
   },
-  "homePlaceholder": "Nothing leaves this phone.",
-  "@homePlaceholder": {
-    "description": "Temporary line on the empty home screen."
-  }
+  "disclaimer": "Fycle is an information tool. It does not give medical advice and is not a method of contraception.",
+  "@disclaimer": {
+    "description": "Mandatory notice, shown at first launch, on the home screen and in the settings."
+  },
+  "privacyLine": "No account. Nothing leaves this phone.",
+  "cancel": "Cancel",
+  "done": "Done",
+  "save": "Save",
+  "errorGeneric": "Something went wrong. Nothing was changed.",
+  "showPassword": "Show the password",
+  "hidePassword": "Hide the password",
+
+  "openingLabel": "Opening",
+  "@openingLabel": {
+    "description": "Read by the screen reader while the local database opens."
+  },
+  "unreadableTitle": "Your data cannot be read",
+  "unreadableBody": "This phone holds Fycle data, but the key that protects it is missing. This happens when a phone is restored from a backup: the key never leaves the original phone. This data cannot be recovered.",
+  "unreadableStartFresh": "Start fresh",
+  "unreadableRestore": "Restore from a backup file",
+  "unreadableConfirmTitle": "Erase the unreadable data?",
+  "unreadableConfirmBody": "The unreadable data will be erased from this phone. This cannot be undone.",
+  "erase": "Erase",
+
+  "onboardingTitle": "Welcome to Fycle",
+  "onboardingLastPeriodQuestion": "When did your last period start?",
+  "onboardingLastPeriodHint": "An approximate date is fine. You can correct it later.",
+  "onboardingChooseDate": "Choose a date",
+  "onboardingCycleLengthQuestion": "How long is your cycle usually?",
+  "onboardingStart": "Start",
+  "onboardingRestore": "I have a backup file",
+  "cycleLengthFieldLabel": "Days (optional)",
+  "cycleLengthHelper": "From the first day of one period to the first day of the next. Leave empty if you don't know.",
+  "cycleLengthError": "Enter a number between {min} and {max}.",
+  "@cycleLengthError": {
+    "placeholders": {
+      "min": {"type": "int"},
+      "max": {"type": "int"}
+    }
+  },
+
+  "homeLogToday": "Log today",
+  "settingsTooltip": "Settings",
+  "statusNoDataTitle": "No estimate yet",
+  "statusNoDataBody": "Log the first day of your period to get an estimate.",
+  "statusOngoing": "Day {day} of your period",
+  "@statusOngoing": {
+    "placeholders": {
+      "day": {"type": "int"}
+    }
+  },
+  "statusNextRange": "Next period expected between {start} and {end}",
+  "@statusNextRange": {
+    "description": "Always a range of dates, never a single date.",
+    "placeholders": {
+      "start": {"type": "String"},
+      "end": {"type": "String"}
+    }
+  },
+  "statusExpectedRange": "Period expected between {start} and {end}",
+  "@statusExpectedRange": {
+    "description": "Always a range of dates, never a single date.",
+    "placeholders": {
+      "start": {"type": "String"},
+      "end": {"type": "String"}
+    }
+  },
+  "statusExpectedIn": "{days, plural, =1{This range starts tomorrow.} other{This range starts in {days} days.}}",
+  "@statusExpectedIn": {
+    "placeholders": {
+      "days": {"type": "int"}
+    }
+  },
+  "statusDue": "Today is within this range.",
+  "statusLate": "{days, plural, =1{1 day past this range.} other{{days} days past this range.}}",
+  "@statusLate": {
+    "placeholders": {
+      "days": {"type": "int"}
+    }
+  },
+  "statusLateNote": "Cycles vary from one month to the next. This is only an estimate.",
+  "statusOutdatedTitle": "No recent entry",
+  "statusOutdatedBody": "Log your period to get a new estimate.",
+  "estimateBasisCycles": "{count, plural, =1{Estimate based on your last cycle.} other{Estimate based on your last {count} cycles.}}",
+  "@estimateBasisCycles": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+  "estimateBasisDeclared": "Estimate based on the usual length you gave ({days} days). It will adjust as you log.",
+  "@estimateBasisDeclared": {
+    "placeholders": {
+      "days": {"type": "int"}
+    }
+  },
+  "estimateBasisDefault": "Estimate based on a cycle of {days} days. It will adjust as you log.",
+  "@estimateBasisDefault": {
+    "placeholders": {
+      "days": {"type": "int"}
+    }
+  },
+  "confidenceLow": "Confidence: low",
+  "confidenceMedium": "Confidence: medium",
+  "confidenceHigh": "Confidence: high",
+
+  "calendarPreviousMonth": "Previous month",
+  "calendarNextMonth": "Next month",
+  "legendPeriod": "Period",
+  "legendExpected": "Expected period (estimate)",
+  "legendEntry": "Other entry",
+  "calendarDayToday": "today",
+  "calendarDayPeriod": "period logged",
+  "calendarDaySpotting": "spotting logged",
+  "calendarDayExpected": "period expected, estimate",
+  "calendarDayEntry": "entry logged",
+
+  "dayFlowTitle": "Period",
+  "dayPainTitle": "Pain",
+  "dayMoodTitle": "Mood",
+  "daySymptomsTitle": "Symptoms",
+  "dayNoteLabel": "Note",
+  "dayNoteHint": "Anything you want to remember",
+  "daySavedHint": "Saved automatically, on this phone only.",
+  "flowSpotting": "Spotting",
+  "flowLight": "Light",
+  "flowMedium": "Medium",
+  "flowHeavy": "Heavy",
+  "painNone": "None",
+  "painMild": "Mild",
+  "painModerate": "Moderate",
+  "painSevere": "Severe",
+  "moodHappy": "Happy",
+  "moodCalm": "Calm",
+  "moodSad": "Sad",
+  "moodAnxious": "Anxious",
+  "moodIrritable": "Irritable",
+  "symptomCramps": "Cramps",
+  "symptomHeadache": "Headache",
+  "symptomBackPain": "Back pain",
+  "symptomBreastTenderness": "Breast tenderness",
+  "symptomBloating": "Bloating",
+  "symptomNausea": "Nausea",
+  "symptomFatigue": "Fatigue",
+  "symptomAcne": "Acne",
+  "symptomCravings": "Cravings",
+  "symptomInsomnia": "Insomnia",
+
+  "settingsTitle": "Settings",
+  "settingsCycleSection": "Cycle",
+  "settingsCycleLength": "Usual cycle length",
+  "settingsCycleLengthValue": "{days} days",
+  "@settingsCycleLengthValue": {
+    "placeholders": {
+      "days": {"type": "int"}
+    }
+  },
+  "settingsCycleLengthUnknown": "Not set",
+  "settingsDataSection": "Your data",
+  "settingsExport": "Save an encrypted backup",
+  "settingsExportSubtitle": "A file protected by a password, to keep wherever you want.",
+  "settingsImport": "Restore a backup",
+  "settingsImportSubtitle": "Replaces everything in Fycle on this phone.",
+  "settingsCsv": "Export as a spreadsheet (CSV)",
+  "settingsCsvSubtitle": "A readable file, not encrypted.",
+  "settingsDelete": "Delete everything",
+  "settingsDeleteSubtitle": "Erases all your data from this phone.",
+  "settingsAboutSection": "About",
+
+  "exportTitle": "Encrypted backup",
+  "exportWarning": "If you forget this password, nobody can open the file, ever. There is no way to recover it. Write the password down somewhere safe.",
+  "passwordLabel": "Password",
+  "passwordConfirmLabel": "Repeat the password",
+  "passwordTooShort": "At least {min} characters.",
+  "@passwordTooShort": {
+    "placeholders": {
+      "min": {"type": "int"}
+    }
+  },
+  "passwordMismatch": "The two passwords are different.",
+  "exportAction": "Create the file",
+  "exportDone": "Backup saved.",
+
+  "importReplaceTitle": "Replace everything?",
+  "importReplaceBody": "Restoring a backup replaces everything currently in Fycle on this phone.",
+  "importReplaceAction": "Replace",
+  "importPasswordTitle": "Password of the backup",
+  "importAction": "Restore",
+  "importDone": "Backup restored.",
+  "importErrorNotBackup": "This file is not a Fycle backup. Nothing was changed.",
+  "importErrorVersion": "This backup comes from a newer version of Fycle. Update the app and try again.",
+  "importErrorWrong": "Wrong password, or damaged file. Nothing was changed.",
+
+  "csvWarningTitle": "Unencrypted file",
+  "csvWarningBody": "This file is not encrypted: anyone who gets it can read it. Keep it in a place you trust.",
+  "csvAction": "Export",
+  "csvDone": "File saved.",
+  "csvDateHeader": "Date",
+
+  "deleteTitle": "Delete everything?",
+  "deleteBody": "All your data will be erased from this phone, permanently. To keep a copy, save a backup first.",
+  "deleteAction": "Delete everything"
 }
