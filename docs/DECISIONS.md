@@ -370,6 +370,37 @@ Plan validé par l'utilisateur le 19 novembre 2026, y compris l'ordre de la suit
 
 90. **Ce qui est vérifié, et où (jalon B).** Sous Windows : le calcul de la série ; les parcours du démarrage (raccourcis, estimation immédiate, passage sans date, relance) et de la carte « Règles aujourd'hui » (enregistrement, annulation, retour tactile demandé, saisie du jour conservée), en anglais et en français ; grand texte et mise en page miroir par les parcours existants. Rendu contrôlé sur des captures du moteur de test, en clair et en sombre. En attente de l'iPhone : le retour tactile réel, la place prise par la carte sur l'accueil (le calendrier descend d'autant), le clavier sur l'écran de démarrage.
 
+## Décisions du jalon C du sprint 1 (19 novembre 2026)
+
+Plan validé par l'utilisateur le 19 novembre 2026. Aucun paquet ajouté.
+
+91. **Sommeil et libido dans la saisie du jour** (`lib/domain/sleep_quality.dart`, `lib/domain/libido_level.dart`). Trois choix chacun : sommeil mauvais, moyen, bon ; libido basse, moyenne, haute. Facultatifs, comme le reste.
+    - Base : disposition 3, deux colonnes ajoutées à `day_entry`. Une base existante est mise à niveau sans toucher aux données (testé depuis la disposition 2).
+    - Sauvegarde chiffrée : deux champs facultatifs de plus, sans changer la version du contenu. Une ancienne sauvegarde se restaure toujours. Limite connue : une version plus ancienne de l'appli qui restaure une sauvegarde récente ignore ces deux champs sans le dire.
+    - Export CSV : deux colonnes de plus, entre l'humeur et les symptômes.
+    - La saisie en un geste (décision 87) conserve aussi ces deux champs : `DayEntry.withFlow` remplace la recopie champ par champ, qui les aurait perdus.
+
+92. **Historique des cycles** (`lib/domain/cycle_history.dart`, Dart pur). Un cycle va du premier jour des règles à la veille des suivantes ; le dernier est le cycle en cours, sans durée. Mêmes règles que la décision sur les débuts de règles : les traces ne comptent pas, une pause courte reste dans les mêmes règles.
+    - Un cycle de moins de 15 jours ou de plus de 90 jours (bornes du moteur de prédiction) est affiché, avec la mention « durée inhabituelle », mais il ne compte ni dans les moyennes ni dans les tendances : il cache le plus souvent une erreur de saisie ou des règles non saisies.
+    - Moyennes sur les 6 derniers cycles retenus. Les règles du cycle en cours ne comptent dans la moyenne qu'une fois terminées depuis plus de 7 jours.
+    - Complète le point 6 de la V1 (historique et statistiques simples), qui n'existait pas encore.
+
+93. **Trois moments descriptifs, pas de phases médicales** (`CycleMoment`). « Pendant les règles », « la semaine avant les règles » (les 7 derniers jours du cycle), « le reste du cycle ». Raison : nommer une phase folliculaire ou lutéale suppose une estimation de l'ovulation, qui relève du jalon E et de sa relecture médicale (règle 7). Seuls les cycles terminés ont des moments : sans les règles suivantes, « la semaine avant » n'est pas connue.
+
+94. **Tendances** (`lib/domain/cycle_trends.dart`, Dart pur ; `lib/ui/insights_screen.dart`). Pour chaque signe saisi (symptôme, douleur autre que « aucune », humeur, sommeil, libido), le nombre de cycles où il a été noté à chaque moment, sur les 6 derniers cycles retenus.
+    - Rien n'est affiché avant deux cycles terminés, et un signe n'apparaît que s'il revient au même moment dans au moins deux cycles : un cycle n'est pas une tendance.
+    - Une phrase par signe, pour le moment où il revient le plus (« Pendant les règles, dans 4 de vos 5 derniers cycles »), et une barre qui redit la même proportion. La barre est ignorée par le lecteur d'écran : la phrase suffit.
+    - Ce sont des décomptes. Aucune explication, aucune prévision, et une mention fixe sous la liste : « des observations, pas une interprétation médicale » (règle 7).
+    - L'écran s'ouvre par une icône de l'accueil, à côté des réglages.
+
+95. **Bilan de fin de cycle** (`lib/ui/cycle_summary_card.dart`). Une carte sur l'accueil quand de nouvelles règles sont saisies : durée du cycle terminé, écart en jours avec la moyenne des cycles précédents, et jusqu'à trois symptômes notés le plus de jours.
+    - Elle se ferme d'un appui et ne revient pas (réglage de l'appareil `cycle_summary_dismissed`, hors export) ; sinon elle disparaît d'elle-même 10 jours après le début des nouvelles règles.
+    - Aucune notification, aucune félicitation, aucun jugement sur la durée (règle 13). Rien n'est dit d'un cycle de durée inhabituelle.
+
+96. **Gratuit ou payant.** La spec range les tendances dans l'achat unique. Tant que le jalon J n'est pas fait, tout est ouvert aux testeuses (décision 89). À trancher au jalon J : l'historique et les moyennes relèvent du socle gratuit de la V1 ; seules les tendances et le bilan seraient payants.
+
+97. **Ce qui est vérifié, et où (jalon C).** Sous Windows : les calculs (historique, moyennes, moments, tendances, bilan) ; la mise à niveau de la base ; l'aller-retour sauvegarde et CSV ; l'écran Tendances et la carte de bilan en anglais et en français, de droite à gauche, en grand texte sur petit écran. En attente de l'iPhone : le rendu réel de l'écran Tendances, la longueur de la fiche du jour avec deux lignes de plus, VoiceOver.
+
 ## Questions ouvertes
 
 - **Partage partenaire et règle 2** (décision 76) : un relais, même chiffré de bout en bout, est un serveur et fait sortir des données du téléphone. L'échange direct entre téléphones (code à scanner, fichier) respecte les règles 1 et 2 ; le relais demande de les modifier. À trancher à la conception du sprint 2.
