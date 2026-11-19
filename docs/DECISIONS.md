@@ -212,14 +212,41 @@
     - **Différences avec le téléphone** : les rappels ne s'activent pas (la passerelle ne connaît qu'iOS et Android) ; le verrouillage passe par Windows Hello s'il est configuré. Les données de l'aperçu sont rangées, chiffrées, dans `AppData\Roaming\app\fycle` : données fictives uniquement.
     - `windows/` est exclu de l'analyse statique (code généré).
 
+## Décisions du jalon 5 (19 novembre 2026)
+
+55. **Compilation iPhone : GitHub Actions, sur un Mac de GitHub** (`.github/workflows/ios.yml`), validé par l'utilisateur.
+    - Raison : le code est déjà chez GitHub, donc aucun nouveau tiers ne le reçoit, et aucun outil n'est ajouté. Solution de repli si la signature résiste : Codemagic (500 minutes gratuites par mois, mais une entreprise de plus reçoit le code et la clé Apple).
+    - Lancement à la main (bouton « Run workflow ») ou par un tag `ios-…`, jamais à chaque envoi : le dépôt est privé et les minutes de Mac gratuites sont comptées (environ 200 par mois, à confirmer sur la page de facturation).
+    - Le Mac doit fournir Xcode 26 ou plus : Apple l'exige pour tout envoi depuis le 28 avril 2026.
+    - Téléchargements pendant la compilation, comme dans `ci.yml` : le SDK Flutter depuis son dépôt officiel, les paquets de `pubspec.lock`, la bibliothèque SQLite vérifiée par empreinte (décision 24). Rien d'autre : pas de CocoaPods, pas d'outil de signature tiers.
+    - Le numéro de compilation est le numéro d'exécution du workflow : il augmente tout seul, comme Apple l'exige.
+
+56. **Signature : faite par Xcode avec une clé d'accès App Store Connect.** L'appli est compilée sans signature, puis `xcodebuild -exportArchive` la signe et l'envoie. Xcode crée lui-même le certificat de distribution et le profil.
+    - Quatre secrets, créés et rangés par l'utilisateur dans les secrets du dépôt GitHub, jamais dans le dépôt ni dans une conversation : `ASC_KEY_ID`, `ASC_ISSUER_ID`, `ASC_KEY_P8`, `APPLE_TEAM_ID`.
+    - La clé est écrite dans le dossier temporaire du Mac le temps de l'envoi, puis effacée. Ces Mac sont détruits après chaque compilation.
+    - Sans ces secrets, le workflow compile quand même et le signale, sans rien envoyer.
+    - Rôle de la clé : « Admin ». La signature gérée par Apple le demande. À réduire si Apple permet un rôle plus étroit.
+
+57. **Identifiant `app.fycle` confirmé** par l'utilisateur (décision 13). **iPhone seulement** pour l'instant : l'iPad pourra être ajouté plus tard, alors qu'on ne peut plus le retirer après publication.
+
+58. **Code natif iPhone** (`ios/Runner/`).
+    - **Sauvegarde iCloud** (applique la décision 43) : au lancement, avant la création de la base, `AppDelegate.swift` exclut des sauvegardes tout le dossier « Application Support ». La base y est seule, avec les fichiers temporaires de SQLite, couverts du même coup. Pas de canal entre Dart et Swift.
+    - **Phrase Face ID** en anglais et en français (`en.lproj` et `fr.lproj`, fichier `InfoPlist.strings`).
+    - **Notifications quand l'appli est ouverte** : affichées. Le paquet le fait par défaut, à condition que l'appli se déclare destinataire des notifications : une ligne dans `AppDelegate.swift`.
+    - **Déclaration de confidentialité** (`PrivacyInfo.xcprivacy`) : aucun suivi, aucun domaine de suivi, aucune donnée collectée. Une seule API « à justifier » : les dates de fichiers (motif C617.1, fichiers du dossier de l'appli), parce que SQLite consulte les siennes. Les paquets ont leur propre déclaration.
+    - Des tests de `test/guardrails/platform_config_test.dart` vérifient la présence de ces quatre éléments.
+
+59. **Chiffrement et règles d'exportation : réponse donnée à la main, clé `ITSAppUsesNonExemptEncryption` absente pour l'instant.** Fycle chiffre avec des algorithmes standards qui ne viennent pas du système d'Apple (ChaCha20-Poly1305, AES-256-GCM, Argon2id). D'après l'aide d'App Store Connect, ce cas demande une déclaration française de chiffrement pour distribuer sur l'App Store en France. L'utilisateur répond au questionnaire d'Apple à la première compilation ; la clé sera inscrite dans `Info.plist` une fois la bonne réponse connue.
+
 ## Questions ouvertes
 
+- **Déclaration française de chiffrement** (décision 59) : à déposer avant la sortie publique en France. À confirmer : est-elle déjà exigée pour TestFlight ? Les pages d'Apple n'ont pu être lues qu'en partie le 19 novembre 2026.
+- **Icône de l'appli** : c'est encore celle de Flutter. À dessiner avant la fiche publique.
+
 - **Android, rappels et verrouillage** : à configurer et vérifier au jalon Android. Reprogrammation après redémarrage du téléphone (permission et récepteurs à déclarer dans le manifeste), réglage de compilation exigé par `flutter_local_notifications` (« desugaring »), activité principale à adapter pour `local_auth`, écran masqué dans les applis récentes (`FLAG_SECURE`, quelques lignes natives). Sur Android, le choix d'un fichier fait passer l'appli en arrière-plan : le verrou se redemandera au retour.
-- **iPhone, à vérifier au jalon 5** : notifications affichées quand l'appli est au premier plan (une ligne native à ajouter si on les veut), phrase Face ID à traduire en français, et le fait que la fenêtre de choix de fichier ne déclenche pas le verrou.
 - **Code propre à l'appli** pour le verrouillage (décision 51) : à revoir si des utilisatrices partagent le code de leur téléphone.
 - **Démarrage sans date** : la date des dernières règles est obligatoire au premier lancement (décision 34). À revoir si des utilisatrices ne s'en souviennent pas : il faudrait alors mémoriser que le démarrage a été passé.
 - **SDK Android** à installer sur le poste de développement (décision 45).
-- **Exclusion iCloud** : code natif à écrire au jalon 5 (décision 43).
 - **Achat intégré** : paquet à retenir (candidat : `in_app_purchase`, de l'équipe Flutter), à relire avant le jalon du pack Pro.
 - **Android** : peut-on se passer de la permission INTERNET tout en gardant l'achat intégré ? À vérifier.
 - **Pack Pro** : contenu exact et prix. Hypothèse de travail : 9,99 €, soit environ 7 € nets par vente après TVA et commission du store, donc environ 57 ventes par mois pour l'objectif de revenu.
