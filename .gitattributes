@@ -1,0 +1,6 @@
+# Keep line endings identical on Windows and in CI, so `dart format` agrees.
+* text=auto eol=lf
+*.bat text eol=crlf
+*.png binary
+*.jpg binary
+*.jar binary

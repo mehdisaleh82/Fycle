@@ -1,0 +1,11 @@
+{
+  "@@locale": "en",
+  "appTitle": "Fycle",
+  "@appTitle": {
+    "description": "Name of the app, shown in the title bar."
+  },
+  "homePlaceholder": "Nothing leaves this phone.",
+  "@homePlaceholder": {
+    "description": "Temporary line on the empty home screen."
+  }
+}
