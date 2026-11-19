@@ -238,9 +238,11 @@
 
 59. **Chiffrement et règles d'exportation : réponse donnée à la main, clé `ITSAppUsesNonExemptEncryption` absente pour l'instant.** Fycle chiffre avec des algorithmes standards qui ne viennent pas du système d'Apple (ChaCha20-Poly1305, AES-256-GCM, Argon2id). D'après l'aide d'App Store Connect, ce cas demande une déclaration française de chiffrement pour distribuer sur l'App Store en France. L'utilisateur répond au questionnaire d'Apple à la première compilation ; la clé sera inscrite dans `Info.plist` une fois la bonne réponse connue.
 
+60. **Réponses au questionnaire de chiffrement d'Apple pour les essais privés.** Choix de l'utilisateur, le 19 novembre 2026, pour la compilation n° 2. Type d'algorithme : « chiffrement standard à la place ou en complément de celui du système d'Apple ». Distribution en France : « non », parce que la compilation ne sert qu'à un essai privé en test interne TestFlight (l'utilisateur seul d'abord, sa compagne ensuite, comme membre du compte). Apple repose la question à chaque compilation : la clé `ITSAppUsesNonExemptEncryption` reste absente. **Condition bloquante : pas de test externe ni de publication en France avant la déclaration de chiffrement auprès de l'ANSSI ; la réponse deviendra alors « oui », justificatif à l'appui.**
+
 ## Questions ouvertes
 
-- **Déclaration française de chiffrement** (décision 59) : à déposer avant la sortie publique en France. À confirmer : est-elle déjà exigée pour TestFlight ? Les pages d'Apple n'ont pu être lues qu'en partie le 19 novembre 2026.
+- **Déclaration française de chiffrement** (décisions 59 et 60) : à déposer auprès de l'ANSSI avant tout test externe et avant la sortie publique en France. Le délai se compte en semaines : à lancer bien avant. À faire confirmer par une personne compétente : cette déclaration est-elle vraiment exigée pour une appli comme Fycle ?
 - **Icône de l'appli** : c'est encore celle de Flutter. À dessiner avant la fiche publique.
 
 - **Android, rappels et verrouillage** : à configurer et vérifier au jalon Android. Reprogrammation après redémarrage du téléphone (permission et récepteurs à déclarer dans le manifeste), réglage de compilation exigé par `flutter_local_notifications` (« desugaring »), activité principale à adapter pour `local_auth`, écran masqué dans les applis récentes (`FLAG_SECURE`, quelques lignes natives). Sur Android, le choix d'un fichier fait passer l'appli en arrière-plan : le verrou se redemandera au retour.
