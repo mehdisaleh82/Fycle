@@ -218,7 +218,7 @@
   "fertilityLowConfidence": "Vos cycles varient beaucoup : cette estimation est peu fiable.",
   "fertilityNotEnough": "L'estimation apparaît dès que deux cycles complets sont saisis.",
   "fertilityHow": "Comment c'est calculé",
-  "fertilityHowBody": "Fycle part de l'estimation de vos prochaines règles et remonte d'environ 14 jours, avec 2 jours de marge de chaque côté, pour situer l'ovulation. La fenêtre couvre les 5 jours qui précèdent et le jour qui suit. Les cycles diffèrent d'une personne à l'autre et d'un mois à l'autre : ce sont des hypothèses, pas des mesures.",
+  "fertilityHowBody": "Fycle part de l'estimation de vos prochaines règles et remonte d'environ 13 jours, avec 3 jours de marge de chaque côté, pour situer l'ovulation. La fenêtre couvre les 5 jours qui précèdent et le jour qui suit. Ces chiffres viennent d'études publiées portant sur plusieurs centaines de milliers de cycles. Les cycles diffèrent d'une personne à l'autre et d'un mois à l'autre : ce sont des moyennes, pas des mesures de votre corps.",
   "legendFertile": "Fenêtre de fertilité (estimation)",
   "calendarDayFertile": "fenêtre de fertilité, estimation",
   "tabHome": "Accueil",

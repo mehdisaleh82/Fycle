@@ -7,7 +7,7 @@ import 'harness.dart';
 
 /// Three made-up periods, 28 days apart. Seen from 20 March 2026, the next
 /// one is expected between 25 and 31 March: ovulation is then estimated
-/// between 9 and 19 March, and the fertile window between 4 and 20 March.
+/// between 9 and 21 March, and the fertile window between 4 and 22 March.
 List<DayEntry> threePeriods() => [
   ...periodFrom(CalendarDay(2026, 1, 3)),
   ...periodFrom(CalendarDay(2026, 1, 31)),
@@ -32,10 +32,10 @@ void main() {
       isTrue,
     );
     expect(find.text('Estimated fertile window'), findsOneWidget);
-    expect(find.text('Between Mar 4 and Mar 20'), findsOneWidget);
+    expect(find.text('Between Mar 4 and Mar 22'), findsOneWidget);
     // In its own card and in the card at the top.
     expect(
-      find.text('Ovulation estimated between Mar 9 and Mar 19'),
+      find.text('Ovulation estimated between Mar 9 and Mar 21'),
       findsNWidgets(2),
     );
     // Always in sight: nothing had to be accepted first.
@@ -65,7 +65,7 @@ void main() {
       ),
       findsOneWidget,
     );
-    expect(find.bySemanticsLabel('Saturday, March 21'), findsOneWidget);
+    expect(find.bySemanticsLabel('Monday, March 23'), findsOneWidget);
 
     // A cycle that ended is marked too, looking back from the next period.
     await tapVisible(tester, find.byTooltip('Previous month'));
@@ -145,7 +145,7 @@ void main() {
 
     await tapVisible(tester, find.text('How it is calculated'));
     expect(find.byType(AlertDialog), findsOneWidget);
-    expect(find.textContaining('counts back about 14 days'), findsOneWidget);
+    expect(find.textContaining('counts back about 13 days'), findsOneWidget);
     expect(find.textContaining('and not a diagnosis'), findsOneWidget);
   });
 
@@ -188,9 +188,9 @@ void main() {
     await harness.pumpApp(locale: 'fr');
 
     expect(find.text('Fenêtre de fertilité estimée'), findsOneWidget);
-    expect(find.text('Entre le 4 mars et le 20 mars'), findsOneWidget);
+    expect(find.text('Entre le 4 mars et le 22 mars'), findsOneWidget);
     expect(
-      find.text('Ovulation estimée entre le 9 mars et le 19 mars'),
+      find.text('Ovulation estimée entre le 9 mars et le 21 mars'),
       findsNWidgets(2),
     );
     expect(

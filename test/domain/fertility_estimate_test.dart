@@ -28,12 +28,12 @@ void main() {
         prediction(CalendarDay(2026, 3, 28), CalendarDay(2026, 3, 30)),
         lastPeriodStart: lastStart,
       )!;
-      // 28 March - 14 - 2, and 30 March - 14 + 2.
+      // 28 March - 13 - 3, and 30 March - 13 + 3.
       expect(estimate.earliestOvulation, CalendarDay(2026, 3, 12));
-      expect(estimate.latestOvulation, CalendarDay(2026, 3, 18));
+      expect(estimate.latestOvulation, CalendarDay(2026, 3, 20));
       // Five days before, one day after.
       expect(estimate.windowStart, CalendarDay(2026, 3, 7));
-      expect(estimate.windowEnd, CalendarDay(2026, 3, 19));
+      expect(estimate.windowEnd, CalendarDay(2026, 3, 21));
       expect(estimate.confidence, PredictionConfidence.medium);
     });
 
@@ -95,7 +95,7 @@ void main() {
       )!;
       expect(estimate.earliestOvulation, lastStart);
       expect(estimate.windowStart, lastStart);
-      expect(estimate.latestOvulation, CalendarDay(2026, 3, 6));
+      expect(estimate.latestOvulation, CalendarDay(2026, 3, 8));
     });
 
     test('says which days are inside the window', () {
@@ -105,8 +105,8 @@ void main() {
       )!;
       expect(estimate.windowContains(CalendarDay(2026, 3, 6)), isFalse);
       expect(estimate.windowContains(CalendarDay(2026, 3, 7)), isTrue);
-      expect(estimate.windowContains(CalendarDay(2026, 3, 19)), isTrue);
-      expect(estimate.windowContains(CalendarDay(2026, 3, 20)), isFalse);
+      expect(estimate.windowContains(CalendarDay(2026, 3, 21)), isTrue);
+      expect(estimate.windowContains(CalendarDay(2026, 3, 22)), isFalse);
     });
 
     test('works on what the predictor gives for regular cycles', () {
@@ -135,9 +135,9 @@ void main() {
       )!;
       // The next period started on 29 March.
       expect(estimate.earliestOvulation, CalendarDay(2026, 3, 13));
-      expect(estimate.latestOvulation, CalendarDay(2026, 3, 17));
+      expect(estimate.latestOvulation, CalendarDay(2026, 3, 19));
       expect(estimate.windowStart, CalendarDay(2026, 3, 8));
-      expect(estimate.windowEnd, CalendarDay(2026, 3, 18));
+      expect(estimate.windowEnd, CalendarDay(2026, 3, 20));
     });
 
     test('there is none for the current cycle', () {

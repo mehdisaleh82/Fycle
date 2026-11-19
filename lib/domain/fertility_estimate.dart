@@ -10,9 +10,9 @@ import 'period_prediction.dart';
 /// presented as a method of contraception, as a diagnosis, or as telling
 /// which days are "safe" (CLAUDE.md, rule 7).
 ///
-/// The figures below are starting assumptions, to be confirmed by a health
-/// professional before any release outside private testing
-/// (docs/DECISIONS.md).
+/// The figures below come from published studies (docs/DECISIONS.md,
+/// decision 113) and remain to be confirmed by a health professional before
+/// any release outside private testing.
 final class FertilityEstimate {
   const FertilityEstimate({
     required this.earliestOvulation,
@@ -66,16 +66,22 @@ final class FertilityEstimate {
       'window $windowStart..$windowEnd, ${confidence.name})';
 }
 
-/// Assumed number of days from ovulation to the next period.
-const int assumedDaysFromOvulationToPeriod = 14;
+/// Assumed number of days from ovulation to the next period. A study of
+/// about 600,000 cycles found a mean of 12.4 days, most cycles falling
+/// between 7 and 17 (Bull et al., npj Digital Medicine, 2019).
+const int assumedDaysFromOvulationToPeriod = 13;
 
-/// The assumption above is given this many days of margin on each side.
-const int ovulationMarginDays = 2;
+/// The assumption above is given this many days of margin on each side:
+/// 10 to 16 days, which covers most of the cycles of that study.
+const int ovulationMarginDays = 3;
 
-/// The window opens this many days before the earliest ovulation day.
+/// The window opens this many days before the earliest ovulation day:
+/// conception was observed only in the six days ending on the day of
+/// ovulation (Wilcox et al., New England Journal of Medicine, 1995).
 const int fertileDaysBeforeOvulation = 5;
 
-/// The window closes this many days after the latest ovulation day.
+/// The window closes this many days after the latest ovulation day. One
+/// day of margin, which does not come from the study above.
 const int fertileDaysAfterOvulation = 1;
 
 /// Below this many logged cycles behind the prediction, no estimate is

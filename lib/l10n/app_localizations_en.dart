@@ -773,7 +773,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get fertilityHowBody =>
-      'Fycle starts from the estimate of your next period and counts back about 14 days, with 2 days of margin on each side, to place ovulation. The window covers the 5 days before and the day after. Cycles differ from one person to another and from one month to the next: these are assumptions, not measurements.';
+      'Fycle starts from the estimate of your next period and counts back about 13 days, with 3 days of margin on each side, to place ovulation. The window covers the 5 days before and the day after. These figures come from published studies of several hundred thousand cycles. Cycles differ from one person to another and from one month to the next: these are averages, not measurements of your body.';
 
   @override
   String get legendFertile => 'Fertile window (estimate)';

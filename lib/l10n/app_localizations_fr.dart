@@ -780,7 +780,7 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get fertilityHowBody =>
-      'Fycle part de l\'estimation de vos prochaines règles et remonte d\'environ 14 jours, avec 2 jours de marge de chaque côté, pour situer l\'ovulation. La fenêtre couvre les 5 jours qui précèdent et le jour qui suit. Les cycles diffèrent d\'une personne à l\'autre et d\'un mois à l\'autre : ce sont des hypothèses, pas des mesures.';
+      'Fycle part de l\'estimation de vos prochaines règles et remonte d\'environ 13 jours, avec 3 jours de marge de chaque côté, pour situer l\'ovulation. La fenêtre couvre les 5 jours qui précèdent et le jour qui suit. Ces chiffres viennent d\'études publiées portant sur plusieurs centaines de milliers de cycles. Les cycles diffèrent d\'une personne à l\'autre et d\'un mois à l\'autre : ce sont des moyennes, pas des mesures de votre corps.';
 
   @override
   String get legendFertile => 'Fenêtre de fertilité (estimation)';
