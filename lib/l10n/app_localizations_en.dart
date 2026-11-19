@@ -592,6 +592,145 @@ class AppLocalizationsEn extends AppLocalizations {
   String get appearanceSystem => 'Same as the phone';
 
   @override
+  String get insightsTitle => 'Trends';
+
+  @override
+  String get insightsCyclesTitle => 'Your cycles';
+
+  @override
+  String insightsAverageCycle(String days) {
+    return 'Average cycle: $days days';
+  }
+
+  @override
+  String insightsAveragePeriod(String days) {
+    return 'Average period: $days days';
+  }
+
+  @override
+  String insightsAverageBasis(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Counted on your last $count complete cycles.',
+      one: 'Counted on your last complete cycle.',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get insightsNoCycleYet =>
+      'Averages appear once a second period is logged.';
+
+  @override
+  String get insightsTrendsTitle => 'What comes back';
+
+  @override
+  String get insightsTrendsEmpty =>
+      'Nothing to show yet. A line appears here when the same thing is logged at the same moment in at least two complete cycles.';
+
+  @override
+  String get insightsTrendsNote =>
+      'These lines count what you logged. They are observations, not a medical interpretation.';
+
+  @override
+  String trendDuringPeriod(int count, int total) {
+    return 'During your period, in $count of your last $total cycles';
+  }
+
+  @override
+  String trendBeforePeriod(int count, int total) {
+    return 'In the week before your period, in $count of your last $total cycles';
+  }
+
+  @override
+  String trendRest(int count, int total) {
+    return 'In the rest of the cycle, in $count of your last $total cycles';
+  }
+
+  @override
+  String signWithKind(String kind, String value) {
+    return '$kind: $value';
+  }
+
+  @override
+  String get insightsHistoryTitle => 'History';
+
+  @override
+  String get historyEmpty => 'No period logged yet.';
+
+  @override
+  String historyCycleRange(String start, String end) {
+    return '$start – $end';
+  }
+
+  @override
+  String historyCycleDetail(int days, int period) {
+    String _temp0 = intl.Intl.pluralLogic(
+      period,
+      locale: localeName,
+      other: '$days days · period of $period days',
+      one: '$days days · period of 1 day',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String historyCurrent(String start) {
+    return 'In progress since $start';
+  }
+
+  @override
+  String get historyUnusual => 'Unusual length, left out of the averages.';
+
+  @override
+  String get summaryTitle => 'Your last cycle';
+
+  @override
+  String summaryLength(int days) {
+    return 'It lasted $days days.';
+  }
+
+  @override
+  String summaryLonger(int days) {
+    String _temp0 = intl.Intl.pluralLogic(
+      days,
+      locale: localeName,
+      other: '$days days longer than your cycles before.',
+      one: '1 day longer than your cycles before.',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String summaryShorter(int days) {
+    String _temp0 = intl.Intl.pluralLogic(
+      days,
+      locale: localeName,
+      other: '$days days shorter than your cycles before.',
+      one: '1 day shorter than your cycles before.',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get summarySame => 'The same as your cycles before.';
+
+  @override
+  String summaryMostLogged(String symptoms) {
+    return 'Logged most: $symptoms.';
+  }
+
+  @override
+  String get listSeparator => ', ';
+
+  @override
+  String get summarySeeTrends => 'See trends';
+
+  @override
+  String get summaryClose => 'Close';
+
+  @override
   String get lockTurnedOff =>
       'This phone no longer has a passcode: the lock of Fycle was turned off.';
 }

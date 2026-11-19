@@ -1106,6 +1106,174 @@ abstract class AppLocalizations {
   /// **'Same as the phone'**
   String get appearanceSystem;
 
+  /// No description provided for @insightsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Trends'**
+  String get insightsTitle;
+
+  /// No description provided for @insightsCyclesTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Your cycles'**
+  String get insightsCyclesTitle;
+
+  /// No description provided for @insightsAverageCycle.
+  ///
+  /// In en, this message translates to:
+  /// **'Average cycle: {days} days'**
+  String insightsAverageCycle(String days);
+
+  /// No description provided for @insightsAveragePeriod.
+  ///
+  /// In en, this message translates to:
+  /// **'Average period: {days} days'**
+  String insightsAveragePeriod(String days);
+
+  /// No description provided for @insightsAverageBasis.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{Counted on your last complete cycle.} other{Counted on your last {count} complete cycles.}}'**
+  String insightsAverageBasis(int count);
+
+  /// No description provided for @insightsNoCycleYet.
+  ///
+  /// In en, this message translates to:
+  /// **'Averages appear once a second period is logged.'**
+  String get insightsNoCycleYet;
+
+  /// No description provided for @insightsTrendsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'What comes back'**
+  String get insightsTrendsTitle;
+
+  /// No description provided for @insightsTrendsEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'Nothing to show yet. A line appears here when the same thing is logged at the same moment in at least two complete cycles.'**
+  String get insightsTrendsEmpty;
+
+  /// No description provided for @insightsTrendsNote.
+  ///
+  /// In en, this message translates to:
+  /// **'These lines count what you logged. They are observations, not a medical interpretation.'**
+  String get insightsTrendsNote;
+
+  /// No description provided for @trendDuringPeriod.
+  ///
+  /// In en, this message translates to:
+  /// **'During your period, in {count} of your last {total} cycles'**
+  String trendDuringPeriod(int count, int total);
+
+  /// No description provided for @trendBeforePeriod.
+  ///
+  /// In en, this message translates to:
+  /// **'In the week before your period, in {count} of your last {total} cycles'**
+  String trendBeforePeriod(int count, int total);
+
+  /// No description provided for @trendRest.
+  ///
+  /// In en, this message translates to:
+  /// **'In the rest of the cycle, in {count} of your last {total} cycles'**
+  String trendRest(int count, int total);
+
+  /// No description provided for @signWithKind.
+  ///
+  /// In en, this message translates to:
+  /// **'{kind}: {value}'**
+  String signWithKind(String kind, String value);
+
+  /// No description provided for @insightsHistoryTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'History'**
+  String get insightsHistoryTitle;
+
+  /// No description provided for @historyEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'No period logged yet.'**
+  String get historyEmpty;
+
+  /// No description provided for @historyCycleRange.
+  ///
+  /// In en, this message translates to:
+  /// **'{start} – {end}'**
+  String historyCycleRange(String start, String end);
+
+  /// No description provided for @historyCycleDetail.
+  ///
+  /// In en, this message translates to:
+  /// **'{period, plural, =1{{days} days · period of 1 day} other{{days} days · period of {period} days}}'**
+  String historyCycleDetail(int days, int period);
+
+  /// No description provided for @historyCurrent.
+  ///
+  /// In en, this message translates to:
+  /// **'In progress since {start}'**
+  String historyCurrent(String start);
+
+  /// No description provided for @historyUnusual.
+  ///
+  /// In en, this message translates to:
+  /// **'Unusual length, left out of the averages.'**
+  String get historyUnusual;
+
+  /// No description provided for @summaryTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Your last cycle'**
+  String get summaryTitle;
+
+  /// No description provided for @summaryLength.
+  ///
+  /// In en, this message translates to:
+  /// **'It lasted {days} days.'**
+  String summaryLength(int days);
+
+  /// No description provided for @summaryLonger.
+  ///
+  /// In en, this message translates to:
+  /// **'{days, plural, =1{1 day longer than your cycles before.} other{{days} days longer than your cycles before.}}'**
+  String summaryLonger(int days);
+
+  /// No description provided for @summaryShorter.
+  ///
+  /// In en, this message translates to:
+  /// **'{days, plural, =1{1 day shorter than your cycles before.} other{{days} days shorter than your cycles before.}}'**
+  String summaryShorter(int days);
+
+  /// No description provided for @summarySame.
+  ///
+  /// In en, this message translates to:
+  /// **'The same as your cycles before.'**
+  String get summarySame;
+
+  /// No description provided for @summaryMostLogged.
+  ///
+  /// In en, this message translates to:
+  /// **'Logged most: {symptoms}.'**
+  String summaryMostLogged(String symptoms);
+
+  /// No description provided for @listSeparator.
+  ///
+  /// In en, this message translates to:
+  /// **', '**
+  String get listSeparator;
+
+  /// No description provided for @summarySeeTrends.
+  ///
+  /// In en, this message translates to:
+  /// **'See trends'**
+  String get summarySeeTrends;
+
+  /// No description provided for @summaryClose.
+  ///
+  /// In en, this message translates to:
+  /// **'Close'**
+  String get summaryClose;
+
   /// No description provided for @lockTurnedOff.
   ///
   /// In en, this message translates to:

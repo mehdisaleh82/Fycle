@@ -97,6 +97,7 @@ final class FycleDatabase {
   static const String _appLock = 'app_lock_enabled';
   static const String _appearance = 'appearance';
   static const String _onboardingDone = 'onboarding_done';
+  static const String _summaryDismissed = 'cycle_summary_dismissed';
 
   final Database _db;
 
@@ -274,6 +275,14 @@ final class FycleDatabase {
 
   set onboardingDone(bool done) =>
       _writeDeviceSetting(_onboardingDone, done ? _on : null);
+
+  /// First day of the last cycle whose end-of-cycle summary was closed on
+  /// this phone, so that it is not shown again. Not part of an export.
+  CalendarDay? get dismissedSummaryStart =>
+      CalendarDay.tryParse(_deviceSetting(_summaryDismissed) ?? '');
+
+  set dismissedSummaryStart(CalendarDay? start) =>
+      _writeDeviceSetting(_summaryDismissed, start?.toString());
 
   /// Everything stored, for export.
   FycleData readAll() =>

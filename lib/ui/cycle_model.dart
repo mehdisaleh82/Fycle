@@ -3,6 +3,7 @@ import 'package:flutter/foundation.dart';
 import '../data/appearance.dart';
 import '../data/local_store.dart';
 import '../domain/calendar_day.dart';
+import '../domain/cycle_history.dart';
 import '../domain/day_entry.dart';
 import '../domain/flow_intensity.dart';
 import '../domain/period_prediction.dart';
@@ -22,6 +23,9 @@ class CycleModel extends ChangeNotifier {
 
   Map<CalendarDay, FlowIntensity> _flowByDay = const {};
   Set<CalendarDay> _loggedDays = const {};
+  List<DayEntry> _days = const [];
+  List<LoggedCycle> _cycles = const [];
+  CalendarDay? _dismissedSummaryStart;
   PeriodPrediction? _prediction;
   int? _usualCycleLength;
   ReminderSettings _reminderSettings = ReminderSettings();
@@ -34,6 +38,15 @@ class CycleModel extends ChangeNotifier {
 
   /// Every day with something logged, flow or not.
   Set<CalendarDay> get loggedDays => _loggedDays;
+
+  /// Everything logged, in chronological order.
+  List<DayEntry> get days => _days;
+
+  /// The logged cycles, oldest first. The last one is the current cycle.
+  List<LoggedCycle> get cycles => _cycles;
+
+  /// First day of the last cycle whose summary was closed on this phone.
+  CalendarDay? get dismissedSummaryStart => _dismissedSummaryStart;
 
   /// The estimate for the next period, or null if no period was logged.
   PeriodPrediction? get prediction => _prediction;
@@ -88,6 +101,12 @@ class CycleModel extends ChangeNotifier {
     reload();
   }
 
+  /// Closes the summary of the cycle that started on [start] for good.
+  void dismissCycleSummary(CalendarDay start) {
+    store.database.dismissedSummaryStart = start;
+    reload();
+  }
+
   /// Remembers that the first-launch screen was passed on this phone.
   void completeOnboarding() {
     store.database.onboardingDone = true;
@@ -103,7 +122,10 @@ class CycleModel extends ChangeNotifier {
   void _load() {
     final database = store.database;
     _flowByDay = database.flowByDay();
-    _loggedDays = {for (final entry in database.readDays()) entry.day};
+    _days = List.unmodifiable(database.readDays());
+    _loggedDays = {for (final entry in _days) entry.day};
+    _cycles = List.unmodifiable(cycleHistory(_flowByDay));
+    _dismissedSummaryStart = database.dismissedSummaryStart;
     _usualCycleLength = database.usualCycleLength;
     _reminderSettings = database.reminderSettings;
     _appLockEnabled = database.appLockEnabled;

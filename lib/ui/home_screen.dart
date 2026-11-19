@@ -5,8 +5,10 @@ import '../domain/cycle_status.dart';
 import '../l10n/app_localizations.dart';
 import 'app_environment.dart';
 import 'cycle_model.dart';
+import 'cycle_summary_card.dart';
 import 'day_sheet.dart';
 import 'disclaimer_card.dart';
+import 'insights_screen.dart';
 import 'month_calendar.dart';
 import 'prediction_card.dart';
 import 'settings_screen.dart';
@@ -83,6 +85,17 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
     );
   }
 
+  void _openInsights() {
+    Navigator.of(context).push(
+      MaterialPageRoute<void>(
+        builder: (context) => InsightsScreen(
+          model: widget.model,
+          environment: widget.environment,
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
@@ -91,6 +104,11 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
       appBar: AppBar(
         title: Text(l10n.appTitle),
         actions: [
+          IconButton(
+            tooltip: l10n.insightsTitle,
+            icon: const Icon(Icons.insights_outlined),
+            onPressed: _openInsights,
+          ),
           IconButton(
             tooltip: l10n.settingsTooltip,
             icon: const Icon(Icons.settings_outlined),
@@ -109,6 +127,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
           listenable: model,
           builder: (context, _) {
             final today = widget.environment.today();
+            final summary = cycleSummaryToShow(model, today);
             return SingleChildScrollView(
               // Room at the bottom so the button never hides the notice.
               padding: const EdgeInsetsDirectional.fromSTEB(16, 8, 16, 96),
@@ -123,6 +142,15 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                     ),
                     usualCycleLength: model.usualCycleLength,
                   ),
+                  if (summary != null) ...[
+                    const SizedBox(height: 16),
+                    CycleSummaryCard(
+                      summary: summary,
+                      onClose: () =>
+                          model.dismissCycleSummary(summary.cycle.start),
+                      onSeeTrends: _openInsights,
+                    ),
+                  ],
                   const SizedBox(height: 16),
                   TodayCard(model: model, today: today),
                   const SizedBox(height: 16),
