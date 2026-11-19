@@ -19,7 +19,7 @@ class FycleApp extends StatefulWidget {
   /// Forces a locale. Left null in production so the system language applies.
   final Locale? locale;
 
-  /// Forces light or dark. Left null in production so the phone decides.
+  /// Forces light or dark. Left null in production, which is light only.
   final ThemeMode? themeMode;
 
   final AppEnvironment environment;
@@ -51,7 +51,9 @@ class _FycleAppState extends State<FycleApp> {
       supportedLocales: AppLocalizations.supportedLocales,
       theme: fycleTheme(Brightness.light),
       darkTheme: fycleTheme(Brightness.dark),
-      themeMode: widget.themeMode ?? ThemeMode.system,
+      // Light only for now, whatever the phone says: the dark theme is kept
+      // and tested, but not offered (docs/DECISIONS.md, decision 62).
+      themeMode: widget.themeMode ?? ThemeMode.light,
       // Above the navigator, so that the lock covers every screen, dialog
       // and panel.
       builder: (context, child) => LockGate(lock: _lock, child: child!),
