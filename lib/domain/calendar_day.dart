@@ -18,7 +18,26 @@ final class CalendarDay implements Comparable<CalendarDay> {
   factory CalendarDay.fromDateTime(DateTime dateTime) =>
       CalendarDay(dateTime.year, dateTime.month, dateTime.day);
 
+  /// Reads an ISO 8601 date such as `2026-03-05`, the format produced by
+  /// [toString]. Returns null if [text] is not such a date.
+  static CalendarDay? tryParse(String text) {
+    final match = _isoDate.firstMatch(text);
+    if (match == null) {
+      return null;
+    }
+    final year = int.parse(match.group(1)!);
+    final month = int.parse(match.group(2)!);
+    final day = int.parse(match.group(3)!);
+    final date = DateTime.utc(year, month, day);
+    if (date.year != year || date.month != month || date.day != day) {
+      return null;
+    }
+    return CalendarDay._(date);
+  }
+
   const CalendarDay._(this._utcMidnight);
+
+  static final RegExp _isoDate = RegExp(r'^(\d{4})-(\d{2})-(\d{2})$');
 
   // UTC has no daylight saving time, so every day lasts exactly 24 hours and
   // day arithmetic is exact.

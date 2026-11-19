@@ -65,5 +65,18 @@ void main() {
     test('prints as an ISO date', () {
       expect(CalendarDay(2026, 3, 5).toString(), '2026-03-05');
     });
+    test('reads back its own ISO format', () {
+      expect(CalendarDay.tryParse('2026-03-05'), CalendarDay(2026, 3, 5));
+      final day = CalendarDay(2024, 2, 29);
+      expect(CalendarDay.tryParse(day.toString()), day);
+    });
+
+    test('refuses text that is not an existing ISO date', () {
+      expect(CalendarDay.tryParse('2026-02-30'), isNull);
+      expect(CalendarDay.tryParse('2026-3-5'), isNull);
+      expect(CalendarDay.tryParse('05/03/2026'), isNull);
+      expect(CalendarDay.tryParse('2026-03-05T10:00:00'), isNull);
+      expect(CalendarDay.tryParse(''), isNull);
+    });
   });
 }
