@@ -1,5 +1,6 @@
 import 'dart:math' as math;
 
+import 'package:flutter/services.dart';
 import 'package:material_ui/material_ui.dart';
 
 import '../domain/cycle_overview.dart';
@@ -12,9 +13,10 @@ import 'theme.dart';
 
 /// The first thing seen, and almost the only one: the day of the cycle on a
 /// ring, and the estimate for the next period, always as a range. Says,
-/// without alarm, when the range is over. While no period is logged, one
-/// button logs that it starts today.
-class PredictionCard extends StatelessWidget {
+/// without alarm, when the range is over. A tap on the ring switches its
+/// middle between the day of the cycle and the days left. While no period
+/// is logged, one button logs that it starts today.
+class PredictionCard extends StatefulWidget {
   const PredictionCard({
     super.key,
     required this.status,
@@ -39,6 +41,18 @@ class PredictionCard extends StatelessWidget {
 
   /// Logs that a period starts today. Offered while there is no estimate.
   final VoidCallback? onPeriodStartsToday;
+
+  @override
+  State<PredictionCard> createState() => _PredictionCardState();
+}
+
+class _PredictionCardState extends State<PredictionCard> {
+  /// Whether the middle of the ring shows the days left rather than the day
+  /// of the cycle. Switched by a tap on the ring.
+  bool _showCountdown = false;
+
+  CycleStatus get status => widget.status;
+  CycleOverview get overview => widget.overview;
 
   String _range(
     AppLocalizations l10n,
@@ -98,7 +112,7 @@ class PredictionCard extends StatelessWidget {
           ..add(l10n.statusLateNote);
         estimated = true;
     }
-    final ovulation = ovulationLine;
+    final ovulation = widget.ovulationLine;
     if (estimated && ovulation != null) {
       lines.add(ovulation);
     }
@@ -110,16 +124,40 @@ class PredictionCard extends StatelessWidget {
         ? day + earliest
         : null;
     final expectedTo = day != null && latest != null ? day + latest : null;
-    final ring = CycleRing(
+    // The days left can be shown only while the range is still ahead.
+    final canSwitch =
+        status is PeriodExpected && earliest != null && latest != null;
+    final countdown = canSwitch && _showCountdown;
+    final drawing = CycleRing(
       dayOfCycle: day,
-      caption: l10n.cycleDayCaption,
+      caption: countdown ? l10n.ringCountdownCaption : l10n.cycleDayCaption,
+      centerText: countdown
+          ? (latest > earliest ? '$earliest–$latest' : '$earliest')
+          : null,
       totalDays: [overview.cycleLength, ?day, ?expectedTo].reduce(math.max),
       periodDays: counting ? overview.periodLength : 0,
       expectedFromDay: expectedFrom,
       expectedToDay: expectedTo,
-      fertileFromDay: fertileFromDay,
-      fertileToDay: fertileToDay,
+      fertileFromDay: widget.fertileFromDay,
+      fertileToDay: widget.fertileToDay,
     );
+
+    final ring = canSwitch
+        ? Semantics(
+            button: true,
+            label: countdown ? l10n.ringShowDay : l10n.ringShowCountdown,
+            child: InkWell(
+              key: const ValueKey('cycle-ring'),
+              customBorder: const CircleBorder(),
+              onTap: () {
+                // A light tick under the finger.
+                HapticFeedback.selectionClick();
+                setState(() => _showCountdown = !_showCountdown);
+              },
+              child: drawing,
+            ),
+          )
+        : drawing;
 
     final text = Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -144,7 +182,7 @@ class PredictionCard extends StatelessWidget {
       ],
     );
 
-    final start = onPeriodStartsToday;
+    final start = widget.onPeriodStartsToday;
     // Beside the ring on a normal phone, under it when the text is large.
     final stacked = MediaQuery.textScalerOf(context).scale(1) > 1.4;
     return Card.filled(
@@ -156,25 +194,19 @@ class PredictionCard extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            MergeSemantics(
-              child: stacked
-                  ? Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Center(child: ring),
-                        const SizedBox(height: 16),
-                        text,
-                      ],
-                    )
-                  : Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        ring,
-                        const SizedBox(width: 16),
-                        Expanded(child: text),
-                      ],
-                    ),
-            ),
+            if (stacked) ...[
+              Center(child: ring),
+              const SizedBox(height: 16),
+              MergeSemantics(child: text),
+            ] else
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  ring,
+                  const SizedBox(width: 16),
+                  Expanded(child: MergeSemantics(child: text)),
+                ],
+              ),
             if (!counting && start != null) ...[
               const SizedBox(height: 16),
               FilledButton(

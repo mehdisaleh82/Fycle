@@ -1386,6 +1386,49 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
+  String get monthsTitle => 'Your history, month by month';
+
+  @override
+  String get monthsIntro =>
+      'Everything rests on it: the fuller your months, the more accurate your estimates.';
+
+  @override
+  String monthLogged(int days) {
+    String _temp0 = intl.Intl.pluralLogic(
+      days,
+      locale: localeName,
+      other: '$days days logged',
+      one: '1 day logged',
+      zero: 'Nothing logged',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String monthPeriod(int days) {
+    String _temp0 = intl.Intl.pluralLogic(
+      days,
+      locale: localeName,
+      other: '$days period days',
+      one: '1 period day',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get onboardingMonths =>
+      'Everything rests on what you log, month after month.';
+
+  @override
+  String get ringCountdownCaption => 'Days left';
+
+  @override
+  String get ringShowCountdown => 'Show the days left';
+
+  @override
+  String get ringShowDay => 'Show the day of the cycle';
+
+  @override
   String get lockTurnedOff =>
       'This phone no longer has a passcode: the lock of Fycle was turned off.';
 }

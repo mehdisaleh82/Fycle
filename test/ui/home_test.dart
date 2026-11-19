@@ -59,7 +59,7 @@ void main() {
     expect(find.text('Règles dans 5 à 11 jours'), findsOneWidget);
     expect(find.text('Jour 21 de ton cycle'), findsOneWidget);
     await openJournal(tester);
-    expect(find.text('Mars 2026'), findsOneWidget);
+    expect(find.text('Mars 2026'), findsWidgets);
   });
 
   testWidgets('a period that has not come is reported without alarm', (
@@ -100,7 +100,7 @@ void main() {
     await harness.pumpApp();
     await openJournal(tester);
 
-    expect(find.text('March 2026'), findsOneWidget);
+    expect(find.text('March 2026'), findsWidgets);
     expect(
       find.bySemanticsLabel('Sunday, March 1, period logged: Medium'),
       findsOneWidget,
@@ -125,7 +125,7 @@ void main() {
 
     await tester.tap(find.byTooltip('Previous month'));
     await tester.pumpAndSettle();
-    expect(find.text('February 2026'), findsOneWidget);
+    expect(find.text('February 2026'), findsWidgets);
     expect(
       find.bySemanticsLabel('Saturday, February 28, period logged: Medium'),
       findsOneWidget,

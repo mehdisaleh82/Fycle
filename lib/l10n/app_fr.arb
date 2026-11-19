@@ -363,5 +363,13 @@
   "comparisonSleep": "Nuits difficiles",
   "comparisonLogged": "Jours saisis",
   "comparisonRow": "{label} : {current} dans ce cycle, {previous} dans le précédent",
+  "monthsTitle": "Ton historique, mois par mois",
+  "monthsIntro": "Tout se joue ici : plus tes mois sont remplis, plus tes estimations sont justes.",
+  "monthLogged": "{days, plural, =0{Rien de saisi} =1{1 jour saisi} other{{days} jours saisis}}",
+  "monthPeriod": "{days, plural, =1{1 jour de règles} other{{days} jours de règles}}",
+  "onboardingMonths": "Tout se joue dans ce que tu notes, mois après mois.",
+  "ringCountdownCaption": "Jours restants",
+  "ringShowCountdown": "Afficher les jours restants",
+  "ringShowDay": "Afficher le jour du cycle",
   "lockTurnedOff": "Ce téléphone n'a plus de code : le verrouillage de Fycle a été désactivé."
 }

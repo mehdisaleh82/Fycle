@@ -2210,6 +2210,54 @@ abstract class AppLocalizations {
   /// **'{label}: {current} in this cycle, {previous} in the one before'**
   String comparisonRow(String label, int current, int previous);
 
+  /// No description provided for @monthsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Your history, month by month'**
+  String get monthsTitle;
+
+  /// No description provided for @monthsIntro.
+  ///
+  /// In en, this message translates to:
+  /// **'Everything rests on it: the fuller your months, the more accurate your estimates.'**
+  String get monthsIntro;
+
+  /// No description provided for @monthLogged.
+  ///
+  /// In en, this message translates to:
+  /// **'{days, plural, =0{Nothing logged} =1{1 day logged} other{{days} days logged}}'**
+  String monthLogged(int days);
+
+  /// No description provided for @monthPeriod.
+  ///
+  /// In en, this message translates to:
+  /// **'{days, plural, =1{1 period day} other{{days} period days}}'**
+  String monthPeriod(int days);
+
+  /// No description provided for @onboardingMonths.
+  ///
+  /// In en, this message translates to:
+  /// **'Everything rests on what you log, month after month.'**
+  String get onboardingMonths;
+
+  /// No description provided for @ringCountdownCaption.
+  ///
+  /// In en, this message translates to:
+  /// **'Days left'**
+  String get ringCountdownCaption;
+
+  /// No description provided for @ringShowCountdown.
+  ///
+  /// In en, this message translates to:
+  /// **'Show the days left'**
+  String get ringShowCountdown;
+
+  /// No description provided for @ringShowDay.
+  ///
+  /// In en, this message translates to:
+  /// **'Show the day of the cycle'**
+  String get ringShowDay;
+
   /// No description provided for @lockTurnedOff.
   ///
   /// In en, this message translates to:

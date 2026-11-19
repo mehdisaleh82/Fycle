@@ -1402,6 +1402,49 @@ class AppLocalizationsFr extends AppLocalizations {
   }
 
   @override
+  String get monthsTitle => 'Ton historique, mois par mois';
+
+  @override
+  String get monthsIntro =>
+      'Tout se joue ici : plus tes mois sont remplis, plus tes estimations sont justes.';
+
+  @override
+  String monthLogged(int days) {
+    String _temp0 = intl.Intl.pluralLogic(
+      days,
+      locale: localeName,
+      other: '$days jours saisis',
+      one: '1 jour saisi',
+      zero: 'Rien de saisi',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String monthPeriod(int days) {
+    String _temp0 = intl.Intl.pluralLogic(
+      days,
+      locale: localeName,
+      other: '$days jours de règles',
+      one: '1 jour de règles',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get onboardingMonths =>
+      'Tout se joue dans ce que tu notes, mois après mois.';
+
+  @override
+  String get ringCountdownCaption => 'Jours restants';
+
+  @override
+  String get ringShowCountdown => 'Afficher les jours restants';
+
+  @override
+  String get ringShowDay => 'Afficher le jour du cycle';
+
+  @override
   String get lockTurnedOff =>
       'Ce téléphone n\'a plus de code : le verrouillage de Fycle a été désactivé.';
 }

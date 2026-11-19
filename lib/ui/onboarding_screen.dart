@@ -124,6 +124,12 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                         color: theme.colorScheme.onSurfaceVariant,
                       ),
                     ),
+                    const SizedBox(height: 8),
+                    Text(
+                      l10n.onboardingMonths,
+                      key: const ValueKey('onboarding-months'),
+                      style: theme.textTheme.bodyLarge,
+                    ),
                     const SizedBox(height: 24),
                     Card(
                       child: Padding(

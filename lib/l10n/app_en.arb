@@ -509,5 +509,15 @@
   "comparisonLogged": "Days logged",
   "comparisonRow": "{label}: {current} in this cycle, {previous} in the one before",
   "@comparisonRow": {"placeholders": {"label": {"type": "String"}, "current": {"type": "int"}, "previous": {"type": "int"}}},
+  "monthsTitle": "Your history, month by month",
+  "monthsIntro": "Everything rests on it: the fuller your months, the more accurate your estimates.",
+  "monthLogged": "{days, plural, =0{Nothing logged} =1{1 day logged} other{{days} days logged}}",
+  "@monthLogged": {"placeholders": {"days": {"type": "int"}}},
+  "monthPeriod": "{days, plural, =1{1 period day} other{{days} period days}}",
+  "@monthPeriod": {"placeholders": {"days": {"type": "int"}}},
+  "onboardingMonths": "Everything rests on what you log, month after month.",
+  "ringCountdownCaption": "Days left",
+  "ringShowCountdown": "Show the days left",
+  "ringShowDay": "Show the day of the cycle",
   "lockTurnedOff": "This phone no longer has a passcode: the lock of Fycle was turned off."
 }

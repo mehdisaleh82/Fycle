@@ -81,18 +81,30 @@ class CycleRing extends StatelessWidget {
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  Text(
-                    caption,
-                    style: theme.textTheme.labelMedium?.copyWith(
-                      color: accent.onCard,
+                  SizedBox(
+                    width: size * 0.56,
+                    child: FittedBox(
+                      fit: BoxFit.scaleDown,
+                      child: Text(
+                        caption,
+                        style: theme.textTheme.labelMedium?.copyWith(
+                          color: accent.onCard,
+                        ),
+                      ),
                     ),
                   ),
-                  Text(
-                    centerText ?? (day == null ? '–' : '$day'),
-                    style: theme.textTheme.headlineMedium?.copyWith(
-                      color: accent.onCard,
-                      fontWeight: FontWeight.w800,
-                      height: 1,
+                  SizedBox(
+                    width: size * 0.6,
+                    child: FittedBox(
+                      fit: BoxFit.scaleDown,
+                      child: Text(
+                        centerText ?? (day == null ? '–' : '$day'),
+                        style: theme.textTheme.headlineMedium?.copyWith(
+                          color: accent.onCard,
+                          fontWeight: FontWeight.w800,
+                          height: 1,
+                        ),
+                      ),
                     ),
                   ),
                 ],

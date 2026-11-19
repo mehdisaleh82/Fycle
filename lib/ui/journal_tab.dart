@@ -4,6 +4,7 @@ import '../domain/calendar_day.dart';
 import '../domain/cycle_status.dart';
 import '../domain/day_entry.dart';
 import '../domain/fertility_estimate.dart';
+import '../domain/monthly_history.dart';
 import '../l10n/app_localizations.dart';
 import 'app_environment.dart';
 import 'cycle_model.dart';
@@ -98,6 +99,10 @@ class JournalTab extends StatelessWidget {
                 label: Text(l10n.journalWriteToday),
               ),
               const SizedBox(height: 16),
+              _MonthsCard(
+                months: monthlyHistory(days: model.days, today: today),
+              ),
+              const SizedBox(height: 16),
               TitledCard(
                 title: l10n.journalPagesTitle,
                 children: [
@@ -188,6 +193,58 @@ class _Page extends StatelessWidget {
           ),
         ),
       ),
+    );
+  }
+}
+
+/// The last months, each with how much of it was logged: the history is
+/// what every estimate rests on, and its gaps show at a glance.
+class _MonthsCard extends StatelessWidget {
+  const _MonthsCard({required this.months});
+
+  final List<MonthSummary> months;
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
+    final theme = Theme.of(context);
+    final muted = theme.textTheme.bodySmall?.copyWith(
+      color: theme.colorScheme.onSurfaceVariant,
+    );
+    return TitledCard(
+      key: const ValueKey('months-card'),
+      title: l10n.monthsTitle,
+      children: [
+        Text(l10n.monthsIntro, style: theme.textTheme.bodyMedium),
+        for (final month in months)
+          Padding(
+            key: ValueKey('month-${month.year}-${month.month}'),
+            padding: const EdgeInsets.only(top: 14),
+            child: MergeSemantics(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    monthTitle(l10n, month.year, month.month),
+                    style: theme.textTheme.titleSmall,
+                  ),
+                  const SizedBox(height: 4),
+                  // The line under it says the same thing in words.
+                  ExcludeSemantics(child: ShareBar(share: month.share)),
+                  const SizedBox(height: 4),
+                  Text(
+                    [
+                      l10n.monthLogged(month.daysLogged),
+                      if (month.periodDays > 0)
+                        l10n.monthPeriod(month.periodDays),
+                    ].join(' · '),
+                    style: muted,
+                  ),
+                ],
+              ),
+            ),
+          ),
+      ],
     );
   }
 }
