@@ -1,0 +1,2 @@
+/* Shown by iOS the first time the app asks for Face ID. */
+"NSFaceIDUsageDescription" = "Fycle utilise Face ID pour déverrouiller l’appli quand vous activez son verrou.";

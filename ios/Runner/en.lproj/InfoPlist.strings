@@ -1,0 +1,2 @@
+/* Shown by iOS the first time the app asks for Face ID. */
+"NSFaceIDUsageDescription" = "Fycle uses Face ID to unlock the app when you turn its lock on.";
