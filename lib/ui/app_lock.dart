@@ -239,12 +239,21 @@ class _LockScreen extends StatelessWidget {
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                Icon(
-                  Icons.lock_outline,
-                  size: 48,
-                  color: theme.colorScheme.primary,
+                DecoratedBox(
+                  decoration: BoxDecoration(
+                    color: theme.colorScheme.primaryContainer,
+                    shape: BoxShape.circle,
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.all(24),
+                    child: Icon(
+                      Icons.lock_outline,
+                      size: 48,
+                      color: theme.colorScheme.primary,
+                    ),
+                  ),
                 ),
-                const SizedBox(height: 16),
+                const SizedBox(height: 24),
                 Semantics(
                   header: true,
                   child: Text(

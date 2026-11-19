@@ -91,7 +91,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
     return Scaffold(
       body: SafeArea(
         child: SingleChildScrollView(
-          padding: const EdgeInsets.all(24),
+          padding: const EdgeInsets.fromLTRB(20, 16, 20, 16),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
@@ -103,43 +103,60 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                 ),
               ),
               const SizedBox(height: 8),
-              Text(l10n.privacyLine, style: theme.textTheme.bodyLarge),
-              const SizedBox(height: 32),
               Text(
-                l10n.onboardingLastPeriodQuestion,
-                style: theme.textTheme.titleMedium,
-              ),
-              const SizedBox(height: 4),
-              Text(
-                l10n.onboardingLastPeriodHint,
-                style: theme.textTheme.bodyMedium,
-              ),
-              const SizedBox(height: 12),
-              OutlinedButton.icon(
-                onPressed: _pickDate,
-                icon: const Icon(Icons.calendar_today),
-                label: Text(
-                  day == null ? l10n.onboardingChooseDate : fullDate(l10n, day),
+                l10n.privacyLine,
+                style: theme.textTheme.bodyLarge?.copyWith(
+                  color: theme.colorScheme.onSurfaceVariant,
                 ),
               ),
-              const SizedBox(height: 32),
-              Text(
-                l10n.onboardingCycleLengthQuestion,
-                style: theme.textTheme.titleMedium,
+              const SizedBox(height: 20),
+              Card(
+                child: Padding(
+                  padding: const EdgeInsets.all(16),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      Text(
+                        l10n.onboardingLastPeriodQuestion,
+                        style: theme.textTheme.titleMedium,
+                      ),
+                      const SizedBox(height: 4),
+                      Text(
+                        l10n.onboardingLastPeriodHint,
+                        style: theme.textTheme.bodyMedium,
+                      ),
+                      const SizedBox(height: 16),
+                      OutlinedButton.icon(
+                        onPressed: _pickDate,
+                        icon: const Icon(Icons.calendar_today),
+                        label: Text(
+                          day == null
+                              ? l10n.onboardingChooseDate
+                              : fullDate(l10n, day),
+                        ),
+                      ),
+                      const SizedBox(height: 24),
+                      Text(
+                        l10n.onboardingCycleLengthQuestion,
+                        style: theme.textTheme.titleMedium,
+                      ),
+                      const SizedBox(height: 16),
+                      CycleLengthField(
+                        controller: _length,
+                        showError: _lengthError,
+                        onChanged: (_) {
+                          if (_lengthError) {
+                            setState(() => _lengthError = false);
+                          }
+                        },
+                      ),
+                    ],
+                  ),
+                ),
               ),
-              const SizedBox(height: 12),
-              CycleLengthField(
-                controller: _length,
-                showError: _lengthError,
-                onChanged: (_) {
-                  if (_lengthError) {
-                    setState(() => _lengthError = false);
-                  }
-                },
-              ),
-              const SizedBox(height: 32),
+              const SizedBox(height: 16),
               const DisclaimerCard(),
-              const SizedBox(height: 24),
+              const SizedBox(height: 16),
               FilledButton(
                 onPressed: day == null ? null : _start,
                 child: Text(l10n.onboardingStart),

@@ -93,25 +93,53 @@ class PredictionCard extends StatelessWidget {
     return Card.filled(
       margin: EdgeInsets.zero,
       color: scheme.primaryContainer,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
       child: Padding(
-        padding: const EdgeInsets.all(16),
+        padding: const EdgeInsets.all(20),
         child: MergeSemantics(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
-                title,
-                style: theme.textTheme.titleLarge?.copyWith(
-                  color: scheme.onPrimaryContainer,
-                ),
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Expanded(
+                    child: Text(
+                      title,
+                      style: theme.textTheme.headlineSmall?.copyWith(
+                        color: scheme.onPrimaryContainer,
+                      ),
+                    ),
+                  ),
+                  const SizedBox(width: 12),
+                  // Decoration only.
+                  ExcludeSemantics(
+                    child: DecoratedBox(
+                      decoration: BoxDecoration(
+                        color: scheme.surface,
+                        shape: BoxShape.circle,
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.all(10),
+                        child: Icon(
+                          Icons.water_drop_outlined,
+                          size: 22,
+                          color: scheme.primary,
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
               ),
-              for (final line in lines) ...[
-                const SizedBox(height: 6),
+              for (final (index, line) in lines.indexed) ...[
+                SizedBox(height: index == 0 ? 8 : 4),
                 Text(
                   line,
-                  style: theme.textTheme.bodyMedium?.copyWith(
-                    color: scheme.onPrimaryContainer,
-                  ),
+                  style:
+                      (index == 0
+                              ? theme.textTheme.titleMedium
+                              : theme.textTheme.bodyMedium)
+                          ?.copyWith(color: scheme.onPrimaryContainer),
                 ),
               ],
             ],

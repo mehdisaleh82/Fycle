@@ -55,6 +55,31 @@ class MonthCalendar extends StatelessWidget {
     final daysInMonth = DateTime(year, month + 1, 0).day;
     final rows = ((leading + daysInMonth) / 7).ceil();
 
+    return Card(
+      child: Padding(
+        padding: const EdgeInsets.fromLTRB(8, 8, 8, 16),
+        child: _content(
+          context,
+          l10n,
+          material,
+          theme,
+          firstWeekday,
+          leading,
+          rows,
+        ),
+      ),
+    );
+  }
+
+  Widget _content(
+    BuildContext context,
+    AppLocalizations l10n,
+    MaterialLocalizations material,
+    ThemeData theme,
+    int firstWeekday,
+    int leading,
+    int rows,
+  ) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
@@ -62,6 +87,7 @@ class MonthCalendar extends StatelessWidget {
           children: [
             IconButton(
               tooltip: l10n.calendarPreviousMonth,
+              color: theme.colorScheme.primary,
               icon: const Icon(Icons.chevron_left),
               onPressed: onPreviousMonth,
             ),
@@ -77,6 +103,7 @@ class MonthCalendar extends StatelessWidget {
             ),
             IconButton(
               tooltip: l10n.calendarNextMonth,
+              color: theme.colorScheme.primary,
               icon: const Icon(Icons.chevron_right),
               onPressed: onNextMonth,
             ),
@@ -112,7 +139,10 @@ class MonthCalendar extends StatelessWidget {
             ],
           ),
         const SizedBox(height: 12),
-        const _Legend(),
+        const Padding(
+          padding: EdgeInsets.symmetric(horizontal: 8),
+          child: _Legend(),
+        ),
       ],
     );
   }
@@ -169,8 +199,6 @@ class _DayCell extends StatelessWidget {
       textColor = period.onFill;
     } else if (onTap == null) {
       textColor = scheme.onSurfaceVariant;
-    } else if (isToday) {
-      textColor = scheme.primary;
     } else {
       textColor = scheme.onSurface;
     }
@@ -211,7 +239,9 @@ class _DayCell extends StatelessWidget {
             child: DecoratedBox(
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
-                color: isPeriod ? period.fill : null,
+                color: isPeriod
+                    ? period.fill
+                    : (isToday ? period.todayHalo : null),
                 border: isExpected
                     ? Border.all(color: period.fill, width: 2)
                     : null,
