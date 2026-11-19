@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'dart:isolate';
 import 'dart:typed_data';
 
 import 'package:path_provider/path_provider.dart';
@@ -6,6 +7,7 @@ import 'package:path_provider/path_provider.dart';
 import 'backup_codec.dart';
 import 'csv_export.dart';
 import 'database_key_store.dart';
+import 'fycle_data.dart';
 import 'fycle_database.dart';
 
 /// Thrown when a database file exists but its key is gone, for example after
@@ -23,7 +25,13 @@ final class LocalStoreUnreadableException implements Exception {
 /// Entry point of the data layer: the encrypted database together with its
 /// key, export, import and full deletion.
 final class LocalStore {
-  LocalStore._(this.database, this._directory, this._keyStore, this._codec);
+  LocalStore._(
+    this.database,
+    this._directory,
+    this._keyStore,
+    this._codec,
+    this._codecInBackground,
+  );
 
   /// Opens the store kept in [directory], creating the key and the database
   /// on first use.
@@ -31,10 +39,15 @@ final class LocalStore {
   /// Throws a [LocalStoreUnreadableException] if the database is there but
   /// its key is not, and a [DatabaseUnreadableException] if the key does not
   /// open it.
+  ///
+  /// With [codecInBackground], the slow part of an export or import (turning
+  /// the password into a key) runs on another thread, so the screen stays
+  /// responsive.
   static Future<LocalStore> open({
     required Directory directory,
     required DatabaseKeyStore keyStore,
     BackupCodec codec = const BackupCodec(),
+    bool codecInBackground = false,
   }) async {
     final file = _databaseFile(directory);
     var key = await keyStore.read();
@@ -50,12 +63,25 @@ final class LocalStore {
       await keyStore.write(key);
     }
     final database = FycleDatabase.open(file.path, key);
-    return LocalStore._(database, directory, keyStore, codec);
+    return LocalStore._(
+      database,
+      directory,
+      keyStore,
+      codec,
+      codecInBackground,
+    );
   }
 
   /// Opens the store of the app: in its private folder, with the key in the
   /// secure store of the system.
   static Future<LocalStore> openForApp() async => open(
+    directory: await getApplicationSupportDirectory(),
+    keyStore: const SecureDatabaseKeyStore(),
+    codecInBackground: true,
+  );
+
+  /// Deletes the store of the app without opening it. See [wipe].
+  static Future<void> wipeForApp() async => wipe(
     directory: await getApplicationSupportDirectory(),
     keyStore: const SecureDatabaseKeyStore(),
   );
@@ -89,23 +115,32 @@ final class LocalStore {
   final Directory _directory;
   final DatabaseKeyStore _keyStore;
   final BackupCodec _codec;
+  final bool _codecInBackground;
 
   /// Everything stored, encrypted with [password], as the content of an
   /// export file. Always free (CLAUDE.md, rule 6).
-  Future<Uint8List> exportEncrypted(String password) =>
-      _codec.encode(database.readAll(), password);
+  Future<Uint8List> exportEncrypted(String password) {
+    final data = database.readAll();
+    return _codecInBackground
+        ? _encodeInBackground(_codec, data, password)
+        : _codec.encode(data, password);
+  }
 
   /// Replaces everything stored with the content of an export file.
   ///
   /// Throws a [BackupException] and changes nothing if the file cannot be
   /// read or the password is wrong.
   Future<void> importEncrypted(Uint8List bytes, String password) async {
-    final data = await _codec.decode(bytes, password);
+    final data = _codecInBackground
+        ? await _decodeInBackground(_codec, bytes, password)
+        : await _codec.decode(bytes, password);
     database.replaceAll(data);
   }
 
-  /// Everything logged, as readable CSV text. Not encrypted.
-  String exportCsv() => daysToCsv(database.readDays());
+  /// Everything logged, as readable CSV text worded with [labels]. Not
+  /// encrypted.
+  String exportCsv({CsvLabels labels = CsvLabels.english}) =>
+      daysToCsv(database.readDays(), labels: labels);
 
   /// Deletes all data in one go: the database and its key. This store must
   /// not be used afterwards; call [open] again to start from nothing.
@@ -117,3 +152,18 @@ final class LocalStore {
   /// Closes the database.
   void close() => database.close();
 }
+
+// Top-level on purpose: the closures sent to the other thread must capture
+// only what they need, never the store and its open database.
+
+Future<Uint8List> _encodeInBackground(
+  BackupCodec codec,
+  FycleData data,
+  String password,
+) => Isolate.run(() => codec.encode(data, password));
+
+Future<FycleData> _decodeInBackground(
+  BackupCodec codec,
+  Uint8List bytes,
+  String password,
+) => Isolate.run(() => codec.decode(bytes, password));

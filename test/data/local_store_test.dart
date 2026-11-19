@@ -3,6 +3,7 @@ import 'dart:typed_data';
 
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fycle/data/backup_codec.dart';
+import 'package:fycle/data/fycle_data.dart';
 import 'package:fycle/data/fycle_database.dart';
 import 'package:fycle/data/local_store.dart';
 import 'package:fycle/domain/calendar_day.dart';
@@ -98,6 +99,29 @@ void main() {
 
       expect(fresh.database.readDays(), sampleData().days);
       expect(fresh.database.usualCycleLength, 29);
+    });
+
+    test('works the same with the key derivation on another thread', () async {
+      final store = await LocalStore.open(
+        directory: dir,
+        keyStore: keyStore,
+        codec: fastCodec,
+        codecInBackground: true,
+      );
+      store.database.replaceAll(sampleData());
+      final file = await store.exportEncrypted(_password);
+
+      store.database.replaceAll(FycleData());
+      await expectLater(
+        store.importEncrypted(file, 'not the password'),
+        throwsA(isA<BackupException>()),
+      );
+      expect(store.database.readDays(), isEmpty);
+
+      await store.importEncrypted(file, _password);
+      expect(store.database.readDays(), sampleData().days);
+      expect(store.database.usualCycleLength, 29);
+      store.close();
     });
 
     test('an import replaces what was there', () async {
