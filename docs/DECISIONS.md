@@ -518,6 +518,8 @@ Retour de la testeuse sur la compilation n° 9, rapporté par l'utilisateur : po
 
 126. **Ce qui est vérifié, et où.** Sous Windows : le démarrage, le bouton « Mes règles commencent aujourd'hui », l'accueil réduit, le Bilan réorganisé, l'absence de toute mention d'étude ou de référence sur l'accueil et dans le Bilan, en anglais et en français, de droite à gauche et en grand texte. En attente de l'iPhone : le rendu réel.
 
+127. **Comparaison « ce cycle et le précédent »** (`lib/domain/cycle_comparison.dart`, Dart pur ; `lib/ui/comparison_card.dart`). Dans le Bilan et dans le rapport pour le médecin : les deux cycles pris au même stade (les N premiers jours de chacun), quatre décomptes côte à côte (jours de règles, jours de douleur, nuits difficiles, jours saisis) et une flèche pour ce qui a bougé. La flèche dit « plus » ou « moins », jamais « mieux » ou « moins bien » (règles 7 et 13). Pas de comparaison avec un cycle de durée inhabituelle, ni avec d'autres utilisatrices : cela demanderait un serveur (règle 2).
+
 ## Questions ouvertes
 
 - **Le nom « Fycle » dans l'appli** : l'utilisateur a demandé qu'il n'apparaisse plus. Fait pour l'en-tête (décision 118). Il reste au démarrage (« Bienvenue dans Fycle »), sur l'écran de verrouillage, dans les réglages et dans l'avertissement : à confirmer avant de le retirer partout.

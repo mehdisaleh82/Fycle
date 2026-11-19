@@ -499,5 +499,15 @@
   "clinicalToFill": "Your figure will replace this line",
   "clinicalRegularityRefAny": "Usual: up to 7 to 9 days apart, depending on age",
   "periodStartsToday": "My period starts today",
+  "comparisonTitle": "This cycle and the one before",
+  "comparisonIntro": "{day, plural, =1{Both taken on their first day.} other{Both taken over their first {day} days.}}",
+  "@comparisonIntro": {"placeholders": {"day": {"type": "int"}}},
+  "comparisonPrevious": "Before",
+  "comparisonPeriod": "Period days",
+  "comparisonPain": "Days with pain",
+  "comparisonSleep": "Poor nights",
+  "comparisonLogged": "Days logged",
+  "comparisonRow": "{label}: {current} in this cycle, {previous} in the one before",
+  "@comparisonRow": {"placeholders": {"label": {"type": "String"}, "current": {"type": "int"}, "previous": {"type": "int"}}},
   "lockTurnedOff": "This phone no longer has a passcode: the lock of Fycle was turned off."
 }

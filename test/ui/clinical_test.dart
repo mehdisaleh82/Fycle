@@ -189,7 +189,7 @@ void main() {
       );
       expect(find.text('Âge : 36 ans'), findsOneWidget);
       expect(find.text('Fiche clinique'), findsOneWidget);
-      expect(find.text('Ce cycle'), findsOneWidget);
+      expect(find.text('Ce cycle'), findsWidgets);
       expect(find.text('Historique'), findsOneWidget);
 
       // And back to the review.

@@ -2162,6 +2162,54 @@ abstract class AppLocalizations {
   /// **'My period starts today'**
   String get periodStartsToday;
 
+  /// No description provided for @comparisonTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'This cycle and the one before'**
+  String get comparisonTitle;
+
+  /// No description provided for @comparisonIntro.
+  ///
+  /// In en, this message translates to:
+  /// **'{day, plural, =1{Both taken on their first day.} other{Both taken over their first {day} days.}}'**
+  String comparisonIntro(int day);
+
+  /// No description provided for @comparisonPrevious.
+  ///
+  /// In en, this message translates to:
+  /// **'Before'**
+  String get comparisonPrevious;
+
+  /// No description provided for @comparisonPeriod.
+  ///
+  /// In en, this message translates to:
+  /// **'Period days'**
+  String get comparisonPeriod;
+
+  /// No description provided for @comparisonPain.
+  ///
+  /// In en, this message translates to:
+  /// **'Days with pain'**
+  String get comparisonPain;
+
+  /// No description provided for @comparisonSleep.
+  ///
+  /// In en, this message translates to:
+  /// **'Poor nights'**
+  String get comparisonSleep;
+
+  /// No description provided for @comparisonLogged.
+  ///
+  /// In en, this message translates to:
+  /// **'Days logged'**
+  String get comparisonLogged;
+
+  /// No description provided for @comparisonRow.
+  ///
+  /// In en, this message translates to:
+  /// **'{label}: {current} in this cycle, {previous} in the one before'**
+  String comparisonRow(String label, int current, int previous);
+
   /// No description provided for @lockTurnedOff.
   ///
   /// In en, this message translates to:

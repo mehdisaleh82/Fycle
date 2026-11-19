@@ -1,6 +1,7 @@
 import 'package:material_ui/material_ui.dart';
 
 import '../domain/clinical_review.dart';
+import '../domain/cycle_comparison.dart';
 import '../domain/cycle_history.dart';
 import '../domain/cycle_overview.dart';
 import '../domain/cycle_status.dart';
@@ -8,6 +9,7 @@ import '../domain/cycle_trends.dart';
 import '../l10n/app_localizations.dart';
 import 'app_environment.dart';
 import 'clinical_card.dart';
+import 'comparison_card.dart';
 import 'cycle_model.dart';
 import 'disclaimer_card.dart';
 import 'fertility_card.dart';
@@ -41,6 +43,11 @@ class InsightsScreen extends StatelessWidget {
         final l10n = AppLocalizations.of(context);
         final theme = Theme.of(context);
         final prediction = model.prediction;
+        final comparison = compareWithPreviousCycle(
+          cycles: model.cycles,
+          days: model.days,
+          today: environment.today(),
+        );
         final cycles = model.cycles;
         final today = environment.today();
         final steps = insightSteps(
@@ -99,6 +106,10 @@ class InsightsScreen extends StatelessWidget {
                     ),
                   ),
                 ),
+              if (comparison != null) ...[
+                const SizedBox(height: 16),
+                ComparisonCard(comparison: comparison),
+              ],
               const SizedBox(height: 16),
               _ReportCard(
                 report: currentCycleReport(
@@ -424,6 +435,11 @@ class DoctorReportScreen extends StatelessWidget {
             final cycles = model.cycles;
             final today = environment.today();
             final age = model.age;
+            final comparison = compareWithPreviousCycle(
+              cycles: cycles,
+              days: model.days,
+              today: today,
+            );
             const gap = SizedBox(height: 16);
             return SingleChildScrollView(
               padding: const EdgeInsetsDirectional.fromSTEB(16, 0, 16, 24),
@@ -466,6 +482,10 @@ class DoctorReportScreen extends StatelessWidget {
                       today: today,
                     ),
                   ),
+                  if (comparison != null) ...[
+                    gap,
+                    ComparisonCard(comparison: comparison),
+                  ],
                   gap,
                   _AveragesCard(averages: cycleAverages(cycles, today: today)),
                   gap,

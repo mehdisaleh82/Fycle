@@ -1370,6 +1370,40 @@ class AppLocalizationsFr extends AppLocalizations {
   String get periodStartsToday => 'Mes règles commencent aujourd\'hui';
 
   @override
+  String get comparisonTitle => 'Ce cycle et le précédent';
+
+  @override
+  String comparisonIntro(int day) {
+    String _temp0 = intl.Intl.pluralLogic(
+      day,
+      locale: localeName,
+      other: 'Tous deux pris sur leurs $day premiers jours.',
+      one: 'Tous deux pris à leur premier jour.',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get comparisonPrevious => 'Précédent';
+
+  @override
+  String get comparisonPeriod => 'Jours de règles';
+
+  @override
+  String get comparisonPain => 'Jours de douleur';
+
+  @override
+  String get comparisonSleep => 'Nuits difficiles';
+
+  @override
+  String get comparisonLogged => 'Jours saisis';
+
+  @override
+  String comparisonRow(String label, int current, int previous) {
+    return '$label : $current dans ce cycle, $previous dans le précédent';
+  }
+
+  @override
   String get lockTurnedOff =>
       'Ce téléphone n\'a plus de code : le verrouillage de Fycle a été désactivé.';
 }

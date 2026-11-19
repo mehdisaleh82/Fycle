@@ -1352,6 +1352,40 @@ class AppLocalizationsEn extends AppLocalizations {
   String get periodStartsToday => 'My period starts today';
 
   @override
+  String get comparisonTitle => 'This cycle and the one before';
+
+  @override
+  String comparisonIntro(int day) {
+    String _temp0 = intl.Intl.pluralLogic(
+      day,
+      locale: localeName,
+      other: 'Both taken over their first $day days.',
+      one: 'Both taken on their first day.',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get comparisonPrevious => 'Before';
+
+  @override
+  String get comparisonPeriod => 'Period days';
+
+  @override
+  String get comparisonPain => 'Days with pain';
+
+  @override
+  String get comparisonSleep => 'Poor nights';
+
+  @override
+  String get comparisonLogged => 'Days logged';
+
+  @override
+  String comparisonRow(String label, int current, int previous) {
+    return '$label: $current in this cycle, $previous in the one before';
+  }
+
+  @override
   String get lockTurnedOff =>
       'This phone no longer has a passcode: the lock of Fycle was turned off.';
 }

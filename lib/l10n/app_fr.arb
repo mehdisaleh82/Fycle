@@ -355,5 +355,13 @@
   "clinicalToFill": "Votre chiffre remplacera cette ligne",
   "clinicalRegularityRefAny": "Habituel : jusqu'à 7 à 9 jours d'écart, selon l'âge",
   "periodStartsToday": "Mes règles commencent aujourd'hui",
+  "comparisonTitle": "Ce cycle et le précédent",
+  "comparisonIntro": "{day, plural, =1{Tous deux pris à leur premier jour.} other{Tous deux pris sur leurs {day} premiers jours.}}",
+  "comparisonPrevious": "Précédent",
+  "comparisonPeriod": "Jours de règles",
+  "comparisonPain": "Jours de douleur",
+  "comparisonSleep": "Nuits difficiles",
+  "comparisonLogged": "Jours saisis",
+  "comparisonRow": "{label} : {current} dans ce cycle, {previous} dans le précédent",
   "lockTurnedOff": "Ce téléphone n'a plus de code : le verrouillage de Fycle a été désactivé."
 }

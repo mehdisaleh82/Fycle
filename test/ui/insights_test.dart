@@ -103,7 +103,7 @@ void main() {
       await harness.pumpApp(locale: 'fr');
       await openInsights(tester);
 
-      expect(find.text('Ce cycle'), findsOneWidget);
+      expect(find.text('Ce cycle'), findsWidgets);
       expect(find.text('Cycle moyen : 28 jours'), findsOneWidget);
       expect(find.text('Crampes'), findsOneWidget);
       expect(
