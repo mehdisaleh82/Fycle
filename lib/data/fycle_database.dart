@@ -99,6 +99,7 @@ final class FycleDatabase {
   static const String _onboardingDone = 'onboarding_done';
   static const String _summaryDismissed = 'cycle_summary_dismissed';
   static const String _fertilityEstimate = 'fertility_estimate_enabled';
+  static const String _suggestionDismissed = 'suggestion_dismissed_';
 
   final Database _db;
 
@@ -286,13 +287,20 @@ final class FycleDatabase {
       _writeDeviceSetting(_summaryDismissed, start?.toString());
 
   /// Whether the estimate of ovulation and of the fertile window is shown.
-  /// Off until the user turns it on, after reading what it is not. Not
-  /// part of an export.
+  /// On unless the user turned it off. Not part of an export.
   bool get fertilityEstimateEnabled =>
-      _deviceSetting(_fertilityEstimate) == _on;
+      _deviceSetting(_fertilityEstimate) != _off;
 
   set fertilityEstimateEnabled(bool enabled) =>
-      _writeDeviceSetting(_fertilityEstimate, enabled ? _on : null);
+      _writeDeviceSetting(_fertilityEstimate, enabled ? null : _off);
+
+  /// Whether the suggestion called [name] was answered on this phone, so
+  /// that it is not made again. Not part of an export.
+  bool suggestionDismissed(String name) =>
+      _deviceSetting('$_suggestionDismissed$name') == _on;
+
+  void dismissSuggestion(String name) =>
+      _writeDeviceSetting('$_suggestionDismissed$name', _on);
 
   /// Everything stored, for export.
   FycleData readAll() =>
@@ -314,6 +322,7 @@ final class FycleDatabase {
   void close() => _db.close();
 
   static const String _on = '1';
+  static const String _off = '0';
 
   String? _deviceSetting(String name) {
     final rows = _db.select('SELECT value FROM device_setting WHERE name = ?', [

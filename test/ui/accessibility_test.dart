@@ -42,7 +42,7 @@ void main() {
         expect(find.byIcon(Icons.lock_outline), findsOneWidget);
         harness.deviceAuth.outcome = AuthOutcome.success;
         await tapVisible(tester, find.byType(FilledButton));
-        expect(find.byType(FloatingActionButton), findsOneWidget);
+        expect(find.byKey(const ValueKey('log-today')), findsOneWidget);
       });
 
       testWidgets('the lock screen is readable and reachable ($name)', (
@@ -109,8 +109,7 @@ void main() {
         final harness = Harness(tester);
         await harness.seed(days: periodFrom(CalendarDay(2026, 2, 28)));
         await harness.pumpApp(locale: locale, themeMode: themeMode);
-        await tester.tap(find.byType(FloatingActionButton));
-        await tester.pumpAndSettle();
+        await tapVisible(tester, find.byKey(const ValueKey('log-today')));
 
         await expectLater(tester, meetsGuideline(textContrastGuideline));
         await expectLater(tester, meetsGuideline(labeledTapTargetGuideline));

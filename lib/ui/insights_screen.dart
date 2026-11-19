@@ -1,10 +1,12 @@
 import 'package:material_ui/material_ui.dart';
 
 import '../domain/cycle_history.dart';
+import '../domain/cycle_overview.dart';
 import '../domain/cycle_trends.dart';
 import '../l10n/app_localizations.dart';
 import 'app_environment.dart';
 import 'cycle_model.dart';
+import 'home_cards.dart';
 import 'labels.dart';
 
 /// Trends: the average lengths, what comes back at the same moment of the
@@ -14,6 +16,7 @@ import 'labels.dart';
 class InsightsScreen extends StatelessWidget {
   const InsightsScreen({
     super.key,
+    required this.header,
     required this.model,
     required this.environment,
   });
@@ -21,39 +24,99 @@ class InsightsScreen extends StatelessWidget {
   final CycleModel model;
   final AppEnvironment environment;
 
+  /// One line saying what the tab is for, shown first and scrolled with
+  /// the rest.
+  final Widget header;
+
+  @override
+  Widget build(BuildContext context) {
+    return ListenableBuilder(
+      listenable: model,
+      builder: (context, _) {
+        final cycles = model.cycles;
+        final today = environment.today();
+        final steps = insightSteps(
+          cycles: cycles,
+          prediction: model.prediction,
+        );
+        return SingleChildScrollView(
+          padding: const EdgeInsetsDirectional.fromSTEB(16, 0, 16, 24),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              header,
+              _ReportCard(
+                report: currentCycleReport(
+                  cycles: cycles,
+                  days: model.days,
+                  today: today,
+                ),
+              ),
+              const SizedBox(height: 16),
+              _AveragesCard(
+                averages: cycleAverages(cycles, today: environment.today()),
+              ),
+              const SizedBox(height: 16),
+              _TrendsCard(
+                trends: cycleTrends(cycles: cycles, days: model.days),
+              ),
+              const SizedBox(height: 16),
+              _HistoryCard(cycles: cycles),
+              const SizedBox(height: 16),
+              UnlockCard(steps: steps),
+            ],
+          ),
+        );
+      },
+    );
+  }
+}
+
+/// The current cycle at a glance, readable at any time.
+class _ReportCard extends StatelessWidget {
+  const _ReportCard({required this.report});
+
+  /// Null when no period was logged.
+  final CycleReport? report;
+
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
-    return Scaffold(
-      appBar: AppBar(title: Text(l10n.insightsTitle)),
-      body: SafeArea(
-        child: ListenableBuilder(
-          listenable: model,
-          builder: (context, _) {
-            final cycles = model.cycles;
-            return ListView(
-              padding: const EdgeInsetsDirectional.fromSTEB(16, 8, 16, 24),
-              children: [
-                _AveragesCard(
-                  averages: cycleAverages(cycles, today: environment.today()),
-                ),
-                const SizedBox(height: 16),
-                _TrendsCard(
-                  trends: cycleTrends(cycles: cycles, days: model.days),
-                ),
-                const SizedBox(height: 16),
-                _HistoryCard(cycles: cycles),
-              ],
-            );
-          },
-        ),
-      ),
+    final theme = Theme.of(context);
+    final report = this.report;
+    final symptoms = report?.mostLoggedSymptoms ?? const [];
+    return _CardBody(
+      key: const ValueKey('cycle-report'),
+      title: l10n.reportTitle,
+      children: [
+        if (report == null)
+          Text(l10n.reportEmpty, style: theme.textTheme.bodyMedium)
+        else
+          for (final line in [
+            l10n.cycleDaySemantics(report.dayOfCycle),
+            l10n.reportStarted(mediumDate(l10n, report.cycle.start)),
+            l10n.reportPeriod(report.cycle.periodLength),
+            l10n.reportLogged(report.daysLogged),
+            if (report.painDays > 0) l10n.reportPainDays(report.painDays),
+            if (report.poorSleepNights > 0)
+              l10n.reportPoorSleep(report.poorSleepNights),
+            if (symptoms.isNotEmpty)
+              l10n.summaryMostLogged(
+                [for (final symptom in symptoms) symptomLabel(l10n, symptom)]
+                    .join(l10n.listSeparator),
+              ),
+          ])
+            Padding(
+              padding: const EdgeInsets.only(bottom: 4),
+              child: Text(line, style: theme.textTheme.bodyMedium),
+            ),
+      ],
     );
   }
 }
 
 class _CardBody extends StatelessWidget {
-  const _CardBody({required this.title, required this.children});
+  const _CardBody({super.key, required this.title, required this.children});
 
   final String title;
   final List<Widget> children;

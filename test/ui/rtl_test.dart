@@ -44,7 +44,7 @@ void main() {
         expect(find.byIcon(Icons.lock_outline), findsOneWidget);
         harness.deviceAuth.outcome = AuthOutcome.success;
         await tapVisible(tester, find.byType(FilledButton));
-        expect(find.byType(FloatingActionButton), findsOneWidget);
+        expect(find.byKey(const ValueKey('log-today')), findsOneWidget);
       });
     }
   }
@@ -53,6 +53,7 @@ void main() {
     final harness = Harness(tester);
     await harness.seed(days: periodFrom(CalendarDay(2026, 2, 28)));
     await harness.pumpApp(textDirection: TextDirection.rtl);
+    await openJournal(tester);
     final width = tester.view.physicalSize.width;
 
     // The settings button sits at the end of the header: on the left.
@@ -94,6 +95,7 @@ void main() {
     final harness = Harness(tester);
     await harness.seed(days: periodFrom(CalendarDay(2026, 2, 28)));
     await harness.pumpApp();
+    await openJournal(tester);
 
     final previous = find.byTooltip('Previous month');
     expect(

@@ -131,10 +131,8 @@ void main() {
       final before = harness.reminders.scheduled.single.when;
 
       // A period logged today moves the estimate to the next cycle.
-      await tester.pageBack();
-      await tester.pumpAndSettle();
-      await tester.tap(find.byType(FloatingActionButton));
-      await tester.pumpAndSettle();
+      await tapVisible(tester, find.byIcon(Icons.home_outlined));
+      await tapVisible(tester, find.byKey(const ValueKey('log-today')));
       await tester.tap(find.byKey(const ValueKey('flow-medium')));
       await tester.pumpAndSettle();
 
@@ -175,10 +173,8 @@ void main() {
       final harness = await openSettings(tester);
       await tapVisible(tester, switchOf('Daily entry reminder'));
 
-      await tester.pageBack();
-      await tester.pumpAndSettle();
-      await tester.tap(find.byType(FloatingActionButton));
-      await tester.pumpAndSettle();
+      await tapVisible(tester, find.byIcon(Icons.home_outlined));
+      await tapVisible(tester, find.byKey(const ValueKey('log-today')));
       await tester.tap(find.byKey(const ValueKey('flow-medium')));
       await tester.pumpAndSettle();
 

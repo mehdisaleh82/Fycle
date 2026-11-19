@@ -1109,7 +1109,7 @@ abstract class AppLocalizations {
   /// No description provided for @insightsTitle.
   ///
   /// In en, this message translates to:
-  /// **'Trends'**
+  /// **'Review'**
   String get insightsTitle;
 
   /// No description provided for @insightsCyclesTitle.
@@ -1357,6 +1357,450 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'fertile window, estimate'**
   String get calendarDayFertile;
+
+  /// No description provided for @tabHome.
+  ///
+  /// In en, this message translates to:
+  /// **'Home'**
+  String get tabHome;
+
+  /// No description provided for @tabCalendar.
+  ///
+  /// In en, this message translates to:
+  /// **'Calendar'**
+  String get tabCalendar;
+
+  /// No description provided for @tabReview.
+  ///
+  /// In en, this message translates to:
+  /// **'Review'**
+  String get tabReview;
+
+  /// No description provided for @homeTooltip.
+  ///
+  /// In en, this message translates to:
+  /// **'Back to home'**
+  String get homeTooltip;
+
+  /// No description provided for @cycleDayCaption.
+  ///
+  /// In en, this message translates to:
+  /// **'Day'**
+  String get cycleDayCaption;
+
+  /// No description provided for @cycleDaySemantics.
+  ///
+  /// In en, this message translates to:
+  /// **'Day {day} of your cycle'**
+  String cycleDaySemantics(int day);
+
+  /// No description provided for @countdownRange.
+  ///
+  /// In en, this message translates to:
+  /// **'Period in {min} to {max} days'**
+  String countdownRange(int min, int max);
+
+  /// No description provided for @countdownDays.
+  ///
+  /// In en, this message translates to:
+  /// **'{days, plural, =0{Period expected from today} =1{Period expected from tomorrow} other{Period in {days} days}}'**
+  String countdownDays(int days);
+
+  /// No description provided for @countdownDue.
+  ///
+  /// In en, this message translates to:
+  /// **'Period expected around now'**
+  String get countdownDue;
+
+  /// No description provided for @figuresTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Your figures'**
+  String get figuresTitle;
+
+  /// No description provided for @figureCycle.
+  ///
+  /// In en, this message translates to:
+  /// **'Cycle'**
+  String get figureCycle;
+
+  /// No description provided for @figurePeriod.
+  ///
+  /// In en, this message translates to:
+  /// **'Period'**
+  String get figurePeriod;
+
+  /// No description provided for @figureLogged.
+  ///
+  /// In en, this message translates to:
+  /// **'Days logged'**
+  String get figureLogged;
+
+  /// No description provided for @figureDays.
+  ///
+  /// In en, this message translates to:
+  /// **'{days, plural, =1{1 day} other{{days} days}}'**
+  String figureDays(int days);
+
+  /// No description provided for @figureUnknown.
+  ///
+  /// In en, this message translates to:
+  /// **'–'**
+  String get figureUnknown;
+
+  /// No description provided for @sourceLogged.
+  ///
+  /// In en, this message translates to:
+  /// **'from your entries'**
+  String get sourceLogged;
+
+  /// No description provided for @sourceDeclared.
+  ///
+  /// In en, this message translates to:
+  /// **'as you indicated'**
+  String get sourceDeclared;
+
+  /// No description provided for @sourceAssumed.
+  ///
+  /// In en, this message translates to:
+  /// **'reference, to adjust'**
+  String get sourceAssumed;
+
+  /// No description provided for @sourceCurrent.
+  ///
+  /// In en, this message translates to:
+  /// **'so far'**
+  String get sourceCurrent;
+
+  /// No description provided for @sourceCycles.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =0{no complete cycle yet} =1{1 complete cycle} other{{count} complete cycles}}'**
+  String sourceCycles(int count);
+
+  /// No description provided for @usualTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Usually around this day'**
+  String get usualTitle;
+
+  /// No description provided for @usualLine.
+  ///
+  /// In en, this message translates to:
+  /// **'{sign}: in {count} of your last {total} cycles'**
+  String usualLine(String sign, int count, int total);
+
+  /// No description provided for @unlockTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'The more you log, the more you see'**
+  String get unlockTitle;
+
+  /// No description provided for @unlockIntro.
+  ///
+  /// In en, this message translates to:
+  /// **'Fycle calculates everything from what you log. Each entry makes your figures more accurate.'**
+  String get unlockIntro;
+
+  /// No description provided for @unlockEstimate.
+  ///
+  /// In en, this message translates to:
+  /// **'Estimate of your next period'**
+  String get unlockEstimate;
+
+  /// No description provided for @unlockEstimateNeed.
+  ///
+  /// In en, this message translates to:
+  /// **'From your first logged period'**
+  String get unlockEstimateNeed;
+
+  /// No description provided for @unlockAverages.
+  ///
+  /// In en, this message translates to:
+  /// **'Average lengths of your cycle and period'**
+  String get unlockAverages;
+
+  /// No description provided for @unlockAveragesNeed.
+  ///
+  /// In en, this message translates to:
+  /// **'After one complete cycle'**
+  String get unlockAveragesNeed;
+
+  /// No description provided for @unlockTrends.
+  ///
+  /// In en, this message translates to:
+  /// **'What comes back, and the ovulation estimate'**
+  String get unlockTrends;
+
+  /// No description provided for @unlockTrendsNeed.
+  ///
+  /// In en, this message translates to:
+  /// **'After two complete cycles'**
+  String get unlockTrendsNeed;
+
+  /// No description provided for @unlockReliable.
+  ///
+  /// In en, this message translates to:
+  /// **'A narrower, more reliable estimate'**
+  String get unlockReliable;
+
+  /// No description provided for @unlockReliableNeed.
+  ///
+  /// In en, this message translates to:
+  /// **'With four regular cycles or more'**
+  String get unlockReliableNeed;
+
+  /// No description provided for @unlockProgress.
+  ///
+  /// In en, this message translates to:
+  /// **'{have} of {need}'**
+  String unlockProgress(int have, int need);
+
+  /// No description provided for @unlockReached.
+  ///
+  /// In en, this message translates to:
+  /// **'Available'**
+  String get unlockReached;
+
+  /// No description provided for @unlockOverall.
+  ///
+  /// In en, this message translates to:
+  /// **'{reached} of {total} available'**
+  String unlockOverall(int reached, int total);
+
+  /// No description provided for @todayEntryTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Today'**
+  String get todayEntryTitle;
+
+  /// No description provided for @todayEntryProgress.
+  ///
+  /// In en, this message translates to:
+  /// **'{done} of {total} sections filled in today'**
+  String todayEntryProgress(int done, int total);
+
+  /// No description provided for @calendarHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Tap a day to log it or correct it.'**
+  String get calendarHint;
+
+  /// No description provided for @reportTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'This cycle'**
+  String get reportTitle;
+
+  /// No description provided for @reportStarted.
+  ///
+  /// In en, this message translates to:
+  /// **'Started on {date}'**
+  String reportStarted(String date);
+
+  /// No description provided for @reportPeriod.
+  ///
+  /// In en, this message translates to:
+  /// **'{days, plural, =1{Period: 1 day} other{Period: {days} days}}'**
+  String reportPeriod(int days);
+
+  /// No description provided for @reportLogged.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =0{Nothing logged yet in this cycle} =1{1 day logged in this cycle} other{{count} days logged in this cycle}}'**
+  String reportLogged(int count);
+
+  /// No description provided for @reportPainDays.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{Pain on 1 day} other{Pain on {count} days}}'**
+  String reportPainDays(int count);
+
+  /// No description provided for @reportPoorSleep.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{Poor sleep on 1 night} other{Poor sleep on {count} nights}}'**
+  String reportPoorSleep(int count);
+
+  /// No description provided for @reportEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'Log the first day of your period to start your review.'**
+  String get reportEmpty;
+
+  /// No description provided for @onboardingIntro1.
+  ///
+  /// In en, this message translates to:
+  /// **'Log your period and how you feel, in a few taps.'**
+  String get onboardingIntro1;
+
+  /// No description provided for @onboardingIntro2.
+  ///
+  /// In en, this message translates to:
+  /// **'See your figures: day of the cycle, estimate of the next period, what comes back.'**
+  String get onboardingIntro2;
+
+  /// No description provided for @onboardingIntro3.
+  ///
+  /// In en, this message translates to:
+  /// **'The more you log, the more accurate it gets.'**
+  String get onboardingIntro3;
+
+  /// No description provided for @onboardingEarlierTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Earlier periods (optional)'**
+  String get onboardingEarlierTitle;
+
+  /// No description provided for @onboardingEarlierHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Add the first day of one or two earlier periods: your averages and trends come sooner.'**
+  String get onboardingEarlierHint;
+
+  /// No description provided for @onboardingAddEarlier.
+  ///
+  /// In en, this message translates to:
+  /// **'Add an earlier period'**
+  String get onboardingAddEarlier;
+
+  /// No description provided for @onboardingRemoveDate.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove {date}'**
+  String onboardingRemoveDate(String date);
+
+  /// No description provided for @suggestFertilityTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'See an ovulation estimate?'**
+  String get suggestFertilityTitle;
+
+  /// No description provided for @suggestFertilityBody.
+  ///
+  /// In en, this message translates to:
+  /// **'A calendar estimate of your fertile window, always shown as a range.'**
+  String get suggestFertilityBody;
+
+  /// No description provided for @suggestReminderTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'A daily reminder to log?'**
+  String get suggestReminderTitle;
+
+  /// No description provided for @suggestReminderBody.
+  ///
+  /// In en, this message translates to:
+  /// **'One discreet notification a day, skipped when the day is already logged.'**
+  String get suggestReminderBody;
+
+  /// No description provided for @suggestNotNow.
+  ///
+  /// In en, this message translates to:
+  /// **'Not now'**
+  String get suggestNotNow;
+
+  /// No description provided for @tabJournal.
+  ///
+  /// In en, this message translates to:
+  /// **'Journal'**
+  String get tabJournal;
+
+  /// No description provided for @tabHomeHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Your figures today, and a quick entry.'**
+  String get tabHomeHint;
+
+  /// No description provided for @tabJournalHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Your calendar and your pages, day after day.'**
+  String get tabJournalHint;
+
+  /// No description provided for @tabReviewHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Your averages, what comes back, and your history.'**
+  String get tabReviewHint;
+
+  /// No description provided for @tabSettingsHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Reminders, privacy, backup and your data.'**
+  String get tabSettingsHint;
+
+  /// No description provided for @journalPagesTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Your latest pages'**
+  String get journalPagesTitle;
+
+  /// No description provided for @journalEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'Nothing written yet. Your first page starts with today.'**
+  String get journalEmpty;
+
+  /// No description provided for @journalWriteToday.
+  ///
+  /// In en, this message translates to:
+  /// **'Write today\'s page'**
+  String get journalWriteToday;
+
+  /// No description provided for @todayNoteTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Your note'**
+  String get todayNoteTitle;
+
+  /// No description provided for @suggestLockTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Lock Fycle with Face ID or your passcode?'**
+  String get suggestLockTitle;
+
+  /// No description provided for @suggestLockBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Like a diary with a key: asked each time Fycle opens.'**
+  String get suggestLockBody;
+
+  /// No description provided for @fertilityShortWarning.
+  ///
+  /// In en, this message translates to:
+  /// **'An estimate: neither contraception nor a diagnosis.'**
+  String get fertilityShortWarning;
+
+  /// No description provided for @homeGreeting.
+  ///
+  /// In en, this message translates to:
+  /// **'Welcome back'**
+  String get homeGreeting;
+
+  /// No description provided for @homeReassurance.
+  ///
+  /// In en, this message translates to:
+  /// **'Your journal is private. It stays on this phone, and nobody else can read it.'**
+  String get homeReassurance;
+
+  /// No description provided for @figureReference.
+  ///
+  /// In en, this message translates to:
+  /// **'reference: {days} days'**
+  String figureReference(int days);
+
+  /// Reference values: to be reviewed by a health professional before any release outside private testing.
+  ///
+  /// In en, this message translates to:
+  /// **'Shown for now: a reference cycle of {cycle} days, with a period of {period} days. Your own dates will replace it.'**
+  String referenceLine(int cycle, int period);
+
+  /// No description provided for @referenceCaption.
+  ///
+  /// In en, this message translates to:
+  /// **'Reference'**
+  String get referenceCaption;
 
   /// No description provided for @lockTurnedOff.
   ///

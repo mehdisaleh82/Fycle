@@ -3,6 +3,7 @@ import 'cycle_history.dart';
 import 'day_entry.dart';
 import 'pain_level.dart';
 import 'period_predictor.dart';
+import 'sleep_quality.dart';
 import 'symptom.dart';
 
 /// How often one logged sign came back at each moment of the cycle.
@@ -233,6 +234,87 @@ CycleSummary? lastCycleSummary({
         ? null
         : compared.fold<int>(0, (sum, cycle) => sum + cycle.length!) /
               compared.length,
+    mostLoggedSymptoms: symptoms.take(maxSymptomsInSummary).toList(),
+  );
+}
+
+/// What was logged since the current cycle started: a report that can be
+/// read at any time, without waiting for the cycle to end.
+final class CycleReport {
+  CycleReport({
+    required this.cycle,
+    required this.dayOfCycle,
+    required this.daysLogged,
+    required this.painDays,
+    required this.poorSleepNights,
+    required List<Symptom> mostLoggedSymptoms,
+  }) : mostLoggedSymptoms = List.unmodifiable(mostLoggedSymptoms);
+
+  /// The current cycle.
+  final LoggedCycle cycle;
+
+  /// 1 on the first day of the period.
+  final int dayOfCycle;
+
+  /// Days of this cycle with anything logged.
+  final int daysLogged;
+
+  /// Days of this cycle with a pain other than "none".
+  final int painDays;
+
+  /// Nights of this cycle logged as poor sleep.
+  final int poorSleepNights;
+
+  /// Up to [maxSymptomsInSummary] symptoms, the ones logged on the most
+  /// days first.
+  final List<Symptom> mostLoggedSymptoms;
+}
+
+/// The report of the current cycle on [today], or null when no period was
+/// logged or when [today] comes before it.
+CycleReport? currentCycleReport({
+  required List<LoggedCycle> cycles,
+  required Iterable<DayEntry> days,
+  required CalendarDay today,
+}) {
+  if (cycles.isEmpty) {
+    return null;
+  }
+  final cycle = cycles.last;
+  if (today.isBefore(cycle.start)) {
+    return null;
+  }
+  var logged = 0;
+  var pain = 0;
+  var poorSleep = 0;
+  final dayCounts = <Symptom, int>{};
+  for (final entry in days) {
+    if (entry.day.isBefore(cycle.start) || entry.day.isAfter(today)) {
+      continue;
+    }
+    logged++;
+    final level = entry.pain;
+    if (level != null && level != PainLevel.none) {
+      pain++;
+    }
+    if (entry.sleep == SleepQuality.poor) {
+      poorSleep++;
+    }
+    for (final symptom in entry.symptoms) {
+      dayCounts[symptom] = (dayCounts[symptom] ?? 0) + 1;
+    }
+  }
+  final symptoms = dayCounts.keys.toList()
+    ..sort((a, b) {
+      final byCount = dayCounts[b]!.compareTo(dayCounts[a]!);
+      return byCount != 0 ? byCount : a.index.compareTo(b.index);
+    });
+  return CycleReport(
+    cycle: cycle,
+    dayOfCycle: today.daysSince(cycle.start) + 1,
+    daysLogged: logged,
+    painDays: pain,
+    poorSleepNights: poorSleep,
     mostLoggedSymptoms: symptoms.take(maxSymptomsInSummary).toList(),
   );
 }

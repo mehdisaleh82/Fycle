@@ -189,6 +189,14 @@ Finder dialogField([int index = 0]) => find
     .descendant(of: find.byType(AlertDialog), matching: find.byType(TextField))
     .at(index);
 
+/// Opens the journal tab: the calendar and the latest pages.
+Future<void> openJournal(WidgetTester tester) =>
+    tapVisible(tester, find.byIcon(Icons.menu_book_outlined));
+
+/// Comes back to the home tab.
+Future<void> openHome(WidgetTester tester) =>
+    tapVisible(tester, find.byIcon(Icons.home_outlined));
+
 /// Scrolls to [finder] if needed, then taps it.
 Future<void> tapVisible(WidgetTester tester, Finder finder) async {
   await tester.ensureVisible(finder);
@@ -205,16 +213,22 @@ Future<void> walkEveryScreen(WidgetTester tester, Harness harness) async {
   await tapVisible(tester, find.byType(FilledButton));
 
   // Home, then the entry of the day.
-  expect(find.byType(FloatingActionButton), findsOneWidget);
-  await tapVisible(tester, find.byType(FloatingActionButton));
+  expect(find.byKey(const ValueKey('log-today')), findsOneWidget);
+  await tapVisible(tester, find.byKey(const ValueKey('log-today')));
   await tapVisible(tester, find.byKey(const ValueKey('flow-medium')));
-  await tapVisible(tester, find.byType(FilledButton));
+  await tapVisible(tester, find.byKey(const ValueKey('day-done')));
+
+  // The journal and the review.
+  await openJournal(tester);
+  await tapVisible(tester, find.byKey(const ValueKey('journal-write-today')));
+  await tapVisible(tester, find.byKey(const ValueKey('day-done')));
+  await tapVisible(tester, find.byIcon(Icons.insights_outlined));
+  expect(find.byKey(const ValueKey('cycle-report')), findsOneWidget);
 
   // Settings and its dialogs.
   await tapVisible(tester, find.byIcon(Icons.settings_outlined));
   for (final icon in [
     Icons.loop,
-    Icons.egg_outlined,
     Icons.brightness_6_outlined,
     Icons.lock_outline,
     Icons.table_chart_outlined,
@@ -231,9 +245,19 @@ Future<void> walkEveryScreen(WidgetTester tester, Harness harness) async {
     );
   }
 
-  // Reminders: both switches, then their dialogs.
-  await tapVisible(tester, find.byIcon(Icons.notifications_outlined));
-  await tapVisible(tester, find.byIcon(Icons.edit_notifications_outlined));
+  // The ovulation estimate is on: off, then on again, which asks first.
+  await tapVisible(tester, find.byIcon(Icons.egg_outlined));
+  await tapVisible(tester, find.byIcon(Icons.egg_outlined));
+  expect(find.byType(AlertDialog), findsOneWidget);
+  await tapVisible(
+    tester,
+    find.descendant(
+      of: find.byType(AlertDialog),
+      matching: find.byType(TextButton),
+    ),
+  );
+
+  // Reminders, turned on at the end of the first launch: their dialogs.
   await tapVisible(tester, find.byKey(const ValueKey('period-days-before')));
   expect(find.byType(AlertDialog), findsOneWidget);
   await tapVisible(

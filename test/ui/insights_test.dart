@@ -49,7 +49,7 @@ void main() {
       await harness.pumpApp();
       await openInsights(tester);
 
-      expect(find.text('Trends'), findsOneWidget);
+      expect(find.text('This cycle'), findsOneWidget);
       expect(find.byKey(const ValueKey('average-cycle')), findsNothing);
       expect(find.text('Average period: 4 days'), findsOneWidget);
       expect(
@@ -103,7 +103,7 @@ void main() {
       await harness.pumpApp(locale: 'fr');
       await openInsights(tester);
 
-      expect(find.text('Tendances'), findsOneWidget);
+      expect(find.text('Ce cycle'), findsOneWidget);
       expect(find.text('Cycle moyen : 28 jours'), findsOneWidget);
       expect(find.text('Crampes'), findsOneWidget);
       expect(
@@ -112,9 +112,10 @@ void main() {
       );
       expect(find.text('Sommeil : Mauvais'), findsOneWidget);
       await tester.scrollUntilVisible(
-        find.text('28 jours · règles de 4 jours').first,
+        find.text('En cours depuis le 28 févr. 2026'),
         200,
       );
+      expect(find.text('28 jours · règles de 4 jours'), findsNWidgets(2));
       expect(find.text('En cours depuis le 28 févr. 2026'), findsOneWidget);
     });
 
@@ -235,7 +236,10 @@ void main() {
             expect(find.byIcon(Icons.close), findsOneWidget);
 
             await openInsights(tester);
-            await tester.drag(find.byType(ListView), const Offset(0, -3000));
+            await tester.drag(
+              find.byType(SingleChildScrollView).first,
+              const Offset(0, -3000),
+            );
             await tester.pumpAndSettle();
           },
         );

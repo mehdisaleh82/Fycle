@@ -592,7 +592,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get appearanceSystem => 'Same as the phone';
 
   @override
-  String get insightsTitle => 'Trends';
+  String get insightsTitle => 'Review';
 
   @override
   String get insightsCyclesTitle => 'Your cycles';
@@ -780,6 +780,319 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get calendarDayFertile => 'fertile window, estimate';
+
+  @override
+  String get tabHome => 'Home';
+
+  @override
+  String get tabCalendar => 'Calendar';
+
+  @override
+  String get tabReview => 'Review';
+
+  @override
+  String get homeTooltip => 'Back to home';
+
+  @override
+  String get cycleDayCaption => 'Day';
+
+  @override
+  String cycleDaySemantics(int day) {
+    return 'Day $day of your cycle';
+  }
+
+  @override
+  String countdownRange(int min, int max) {
+    return 'Period in $min to $max days';
+  }
+
+  @override
+  String countdownDays(int days) {
+    String _temp0 = intl.Intl.pluralLogic(
+      days,
+      locale: localeName,
+      other: 'Period in $days days',
+      one: 'Period expected from tomorrow',
+      zero: 'Period expected from today',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get countdownDue => 'Period expected around now';
+
+  @override
+  String get figuresTitle => 'Your figures';
+
+  @override
+  String get figureCycle => 'Cycle';
+
+  @override
+  String get figurePeriod => 'Period';
+
+  @override
+  String get figureLogged => 'Days logged';
+
+  @override
+  String figureDays(int days) {
+    String _temp0 = intl.Intl.pluralLogic(
+      days,
+      locale: localeName,
+      other: '$days days',
+      one: '1 day',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get figureUnknown => '–';
+
+  @override
+  String get sourceLogged => 'from your entries';
+
+  @override
+  String get sourceDeclared => 'as you indicated';
+
+  @override
+  String get sourceAssumed => 'reference, to adjust';
+
+  @override
+  String get sourceCurrent => 'so far';
+
+  @override
+  String sourceCycles(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count complete cycles',
+      one: '1 complete cycle',
+      zero: 'no complete cycle yet',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get usualTitle => 'Usually around this day';
+
+  @override
+  String usualLine(String sign, int count, int total) {
+    return '$sign: in $count of your last $total cycles';
+  }
+
+  @override
+  String get unlockTitle => 'The more you log, the more you see';
+
+  @override
+  String get unlockIntro =>
+      'Fycle calculates everything from what you log. Each entry makes your figures more accurate.';
+
+  @override
+  String get unlockEstimate => 'Estimate of your next period';
+
+  @override
+  String get unlockEstimateNeed => 'From your first logged period';
+
+  @override
+  String get unlockAverages => 'Average lengths of your cycle and period';
+
+  @override
+  String get unlockAveragesNeed => 'After one complete cycle';
+
+  @override
+  String get unlockTrends => 'What comes back, and the ovulation estimate';
+
+  @override
+  String get unlockTrendsNeed => 'After two complete cycles';
+
+  @override
+  String get unlockReliable => 'A narrower, more reliable estimate';
+
+  @override
+  String get unlockReliableNeed => 'With four regular cycles or more';
+
+  @override
+  String unlockProgress(int have, int need) {
+    return '$have of $need';
+  }
+
+  @override
+  String get unlockReached => 'Available';
+
+  @override
+  String unlockOverall(int reached, int total) {
+    return '$reached of $total available';
+  }
+
+  @override
+  String get todayEntryTitle => 'Today';
+
+  @override
+  String todayEntryProgress(int done, int total) {
+    return '$done of $total sections filled in today';
+  }
+
+  @override
+  String get calendarHint => 'Tap a day to log it or correct it.';
+
+  @override
+  String get reportTitle => 'This cycle';
+
+  @override
+  String reportStarted(String date) {
+    return 'Started on $date';
+  }
+
+  @override
+  String reportPeriod(int days) {
+    String _temp0 = intl.Intl.pluralLogic(
+      days,
+      locale: localeName,
+      other: 'Period: $days days',
+      one: 'Period: 1 day',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String reportLogged(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count days logged in this cycle',
+      one: '1 day logged in this cycle',
+      zero: 'Nothing logged yet in this cycle',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String reportPainDays(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Pain on $count days',
+      one: 'Pain on 1 day',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String reportPoorSleep(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Poor sleep on $count nights',
+      one: 'Poor sleep on 1 night',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get reportEmpty =>
+      'Log the first day of your period to start your review.';
+
+  @override
+  String get onboardingIntro1 =>
+      'Log your period and how you feel, in a few taps.';
+
+  @override
+  String get onboardingIntro2 =>
+      'See your figures: day of the cycle, estimate of the next period, what comes back.';
+
+  @override
+  String get onboardingIntro3 => 'The more you log, the more accurate it gets.';
+
+  @override
+  String get onboardingEarlierTitle => 'Earlier periods (optional)';
+
+  @override
+  String get onboardingEarlierHint =>
+      'Add the first day of one or two earlier periods: your averages and trends come sooner.';
+
+  @override
+  String get onboardingAddEarlier => 'Add an earlier period';
+
+  @override
+  String onboardingRemoveDate(String date) {
+    return 'Remove $date';
+  }
+
+  @override
+  String get suggestFertilityTitle => 'See an ovulation estimate?';
+
+  @override
+  String get suggestFertilityBody =>
+      'A calendar estimate of your fertile window, always shown as a range.';
+
+  @override
+  String get suggestReminderTitle => 'A daily reminder to log?';
+
+  @override
+  String get suggestReminderBody =>
+      'One discreet notification a day, skipped when the day is already logged.';
+
+  @override
+  String get suggestNotNow => 'Not now';
+
+  @override
+  String get tabJournal => 'Journal';
+
+  @override
+  String get tabHomeHint => 'Your figures today, and a quick entry.';
+
+  @override
+  String get tabJournalHint => 'Your calendar and your pages, day after day.';
+
+  @override
+  String get tabReviewHint =>
+      'Your averages, what comes back, and your history.';
+
+  @override
+  String get tabSettingsHint => 'Reminders, privacy, backup and your data.';
+
+  @override
+  String get journalPagesTitle => 'Your latest pages';
+
+  @override
+  String get journalEmpty =>
+      'Nothing written yet. Your first page starts with today.';
+
+  @override
+  String get journalWriteToday => 'Write today\'s page';
+
+  @override
+  String get todayNoteTitle => 'Your note';
+
+  @override
+  String get suggestLockTitle => 'Lock Fycle with Face ID or your passcode?';
+
+  @override
+  String get suggestLockBody =>
+      'Like a diary with a key: asked each time Fycle opens.';
+
+  @override
+  String get fertilityShortWarning =>
+      'An estimate: neither contraception nor a diagnosis.';
+
+  @override
+  String get homeGreeting => 'Welcome back';
+
+  @override
+  String get homeReassurance =>
+      'Your journal is private. It stays on this phone, and nobody else can read it.';
+
+  @override
+  String figureReference(int days) {
+    return 'reference: $days days';
+  }
+
+  @override
+  String referenceLine(int cycle, int period) {
+    return 'Shown for now: a reference cycle of $cycle days, with a period of $period days. Your own dates will replace it.';
+  }
+
+  @override
+  String get referenceCaption => 'Reference';
 
   @override
   String get lockTurnedOff =>

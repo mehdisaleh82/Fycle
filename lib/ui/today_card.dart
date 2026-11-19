@@ -2,82 +2,153 @@ import 'package:flutter/services.dart';
 import 'package:material_ui/material_ui.dart';
 
 import '../domain/calendar_day.dart';
+import '../domain/day_entry.dart';
 import '../domain/flow_intensity.dart';
 import '../domain/logging_streak.dart';
+import '../domain/mood.dart';
+import '../domain/pain_level.dart';
 import '../l10n/app_localizations.dart';
 import 'cycle_model.dart';
+import 'home_cards.dart';
 import 'labels.dart';
 
-/// Logging today's period in one gesture, from the home screen: a tap on an
-/// intensity saves it, a second tap takes it back. Whatever else is logged
-/// for the day is kept.
+/// Logging today from the home screen, one tap at a time: period, pain and
+/// mood. A tap saves, a second tap takes it back, and whatever else is
+/// logged for the day is kept. A bar shows how much of the day is filled
+/// in, and a button opens the full entry.
 ///
 /// Also shows, discreetly, how many days in a row were logged: a plain
 /// count, without praise, and nothing at all when the run stops.
 class TodayCard extends StatelessWidget {
-  const TodayCard({super.key, required this.model, required this.today});
+  const TodayCard({
+    super.key,
+    required this.model,
+    required this.today,
+    required this.onOpenDay,
+  });
 
   final CycleModel model;
   final CalendarDay today;
 
-  void _setFlow(FlowIntensity? flow) {
+  /// Opens the full entry of today.
+  final VoidCallback onOpenDay;
+
+  void _save(DayEntry entry) {
     // A light tick under the finger: the tap was taken into account.
     HapticFeedback.selectionClick();
-    model.saveDay(model.entryFor(today).withFlow(flow));
+    model.saveDay(entry);
   }
 
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
     final theme = Theme.of(context);
-    final current = model.flowByDay[today];
+    final muted = theme.textTheme.bodySmall?.copyWith(
+      color: theme.colorScheme.onSurfaceVariant,
+    );
+    final entry = model.entryFor(today);
     final streak = loggingStreak(model.loggedDays, today);
-    return Card(
-      child: Padding(
-        padding: const EdgeInsets.all(16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+    final filled = entry.filledGroups;
+    return TitledCard(
+      title: l10n.todayEntryTitle,
+      children: [
+        _Group(
+          title: l10n.todayCardTitle,
           children: [
-            Semantics(
-              header: true,
-              child: Text(
-                l10n.todayCardTitle,
-                style: theme.textTheme.titleMedium,
+            for (final flow in FlowIntensity.values)
+              ChoiceChip(
+                key: ValueKey('quick-flow-${flow.name}'),
+                label: Text(flowLabel(l10n, flow)),
+                selected: entry.flow == flow,
+                onSelected: (selected) =>
+                    _save(entry.withFlow(selected ? flow : null)),
               ),
-            ),
-            const SizedBox(height: 12),
-            Wrap(
-              spacing: 8,
-              runSpacing: 8,
-              children: [
-                for (final flow in FlowIntensity.values)
-                  ChoiceChip(
-                    key: ValueKey('quick-flow-${flow.name}'),
-                    label: Text(flowLabel(l10n, flow)),
-                    selected: current == flow,
-                    onSelected: (selected) => _setFlow(selected ? flow : null),
-                  ),
-              ],
-            ),
-            const SizedBox(height: 12),
-            Text(
-              l10n.todayCardHint,
-              style: theme.textTheme.bodySmall?.copyWith(
-                color: theme.colorScheme.onSurfaceVariant,
-              ),
-            ),
-            if (streak >= minStreakShown) ...[
-              const SizedBox(height: 4),
-              Text(
-                l10n.loggingStreak(streak),
-                key: const ValueKey('logging-streak'),
-                style: theme.textTheme.bodySmall?.copyWith(
-                  color: theme.colorScheme.onSurfaceVariant,
-                ),
-              ),
-            ],
           ],
         ),
+        _Group(
+          title: l10n.dayPainTitle,
+          children: [
+            for (final pain in PainLevel.values)
+              ChoiceChip(
+                key: ValueKey('quick-pain-${pain.name}'),
+                label: Text(painLabel(l10n, pain)),
+                selected: entry.pain == pain,
+                onSelected: (selected) =>
+                    _save(entry.withPain(selected ? pain : null)),
+              ),
+          ],
+        ),
+        _Group(
+          title: l10n.dayMoodTitle,
+          children: [
+            for (final mood in Mood.values)
+              ChoiceChip(
+                key: ValueKey('quick-mood-${mood.name}'),
+                label: Text(moodLabel(l10n, mood)),
+                selected: entry.mood == mood,
+                onSelected: (selected) =>
+                    _save(entry.withMood(selected ? mood : null)),
+              ),
+          ],
+        ),
+        Text(l10n.todayCardHint, style: muted),
+        const SizedBox(height: 12),
+        MergeSemantics(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              ExcludeSemantics(
+                child: ShareBar(share: filled / DayEntry.groupCount),
+              ),
+              const SizedBox(height: 4),
+              Text(
+                l10n.todayEntryProgress(filled, DayEntry.groupCount),
+                key: const ValueKey('today-progress'),
+                style: muted,
+              ),
+            ],
+          ),
+        ),
+        if (streak >= minStreakShown) ...[
+          const SizedBox(height: 4),
+          Text(
+            l10n.loggingStreak(streak),
+            key: const ValueKey('logging-streak'),
+            style: muted,
+          ),
+        ],
+        const SizedBox(height: 12),
+        SizedBox(
+          width: double.infinity,
+          child: FilledButton.icon(
+            key: const ValueKey('log-today'),
+            onPressed: onOpenDay,
+            icon: const Icon(Icons.edit_outlined),
+            label: Text(l10n.homeLogToday),
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+class _Group extends StatelessWidget {
+  const _Group({required this.title, required this.children});
+
+  final String title;
+  final List<Widget> children;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 12),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(title, style: Theme.of(context).textTheme.titleSmall),
+          const SizedBox(height: 8),
+          Wrap(spacing: 8, runSpacing: 8, children: children),
+        ],
       ),
     );
   }

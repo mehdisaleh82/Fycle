@@ -20,6 +20,12 @@ enum LengthSource {
   current,
 }
 
+/// Period length shown as a reference until a period is logged. With the
+/// default cycle length, it makes the reference cycle the user starts from
+/// and adjusts with her own dates. A common value, not a norm and not a
+/// goal: to be confirmed by a health professional (docs/DECISIONS.md).
+const int referencePeriodLength = 5;
+
 /// The few figures shown first: where today falls in the cycle and what is
 /// known of its lengths. Available from the very first logged date.
 final class CycleOverview {
@@ -43,9 +49,9 @@ final class CycleOverview {
   final int cycleLength;
   final LengthSource cycleLengthSource;
 
-  /// Days a period lasts, or null when no period was logged.
-  final int? periodLength;
-  final LengthSource? periodLengthSource;
+  /// Days a period lasts. The reference length until a period is logged.
+  final int periodLength;
+  final LengthSource periodLengthSource;
 
   /// Days from today to the first day of the predicted range. Zero or less
   /// once the range has started. Null without a prediction.
@@ -86,8 +92,8 @@ CycleOverview cycleOverviewOn(
     cycleSource = LengthSource.assumed;
   }
 
-  final int? periodLength;
-  final LengthSource? periodSource;
+  final int periodLength;
+  final LengthSource periodSource;
   final averagePeriod = averages.periodLength;
   if (averagePeriod != null) {
     periodLength = averagePeriod.round();
@@ -96,8 +102,8 @@ CycleOverview cycleOverviewOn(
     periodLength = current.periodLength;
     periodSource = LengthSource.current;
   } else {
-    periodLength = null;
-    periodSource = null;
+    periodLength = referencePeriodLength;
+    periodSource = LengthSource.assumed;
   }
 
   final sinceStart = current == null ? null : today.daysSince(current.start);

@@ -1,23 +1,21 @@
 import 'package:material_ui/material_ui.dart';
 
 import '../domain/calendar_day.dart';
-import '../domain/cycle_status.dart';
-import '../domain/fertility_estimate.dart';
 import '../l10n/app_localizations.dart';
 import 'app_environment.dart';
 import 'cycle_model.dart';
-import 'cycle_summary_card.dart';
 import 'day_sheet.dart';
-import 'disclaimer_card.dart';
-import 'fertility_card.dart';
 import 'insights_screen.dart';
-import 'month_calendar.dart';
-import 'prediction_card.dart';
+import 'journal_tab.dart';
 import 'settings_screen.dart';
-import 'today_card.dart';
+import 'today_tab.dart';
 
-/// Home: the estimate for the next period, today's period in one tap, the
-/// calendar of the month, and one button to log the rest of the day.
+/// The four parts of the app.
+enum HomeTab { home, journal, review, settings }
+
+/// The frame of the app once it is set up: the name of the app at the top,
+/// which always leads back to the home tab, and four named tabs at the
+/// bottom. Each tab says in one line what it is for.
 class HomeScreen extends StatefulWidget {
   const HomeScreen({
     super.key,
@@ -37,6 +35,7 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
+  HomeTab _tab = HomeTab.home;
   late int _year;
   late int _month;
 
@@ -75,119 +74,111 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
     showDaySheet(context, model: widget.model, day: day);
   }
 
-  void _openSettings() {
-    Navigator.of(context).push(
-      MaterialPageRoute<void>(
-        builder: (context) => SettingsScreen(
-          model: widget.model,
-          environment: widget.environment,
-          onEraseEverything: widget.onEraseEverything,
-        ),
-      ),
-    );
-  }
+  void _select(HomeTab tab) => setState(() => _tab = tab);
 
-  void _openInsights() {
-    Navigator.of(context).push(
-      MaterialPageRoute<void>(
-        builder: (context) => InsightsScreen(
-          model: widget.model,
-          environment: widget.environment,
-        ),
-      ),
-    );
-  }
+  String _hint(AppLocalizations l10n) => switch (_tab) {
+    HomeTab.home => l10n.tabHomeHint,
+    HomeTab.journal => l10n.tabJournalHint,
+    HomeTab.review => l10n.tabReviewHint,
+    HomeTab.settings => l10n.tabSettingsHint,
+  };
 
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
+    final theme = Theme.of(context);
     final model = widget.model;
+    final environment = widget.environment;
+    final header = Padding(
+      padding: const EdgeInsetsDirectional.fromSTEB(4, 0, 4, 8),
+      child: Text(
+        _hint(l10n),
+        key: const ValueKey('tab-hint'),
+        style: theme.textTheme.bodyMedium?.copyWith(
+          color: theme.colorScheme.onSurfaceVariant,
+        ),
+      ),
+    );
     return Scaffold(
       appBar: AppBar(
-        title: Text(l10n.appTitle),
-        actions: [
-          IconButton(
-            tooltip: l10n.insightsTitle,
-            icon: const Icon(Icons.insights_outlined),
-            onPressed: _openInsights,
+        titleSpacing: 8,
+        // The name of the app always leads home.
+        title: Align(
+          alignment: AlignmentDirectional.centerStart,
+          child: Tooltip(
+            message: l10n.homeTooltip,
+            child: TextButton(
+              key: const ValueKey('app-title'),
+              onPressed: () => _select(HomeTab.home),
+              child: Text(
+                l10n.appTitle,
+                style: theme.appBarTheme.titleTextStyle,
+              ),
+            ),
           ),
-          IconButton(
-            tooltip: l10n.settingsTooltip,
-            icon: const Icon(Icons.settings_outlined),
-            onPressed: _openSettings,
-          ),
-        ],
+        ),
       ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-      floatingActionButton: FloatingActionButton.extended(
-        onPressed: () => _openDay(widget.environment.today()),
-        icon: const Icon(Icons.edit_outlined),
-        label: Text(l10n.homeLogToday),
+      // The bar has a fixed height: its labels stop growing past a point,
+      // as the tab bars of the system do.
+      bottomNavigationBar: MediaQuery.withClampedTextScaling(
+        maxScaleFactor: 1.3,
+        child: NavigationBar(
+          selectedIndex: _tab.index,
+          onDestinationSelected: (index) => _select(HomeTab.values[index]),
+          destinations: [
+            NavigationDestination(
+              icon: const Icon(Icons.home_outlined),
+              selectedIcon: const Icon(Icons.home),
+              label: l10n.tabHome,
+            ),
+            NavigationDestination(
+              icon: const Icon(Icons.menu_book_outlined),
+              selectedIcon: const Icon(Icons.menu_book),
+              label: l10n.tabJournal,
+            ),
+            NavigationDestination(
+              icon: const Icon(Icons.insights_outlined),
+              selectedIcon: const Icon(Icons.insights),
+              label: l10n.tabReview,
+            ),
+            NavigationDestination(
+              icon: const Icon(Icons.settings_outlined),
+              selectedIcon: const Icon(Icons.settings),
+              label: l10n.settingsTitle,
+            ),
+          ],
+        ),
       ),
       body: SafeArea(
-        child: ListenableBuilder(
-          listenable: model,
-          builder: (context, _) {
-            final today = widget.environment.today();
-            final summary = cycleSummaryToShow(model, today);
-            final status = cycleStatusOn(
-              today,
-              flowByDay: model.flowByDay,
-              prediction: model.prediction,
-            );
-            final fertility = <FertilityEstimate>[
-              ...model.pastFertilityEstimates,
-              // Nothing is said of a cycle left aside for months.
-              if (status is! EstimateOutdated) ?model.fertilityEstimate,
-            ];
-            return SingleChildScrollView(
-              // Room at the bottom so the button never hides the notice.
-              padding: const EdgeInsetsDirectional.fromSTEB(16, 8, 16, 96),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  PredictionCard(
-                    status: status,
-                    usualCycleLength: model.usualCycleLength,
-                  ),
-                  if (model.fertilityEstimateEnabled &&
-                      status is! NoEstimate &&
-                      status is! EstimateOutdated) ...[
-                    const SizedBox(height: 16),
-                    FertilityCard(estimate: model.fertilityEstimate),
-                  ],
-                  if (summary != null) ...[
-                    const SizedBox(height: 16),
-                    CycleSummaryCard(
-                      summary: summary,
-                      onClose: () =>
-                          model.dismissCycleSummary(summary.cycle.start),
-                      onSeeTrends: _openInsights,
-                    ),
-                  ],
-                  const SizedBox(height: 16),
-                  TodayCard(model: model, today: today),
-                  const SizedBox(height: 16),
-                  MonthCalendar(
-                    year: _year,
-                    month: _month,
-                    today: today,
-                    flowByDay: model.flowByDay,
-                    loggedDays: model.loggedDays,
-                    prediction: model.prediction,
-                    fertility: fertility,
-                    showFertility: model.fertilityEstimateEnabled,
-                    onDayTap: _openDay,
-                    onPreviousMonth: () => _moveMonth(-1),
-                    onNextMonth: () => _moveMonth(1),
-                  ),
-                  const SizedBox(height: 16),
-                  const DisclaimerCard(),
-                ],
-              ),
-            );
-          },
-        ),
+        child: switch (_tab) {
+          HomeTab.home => TodayTab(
+            header: header,
+            model: model,
+            environment: environment,
+            onOpenDay: _openDay,
+            onOpenTab: _select,
+          ),
+          HomeTab.journal => JournalTab(
+            header: header,
+            model: model,
+            environment: environment,
+            year: _year,
+            month: _month,
+            onMoveMonth: _moveMonth,
+            onOpenDay: _openDay,
+          ),
+          HomeTab.review => InsightsScreen(
+            header: header,
+            model: model,
+            environment: environment,
+          ),
+          HomeTab.settings => SettingsScreen(
+            header: header,
+            model: model,
+            environment: environment,
+            onEraseEverything: widget.onEraseEverything,
+          ),
+        },
       ),
     );
   }

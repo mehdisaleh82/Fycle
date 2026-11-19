@@ -17,77 +17,43 @@ List<DayEntry> threePeriods() => [
 Future<void> openSettings(WidgetTester tester) =>
     tapVisible(tester, find.byIcon(Icons.settings_outlined));
 
-/// Turns the estimate on from the settings, then comes back to the home
-/// screen.
-Future<void> turnOn(WidgetTester tester, {String action = 'Turn on'}) async {
-  await openSettings(tester);
-  await tapVisible(tester, find.byKey(const ValueKey('fertility-estimate')));
-  await tapVisible(tester, find.text(action));
-  await tapVisible(tester, find.byType(BackButton));
-}
+final _switch = find.byKey(const ValueKey('fertility-estimate'));
 
 void main() {
-  testWidgets('nothing about fertility is shown unless it is turned on', (
+  testWidgets('the home tab gives two ranges, as estimates, with a warning', (
     tester,
   ) async {
-    final semantics = tester.ensureSemantics();
     final harness = Harness(tester);
     await harness.seed(days: threePeriods());
     await harness.pumpApp();
 
-    expect(find.text('Estimated fertile window'), findsNothing);
-    expect(find.text('Fertile window (estimate)'), findsNothing);
-    expect(find.bySemanticsLabel('Tuesday, March 10'), findsOneWidget);
-    expect(
-      await harness.read((store) => store.database.fertilityEstimateEnabled),
-      isFalse,
-    );
-    semantics.dispose();
-  });
-
-  testWidgets('turning it on first says what it is not', (tester) async {
-    final harness = Harness(tester);
-    await harness.seed(days: threePeriods());
-    await harness.pumpApp();
-    await openSettings(tester);
-
-    await tapVisible(tester, find.byKey(const ValueKey('fertility-estimate')));
-    expect(find.text('An estimate, nothing more'), findsOneWidget);
-    expect(find.textContaining('and not a diagnosis'), findsOneWidget);
-    expect(find.textContaining('without risk'), findsOneWidget);
-
-    // Cancelling leaves it off.
-    await tapVisible(tester, find.text('Cancel'));
-    expect(
-      await harness.read((store) => store.database.fertilityEstimateEnabled),
-      isFalse,
-    );
-
-    await tapVisible(tester, find.byKey(const ValueKey('fertility-estimate')));
-    await tapVisible(tester, find.text('Turn on'));
     expect(
       await harness.read((store) => store.database.fertilityEstimateEnabled),
       isTrue,
     );
+    expect(find.text('Estimated fertile window'), findsOneWidget);
+    expect(find.text('Between Mar 4 and Mar 20'), findsOneWidget);
+    // In its own card and in the card at the top.
+    expect(
+      find.text('Ovulation estimated between Mar 9 and Mar 19'),
+      findsNWidgets(2),
+    );
+    // Always in sight: nothing had to be accepted first.
+    expect(
+      find.text('An estimate: neither contraception nor a diagnosis.'),
+      findsOneWidget,
+    );
   });
 
-  testWidgets('once on, the home screen gives two ranges, as estimates', (
+  testWidgets('the calendar marks the days of the window, and only those', (
     tester,
   ) async {
     final semantics = tester.ensureSemantics();
     final harness = Harness(tester);
     await harness.seed(days: threePeriods());
     await harness.pumpApp();
-    await turnOn(tester);
+    await openJournal(tester);
 
-    expect(find.text('Estimated fertile window'), findsOneWidget);
-    expect(find.text('Between Mar 4 and Mar 20'), findsOneWidget);
-    expect(
-      find.text('Ovulation estimated between Mar 9 and Mar 19'),
-      findsOneWidget,
-    );
-
-    // The calendar marks the days of the window, and only those.
     expect(find.text('Fertile window (estimate)'), findsOneWidget);
     expect(
       find.bySemanticsLabel('Tuesday, March 10, fertile window, estimate'),
@@ -111,24 +77,63 @@ void main() {
     semantics.dispose();
   });
 
-  testWidgets('it stays on at the next launch, and can be turned off', (
+  testWidgets('it can be turned off, and nothing about fertility is left', (
     tester,
   ) async {
+    final semantics = tester.ensureSemantics();
     final harness = Harness(tester);
     await harness.seed(days: threePeriods());
     await harness.pumpApp();
-    await turnOn(tester);
-
-    await harness.pumpApp();
-    expect(find.text('Estimated fertile window'), findsOneWidget);
-
     await openSettings(tester);
-    await tapVisible(tester, find.byKey(const ValueKey('fertility-estimate')));
+
+    await tapVisible(tester, _switch);
     // No question to turn it off.
     expect(find.byType(AlertDialog), findsNothing);
-    await tapVisible(tester, find.byType(BackButton));
+    expect(
+      await harness.read((store) => store.database.fertilityEstimateEnabled),
+      isFalse,
+    );
+
+    await openHome(tester);
     expect(find.text('Estimated fertile window'), findsNothing);
+    expect(find.textContaining('Ovulation estimated'), findsNothing);
+    await openJournal(tester);
     expect(find.text('Fertile window (estimate)'), findsNothing);
+    expect(find.bySemanticsLabel('Tuesday, March 10'), findsOneWidget);
+
+    // It stays off at the next launch.
+    await harness.pumpApp();
+    expect(find.text('Estimated fertile window'), findsNothing);
+    semantics.dispose();
+  });
+
+  testWidgets('turning it back on first says what it is not', (tester) async {
+    final harness = Harness(tester);
+    await harness.seed(days: threePeriods());
+    await harness.read(
+      (store) => store.database.fertilityEstimateEnabled = false,
+    );
+    await harness.pumpApp();
+    await openSettings(tester);
+
+    await tapVisible(tester, _switch);
+    expect(find.text('An estimate, nothing more'), findsOneWidget);
+    expect(find.textContaining('and not a diagnosis'), findsOneWidget);
+    expect(find.textContaining('without risk'), findsOneWidget);
+
+    // Cancelling leaves it off.
+    await tapVisible(tester, find.text('Cancel'));
+    expect(
+      await harness.read((store) => store.database.fertilityEstimateEnabled),
+      isFalse,
+    );
+
+    await tapVisible(tester, _switch);
+    await tapVisible(tester, find.text('Turn on'));
+    expect(
+      await harness.read((store) => store.database.fertilityEstimateEnabled),
+      isTrue,
+    );
   });
 
   testWidgets('explains how it is calculated, and repeats the warning', (
@@ -137,7 +142,6 @@ void main() {
     final harness = Harness(tester);
     await harness.seed(days: threePeriods());
     await harness.pumpApp();
-    await turnOn(tester);
 
     await tapVisible(tester, find.text('How it is calculated'));
     expect(find.byType(AlertDialog), findsOneWidget);
@@ -156,7 +160,6 @@ void main() {
       ],
     );
     await harness.pumpApp();
-    await turnOn(tester);
 
     expect(find.text('Estimated fertile window'), findsOneWidget);
     expect(
@@ -164,6 +167,7 @@ void main() {
       findsOneWidget,
     );
     expect(find.byKey(const ValueKey('fertile-window')), findsNothing);
+    expect(find.textContaining('Ovulation estimated'), findsNothing);
   });
 
   testWidgets('nothing is estimated for a log left aside for months', (
@@ -171,32 +175,29 @@ void main() {
   ) async {
     final harness = Harness(tester);
     await harness.seed(days: threePeriods());
-    await harness.read(
-      (store) => store.database.fertilityEstimateEnabled = true,
-    );
     harness.now = DateTime(2026, 9, 1, 12);
     await harness.pumpApp();
 
     expect(find.text('Estimated fertile window'), findsNothing);
+    expect(find.textContaining('Ovulation estimated'), findsNothing);
   });
 
   testWidgets('is shown in French', (tester) async {
     final harness = Harness(tester);
     await harness.seed(days: threePeriods());
     await harness.pumpApp(locale: 'fr');
-    await openSettings(tester);
-    await tapVisible(tester, find.byKey(const ValueKey('fertility-estimate')));
-    expect(find.text('Une estimation, rien de plus'), findsOneWidget);
-    expect(find.textContaining('ni un diagnostic'), findsOneWidget);
-    await tapVisible(tester, find.text('Activer'));
-    await tapVisible(tester, find.byType(BackButton));
 
     expect(find.text('Fenêtre de fertilité estimée'), findsOneWidget);
     expect(find.text('Entre le 4 mars et le 20 mars'), findsOneWidget);
     expect(
       find.text('Ovulation estimée entre le 9 mars et le 19 mars'),
+      findsNWidgets(2),
+    );
+    expect(
+      find.text('Une estimation : ni contraception ni diagnostic.'),
       findsOneWidget,
     );
+    await openJournal(tester);
     expect(find.text('Fenêtre de fertilité (estimation)'), findsOneWidget);
   });
 
@@ -213,9 +214,6 @@ void main() {
           tester.view.physicalSize = const Size(320, 568);
         }
         await harness.seed(days: threePeriods());
-        await harness.read(
-          (store) => store.database.fertilityEstimateEnabled = true,
-        );
         await harness.pumpApp(
           locale: locale,
           themeMode: ThemeMode.dark,

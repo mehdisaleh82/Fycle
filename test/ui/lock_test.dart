@@ -201,8 +201,7 @@ void main() {
       final harness = await prepare(tester);
       await harness.pumpApp();
       // The entry of the day, with a note being typed.
-      await tester.tap(find.byType(FloatingActionButton));
-      await tester.pumpAndSettle();
+      await tapVisible(tester, find.byKey(const ValueKey('log-today')));
       await tester.enterText(find.byType(TextField), 'Made-up note');
       await tester.pumpAndSettle();
 

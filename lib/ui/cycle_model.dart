@@ -27,7 +27,7 @@ class CycleModel extends ChangeNotifier {
   List<DayEntry> _days = const [];
   List<LoggedCycle> _cycles = const [];
   CalendarDay? _dismissedSummaryStart;
-  bool _fertilityEstimateEnabled = false;
+  bool _fertilityEstimateEnabled = true;
   FertilityEstimate? _fertilityEstimate;
   List<FertilityEstimate> _pastFertilityEstimates = const [];
   PeriodPrediction? _prediction;
@@ -118,6 +118,16 @@ class CycleModel extends ChangeNotifier {
 
   void setFertilityEstimateEnabled(bool enabled) {
     store.database.fertilityEstimateEnabled = enabled;
+    reload();
+  }
+
+  /// Whether the suggestion called [name] was already answered.
+  bool suggestionDismissed(String name) =>
+      store.database.suggestionDismissed(name);
+
+  /// Never makes the suggestion called [name] again.
+  void dismissSuggestion(String name) {
+    store.database.dismissSuggestion(name);
     reload();
   }
 

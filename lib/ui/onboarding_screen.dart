@@ -12,9 +12,11 @@ import 'disclaimer_card.dart';
 import 'labels.dart';
 import 'theme.dart';
 
-/// First launch: the start of the last period, the usual cycle length if it
-/// is known, and nothing else. No account. The estimate shows as soon as a
-/// date is chosen, and the screen can be passed without one.
+/// First launch: what the app does in three lines, then the start of the
+/// last period, the usual cycle length if it is known and, for whoever
+/// wants figures at once, the start of earlier periods. No account. The
+/// estimate shows as soon as a date is chosen, and the screen can be passed
+/// without one.
 class OnboardingScreen extends StatefulWidget {
   const OnboardingScreen({
     super.key,
@@ -46,6 +48,12 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
   CalendarDay? _lastPeriod;
   bool _lengthError = false;
 
+  /// First days of earlier periods, most recent first.
+  final List<CalendarDay> _earlier = [];
+
+  /// Two period starts are at least this far apart.
+  static const int _minDaysBetweenPeriods = 15;
+
   @override
   void dispose() {
     _length.dispose();
@@ -69,11 +77,39 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
           MediaQuery.withClampedTextScaling(maxScaleFactor: 1.3, child: child!),
     );
     if (picked != null && mounted) {
-      setState(() => _lastPeriod = CalendarDay.fromDateTime(picked));
+      _choose(CalendarDay.fromDateTime(picked));
     }
   }
 
-  void _choose(CalendarDay day) => setState(() => _lastPeriod = day);
+  /// Earlier periods are counted back from the last one: changing it
+  /// starts them over.
+  void _choose(CalendarDay day) => setState(() {
+    if (day != _lastPeriod) {
+      _earlier.clear();
+    }
+    _lastPeriod = day;
+  });
+
+  Future<void> _addEarlier() async {
+    final from = _earlier.isEmpty ? _lastPeriod : _earlier.last;
+    if (from == null) {
+      return;
+    }
+    final latest = from.addDays(-_minDaysBetweenPeriods);
+    final last = DateTime(latest.year, latest.month, latest.day);
+    final suggested = from.addDays(-PeriodPredictor.defaultCycleLength);
+    final picked = await showDatePicker(
+      context: context,
+      initialDate: DateTime(suggested.year, suggested.month, suggested.day),
+      firstDate: last.subtract(const Duration(days: _maxDaysBack)),
+      lastDate: last,
+      builder: (context, child) =>
+          MediaQuery.withClampedTextScaling(maxScaleFactor: 1.3, child: child!),
+    );
+    if (picked != null && mounted) {
+      setState(() => _earlier.add(CalendarDay.fromDateTime(picked)));
+    }
+  }
 
   /// The estimate the chosen date leads to, or null while there is nothing
   /// worth showing: no date, or a range that is already behind.
@@ -84,7 +120,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
     }
     final length = readCycleLength(_length.text);
     final prediction = const PeriodPredictor().predict(
-      periodStarts: [day],
+      periodStarts: [day, ..._earlier],
       usualCycleLength: length.valid ? length.days : null,
     );
     if (prediction == null || prediction.latestStart.isBefore(widget.today())) {
@@ -105,6 +141,9 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
     widget.model
       ..setUsualCycleLength(length.days)
       ..saveDay(DayEntry(day: day, flow: FlowIntensity.medium));
+    for (final earlier in _earlier) {
+      widget.model.saveDay(DayEntry(day: earlier, flow: FlowIntensity.medium));
+    }
     widget.onDone();
   }
 
@@ -141,7 +180,35 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                         color: theme.colorScheme.onSurfaceVariant,
                       ),
                     ),
-                    const SizedBox(height: 20),
+                    const SizedBox(height: 16),
+                    for (final (icon, line) in [
+                      (Icons.edit_outlined, l10n.onboardingIntro1),
+                      (Icons.donut_large_outlined, l10n.onboardingIntro2),
+                      (Icons.trending_up, l10n.onboardingIntro3),
+                    ])
+                      Padding(
+                        padding: const EdgeInsets.only(bottom: 8),
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            ExcludeSemantics(
+                              child: Icon(
+                                icon,
+                                size: 20,
+                                color: theme.colorScheme.primary,
+                              ),
+                            ),
+                            const SizedBox(width: 10),
+                            Expanded(
+                              child: Text(
+                                line,
+                                style: theme.textTheme.bodyMedium,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    const SizedBox(height: 12),
                     Card(
                       child: Padding(
                         padding: const EdgeInsets.all(16),
@@ -209,6 +276,45 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                               onChanged: (_) =>
                                   setState(() => _lengthError = false),
                             ),
+                            if (day != null) ...[
+                              const SizedBox(height: 20),
+                              Text(
+                                l10n.onboardingEarlierTitle,
+                                style: theme.textTheme.titleMedium,
+                              ),
+                              const SizedBox(height: 4),
+                              Text(
+                                l10n.onboardingEarlierHint,
+                                style: theme.textTheme.bodyMedium,
+                              ),
+                              const SizedBox(height: 8),
+                              Wrap(
+                                spacing: 8,
+                                runSpacing: 8,
+                                children: [
+                                  for (final earlier in _earlier)
+                                    InputChip(
+                                      key: ValueKey('earlier-$earlier'),
+                                      label: Text(mediumDate(l10n, earlier)),
+                                      deleteButtonTooltipMessage: l10n
+                                          .onboardingRemoveDate(
+                                            mediumDate(l10n, earlier),
+                                          ),
+                                      // Only the oldest can go: the others
+                                      // are counted from one another.
+                                      onDeleted: earlier == _earlier.last
+                                          ? () => setState(_earlier.removeLast)
+                                          : null,
+                                    ),
+                                ],
+                              ),
+                              OutlinedButton.icon(
+                                key: const ValueKey('add-earlier-period'),
+                                onPressed: _addEarlier,
+                                icon: const Icon(Icons.add),
+                                label: Text(l10n.onboardingAddEarlier),
+                              ),
+                            ],
                           ],
                         ),
                       ),

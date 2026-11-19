@@ -598,7 +598,7 @@ class AppLocalizationsFr extends AppLocalizations {
   String get appearanceSystem => 'Comme le téléphone';
 
   @override
-  String get insightsTitle => 'Tendances';
+  String get insightsTitle => 'Bilan';
 
   @override
   String get insightsCyclesTitle => 'Vos cycles';
@@ -787,6 +787,328 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get calendarDayFertile => 'fenêtre de fertilité, estimation';
+
+  @override
+  String get tabHome => 'Accueil';
+
+  @override
+  String get tabCalendar => 'Calendrier';
+
+  @override
+  String get tabReview => 'Bilan';
+
+  @override
+  String get homeTooltip => 'Retour à l\'accueil';
+
+  @override
+  String get cycleDayCaption => 'Jour';
+
+  @override
+  String cycleDaySemantics(int day) {
+    return 'Jour $day de votre cycle';
+  }
+
+  @override
+  String countdownRange(int min, int max) {
+    return 'Règles dans $min à $max jours';
+  }
+
+  @override
+  String countdownDays(int days) {
+    String _temp0 = intl.Intl.pluralLogic(
+      days,
+      locale: localeName,
+      other: 'Règles dans $days jours',
+      one: 'Règles attendues dès demain',
+      zero: 'Règles attendues dès aujourd\'hui',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get countdownDue => 'Règles attendues ces jours-ci';
+
+  @override
+  String get figuresTitle => 'Vos chiffres';
+
+  @override
+  String get figureCycle => 'Cycle';
+
+  @override
+  String get figurePeriod => 'Règles';
+
+  @override
+  String get figureLogged => 'Jours saisis';
+
+  @override
+  String figureDays(int days) {
+    String _temp0 = intl.Intl.pluralLogic(
+      days,
+      locale: localeName,
+      other: '$days jours',
+      one: '1 jour',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get figureUnknown => '–';
+
+  @override
+  String get sourceLogged => 'd\'après vos saisies';
+
+  @override
+  String get sourceDeclared => 'indiqué par vous';
+
+  @override
+  String get sourceAssumed => 'repère, à ajuster';
+
+  @override
+  String get sourceCurrent => 'pour l\'instant';
+
+  @override
+  String sourceCycles(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count cycles complets',
+      one: '1 cycle complet',
+      zero: 'aucun cycle complet',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get usualTitle => 'D\'habitude, vers ce jour';
+
+  @override
+  String usualLine(String sign, int count, int total) {
+    return '$sign : dans $count de vos $total derniers cycles';
+  }
+
+  @override
+  String get unlockTitle => 'Plus vous saisissez, plus vous en voyez';
+
+  @override
+  String get unlockIntro =>
+      'Fycle calcule tout à partir de ce que vous notez. Chaque saisie rend vos chiffres plus justes.';
+
+  @override
+  String get unlockEstimate => 'Estimation de vos prochaines règles';
+
+  @override
+  String get unlockEstimateNeed => 'Dès vos premières règles saisies';
+
+  @override
+  String get unlockAverages => 'Durées moyennes du cycle et des règles';
+
+  @override
+  String get unlockAveragesNeed => 'Après un cycle complet';
+
+  @override
+  String get unlockTrends => 'Ce qui revient, et l\'estimation de l\'ovulation';
+
+  @override
+  String get unlockTrendsNeed => 'Après deux cycles complets';
+
+  @override
+  String get unlockReliable => 'Une estimation plus étroite et plus fiable';
+
+  @override
+  String get unlockReliableNeed => 'Avec quatre cycles réguliers ou plus';
+
+  @override
+  String unlockProgress(int have, int need) {
+    return '$have sur $need';
+  }
+
+  @override
+  String get unlockReached => 'Disponible';
+
+  @override
+  String unlockOverall(int reached, int total) {
+    return '$reached sur $total disponibles';
+  }
+
+  @override
+  String get todayEntryTitle => 'Aujourd\'hui';
+
+  @override
+  String todayEntryProgress(int done, int total) {
+    String _temp0 = intl.Intl.pluralLogic(
+      done,
+      locale: localeName,
+      other: '$done rubriques sur $total remplies aujourd\'hui',
+      one: '1 rubrique sur $total remplie aujourd\'hui',
+      zero: 'Aucune rubrique sur $total remplie aujourd\'hui',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get calendarHint => 'Touchez un jour pour le saisir ou le corriger.';
+
+  @override
+  String get reportTitle => 'Ce cycle';
+
+  @override
+  String reportStarted(String date) {
+    return 'Commencé le $date';
+  }
+
+  @override
+  String reportPeriod(int days) {
+    String _temp0 = intl.Intl.pluralLogic(
+      days,
+      locale: localeName,
+      other: 'Règles : $days jours',
+      one: 'Règles : 1 jour',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String reportLogged(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count jours saisis dans ce cycle',
+      one: '1 jour saisi dans ce cycle',
+      zero: 'Rien de saisi dans ce cycle',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String reportPainDays(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Douleur $count jours',
+      one: 'Douleur 1 jour',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String reportPoorSleep(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Mauvais sommeil $count nuits',
+      one: 'Mauvais sommeil 1 nuit',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get reportEmpty =>
+      'Saisissez le premier jour de vos règles pour commencer votre bilan.';
+
+  @override
+  String get onboardingIntro1 =>
+      'Notez vos règles et ce que vous ressentez, en quelques appuis.';
+
+  @override
+  String get onboardingIntro2 =>
+      'Voyez vos chiffres : jour du cycle, estimation des prochaines règles, ce qui revient.';
+
+  @override
+  String get onboardingIntro3 => 'Plus vous saisissez, plus c\'est juste.';
+
+  @override
+  String get onboardingEarlierTitle => 'Règles précédentes (facultatif)';
+
+  @override
+  String get onboardingEarlierHint =>
+      'Ajoutez le premier jour d\'une ou deux règles précédentes : vos moyennes et vos tendances arrivent plus vite.';
+
+  @override
+  String get onboardingAddEarlier => 'Ajouter des règles précédentes';
+
+  @override
+  String onboardingRemoveDate(String date) {
+    return 'Retirer le $date';
+  }
+
+  @override
+  String get suggestFertilityTitle => 'Voir une estimation de l\'ovulation ?';
+
+  @override
+  String get suggestFertilityBody =>
+      'Une estimation de votre fenêtre de fertilité, calculée sur le calendrier et toujours donnée en fourchette.';
+
+  @override
+  String get suggestReminderTitle => 'Un rappel quotidien pour saisir ?';
+
+  @override
+  String get suggestReminderBody =>
+      'Une notification discrète par jour, sauf si la journée est déjà notée.';
+
+  @override
+  String get suggestNotNow => 'Plus tard';
+
+  @override
+  String get tabJournal => 'Journal';
+
+  @override
+  String get tabHomeHint => 'Vos chiffres du jour et la saisie rapide.';
+
+  @override
+  String get tabJournalHint =>
+      'Votre calendrier et vos pages, jour après jour.';
+
+  @override
+  String get tabReviewHint =>
+      'Vos moyennes, ce qui revient et votre historique.';
+
+  @override
+  String get tabSettingsHint =>
+      'Rappels, confidentialité, sauvegarde et vos données.';
+
+  @override
+  String get journalPagesTitle => 'Vos dernières pages';
+
+  @override
+  String get journalEmpty =>
+      'Rien d\'écrit pour l\'instant. Votre première page commence aujourd\'hui.';
+
+  @override
+  String get journalWriteToday => 'Écrire la page d\'aujourd\'hui';
+
+  @override
+  String get todayNoteTitle => 'Votre note';
+
+  @override
+  String get suggestLockTitle => 'Verrouiller Fycle par Face ID ou par code ?';
+
+  @override
+  String get suggestLockBody =>
+      'Comme un journal fermé à clé : demandé à chaque ouverture de Fycle.';
+
+  @override
+  String get fertilityShortWarning =>
+      'Une estimation : ni contraception ni diagnostic.';
+
+  @override
+  String get homeGreeting => 'Bon retour';
+
+  @override
+  String get homeReassurance =>
+      'Votre journal est privé. Il reste sur ce téléphone, et personne d\'autre ne peut le lire.';
+
+  @override
+  String figureReference(int days) {
+    return 'repère : $days jours';
+  }
+
+  @override
+  String referenceLine(int cycle, int period) {
+    return 'Affiché pour l\'instant : un cycle de repère de $cycle jours, avec des règles de $period jours. Vos propres dates le remplaceront.';
+  }
+
+  @override
+  String get referenceCaption => 'Repère';
 
   @override
   String get lockTurnedOff =>

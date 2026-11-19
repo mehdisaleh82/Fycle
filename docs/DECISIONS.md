@@ -422,6 +422,45 @@ Plan validé par l'utilisateur le 19 novembre 2026. Aucun paquet ajouté.
 
 102. **Ce qui est vérifié, et où (jalon E).** Sous Windows : le calcul ; l'interrupteur (désactivé par défaut, avertissement, annulation, relance) ; la carte et le calendrier en anglais et en français ; mode sombre, de droite à gauche, grand texte sur petit écran. En attente de l'iPhone : la lisibilité du trait dans le calendrier, la place de la carte sur l'accueil, VoiceOver.
 
+## Refonte de l'accueil et de la navigation (19 novembre 2026)
+
+Demandée par l'utilisateur après le premier essai de la testeuse sur iPhone : l'appli ne disait pas ce qu'elle faisait, les fonctions de la V2 étaient cachées, et rien ne donnait envie de saisir. Orientations données par l'utilisateur : des chiffres clés dès la première utilisation, un vrai écran d'accueil, des onglets clairs, une ergonomie de journal intime, l'envie de saisir, l'ovulation mise en avant, tout actif dès le début. Aucun paquet ajouté.
+
+103. **Quatre onglets nommés** (`lib/ui/home_screen.dart`) : Accueil, Journal, Bilan, Réglages, dans une barre en bas. Chaque onglet commence par une phrase qui dit à quoi il sert. Le nom « Fycle », en haut de chaque écran, ramène à l'accueil. Remplace les deux icônes sans nom de l'en-tête et le bouton flottant (décision 34). Les libellés de la barre ne grossissent pas au-delà de 1,3 fois, comme les barres d'onglets du système : la barre a une hauteur fixe.
+
+104. **Accueil centré sur les chiffres** (`lib/ui/today_tab.dart`, `lib/ui/prediction_card.dart`, `lib/ui/cycle_ring.dart`, `lib/ui/home_cards.dart` ; calculs dans `lib/domain/cycle_overview.dart`, Dart pur).
+    - En tête, une phrase : le journal est privé et reste sur le téléphone.
+    - Un anneau du cycle : règles en bordeaux, période estimée des prochaines règles en ambre, fenêtre de fertilité en trait fin, un point pour aujourd'hui, le jour du cycle au centre. C'est une image des chiffres écrits à côté : le lecteur d'écran lit le texte.
+    - Le compte à rebours reste une fourchette (« Règles dans 5 à 11 jours »), conformément à la règle 7.
+    - Trois chiffres : durée du cycle, durée des règles, jours saisis. Chacun dit d'où il vient (vos saisies, indiqué par vous, repère).
+    - La saisie du jour en un appui par rubrique (règles, douleur, humeur), avec une jauge « 2 rubriques sur 6 remplies aujourd'hui ». Complète la décision 87.
+    - « D'habitude, vers ce jour » : ce qui a été noté autour du même jour du cycle dans au moins deux cycles passés. Un décompte, pas une prévision.
+
+105. **Cycle de repère à ajuster.** Tant que rien n'est saisi, l'accueil montre un cycle de repère (28 jours, règles de 5 jours) et dit que les dates de l'utilisatrice le remplaceront. Ensuite, chaque chiffre est affiché à côté du repère (« 32 jours, d'après vos saisies ; repère : 28 jours »).
+    - Demande de l'utilisateur : partir d'un modèle courant pour donner envie de l'ajuster.
+    - **Refusé : le présenter comme « un cycle à atteindre ».** Une durée de cycle ne s'obtient pas par effort ; en faire un objectif serait une promesse de santé fausse et culpabilisante pour celles dont le cycle est naturellement différent (règles 7 et 13). Le repère est un point de comparaison, jamais une cible ni une norme.
+    - Aucune fausse saisie n'est écrite dans le journal : seuls les chiffres affichés partent du repère.
+    - Valeurs 28 et 5 **à faire confirmer par un professionnel de santé**, comme celles de la décision 98.
+
+106. **« Plus vous saisissez, plus vous en voyez »** (`UnlockCard`). Quatre étapes qui se cochent avec les saisies : estimation des règles (premières règles saisies), durées moyennes (un cycle complet), ce qui revient et estimation de l'ovulation (deux cycles), estimation fiable (quatre cycles réguliers ou plus), avec le compte « 1 sur 2 ». Sur l'accueil tant que tout n'est pas atteint, et toujours dans le bilan.
+    - Lecture de la règle 13 : ce sont des informations sur ce que le journal permet, pas des points, des badges ni des récompenses, et rien n'est dit quand on ne saisit pas. L'utilisateur a demandé une appli « addictive » ; la règle 13 n'a pas été modifiée.
+
+107. **Onglet Journal** (`lib/ui/journal_tab.dart`). Le calendrier du mois, un bouton « Écrire la page d'aujourd'hui », puis les trente dernières pages : la date, ce qui a été coché, la note. Un appui ouvre la journée.
+
+108. **Onglet Bilan** (ancien écran « Tendances », décision 94). S'y ajoute en tête le compte rendu du cycle en cours, lisible à tout moment : jour du cycle, date de début, durée des règles, jours saisis, jours de douleur, nuits de mauvais sommeil, symptômes les plus notés (`currentCycleReport`, Dart pur).
+
+109. **Démarrage** (`lib/ui/onboarding_screen.dart`). Trois lignes disent ce que fait l'appli avant la première question. Une fois la date des dernières règles donnée, on peut ajouter le premier jour de règles précédentes : avec deux, les moyennes, les tendances et l'estimation de l'ovulation sont là dès la première minute. Complète les décisions 34 et 86.
+
+110. **Tout actif dès le début**, demande de l'utilisateur.
+    - **Estimation de l'ovulation activée par défaut.** Remplace la décision 99. Comme rien n'est plus accepté avant, l'avertissement « une estimation : ni contraception ni diagnostic » est écrit en permanence sur la carte. La réactiver après l'avoir éteinte affiche toujours l'avertissement complet. L'estimation est aussi reprise dans la carte du haut. Risque accepté par l'utilisateur ; les textes restent à relire (décision 101).
+    - **Rappels activés à la fin du démarrage**, si le téléphone accepte les notifications : iOS impose sa propre fenêtre d'autorisation. En cas de refus, rien n'est dit, et l'accueil les propose encore une fois.
+    - **Verrouillage proposé, pas imposé** : une carte sur l'accueil, en un appui. iOS exige de toute façon Face ID ou le code pour l'activer, et un verrou que l'utilisatrice n'a pas choisi surprendrait.
+    - Les propositions (rappels, verrouillage) sont faites une fois ; « plus tard » est retenu (réglage de l'appareil, hors export).
+
+111. **Méthode : essai sur iPhone uniquement.** L'utilisateur ne teste pas sur PC. Chaque tâche terminée est commitée, poussée et compilée pour TestFlight sans qu'il le demande (consigné dans `CLAUDE.md`).
+
+112. **Ce qui est vérifié, et où (refonte).** Sous Windows : les calculs ; les quatre onglets, l'accueil, le journal, le bilan, le démarrage et les propositions, en anglais et en français ; mode sombre, de droite à gauche, grand texte sur petit écran ; rendu contrôlé sur des images du moteur de test. En attente de l'iPhone : le rendu réel de l'anneau, la longueur de l'accueil, la barre d'onglets, VoiceOver.
+
 ## Questions ouvertes
 
 - **Partage partenaire et règle 2** (décision 76) : un relais, même chiffré de bout en bout, est un serveur et fait sortir des données du téléphone. L'échange direct entre téléphones (code à scanner, fichier) respecte les règles 1 et 2 ; le relais demande de les modifier. À trancher à la conception du sprint 2.

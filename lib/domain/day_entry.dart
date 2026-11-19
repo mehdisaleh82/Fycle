@@ -45,6 +45,44 @@ final class DayEntry {
     note: note,
   );
 
+  /// The same entry with another [pain] (null for none logged).
+  DayEntry withPain(PainLevel? pain) => DayEntry(
+    day: day,
+    flow: flow,
+    pain: pain,
+    mood: mood,
+    sleep: sleep,
+    libido: libido,
+    symptoms: symptoms,
+    note: note,
+  );
+
+  /// The same entry with another [mood] (null for none logged).
+  DayEntry withMood(Mood? mood) => DayEntry(
+    day: day,
+    flow: flow,
+    pain: pain,
+    mood: mood,
+    sleep: sleep,
+    libido: libido,
+    symptoms: symptoms,
+    note: note,
+  );
+
+  /// How many of the groups of choices are filled in: flow, pain, mood,
+  /// sleep, libido and symptoms. The note is free text and is not counted.
+  int get filledGroups => [
+    flow != null,
+    pain != null,
+    mood != null,
+    sleep != null,
+    libido != null,
+    symptoms.isNotEmpty,
+  ].where((filled) => filled).length;
+
+  /// Number of groups counted by [filledGroups].
+  static const int groupCount = 6;
+
   /// True when nothing was logged, so the entry does not need to be kept.
   bool get isEmpty =>
       flow == null &&

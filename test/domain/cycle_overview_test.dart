@@ -58,7 +58,8 @@ void main() {
       expect(result.dayOfCycle, isNull);
       expect(result.cycleLength, PeriodPredictor.defaultCycleLength);
       expect(result.cycleLengthSource, LengthSource.assumed);
-      expect(result.periodLength, isNull);
+      expect(result.periodLength, referencePeriodLength);
+      expect(result.periodLengthSource, LengthSource.assumed);
       expect(result.daysUntilEarliest, isNull);
       expect(result.daysLogged, 0);
       expect(result.completeCycles, 0);

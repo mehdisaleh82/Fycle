@@ -186,6 +186,26 @@ class _RootScreenState extends State<RootScreen> with WidgetsBindingObserver {
     }
   }
 
+  /// At the end of the first launch, both reminders are turned on if the
+  /// phone allows notifications. A refusal leaves them off, without a
+  /// word: the home tab offers them again once.
+  Future<void> _turnRemindersOn(CycleModel model) async {
+    bool allowed;
+    try {
+      allowed = await widget.environment.reminders.requestPermission();
+    } on Exception {
+      allowed = false;
+    }
+    if (allowed && mounted && identical(model, _model)) {
+      model.setReminderSettings(
+        model.reminderSettings.copyWith(
+          periodEnabled: true,
+          dailyEnabled: true,
+        ),
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
@@ -209,6 +229,7 @@ class _RootScreenState extends State<RootScreen> with WidgetsBindingObserver {
         onDone: () {
           model.completeOnboarding();
           setState(() => _onboarded = true);
+          _turnRemindersOn(model);
         },
         onRestore: () => _restore(model),
       );

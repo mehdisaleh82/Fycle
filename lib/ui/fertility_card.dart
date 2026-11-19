@@ -66,6 +66,12 @@ class FertilityCard extends StatelessWidget {
                       Text(l10n.fertilityLowConfidence, style: muted),
                     ],
                   ],
+                  const SizedBox(height: 8),
+                  Text(
+                    l10n.fertilityShortWarning,
+                    key: const ValueKey('fertility-warning'),
+                    style: muted,
+                  ),
                 ],
               ),
             ),

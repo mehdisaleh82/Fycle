@@ -27,7 +27,9 @@ De la V2, quatre jalons du sprint 1 sont faits :
 - **Jalon C** : sommeil et libido dans la saisie du jour, écran « Tendances » (durées moyennes, ce qui revient au même moment du cycle, historique des cycles), bilan sobre à la fin de chaque cycle. Codé et testé sous Windows.
 - **Jalon E** : estimation de l'ovulation et de la fenêtre de fertilité, en fourchettes, désactivée par défaut et précédée d'un avertissement. Codé et testé sous Windows ; ses textes médicaux restent à relire par un professionnel de santé.
 
-Aucune autre fonction de la V2 n'est encore écrite. Suite prévue (décision 89) : migraines (D), puis F à L.
+Aucune autre fonction de la V2 n'est encore écrite. Une refonte de l'accueil et de la navigation a suivi le premier essai de la testeuse (décisions 103 à 112) : quatre onglets nommés (Accueil, Journal, Bilan, Réglages), un accueil centré sur les chiffres clés avec un anneau du cycle, un cycle de repère que les saisies ajustent, les étapes que les saisies débloquent, un journal en pages, un compte rendu du cycle lisible à tout moment. L'estimation de l'ovulation et les rappels sont actifs dès le début.
+
+Suite prévue (décision 89) : migraines (D), puis F à L.
 
 ## Objectifs
 

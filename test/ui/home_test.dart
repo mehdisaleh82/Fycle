@@ -32,7 +32,8 @@ void main() {
       find.text('Period expected between Mar 25 and Mar 31'),
       findsOneWidget,
     );
-    expect(find.text('This range starts in 5 days.'), findsOneWidget);
+    expect(find.text('Period in 5 to 11 days'), findsOneWidget);
+    expect(find.text('Day 21 of your cycle'), findsOneWidget);
     expect(find.text('Estimate based on your last 2 cycles.'), findsOneWidget);
     expect(find.text('Confidence: medium'), findsOneWidget);
     expect(
@@ -50,6 +51,9 @@ void main() {
       find.text('Règles prévues entre le 25 mars et le 31 mars'),
       findsOneWidget,
     );
+    expect(find.text('Règles dans 5 à 11 jours'), findsOneWidget);
+    expect(find.text('Jour 21 de votre cycle'), findsOneWidget);
+    await openJournal(tester);
     expect(find.text('Mars 2026'), findsOneWidget);
   });
 
@@ -89,6 +93,7 @@ void main() {
       ],
     );
     await harness.pumpApp();
+    await openJournal(tester);
 
     expect(find.text('March 2026'), findsOneWidget);
     expect(
@@ -99,9 +104,16 @@ void main() {
       find.bySemanticsLabel('Wednesday, March 25, period expected, estimate'),
       findsOneWidget,
     );
-    expect(find.bySemanticsLabel('Friday, March 20, today'), findsOneWidget);
     expect(
-      find.bySemanticsLabel('Tuesday, March 10, entry logged'),
+      find.bySemanticsLabel(
+        'Friday, March 20, today, fertile window, estimate',
+      ),
+      findsOneWidget,
+    );
+    expect(
+      find.bySemanticsLabel(
+        'Tuesday, March 10, fertile window, estimate, entry logged',
+      ),
       findsOneWidget,
     );
     expect(find.text('Expected period (estimate)'), findsOneWidget);
@@ -123,8 +135,7 @@ void main() {
     await harness.seed(days: threePeriods());
     await harness.pumpApp();
 
-    await tester.tap(find.text('Log today'));
-    await tester.pumpAndSettle();
+    await tapVisible(tester, find.text('Log today'));
     await tester.tap(find.byKey(const ValueKey('flow-heavy')));
     await tester.pumpAndSettle();
 
@@ -246,8 +257,7 @@ void main() {
       await harness.seed(days: threePeriods());
       await harness.pumpApp();
 
-      await tester.tap(find.text('Log today'));
-      await tester.pumpAndSettle();
+      await tapVisible(tester, find.text('Log today'));
       await tester.tap(find.byKey(const ValueKey('flow-spotting')));
       await tester.pumpAndSettle();
       await tapVisible(tester, find.text('Done'));
@@ -320,10 +330,9 @@ void main() {
     await harness.seed(days: threePeriods());
     await harness.pumpApp();
 
-    await tester.tap(find.text('Log today'));
-    await tester.pumpAndSettle();
-    await tapVisible(tester, find.text('Severe'));
-    await tapVisible(tester, find.text('Calm'));
+    await tapVisible(tester, find.text('Log today'));
+    await tapVisible(tester, find.byKey(const ValueKey('pain-severe')));
+    await tapVisible(tester, find.byKey(const ValueKey('mood-calm')));
     await tapVisible(tester, find.text('Cramps'));
     await tapVisible(tester, find.text('Headache'));
     await tester.ensureVisible(find.byType(TextField));
@@ -345,7 +354,7 @@ void main() {
     );
 
     // Tapping a choice again takes it back.
-    await tapVisible(tester, find.text('Calm'));
+    await tapVisible(tester, find.byKey(const ValueKey('mood-calm')));
     final after = await harness.read(
       (store) => store.database.readDay(harness.today),
     );
@@ -357,8 +366,7 @@ void main() {
     await harness.seed(days: threePeriods());
     await harness.pumpApp();
 
-    await tester.tap(find.text('Log today'));
-    await tester.pumpAndSettle();
+    await tapVisible(tester, find.text('Log today'));
     await tapVisible(tester, find.byKey(const ValueKey('sleep-poor')));
     await tapVisible(tester, find.byKey(const ValueKey('libido-high')));
 
@@ -389,13 +397,13 @@ void main() {
     final harness = Harness(tester);
     await harness.seed(days: threePeriods());
     await harness.pumpApp();
+    await openJournal(tester);
 
     await tapVisible(tester, find.byKey(const ValueKey('day-2026-03-27')));
     expect(find.text('Done'), findsNothing);
 
-    await tester.tap(find.byKey(const ValueKey('day-2026-03-02')));
-    await tester.pumpAndSettle();
-    expect(find.text('Monday, March 2, 2026'), findsOneWidget);
+    await tapVisible(tester, find.byKey(const ValueKey('day-2026-03-02')));
+    expect(find.text('Monday, March 2, 2026'), findsWidgets);
     // What was logged that day is shown.
     final chip = tester.widget<ChoiceChip>(
       find.byKey(const ValueKey('flow-medium')),

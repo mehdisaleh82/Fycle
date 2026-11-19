@@ -18,6 +18,7 @@ import 'disclaimer_card.dart';
 class SettingsScreen extends StatelessWidget {
   const SettingsScreen({
     super.key,
+    required this.header,
     required this.model,
     required this.environment,
     required this.onEraseEverything,
@@ -26,6 +27,10 @@ class SettingsScreen extends StatelessWidget {
   final CycleModel model;
   final AppEnvironment environment;
   final Future<void> Function() onEraseEverything;
+
+  /// One line saying what the tab is for, shown first and scrolled with
+  /// the rest.
+  final Widget header;
 
   Future<void> _editCycleLength(BuildContext context) async {
     final result = await showDialog<({int? days})>(
@@ -186,197 +191,184 @@ class SettingsScreen extends StatelessWidget {
     final l10n = AppLocalizations.of(context);
     final scheme = Theme.of(context).colorScheme;
     final files = environment.files;
-    return Scaffold(
-      appBar: AppBar(title: Text(l10n.settingsTitle)),
-      body: SafeArea(
-        child: ListenableBuilder(
-          listenable: model,
-          builder: (context, _) {
-            final length = model.usualCycleLength;
-            final reminders = model.reminderSettings;
-            String timeText(ClockTime time) =>
-                TimeOfDay(hour: time.hour, minute: time.minute).format(context);
-            return SingleChildScrollView(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
+    return ListenableBuilder(
+      listenable: model,
+      builder: (context, _) {
+        final length = model.usualCycleLength;
+        final reminders = model.reminderSettings;
+        String timeText(ClockTime time) =>
+            TimeOfDay(hour: time.hour, minute: time.minute).format(context);
+        return SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                child: header,
+              ),
+              _SectionTitle(l10n.settingsCycleSection),
+              _Group(
                 children: [
-                  _SectionTitle(l10n.settingsCycleSection),
-                  _Group(
-                    children: [
-                      ListTile(
-                        leading: const Icon(Icons.loop),
-                        title: Text(l10n.settingsCycleLength),
-                        subtitle: Text(
-                          length == null
-                              ? l10n.settingsCycleLengthUnknown
-                              : l10n.settingsCycleLengthValue(length),
-                        ),
-                        onTap: () => _editCycleLength(context),
-                      ),
-                      SwitchListTile(
-                        key: const ValueKey('fertility-estimate'),
-                        secondary: const Icon(Icons.egg_outlined),
-                        title: Text(l10n.fertilitySettingTitle),
-                        subtitle: Text(l10n.fertilitySettingSubtitle),
-                        value: model.fertilityEstimateEnabled,
-                        onChanged: (on) => _setFertilityEstimate(context, on),
-                      ),
-                    ],
-                  ),
-                  _SectionTitle(l10n.settingsRemindersSection),
-                  _Group(
-                    children: [
-                      SwitchListTile(
-                        secondary: const Icon(Icons.notifications_outlined),
-                        title: Text(l10n.reminderPeriodTitle),
-                        subtitle: Text(l10n.reminderPeriodSubtitle),
-                        value: reminders.periodEnabled,
-                        onChanged: (on) => _setReminders(
-                          context,
-                          reminders.copyWith(periodEnabled: on),
-                          turningOn: on,
-                        ),
-                      ),
-                      if (reminders.periodEnabled) ...[
-                        ListTile(
-                          key: const ValueKey('period-days-before'),
-                          leading: const SizedBox(width: 24),
-                          title: Text(l10n.reminderDaysBeforeTitle),
-                          subtitle: Text(
-                            l10n.reminderDaysBefore(reminders.periodDaysBefore),
-                          ),
-                          onTap: () => _pickDaysBefore(context),
-                        ),
-                        ListTile(
-                          key: const ValueKey('period-time'),
-                          leading: const SizedBox(width: 24),
-                          title: Text(l10n.reminderTime),
-                          subtitle: Text(timeText(reminders.periodTime)),
-                          onTap: () => _pickPeriodTime(context),
-                        ),
-                      ],
-                      SwitchListTile(
-                        secondary: const Icon(
-                          Icons.edit_notifications_outlined,
-                        ),
-                        title: Text(l10n.reminderDailyTitle),
-                        subtitle: Text(l10n.reminderDailySubtitle),
-                        value: reminders.dailyEnabled,
-                        onChanged: (on) => _setReminders(
-                          context,
-                          reminders.copyWith(dailyEnabled: on),
-                          turningOn: on,
-                        ),
-                      ),
-                      if (reminders.dailyEnabled)
-                        ListTile(
-                          key: const ValueKey('daily-time'),
-                          leading: const SizedBox(width: 24),
-                          title: Text(l10n.reminderTime),
-                          subtitle: Text(timeText(reminders.dailyTime)),
-                          onTap: () => _pickDailyTime(context),
-                        ),
-                    ],
-                  ),
-                  Padding(
-                    padding: const EdgeInsetsDirectional.fromSTEB(
-                      32,
-                      12,
-                      32,
-                      0,
+                  ListTile(
+                    leading: const Icon(Icons.loop),
+                    title: Text(l10n.settingsCycleLength),
+                    subtitle: Text(
+                      length == null
+                          ? l10n.settingsCycleLengthUnknown
+                          : l10n.settingsCycleLengthValue(length),
                     ),
-                    child: Text(
-                      l10n.reminderDiscreetNote,
-                      style: Theme.of(context).textTheme.bodySmall,
-                    ),
+                    onTap: () => _editCycleLength(context),
                   ),
-                  _SectionTitle(l10n.settingsPrivacySection),
-                  _Group(
-                    children: [
-                      SwitchListTile(
-                        secondary: const Icon(Icons.fingerprint),
-                        title: Text(l10n.lockTitle),
-                        subtitle: Text(l10n.lockSubtitle),
-                        value: model.appLockEnabled,
-                        onChanged: (on) => _setAppLock(context, on),
-                      ),
-                    ],
-                  ),
-                  _SectionTitle(l10n.settingsAppearanceSection),
-                  _Group(
-                    children: [
-                      ListTile(
-                        key: const ValueKey('appearance'),
-                        leading: const Icon(Icons.brightness_6_outlined),
-                        title: Text(l10n.settingsAppearance),
-                        subtitle: Text(
-                          _appearanceLabel(l10n, model.appearance),
-                        ),
-                        onTap: () => _pickAppearance(context),
-                      ),
-                    ],
-                  ),
-                  _SectionTitle(l10n.settingsDataSection),
-                  _Group(
-                    children: [
-                      ListTile(
-                        leading: const Icon(Icons.lock_outline),
-                        title: Text(l10n.settingsExport),
-                        subtitle: Text(l10n.settingsExportSubtitle),
-                        onTap: () => runExportFlow(
-                          context,
-                          model: model,
-                          files: files,
-                          today: environment.today(),
-                        ),
-                      ),
-                      ListTile(
-                        leading: const Icon(Icons.restore),
-                        title: Text(l10n.settingsImport),
-                        subtitle: Text(l10n.settingsImportSubtitle),
-                        onTap: () =>
-                            runImportFlow(context, model: model, files: files),
-                      ),
-                      ListTile(
-                        leading: const Icon(Icons.table_chart_outlined),
-                        title: Text(l10n.settingsCsv),
-                        subtitle: Text(l10n.settingsCsvSubtitle),
-                        onTap: () => runCsvFlow(
-                          context,
-                          model: model,
-                          files: files,
-                          today: environment.today(),
-                        ),
-                      ),
-                      ListTile(
-                        leading: Icon(
-                          Icons.delete_forever,
-                          color: scheme.error,
-                        ),
-                        title: Text(
-                          l10n.settingsDelete,
-                          style: TextStyle(color: scheme.error),
-                        ),
-                        subtitle: Text(l10n.settingsDeleteSubtitle),
-                        onTap: () => _deleteEverything(context),
-                      ),
-                    ],
-                  ),
-                  _SectionTitle(l10n.settingsAboutSection),
-                  Padding(
-                    padding: const EdgeInsetsDirectional.fromSTEB(32, 0, 32, 8),
-                    child: Text(l10n.privacyLine),
-                  ),
-                  const Padding(
-                    padding: EdgeInsetsDirectional.fromSTEB(16, 8, 16, 24),
-                    child: DisclaimerCard(),
+                  SwitchListTile(
+                    key: const ValueKey('fertility-estimate'),
+                    secondary: const Icon(Icons.egg_outlined),
+                    title: Text(l10n.fertilitySettingTitle),
+                    subtitle: Text(l10n.fertilitySettingSubtitle),
+                    value: model.fertilityEstimateEnabled,
+                    onChanged: (on) => _setFertilityEstimate(context, on),
                   ),
                 ],
               ),
-            );
-          },
-        ),
-      ),
+              _SectionTitle(l10n.settingsRemindersSection),
+              _Group(
+                children: [
+                  SwitchListTile(
+                    secondary: const Icon(Icons.notifications_outlined),
+                    title: Text(l10n.reminderPeriodTitle),
+                    subtitle: Text(l10n.reminderPeriodSubtitle),
+                    value: reminders.periodEnabled,
+                    onChanged: (on) => _setReminders(
+                      context,
+                      reminders.copyWith(periodEnabled: on),
+                      turningOn: on,
+                    ),
+                  ),
+                  if (reminders.periodEnabled) ...[
+                    ListTile(
+                      key: const ValueKey('period-days-before'),
+                      leading: const SizedBox(width: 24),
+                      title: Text(l10n.reminderDaysBeforeTitle),
+                      subtitle: Text(
+                        l10n.reminderDaysBefore(reminders.periodDaysBefore),
+                      ),
+                      onTap: () => _pickDaysBefore(context),
+                    ),
+                    ListTile(
+                      key: const ValueKey('period-time'),
+                      leading: const SizedBox(width: 24),
+                      title: Text(l10n.reminderTime),
+                      subtitle: Text(timeText(reminders.periodTime)),
+                      onTap: () => _pickPeriodTime(context),
+                    ),
+                  ],
+                  SwitchListTile(
+                    secondary: const Icon(Icons.edit_notifications_outlined),
+                    title: Text(l10n.reminderDailyTitle),
+                    subtitle: Text(l10n.reminderDailySubtitle),
+                    value: reminders.dailyEnabled,
+                    onChanged: (on) => _setReminders(
+                      context,
+                      reminders.copyWith(dailyEnabled: on),
+                      turningOn: on,
+                    ),
+                  ),
+                  if (reminders.dailyEnabled)
+                    ListTile(
+                      key: const ValueKey('daily-time'),
+                      leading: const SizedBox(width: 24),
+                      title: Text(l10n.reminderTime),
+                      subtitle: Text(timeText(reminders.dailyTime)),
+                      onTap: () => _pickDailyTime(context),
+                    ),
+                ],
+              ),
+              Padding(
+                padding: const EdgeInsetsDirectional.fromSTEB(32, 12, 32, 0),
+                child: Text(
+                  l10n.reminderDiscreetNote,
+                  style: Theme.of(context).textTheme.bodySmall,
+                ),
+              ),
+              _SectionTitle(l10n.settingsPrivacySection),
+              _Group(
+                children: [
+                  SwitchListTile(
+                    secondary: const Icon(Icons.fingerprint),
+                    title: Text(l10n.lockTitle),
+                    subtitle: Text(l10n.lockSubtitle),
+                    value: model.appLockEnabled,
+                    onChanged: (on) => _setAppLock(context, on),
+                  ),
+                ],
+              ),
+              _SectionTitle(l10n.settingsAppearanceSection),
+              _Group(
+                children: [
+                  ListTile(
+                    key: const ValueKey('appearance'),
+                    leading: const Icon(Icons.brightness_6_outlined),
+                    title: Text(l10n.settingsAppearance),
+                    subtitle: Text(_appearanceLabel(l10n, model.appearance)),
+                    onTap: () => _pickAppearance(context),
+                  ),
+                ],
+              ),
+              _SectionTitle(l10n.settingsDataSection),
+              _Group(
+                children: [
+                  ListTile(
+                    leading: const Icon(Icons.lock_outline),
+                    title: Text(l10n.settingsExport),
+                    subtitle: Text(l10n.settingsExportSubtitle),
+                    onTap: () => runExportFlow(
+                      context,
+                      model: model,
+                      files: files,
+                      today: environment.today(),
+                    ),
+                  ),
+                  ListTile(
+                    leading: const Icon(Icons.restore),
+                    title: Text(l10n.settingsImport),
+                    subtitle: Text(l10n.settingsImportSubtitle),
+                    onTap: () =>
+                        runImportFlow(context, model: model, files: files),
+                  ),
+                  ListTile(
+                    leading: const Icon(Icons.table_chart_outlined),
+                    title: Text(l10n.settingsCsv),
+                    subtitle: Text(l10n.settingsCsvSubtitle),
+                    onTap: () => runCsvFlow(
+                      context,
+                      model: model,
+                      files: files,
+                      today: environment.today(),
+                    ),
+                  ),
+                  ListTile(
+                    leading: Icon(Icons.delete_forever, color: scheme.error),
+                    title: Text(
+                      l10n.settingsDelete,
+                      style: TextStyle(color: scheme.error),
+                    ),
+                    subtitle: Text(l10n.settingsDeleteSubtitle),
+                    onTap: () => _deleteEverything(context),
+                  ),
+                ],
+              ),
+              _SectionTitle(l10n.settingsAboutSection),
+              Padding(
+                padding: const EdgeInsetsDirectional.fromSTEB(32, 0, 32, 8),
+                child: Text(l10n.privacyLine),
+              ),
+              const Padding(
+                padding: EdgeInsetsDirectional.fromSTEB(16, 8, 16, 24),
+                child: DisclaimerCard(),
+              ),
+            ],
+          ),
+        );
+      },
     );
   }
 }

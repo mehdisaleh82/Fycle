@@ -111,6 +111,7 @@ class _DaySheetState extends State<_DaySheet> {
                 const SizedBox(width: 8),
                 // At the top, so it stays in reach however long the sheet.
                 FilledButton.tonal(
+                  key: const ValueKey('day-done'),
                   onPressed: () => Navigator.of(context).pop(),
                   child: Text(l10n.done),
                 ),
