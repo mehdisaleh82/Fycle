@@ -45,11 +45,28 @@ Ensuite, ranger le fichier `.p8` en lieu sûr hors du dossier du projet, ou le s
 1. GitHub → onglet « Actions » → « iOS TestFlight » → « Run workflow » → « Run workflow ». Compter environ 5 minutes.
 2. Coche verte : ouvrir l'exécution et vérifier que l'étape « Sign and send to TestFlight » a bien tourné (coche, et non rond barré). Si oui, la compilation est partie chez Apple. Un rond barré signifie qu'un des quatre secrets manque. Croix rouge : copier le message d'erreur (sans aucun secret) et le transmettre.
 3. App Store Connect → l'appli Fycle → onglet « TestFlight ». La compilation apparaît après quelques minutes de traitement.
-4. Si Apple pose une question sur le chiffrement (« conformité manquante ») : **s'arrêter et transmettre la question avant de répondre** (décision 59).
+4. La compilation affiche « Informations manquantes » : cliquer sur « Gérer » et répondre au questionnaire de chiffrement. Tant que l'essai reste privé (décision 60) : deuxième choix, « Algorithmes de chiffrement standard à la place ou en complément… », puis « Non » à la distribution en France. Si Apple demande autre chose, s'arrêter et transmettre la question.
 5. « Tests internes » → créer un groupe → s'y ajouter comme testeur.
-6. Sur l'iPhone : installer l'appli « TestFlight » d'Apple, s'y connecter avec le même compte Apple, installer Fycle.
+6. Sur l'iPhone : installer l'appli « TestFlight » d'Apple, s'y connecter avec le même compte Apple, installer Fycle. Si TestFlight demande un code, annuler : ouvrir plutôt l'e-mail d'invitation d'Apple sur l'iPhone.
 
-Pour une nouvelle version : refaire seulement l'étape E.1.
+### Pour une nouvelle version
+
+1. Refaire l'étape E.1 (ou pousser un tag qui commence par `ios-`).
+2. Refaire l'étape E.4 : Apple repose la question du chiffrement à chaque compilation.
+3. Sur l'iPhone, TestFlight propose « Mettre à jour ». Les données saisies sont conservées.
+
+Une compilation expire au bout de 90 jours. Si GitHub ne trouve aucun Mac libre, la compilation échoue sans avoir commencé : la relancer plus tard.
+
+### Ajouter une deuxième testeuse (essai privé)
+
+Uniquement en test interne. Les tests externes attendent la déclaration de chiffrement (décision 60).
+
+1. App Store Connect → « Utilisateurs et accès » → « + ». Saisir son prénom, son nom et l'adresse de son compte Apple. Rôle : « Marketing » (le plus limité qui suffise). Apps : Fycle seulement.
+2. Elle accepte l'invitation reçue par e-mail.
+3. Onglet « TestFlight » de Fycle → groupe interne → « Testeurs » → « + » → la cocher.
+4. Sur son iPhone : installer « TestFlight », ouvrir l'e-mail d'invitation, installer Fycle.
+
+Ses données restent sur son téléphone : personne d'autre ne les voit, pas même le titulaire du compte.
 
 ## F. À vérifier sur l'iPhone
 
@@ -85,7 +102,9 @@ Uniquement avec des données inventées. Noter « oui », « non » ou une remar
 - [ ] Faire descendre le centre de notifications puis le remonter ne verrouille pas.
 
 ### Confort et accessibilité
-- [ ] Mode sombre : tout reste lisible.
+- [ ] Couleurs : bleu nuit, ambre discret, bordeaux pour les jours de règles ; agréables sur l'écran du téléphone.
+- [ ] Réglages → Apparence → Thème : clair, sombre et « comme le téléphone » s'appliquent aussitôt, et le choix est conservé après fermeture complète de l'appli.
+- [ ] Mode sombre : tout reste lisible, écran de verrouillage compris. Au lancement, pas d'éclair clair gênant.
 - [ ] Texte au maximum (Réglages → Accessibilité → Affichage et taille du texte → Police plus grande) : rien n'est coupé, tout défile.
 - [ ] VoiceOver : chaque bouton et chaque jour du calendrier est annoncé clairement.
 - [ ] Téléphone en anglais : l'appli passe en anglais.

@@ -20,6 +20,8 @@ Fycle vise la place que personne n'occupe : la confidentialité **et** la finiti
 
 La V1 tourne sur iPhone en essai privé (TestFlight) : saisie, calendrier, prédiction en fourchette avec niveau de confiance, rappels, verrouillage, stockage chiffré, export et import. Elle n'est pas publiée : la première version publique sera la V2.
 
+De la V2, seul le jalon A du sprint 1 est fait : la nouvelle charte (bleu nuit et ambre), le réglage d'apparence (clair, sombre, comme le téléphone) et la mise en page miroir. C'est ce que contient la compilation TestFlight n° 4. Aucune autre fonction de la V2 n'est encore écrite.
+
 ## Objectifs
 
 Ce qui doit distinguer Fycle, par ordre de priorité :
