@@ -8,6 +8,7 @@ import '../domain/flow_intensity.dart';
 import '../domain/mood.dart';
 import '../domain/pain_level.dart';
 import '../domain/period_predictor.dart';
+import '../domain/reminders.dart';
 import '../domain/symptom.dart';
 import 'database_key_store.dart';
 import 'fycle_data.dart';
@@ -24,6 +25,11 @@ final class DatabaseUnreadableException implements Exception {
 }
 
 /// The local database: one row per logged day, plus a few settings.
+///
+/// Two kinds of settings are kept apart. `setting` describes the user's cycle
+/// and travels with her data in an export. `device_setting` describes this
+/// phone (reminders, app lock): it is never exported and an import leaves it
+/// alone.
 ///
 /// On disk the file is encrypted (SQLite3 Multiple Ciphers, ChaCha20-Poly1305)
 /// with a random key kept outside the database. Days are stored as ISO dates
@@ -76,9 +82,16 @@ final class FycleDatabase {
 
   /// Version of the table layout. Raise it and add a step in [_prepare] when
   /// the tables change.
-  static const int schemaVersion = 1;
+  static const int schemaVersion = 2;
 
   static const String _usualCycleLength = 'usual_cycle_length';
+
+  static const String _periodReminder = 'reminder_period_enabled';
+  static const String _periodReminderDays = 'reminder_period_days_before';
+  static const String _periodReminderTime = 'reminder_period_minutes';
+  static const String _dailyReminder = 'reminder_daily_enabled';
+  static const String _dailyReminderTime = 'reminder_daily_minutes';
+  static const String _appLock = 'app_lock_enabled';
 
   final Database _db;
 
@@ -118,6 +131,17 @@ final class FycleDatabase {
           ') WITHOUT ROWID',
         );
         _db.userVersion = 1;
+      });
+    }
+    if (version < 2) {
+      _transaction(() {
+        _db.execute(
+          'CREATE TABLE device_setting ('
+          'name TEXT NOT NULL PRIMARY KEY, '
+          'value TEXT NOT NULL'
+          ') WITHOUT ROWID',
+        );
+        _db.userVersion = 2;
       });
     }
   }
@@ -175,12 +199,53 @@ final class FycleDatabase {
   /// Throws an [ArgumentError] outside the range accepted by the predictor.
   set usualCycleLength(int? days) => _transaction(() => _writeLength(days));
 
+  /// The reminders chosen on this phone. Off until the user turns them on.
+  /// Not part of an export.
+  ReminderSettings get reminderSettings {
+    final days = int.tryParse(_deviceSetting(_periodReminderDays) ?? '');
+    return ReminderSettings(
+      periodEnabled: _deviceSetting(_periodReminder) == _on,
+      periodDaysBefore: ReminderSettings.periodDaysBeforeChoices.contains(days)
+          ? days!
+          : ReminderSettings.defaultPeriodDaysBefore,
+      periodTime: ClockTime.tryFromMinutes(
+        int.tryParse(_deviceSetting(_periodReminderTime) ?? ''),
+      ),
+      dailyEnabled: _deviceSetting(_dailyReminder) == _on,
+      dailyTime: ClockTime.tryFromMinutes(
+        int.tryParse(_deviceSetting(_dailyReminderTime) ?? ''),
+      ),
+    );
+  }
+
+  set reminderSettings(ReminderSettings settings) => _transaction(() {
+    _writeDeviceSetting(_periodReminder, settings.periodEnabled ? _on : null);
+    _writeDeviceSetting(_periodReminderDays, '${settings.periodDaysBefore}');
+    _writeDeviceSetting(
+      _periodReminderTime,
+      '${settings.periodTime.minutesSinceMidnight}',
+    );
+    _writeDeviceSetting(_dailyReminder, settings.dailyEnabled ? _on : null);
+    _writeDeviceSetting(
+      _dailyReminderTime,
+      '${settings.dailyTime.minutesSinceMidnight}',
+    );
+  });
+
+  /// Whether the app asks for Face ID, fingerprint or the phone passcode when
+  /// it opens. Off by default. Not part of an export.
+  bool get appLockEnabled => _deviceSetting(_appLock) == _on;
+
+  set appLockEnabled(bool enabled) =>
+      _writeDeviceSetting(_appLock, enabled ? _on : null);
+
   /// Everything stored, for export.
   FycleData readAll() =>
       FycleData(usualCycleLength: usualCycleLength, days: readDays());
 
   /// Replaces everything stored with [data], in one step: if anything fails,
-  /// the previous content is kept untouched.
+  /// the previous content is kept untouched. The settings of this phone
+  /// (reminders, app lock) are not part of [data] and stay as they are.
   void replaceAll(FycleData data) {
     _transaction(() {
       _db.execute('DELETE FROM day_entry');
@@ -192,6 +257,26 @@ final class FycleDatabase {
 
   /// Closes the database. It must not be used afterwards.
   void close() => _db.close();
+
+  static const String _on = '1';
+
+  String? _deviceSetting(String name) {
+    final rows = _db.select('SELECT value FROM device_setting WHERE name = ?', [
+      name,
+    ]);
+    return rows.isEmpty ? null : rows.single['value'] as String;
+  }
+
+  void _writeDeviceSetting(String name, String? value) {
+    if (value == null) {
+      _db.execute('DELETE FROM device_setting WHERE name = ?', [name]);
+      return;
+    }
+    _db.execute(
+      'INSERT OR REPLACE INTO device_setting (name, value) VALUES (?, ?)',
+      [name, value],
+    );
+  }
 
   void _writeLength(int? days) {
     if (days == null) {
