@@ -10,7 +10,15 @@ Conséquence : le cœur de l'appli est gratuit et complet. Fycle doit faire auss
 
 - Gratuit, sans publicité, sans compte.
 - Rien ne quitte le téléphone.
-- Un achat unique, facultatif et à vie, pour les fonctions avancées.
+- Un achat unique, facultatif et à vie, pour les fonctions avancées. Jamais d'abonnement.
+
+## Positionnement
+
+Fycle vise la place que personne n'occupe : la confidentialité **et** la finition. Les applis qui protègent vraiment les données sont austères et peu mises à jour ; les applis soignées demandent un abonnement et un compte. Marché international dès le départ. Projet mené à côté d'un travail principal.
+
+## État au 19 novembre 2026
+
+La V1 tourne sur iPhone en essai privé (TestFlight) : saisie, calendrier, prédiction en fourchette avec niveau de confiance, rappels, verrouillage, stockage chiffré, export et import. Elle n'est pas publiée : la première version publique sera la V2.
 
 ## Objectifs
 
@@ -44,32 +52,57 @@ Ce qui doit distinguer Fycle, par ordre de priorité :
 10. Avertissement visible : outil d'information, ni avis médical ni méthode de contraception.
 11. Anglais et français, mode sombre, accessibilité (tailles de texte, VoiceOver).
 
-## V1.x — pack Pro à vie (achat unique)
+## V2 — première version publique
 
-Proposé après un ou deux cycles d'utilisation, jamais à l'installation. Contenu à confirmer avec les premières utilisatrices. Candidats :
+Décidé le 19 novembre 2026 (décisions 63 à 78). Remplace l'ancien « pack Pro » de la V1.x.
 
-- bilan PDF sur 3 ou 6 mois, mis en forme pour le médecin (durée des cycles, intensité des douleurs, symptômes récurrents) ;
-- statistiques avancées, tendances et graphiques, rapprochements entre symptômes et moments du cycle ;
-- symptômes personnalisés ;
-- thèmes et icône d'appli discrète.
+### Gratuit, pour toujours
 
-Reste gratuit quoi qu'il arrive : l'export de ses propres données (règle 6), la suppression, et l'import d'un historique venu d'une autre appli, parce qu'il conditionne l'adoption.
+Saisie, calendrier, prédiction de base des règles, rappels, verrouillage, export et import, export chiffré manuel vers l'espace de fichiers de l'utilisatrice, suppression. Une utilisatrice gratuite ne perd jamais ses données.
 
-## V2 — après avis réglementaire
+### Achat unique à vie (14,99 €)
 
-- estimation de l'ovulation et de la fenêtre de fertilité ;
-- mode grossesse ;
-- suivi de la périménopause ;
-- partage avec le partenaire (suppose un relais chiffré de bout en bout) ;
-- synchronisation avec Apple Santé.
+Tout est débloqué pendant les trois premiers cycles, sans moyen de paiement. Ensuite : achat unique, ou retour au socle gratuit. La saisie et l'export ne sont jamais bloqués.
+
+1. **Ovulation et fenêtre de fertilité** : estimation en Dart pur sur les données saisies, affichée avec une fourchette, jamais comme une méthode de contraception.
+2. **Mode grossesse.**
+3. **Suivi de la périménopause.**
+4. **Journal de symptômes avec tendances** par phase du cycle : douleurs, humeur, sommeil, libido.
+5. **Suivi des migraines** : intensité, durée, médicament pris, rapproché de la phase du cycle. Intégré au journal.
+6. **Rapport de consultation en PDF** : un à trois cycles (dates, durées, symptômes, migraines, irrégularités), produit sur le téléphone, à apporter chez le médecin.
+7. **Widgets** d'écran d'accueil (jour du cycle, prochaine estimation) sur iOS et Android, et complication de montre.
+8. **Sauvegarde automatique** chiffrée vers l'espace de fichiers de l'utilisatrice, sous son contrôle, sans serveur.
+9. **Partage avec le partenaire**, sans serveur de Fycle qui puisse lire quoi que ce soit. Fonction phare du premium. Seul chantier qui demande une conception avant le code (sprint 2).
+
+### Pour toutes (gratuit ou premium : à trancher fonction par fonction dans le plan du sprint 1)
+
+- **Données de santé du téléphone** (Apple Santé, Health Connect), lues sur l'appareil, sans réseau : quand le système fournit déjà une estimation (ovulation rétrospective par la température du poignet, fréquence cardiaque au repos, sommeil, variabilité cardiaque), Fycle l'affiche au lieu de la recalculer.
+- **Signaux à montrer à un médecin** : règles cliniques publiées, pas un modèle entraîné. Cycles trop longs ou trop courts, irrégularité, saignements inhabituels, avec le message « parlez-en à un médecin ». Aucun diagnostic.
+- **Rappel de contraception** : prise de pilule, changement d'anneau ou de stérilet. Un rappel, aucun conseil.
+- **Démarrage en moins d'une minute** : date des dernières règles et durée habituelle du cycle, jamais un historique complet. Une estimation s'affiche aussitôt.
+- **Mode discret** : notifications neutres (déjà en place), nom et icône neutres sur l'écran d'accueil.
+- **Habitude, sans ludification** (règle 13) : série de saisie discrète, saisie en un geste avec retour tactile, bilan de fin de cycle comparé aux cycles précédents, prédiction qui s'affine visiblement.
+- **Pourboire facultatif** « soutenir Fycle » (1,99 € ou 2,99 €) dans les réglages : ne débloque rien.
+- **Langues** : anglais et français, puis espagnol et allemand ; architecture prête pour une trentaine de langues, dont l'arabe, le chinois, le japonais et le vietnamien (règle 11).
+
+### Apparence
+
+Charte du 19 novembre 2026 (décision 77) : bleu nuit en base, ambre doré en accent unique, blanc cassé et gris anthracite en neutres, bordeaux discret pour les jours de règles. Mode clair par défaut, mode sombre au choix dans les réglages, tailles de texte du système, mise en page miroir. Icône : un F dont la barre forme un arc ouvert, monochrome, sans rien qui évoque les règles.
+
+## V3 — plus tard
+
+- Petit modèle embarqué (quelques centaines de ko), entraîné hors ligne sur des données publiques puis affiné sur le téléphone, pour croiser symptômes, sommeil, température et migraines. Zéro réseau. N'a de sens qu'une fois le journal de symptômes rempli. Vendu comme un nouvel achat unique facultatif ; les clientes gardent tout ce qu'elles ont.
+- Pistes : syndrome prémenstruel et sa forme sévère, post-partum, journal de préparation de consultation pour l'endométriose ou le SOPK, poids, température, tests d'ovulation.
 
 ## Hors périmètre
 
 - assistant IA, communauté, contenus quotidiens ;
 - toute fonction présentée comme une contraception ou un diagnostic ;
-- sauvegarde automatique dans un cloud, même celui de l'utilisatrice : elle contredit « rien ne quitte le téléphone ». Le fichier d'export chiffré en tient lieu.
+- abonnement, sous quelque forme que ce soit ;
+- points, badges, confettis, récompenses ;
+- apprentissage fédéré : il suppose un serveur d'agrégation. À revoir plus tard.
 
-## Moteur de prédiction (V1)
+## Moteur de prédiction
 
 - Entrée : les dates de début de règles passées.
 - Sortie : une fourchette de dates pour les prochaines règles, et un niveau de confiance.
@@ -83,6 +116,8 @@ Reste gratuit quoi qu'il arrive : l'export de ses propres données (règle 6), l
   - cycle oublié (trou dans les données) ;
   - cycle très long ou très court.
 
+En V2, deux niveaux : sans montre, la prédiction statistique de Fycle ; avec une montre, les estimations fournies par le système. Les réglages de départ du modèle sont calés hors ligne sur des données publiques (jeux de données de recherche, statistiques publiées sur la longueur des cycles et de la phase lutéale selon l'âge), puis embarqués dans l'appli : aucune donnée d'utilisatrice ne sert à cela et rien ne sort du téléphone. Objectif réaliste : le niveau des applis établies pour les règles, la même zone d'incertitude qu'elles pour l'ovulation.
+
 ## Jalons
 
 0. Squelette du projet, garde-fous automatiques (dépendances, réseau), intégration continue.
@@ -91,12 +126,24 @@ Reste gratuit quoi qu'il arrive : l'export de ses propres données (règle 6), l
 3. Interface : démarrage, saisie, calendrier, prédiction.
 4. Rappels et verrouillage.
 5. Première version TestFlight pour la première utilisatrice.
-6. Boucle de retours hebdomadaire, puis pack Pro, puis Android.
+6. V2, en deux sprints (décision 78) :
+   - sprint 1 : toute la V2 hors partage partenaire, en TestFlight ; jalons détaillés dans le plan du sprint, à valider ;
+   - sprint 2 : partage partenaire, conception d'abord ;
+   - test fermé d'une dizaine de testeuses pendant un à deux mois, profils variés ;
+   - publication sur l'App Store, puis sur Google Play.
 
-## Critères d'acceptation de la V1
+## Critères d'acceptation
 
 - Tout fonctionne en mode avion.
 - L'appli n'émet aucune requête réseau (vérifié par test et par observation du trafic).
 - L'appli s'ouvre sans attente perceptible.
 - Saisir une journée prend moins de dix secondes.
 - La première utilisatrice s'en sert seule, sans explication.
+
+Ajoutés pour la V2 :
+
+- Une estimation s'affiche moins d'une minute après la première ouverture.
+- Chaque écran soutient la comparaison avec les meilleures applis du domaine (règle 12).
+- Chaque écran tient en écriture de droite à gauche et en grand texte.
+- Chaque fonction existe sur iOS et sur Android avant publication (règle 10).
+- Les textes médicaux ont été relus par un professionnel de santé.

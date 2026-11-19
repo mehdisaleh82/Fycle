@@ -251,10 +251,68 @@
 
 62. **Mode clair uniquement pour le moment**, à la demande de l'utilisateur. L'appli ne suit plus le réglage clair ou sombre du téléphone (modifie la décision 44 et reporte le « mode sombre » du point 11 de la V1 dans `docs/SPEC.md`). Le thème sombre, dans la même palette, reste dans le code et dans les tests : le réactiver tient en une ligne de `lib/ui/app.dart`.
 
+## Cadrage de la V2 (19 novembre 2026)
+
+Décisions de l'utilisateur, reprises de sa note de cadrage du 19 novembre 2026. Cette note cite des applis concurrentes : elle n'est pas rangée dans le dépôt (règle 8), son contenu est reporté ici et dans `docs/SPEC.md` sans les noms.
+
+63. **La V1 n'est pas publiée.** Elle reste en TestFlight ; la première version publique est la V2, pour un vrai lancement.
+
+64. **Jamais d'abonnement : c'est le slogan.** Aucun palier récurrent. Devient la règle 9 de `CLAUDE.md`.
+
+65. **Prix de l'achat unique : 14,99 €**, soit environ 10 € nets par vente après TVA et commission. Remplace l'hypothèse de 9,99 €.
+
+66. **Essai : tout est débloqué pendant trois cycles**, sans moyen de paiement (un mois serait trop court pour voir une prédiction se vérifier). Ensuite, achat unique ou retour au socle gratuit, sans publicité, pour toujours. Après l'essai, ni la saisie ni l'export ne sont bloqués.
+
+67. **Répartition gratuit / achat unique.**
+    - Gratuit pour toujours : saisie, calendrier, prédiction de base des règles, rappels, verrouillage, export et import.
+    - Achat unique : ovulation, fertilité, périménopause, grossesse, journal de symptômes avec tendances, migraines, rapport de consultation PDF, widgets et complication, sauvegarde automatique, partage partenaire (fonction phare).
+    - Remplace le « pack Pro » de la V1.x. Le socle gratuit fait le volume ; le premium reste minoritaire par construction.
+
+68. **Pourboire facultatif « soutenir Fycle »** (1,99 € ou 2,99 €) dans les réglages, qui ne débloque rien. Autres leviers gardés en réserve, tous sans abonnement : pack « partenaire » ou « famille », V3 vendue comme nouvel achat unique facultatif.
+
+69. **Sauvegarde : export chiffré manuel gratuit, sauvegarde automatique en premium**, vers l'espace de fichiers de l'utilisatrice (iCloud Drive, Fichiers, équivalent Android), sous son contrôle, sans serveur. Raison : tout en local, un téléphone perdu est tout perdu. Modifie le périmètre (la sauvegarde automatique était exclue) et précise la règle 1. La décision 43 reste : la base elle-même, illisible sans sa clé, n'entre pas dans la sauvegarde iCloud du téléphone ; c'est le fichier d'export chiffré par mot de passe qui est sauvegardé.
+
+70. **Périmètre de la V2 et de la V3** : voir `docs/SPEC.md`. Hors périmètre confirmé : assistant IA, communauté, contenus quotidiens, allégation de contraception ou de diagnostic. Apprentissage fédéré : plus tard, il suppose un serveur.
+
+71. **Données de santé du téléphone : afficher plutôt que recalculer.** Deux niveaux : sans montre, la prédiction statistique de Fycle ; avec une montre, les estimations d'Apple Santé ou de Health Connect, lues sur l'appareil par un paquet local, sans réseau.
+
+72. **Réglages de départ du modèle calés sur des données publiques**, hors ligne, puis embarqués dans l'appli. Aucune donnée d'utilisatrice n'y sert. Pas de détection de signaux faibles à grande échelle. Les signaux à montrer à un médecin viennent de règles cliniques publiées, pas d'un modèle entraîné.
+
+73. **Le volet médical est validé par un professionnel de santé, pas généré.** Vaut pour les seuils, les textes et les alertes « parlez-en à un médecin ».
+
+74. **Parité iOS / Android stricte** (règle 10) et **internationalisation complète dès la conception** (règle 11). Langues : anglais et français en V2, puis espagnol et allemand.
+
+75. **Finition et habitude.** La finition de l'interface est un critère d'acceptation (règle 12). Mécanismes d'habitude sobres uniquement ; points, badges, confettis, récompenses et notifications culpabilisantes sont interdits (règle 13).
+
+76. **Partage partenaire : au sprint 2, conception avant le code.** Deux pistes : échange direct entre téléphones, ou relais chiffré de bout en bout. Voir les questions ouvertes.
+
+77. **Charte graphique.** Bleu nuit (ou bleu pétrole profond) en base, ambre doré en accent unique pour les prédictions et le jour du cycle, blanc cassé et gris anthracite en neutres, bordeaux discret pour les jours de règles. Police géométrique simple (Inter ou Manrope). Icône : un F stylisé dont la barre forme un arc de cercle ouvert, monochrome, un trait épais, fond uni, sans texte ; rien qui évoque les règles, ni rose ni rouge.
+    - **Confirmée par l'utilisateur le 19 novembre 2026 : remplace la palette rose poudré de la décision 61.** L'ambre doré reste sobre : un accent, pas un décor. Les formes de la décision 61 (cartes arrondies, boutons en pilule, mise en page des écrans) ne sont pas remises en cause.
+    - **Mode clair par défaut, mode sombre de retour** (modifie la décision 62) : l'appli s'ouvre en clair, et l'utilisatrice peut passer en sombre dans les réglages. Le choix est un réglage de l'appareil (table `device_setting`, décision 50).
+
+78. **Planning visé.** Sprint 1, livraison visée le 26 novembre 2026 : V2 hors partage partenaire, en TestFlight. Sprint 2 : partage partenaire. Puis test fermé d'une dizaine de testeuses pendant un à deux mois (cycles réguliers et irréguliers, avec et sans montre), publication App Store, puis Google Play. Point de mesure six mois après le lancement : 500 installations et 15 ventes par mois ; sinon, changer d'angle de communication plutôt qu'ajouter des fonctions.
+
+79. **Lancement et formalités.**
+    - À préparer avant la sortie : fiche de store par langue, page web unique avec la politique de confidentialité (obligatoire), page « preuve de confidentialité » expliquant comment vérifier soi-même l'absence de requête réseau, court dossier de presse. Sur les forums : se présenter comme le développeur, répondre aux questions, pas d'autopromotion. Éventuellement publier une partie du code (prédiction, stockage) sous licence restrictive.
+    - Marque « Fycle » à déposer (INPI, EUIPO), après avis d'un juriste. Pas de brevet.
+    - Stores : déclarer « aucune donnée collectée » ; disponibilité dans tous les pays.
+    - Android après Apple : compte Google Play, test fermé de 12 testeurs pendant 14 jours.
+
 ## Questions ouvertes
 
-- **Mode sombre** (décision 62) : à réactiver ou non avant la sortie publique, après avis de la première utilisatrice.
-- **Refonte visuelle sur iPhone** (décision 61) : validée sur l'aperçu Windows seulement ; le rendu réel, VoiceOver compris, reste à voir sur le téléphone.
+- **Police** (décision 77) : embarquée (Inter ou Manrope, fichier dans l'appli, sans téléchargement) ou police du système ? La règle 11 demande les polices du système pour les écritures non latines. Et le mode sombre : deux choix (clair, sombre) ou trois (avec « comme le téléphone ») ?
+- **Partage partenaire et règle 2** (décision 76) : un relais, même chiffré de bout en bout, est un serveur et fait sortir des données du téléphone. L'échange direct entre téléphones (code à scanner, fichier) respecte les règles 1 et 2 ; le relais demande de les modifier. À trancher à la conception du sprint 2.
+- **Chiffrement et stores** (décisions 59 et 60) : la note de cadrage prévoit de répondre « chiffrement standard du système uniquement ». Ce n'est pas le cas de Fycle, qui embarque ses propres algorithmes standards. La décision 60 tient : déclaration à l'ANSSI avant tout test externe en France.
+- **Parité pendant les essais** (règle 10) : comprise comme une condition de publication sur les stores, pas des essais TestFlight, puisque Android ne se compile pas encore sur le poste. À confirmer.
+- **Widgets et montre** : ils demandent du code natif (Swift, Kotlin), et une appli de montre séparée. Un widget lit ses données hors de la base chiffrée : que lui confier, et comment le protéger ? La complication de montre ne se vérifie pas sans montre.
+- **Essai de trois cycles** (décision 66) : comment le compter sans compte ni serveur, et que se passe-t-il après une réinstallation ?
+- **Nom et icône neutres** (mode discret) : icône alternative au choix, ou icône neutre pour toutes ?
+- **Données publiques pour caler le modèle** (décision 72) : licences à vérifier avant usage.
+- **Relecture médicale** (décision 73) : par qui, et quand ?
+- **Paquets de la V2** à proposer et relire avant ajout (règle 4) : achat intégré, données de santé, PDF, widgets.
+- **Pourboire** : la note de cadrage dit à la fois « pas de pourboire pour l'instant » et le retient parmi les leviers et dans le sprint 1. Retenu ici (décision 68) ; à confirmer.
+
+- **Rendu sur iPhone** de la nouvelle charte (décision 77) : à voir sur le téléphone, VoiceOver compris, une fois le thème refait.
 
 - **Déclaration française de chiffrement** (décisions 59 et 60) : à déposer auprès de l'ANSSI avant tout test externe et avant la sortie publique en France. Le délai se compte en semaines : à lancer bien avant. À faire confirmer par une personne compétente : cette déclaration est-elle vraiment exigée pour une appli comme Fycle ?
 - **Icône de l'appli** : c'est encore celle de Flutter. À dessiner avant la fiche publique.
@@ -265,7 +323,7 @@
 - **SDK Android** à installer sur le poste de développement (décision 45).
 - **Achat intégré** : paquet à retenir (candidat : `in_app_purchase`, de l'équipe Flutter), à relire avant le jalon du pack Pro.
 - **Android** : peut-on se passer de la permission INTERNET tout en gardant l'achat intégré ? À vérifier.
-- **Pack Pro** : contenu exact et prix. Hypothèse de travail : 9,99 €, soit environ 7 € nets par vente après TVA et commission du store, donc environ 57 ventes par mois pour l'objectif de revenu.
+- **Objectif de revenu** : 400 € par mois, soit une quarantaine de ventes par mois à 14,99 € (décision 65).
 - **Hypothèses de marché, non vérifiées** : 3 à 8 % des utilisatrices achèteraient ; un lancement sans publicité sur le seul marché francophone amènerait 5 000 à 20 000 téléchargements en 12 à 24 mois. À ce niveau, l'objectif de 400 € par mois n'est pas atteint : il suppose le marché anglophone ou un relais par des créatrices de contenu. À mesurer dès les premières utilisatrices.
 - **Import depuis d'autres applis** : formats d'export à étudier. Les noms des applis sources n'apparaissent ni dans le code ni dans l'interface (règle 8) ; à voir comment présenter la fonction.
 - **Stores** : politique de confidentialité à rédiger, obligatoire pour une appli de santé.
