@@ -86,12 +86,49 @@
     - **Durée déclarée** : avec 1 ou 2 cycles, elle compte comme un cycle de poids 1 ; avec un seul cycle, elle sert aussi de référence pour le seuil de 1,7. À partir de 3 cycles, elle n'est plus utilisée. Elle doit être comprise entre 15 et 90 jours.
     - Paramètres de départ, à réviser avec les retours des premières utilisatrices.
 
+## Décisions du jalon 2 (19 novembre 2026)
+
+24. **Base chiffrée : paquet `sqlite3` seul, variante SQLite3 Multiple Ciphers** (réglage `hooks: user_defines: sqlite3: source: sqlite3mc` dans `pubspec.yaml`). Chiffrement ChaCha20-Poly1305, clé brute de 256 bits, sans mot de passe.
+    - **Téléchargement à la compilation, accepté par l'utilisateur le 19 novembre 2026.** Le paquet télécharge une bibliothèque précompilée depuis les publications GitHub de son dépôt, sur le poste de développement et sur le service de build, jamais sur le téléphone. Le fichier est contrôlé par une empreinte sha256 inscrite dans le paquet. C'est de même nature que `flutter pub get`. La règle 4 de `CLAUDE.md` se lit donc ainsi : aucun appel réseau émis depuis l'appli. Son texte reste à préciser par l'utilisateur.
+    - Solution de repli si ce téléchargement devenait inacceptable : compiler SQLite3 Multiple Ciphers depuis des sources rangées dans le dépôt (réglage `source: source`). Non testé.
+    - L'appli refuse d'ouvrir la base si la bibliothèque chargée ne sait pas chiffrer.
+    - `drift` est écarté : trois petites tables ne justifient pas une soixantaine de paquets d'outillage en plus. À revoir si le schéma grossit.
+
+25. **Clé de la base.** 32 octets tirés au hasard sur l'appareil, rangés par `flutter_secure_storage` dans le Keychain (iOS) ou le Keystore (Android). Sur iOS, la clé ne quitte pas l'appareil : pas de synchronisation iCloud, pas de restauration sur un autre téléphone.
+    - Base présente mais clé absente (téléphone restauré depuis une sauvegarde) : le contenu est irrécupérable. L'appli le signale sans rien effacer ; l'interface proposera de repartir de zéro ou d'importer un export.
+    - Clé présente mais base absente (iOS conserve le trousseau après désinstallation) : la clé est remplacée par une nouvelle.
+    - Android : sauvegarde automatique du système désactivée (`allowBackup="false"`), version minimale Android 7.0 (API 24), exigée par `flutter_secure_storage`.
+
+26. **Schéma de la base, version 1** (`PRAGMA user_version`). `day_entry` (jour, intensité, douleur, humeur, note), `day_symptom` (jour, symptôme), `setting` (nom, valeur ; contient la durée habituelle du cycle). Les jours sont des dates ISO en texte (`2026-03-05`), les choix sont les noms des valeurs en anglais.
+    Raison : lisible, triable, et l'ordre des listes peut changer sans casser les données. Conséquence : ne jamais renommer une valeur, seulement en ajouter. Une valeur inconnue, écrite par une version plus récente, est ignorée à la lecture.
+    Un jour où rien n'est saisi n'a pas de ligne. Le contenu supprimé est écrasé dans le fichier (`secure_delete`).
+
+27. **Listes de départ**, à revoir au jalon 3 avec l'interface. Douleur : `none`, `mild`, `moderate`, `severe`. Humeur, une par jour : `happy`, `calm`, `sad`, `anxious`, `irritable`. Symptômes : `cramps`, `headache`, `backPain`, `breastTenderness`, `bloating`, `nausea`, `fatigue`, `acne`, `cravings`, `insomnia`.
+
+28. **Fichier d'export chiffré (`.fycle`), format version 1.** Protégé par un mot de passe choisi par l'utilisatrice (8 caractères minimum), car la clé de l'appareil disparaît avec lui. Clé dérivée par Argon2id (19 Mio, 2 passes, réglages écrits dans le fichier), contenu chiffré en AES-256-GCM, en-tête authentifié. Le contenu est du JSON, avec son propre numéro de version. Description octet par octet dans `lib/data/backup_codec.dart`.
+    - Mot de passe oublié : fichier perdu, sans récupération. À dire clairement à l'écran.
+    - Mauvais mot de passe et fichier abîmé ne se distinguent pas, par construction.
+    - Paquet `cryptography` (Dart pur). Le calcul prend environ une demi-seconde sur PC ; à mesurer sur téléphone, et à déplacer hors du fil de l'interface si nécessaire.
+
+29. **Import : il remplace tout**, en une seule opération. Un fichier illisible ou un mauvais mot de passe ne modifie rien.
+    Raison : comportement simple et prévisible pour une restauration. Une fusion jour par jour pourra venir avec l'import depuis d'autres applis.
+
+30. **Export CSV.** Une ligne par jour, colonnes `date, flow, pain, mood, symptoms, note`, valeurs en anglais, non chiffré. Une note qui commence comme une formule de tableur est neutralisée par une apostrophe. Traduire les en-têtes et les valeurs relève de l'interface (jalon 3).
+
+31. **Suppression intégrale.** La clé est effacée d'abord, puis le fichier de la base. Sans la clé, ce qui resterait physiquement sur la mémoire du téléphone est illisible.
+
+32. **Dépendances du jalon 2.** `sqlite3`, `flutter_secure_storage`, `path_provider`, `cryptography`, relus le 19 novembre 2026 : aucun code réseau hors du script de compilation de `sqlite3` (décision 24) et de sa partie web, inutilisée ; aucune permission Android. `flutter_secure_storage` embarque la bibliothèque Tink de Google sur Android (chiffrement, sans réseau). Une quarantaine de dépendances indirectes sont ajoutées à la liste blanche.
+    `share_plus` et `file_picker` sont reportés au jalon 3 : ils servent à l'interface (fenêtre de partage, choix d'un fichier). `file_picker` seul pourrait suffire, à vérifier.
+
+33. **Ce qui ne se vérifie que sur un vrai téléphone.** Le trousseau (la clé survit à un redémarrage, disparaît à la suppression), le dossier privé de l'appli, et la durée de la dérivation de clé. Tout le reste est couvert par les tests sous Windows, avec un trousseau factice en mémoire.
+
 ## Questions ouvertes
 
-- **Paquets Flutter** proposés, versions relevées le 19 novembre 2026, à relire (code et permissions) puis à ajouter à la liste blanche au jalon concerné :
-  - jalon 2 : `drift` et `sqlite3` en variante chiffrée, `flutter_secure_storage`, `share_plus`, `file_picker`, `path_provider` ;
+- **Paquets Flutter** proposés, à relire (code et permissions) puis à ajouter à la liste blanche au jalon concerné :
+  - jalon 3 : `file_picker` et, s'il ne suffit pas, `share_plus` (versions 13.4.0 et 13.3.1 relevées le 19 novembre 2026 ; `share_plus` amène `url_launcher`, à examiner) ;
   - jalon 4 : `flutter_local_notifications` avec `timezone`, `local_auth`.
-- **Chiffrement de la base** : `sqlcipher_flutter_libs` est en fin de vie depuis février 2026. Le chiffrement passe par `sqlite3` ; réglage exact à vérifier au jalon 2. Ce paquet télécharge une bibliothèque précompilée à la compilation : à examiner au regard de la règle 4.
+- **Règle 4 de `CLAUDE.md`** : texte à préciser par l'utilisateur pour couvrir le téléchargement à la compilation (décision 24).
+- **Sauvegarde iCloud de l'iPhone** : le fichier de la base, chiffré, peut être inclus dans la sauvegarde du téléphone ; il y est illisible sans la clé, qui reste sur l'appareil. À décider : l'en exclure tout de même (demande un peu de code natif).
 - **Achat intégré** : paquet à retenir (candidat : `in_app_purchase`, de l'équipe Flutter), à relire avant le jalon du pack Pro.
 - **Android** : peut-on se passer de la permission INTERNET tout en gardant l'achat intégré ? À vérifier.
 - **Pack Pro** : contenu exact et prix. Hypothèse de travail : 9,99 €, soit environ 7 € nets par vente après TVA et commission du store, donc environ 57 ventes par mois pour l'objectif de revenu.
