@@ -3,32 +3,67 @@
 # Adding a line requires a justification in docs/DECISIONS.md (CLAUDE.md, rule 4).
 
 # Direct, shipped in the app
+cryptography            # dint.dev, pure Dart, encrypts the export file
 flutter                 # SDK
 flutter_localizations   # SDK, English and French
 intl                    # dart.dev, dates and plurals for localization
+flutter_secure_storage  # database key in the Keychain / Keystore
 material_ui             # flutter.dev, Material widgets
+path_provider           # flutter.dev, private folder of the app
+sqlite3                 # encrypted local database (SQLite3 Multiple Ciphers)
 
 # Direct, development only
 flutter_lints           # flutter.dev, static analysis rules
 flutter_test            # SDK, tests
 
 # Transitive, pulled in by the packages above
+args
 async
 boolean_selector
 characters
 clock
+code_assets             # dart.dev, build hook of sqlite3
 collection
+crypto                  # dart.dev, hashes
 cupertino_ui            # flutter.dev, required by material_ui
 fake_async
+ffi                     # dart.dev
+ffi_leak_tracker
+file
+flutter_secure_storage_darwin
+flutter_secure_storage_linux
+flutter_secure_storage_platform_interface
+flutter_secure_storage_web
+flutter_secure_storage_windows
+flutter_web_plugins     # SDK
+glob
+hooks                   # dart.dev, build hook of sqlite3
+jni                     # dart.dev, required by path_provider_android
+jni_flutter
+jni_util
 leak_tracker
 leak_tracker_flutter_testing
 leak_tracker_testing
 lints
 listen                  # flutter.dev
+logging
 matcher
 material_color_utilities
 meta
+native_toolchain_c      # dart.dev, build hook of sqlite3
+objective_c             # dart.dev, required by path_provider_foundation
+package_config
 path
+path_provider_android
+path_provider_foundation
+path_provider_linux
+path_provider_platform_interface
+path_provider_windows
+platform
+plugin_platform_interface
+process
+pub_semver
+record_use
 sky_engine              # SDK
 source_span
 stack_trace
@@ -36,5 +71,10 @@ stream_channel
 string_scanner
 term_glyph
 test_api
+typed_data
 vector_math
 vm_service
+web                     # dart.dev, browser bindings, unused on mobile
+win32
+xdg_directories
+yaml

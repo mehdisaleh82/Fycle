@@ -13,8 +13,12 @@ dependencies:
     sdk: flutter
   flutter_localizations:
     sdk: flutter
+  cryptography: ^2.9.0
+  flutter_secure_storage: ^11.2.0
   intl: ^0.20.3
   material_ui: ^1.1.0
+  path_provider: ^2.1.6
+  sqlite3: ^3.9.1
 
 dev_dependencies:
   flutter_test:
@@ -24,3 +28,11 @@ dev_dependencies:
 flutter:
   generate: true
   uses-material-design: true
+
+# SQLite is bundled in its encrypted variant (SQLite3 Multiple Ciphers).
+# The build downloads a precompiled library and checks its sha256 hash.
+# See docs/DECISIONS.md, decision 24.
+hooks:
+  user_defines:
+    sqlite3:
+      source: sqlite3mc
