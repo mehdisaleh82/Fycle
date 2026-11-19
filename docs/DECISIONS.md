@@ -89,7 +89,7 @@
 ## Décisions du jalon 2 (19 novembre 2026)
 
 24. **Base chiffrée : paquet `sqlite3` seul, variante SQLite3 Multiple Ciphers** (réglage `hooks: user_defines: sqlite3: source: sqlite3mc` dans `pubspec.yaml`). Chiffrement ChaCha20-Poly1305, clé brute de 256 bits, sans mot de passe.
-    - **Téléchargement à la compilation, accepté par l'utilisateur le 19 novembre 2026.** Le paquet télécharge une bibliothèque précompilée depuis les publications GitHub de son dépôt, sur le poste de développement et sur le service de build, jamais sur le téléphone. Le fichier est contrôlé par une empreinte sha256 inscrite dans le paquet. C'est de même nature que `flutter pub get`. La règle 4 de `CLAUDE.md` se lit donc ainsi : aucun appel réseau émis depuis l'appli. Son texte reste à préciser par l'utilisateur.
+    - **Téléchargement à la compilation, accepté par l'utilisateur le 19 novembre 2026.** Le paquet télécharge une bibliothèque précompilée depuis les publications GitHub de son dépôt, sur le poste de développement et sur le service de build, jamais sur le téléphone. Le fichier est contrôlé par une empreinte sha256 inscrite dans le paquet. C'est de même nature que `flutter pub get`. La règle 4 de `CLAUDE.md` a été précisée en ce sens : aucun appel réseau depuis l'appli, téléchargement à la compilation admis s'il est vérifié par empreinte.
     - Solution de repli si ce téléchargement devenait inacceptable : compiler SQLite3 Multiple Ciphers depuis des sources rangées dans le dépôt (réglage `source: source`). Non testé.
     - L'appli refuse d'ouvrir la base si la bibliothèque chargée ne sait pas chiffrer.
     - `drift` est écarté : trois petites tables ne justifient pas une soixantaine de paquets d'outillage en plus. À revoir si le schéma grossit.
@@ -127,7 +127,6 @@
 - **Paquets Flutter** proposés, à relire (code et permissions) puis à ajouter à la liste blanche au jalon concerné :
   - jalon 3 : `file_picker` et, s'il ne suffit pas, `share_plus` (versions 13.4.0 et 13.3.1 relevées le 19 novembre 2026 ; `share_plus` amène `url_launcher`, à examiner) ;
   - jalon 4 : `flutter_local_notifications` avec `timezone`, `local_auth`.
-- **Règle 4 de `CLAUDE.md`** : texte à préciser par l'utilisateur pour couvrir le téléchargement à la compilation (décision 24).
 - **Sauvegarde iCloud de l'iPhone** : le fichier de la base, chiffré, peut être inclus dans la sauvegarde du téléphone ; il y est illisible sans la clé, qui reste sur l'appareil. À décider : l'en exclure tout de même (demande un peu de code natif).
 - **Achat intégré** : paquet à retenir (candidat : `in_app_purchase`, de l'équipe Flutter), à relire avant le jalon du pack Pro.
 - **Android** : peut-on se passer de la permission INTERNET tout en gardant l'achat intégré ? À vérifier.

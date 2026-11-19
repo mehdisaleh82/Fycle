@@ -10,7 +10,7 @@ Avant toute tâche, lire `docs/SPEC.md` (périmètre et jalons) et `docs/DECISIO
 1. Les données de l'utilisatrice restent sur l'appareil. Aucun envoi réseau de données de santé, jamais.
 2. Aucun compte, aucun serveur applicatif.
 3. Aucun SDK tiers d'analyse, de publicité, de suivi ou de rapport de plantage distant.
-4. Toute nouvelle dépendance est proposée et justifiée avant d'être ajoutée. Elle ne doit émettre aucun appel réseau. Seule exception : le paquet d'achat intégré, qui passe par le store du système.
+4. Toute nouvelle dépendance est proposée et justifiée avant d'être ajoutée. Elle ne doit émettre aucun appel réseau depuis l’appli. Un téléchargement pendant la compilation est admis s’il est vérifié par empreinte et consigné dans `docs/DECISIONS.md`. Seule exception : le paquet d'achat intégré, qui passe par le store du système.
 5. La base locale est chiffrée. La clé est stockée dans le trousseau sécurisé du système (Keychain, Keystore), jamais dans le code ni dans la base.
 6. L'export de ses propres données par l'utilisatrice est toujours gratuit.
 7. Aucune allégation médicale : pas de contraception, pas de diagnostic, pas de « jours sans risque ». Une prédiction est une estimation, affichée avec une fourchette.
