@@ -166,9 +166,49 @@
     - **Android n'a pas pu être compilé en local** : aucun SDK Android n'est installé sur le poste de développement (constaté le 19 novembre 2026). À installer avant le passage manuel sur Android.
     - En attente d'un iPhone (jalon 5) : les fenêtres de fichiers d'iOS, VoiceOver, le rendu réel, la durée de la dérivation de clé, l'exclusion iCloud, et tout ce que liste la décision 33.
 
+## Décisions du jalon 4 (19 novembre 2026)
+
+46. **Paquets des rappels et du verrouillage**, relus le 19 novembre 2026 et validés par l'utilisateur : `flutter_local_notifications` 23.0.3, `timezone` 0.11.2, `local_auth` 3.0.2.
+    - Aucun code réseau dans les deux premiers ni dans `local_auth`. Aucune permission INTERNET. Permissions Android apportées : afficher des notifications, vibrer, utiliser la biométrie.
+    - **Réserve acceptée : `timezone` tire le paquet `http`.** Il est imposé par `flutter_local_notifications` et contient deux fichiers capables de télécharger des données de fuseaux (`standalone.dart`, `browser.dart`). Ni le paquet de notifications ni Fycle ne les importent : ce code n'est pas embarqué dans l'appli. Le garde-fou réseau échoue si `lib/` importe l'un de ces deux fichiers, ou `http`. Même nature que les réserves des décisions 32 et 39.
+    - Quatorze paquets ajoutés à la liste blanche : `flutter_local_notifications` et ses variantes `_platform_interface`, `_linux`, `_windows`, `_web` ; `timezone`, `http`, `http_parser` ; `local_auth` et ses variantes `_android`, `_darwin`, `_platform_interface`, `_windows` ; `flutter_plugin_android_lifecycle`.
+    - Alternative écartée : écrire nous-mêmes le code natif des notifications, impossible à compiler et à vérifier sous Windows.
+
+47. **Rappels : calculés en Dart pur, un par jour** (`lib/domain/reminders.dart`, fonction `planReminders`). Tous désactivés par défaut.
+    - **Règles qui approchent** : une seule notification, 1, 2 ou 3 jours (2 par défaut) avant le premier jour de la fourchette de `PeriodPredictor`, à l'heure choisie (9 h par défaut).
+    - **Rappel de saisie** : une notification par jour à l'heure choisie (20 h par défaut), programmée 14 jours à l'avance, sauf les jours déjà saisis. Sans ouverture de l'appli pendant 14 jours, il se tait : pas de relance sans fin.
+    - Un rappel dont le moment est passé n'est jamais envoyé en retard.
+    - Tout est recalculé et remplacé après chaque saisie, chaque changement de réglage, à l'ouverture et à chaque retour au premier plan.
+    - L'autorisation n'est demandée qu'au moment où l'utilisatrice active un rappel. En cas de refus, l'interrupteur reste éteint et un message explique où l'autoriser.
+
+48. **Heure des rappels, voyage et changement d'heure.** `CalendarDay` reste sans fuseau (décision 20). Chaque rappel est un jour et une heure d'horloge, convertis en instant précis au moment de la programmation, avec l'horloge du téléphone ce jour-là. Aucune règle « tous les jours » n'est confiée au système, et aucune base de fuseaux n'est chargée.
+    - Changement d'heure : toujours juste, chaque jour étant converti séparément.
+    - Voyage : un rappel déjà programmé sonne à l'heure du fuseau de départ jusqu'à la prochaine ouverture de l'appli, qui reprogramme tout.
+
+49. **Texte des notifications : neutre, sans option.** Titre « Fycle ». « Un coup d'œil à votre calendrier ? » pour les règles qui approchent, « Un moment pour noter votre journée ? » pour la saisie. Rien ne mentionne les règles, le cycle, un retard ou la santé : un test le vérifie dans les deux langues. Le nom de l'appli reste visible. Sur Android, le texte est masqué sur l'écran verrouillé.
+
+50. **Réglages propres à l'appareil.** Rappels et verrouillage sont rangés dans une nouvelle table `device_setting` de la base chiffrée (schéma version 2). Ils ne partent pas dans l'export et un import ne les touche pas : sur un nouveau téléphone, tout est éteint. « Tout supprimer » les efface et annule les rappels programmés. Complète la décision 26.
+
+51. **Verrouillage : celui du téléphone, sans code propre à Fycle.** Face ID ou empreinte, avec le code du téléphone en secours (`lib/data/device_auth.dart`).
+    - Raison : rien de plus à stocker ni à oublier, et le système limite lui-même les essais. Limite acceptée : qui connaît le code du téléphone ouvre aussi Fycle. Un code propre à l'appli pourra venir plus tard ; son oubli obligerait à tout effacer puis à restaurer un export.
+    - Activer ou désactiver le verrou demande de s'authentifier d'abord.
+    - Téléphone sans aucun code : le verrou ne s'active pas, un message l'explique.
+    - Code du téléphone retiré alors que le verrou est actif : plus rien ne peut être vérifié. L'appli s'ouvre, désactive le verrou et le dit, plutôt que d'enfermer l'utilisatrice hors de ses données.
+
+52. **Quand le verrou s'applique** (`lib/ui/app_lock.dart`). À l'ouverture et à chaque retour après un passage en arrière-plan, sans délai de grâce. La fenêtre du système s'affiche d'elle-même une fois ; après un échec ou une annulation, l'utilisatrice la redemande par un bouton.
+    - L'écran de verrouillage est placé au-dessus de tous les écrans, panneaux et fenêtres. Ce qui est dessous n'est ni dessiné, ni touchable, ni lu par le lecteur d'écran, mais garde son état : une note en cours de saisie est retrouvée.
+    - **Aperçu du sélecteur d'applis masqué** quand le verrou est actif : le contenu est couvert dès que l'appli quitte le premier plan. Un simple passage par le centre de notifications couvre sans verrouiller.
+
+53. **Ce qui est vérifié, et où (jalon 4).**
+    - Sous Windows : le calcul des rappels, le passage de la base à la version 2, l'export sans les réglages d'appareil, et tous les parcours d'écran des décisions 47 à 52 avec des notifications et une authentification factices, en anglais et en français, en clair et en sombre, en grand texte.
+    - En attente d'un iPhone (jalon 5) : l'arrivée réelle des notifications et leur heure, la fenêtre d'autorisation, Face ID et le code, l'aperçu réellement masqué dans le sélecteur d'applis, le comportement en voyage. La phrase d'explication de Face ID est dans `Info.plist`, en anglais seulement.
+    - Non fait, faute de pouvoir compiler Android : sa configuration native (voir les questions ouvertes).
+
 ## Questions ouvertes
 
-- **Paquets Flutter** proposés, à relire (code et permissions) puis à ajouter à la liste blanche au jalon 4 : `flutter_local_notifications` avec `timezone`, `local_auth`.
+- **Android, rappels et verrouillage** : à configurer et vérifier au jalon Android. Reprogrammation après redémarrage du téléphone (permission et récepteurs à déclarer dans le manifeste), réglage de compilation exigé par `flutter_local_notifications` (« desugaring »), activité principale à adapter pour `local_auth`, écran masqué dans les applis récentes (`FLAG_SECURE`, quelques lignes natives). Sur Android, le choix d'un fichier fait passer l'appli en arrière-plan : le verrou se redemandera au retour.
+- **iPhone, à vérifier au jalon 5** : notifications affichées quand l'appli est au premier plan (une ligne native à ajouter si on les veut), phrase Face ID à traduire en français, et le fait que la fenêtre de choix de fichier ne déclenche pas le verrou.
+- **Code propre à l'appli** pour le verrouillage (décision 51) : à revoir si des utilisatrices partagent le code de leur téléphone.
 - **Démarrage sans date** : la date des dernières règles est obligatoire au premier lancement (décision 34). À revoir si des utilisatrices ne s'en souviennent pas : il faudrait alors mémoriser que le démarrage a été passé.
 - **SDK Android** à installer sur le poste de développement (décision 45).
 - **Exclusion iCloud** : code natif à écrire au jalon 5 (décision 43).
