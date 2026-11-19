@@ -32,6 +32,19 @@ final class DayEntry {
   final Set<Symptom> symptoms;
   final String? note;
 
+  /// The same entry with another [flow] (null for no flow). Everything
+  /// else logged for the day is kept.
+  DayEntry withFlow(FlowIntensity? flow) => DayEntry(
+    day: day,
+    flow: flow,
+    pain: pain,
+    mood: mood,
+    sleep: sleep,
+    libido: libido,
+    symptoms: symptoms,
+    note: note,
+  );
+
   /// True when nothing was logged, so the entry does not need to be kept.
   bool get isEmpty =>
       flow == null &&

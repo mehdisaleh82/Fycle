@@ -2,7 +2,6 @@ import 'package:flutter/services.dart';
 import 'package:material_ui/material_ui.dart';
 
 import '../domain/calendar_day.dart';
-import '../domain/day_entry.dart';
 import '../domain/flow_intensity.dart';
 import '../domain/logging_streak.dart';
 import '../l10n/app_localizations.dart';
@@ -22,19 +21,9 @@ class TodayCard extends StatelessWidget {
   final CalendarDay today;
 
   void _setFlow(FlowIntensity? flow) {
-    final entry = model.entryFor(today);
     // A light tick under the finger: the tap was taken into account.
     HapticFeedback.selectionClick();
-    model.saveDay(
-      DayEntry(
-        day: today,
-        flow: flow,
-        pain: entry.pain,
-        mood: entry.mood,
-        symptoms: entry.symptoms,
-        note: entry.note,
-      ),
-    );
+    model.saveDay(model.entryFor(today).withFlow(flow));
   }
 
   @override

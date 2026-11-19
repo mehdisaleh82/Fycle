@@ -55,6 +55,22 @@ void main() {
       );
     });
 
+    test('changing the flow keeps everything else', () {
+      final entry = DayEntry(
+        day: day,
+        flow: FlowIntensity.light,
+        pain: PainLevel.mild,
+        mood: Mood.calm,
+        sleep: SleepQuality.fair,
+        libido: LibidoLevel.high,
+        symptoms: {Symptom.cramps},
+        note: 'Tired',
+      );
+      final changed = entry.withFlow(null);
+      expect(changed.flow, isNull);
+      expect(changed.withFlow(FlowIntensity.light), entry);
+    });
+
     test('does not let its symptoms be changed afterwards', () {
       final entry = DayEntry(day: day, symptoms: {Symptom.cramps});
       expect(() => entry.symptoms.add(Symptom.acne), throwsUnsupportedError);
