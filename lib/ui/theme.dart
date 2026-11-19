@@ -205,8 +205,8 @@ final class PeriodColors {
     onFill: Color(0xFFFFFFFF),
   );
   static const _dark = PeriodColors._(
-    fill: Color(0xFFC0617A),
-    onFill: Color(0xFF1F0A10),
+    fill: Color(0xFFB04E64),
+    onFill: Color(0xFFFFFFFF),
   );
 
   /// Disc of a logged period day.
