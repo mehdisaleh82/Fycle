@@ -52,5 +52,6 @@ Avant toute tâche, lire `docs/SPEC.md` (périmètre et jalons) et `docs/DECISIO
 ## Garde-fous automatiques à créer puis à maintenir
 
 - Un test échoue si une dépendance absente de la liste blanche apparaît (`tool/allowed_dependencies.txt`).
-- Un test échoue si du code importe une bibliothèque réseau en dehors du module d'achat intégré.
-- Ces deux tests tournent à chaque `flutter test` et dans l'intégration continue.
+- Un test échoue si du code importe une bibliothèque réseau, sans exception.
+- Un test échoue si `lib/domain/` importe Flutter.
+- Ces tests tournent à chaque `flutter test` et dans l'intégration continue.
