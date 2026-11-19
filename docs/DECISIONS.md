@@ -36,9 +36,37 @@
 
 9. **Langues : anglais et français dès la V1.**
 
+## Décisions du jalon 0 (19 novembre 2026)
+
+10. **Architecture en trois couches.** `lib/domain/` (Dart pur : modèles, prédiction, statistiques), `lib/data/` (base chiffrée, clé, export et import), `lib/ui/` (écrans et état). Les textes sont dans `lib/l10n/`.
+    Raison : la logique métier se teste sans interface, et un seul dossier touche au disque.
+
+11. **Pas de paquet de gestion d'état, de navigation ni de calendrier au départ.** Les outils intégrés à Flutter suffisent.
+    Raison : chaque paquet en moins est un risque réseau en moins. À revoir si l'interface le demande.
+
+12. **Modèle de données.** L'intensité des règles est stockée jour par jour ; le début et la fin des règles en sont déduits. Les dates sont des jours de calendrier, sans heure ni fuseau.
+    Raison : saisie en deux gestes, données qui ne peuvent pas se contredire, pas de décalage en voyage.
+
+13. **Identifiant de l'appli : `app.fycle`** (iOS et Android). Définitif une fois l'appli publiée.
+
+14. **Flutter 3.50.0 stable, Dart 3.14.** La télémétrie des outils Flutter et Dart est désactivée, sur le poste de développement et dans l'intégration continue.
+
+15. **Dépendances du jalon 0.** `material_ui` (flutter.dev : les widgets Material ne font plus partie du SDK), `intl` et `flutter_localizations` (traductions), `flutter_lints` (analyse). `cupertino_icons`, ajouté par le modèle de projet, est retiré car inutilisé.
+    La liste blanche `tool/allowed_dependencies.txt` couvre aussi les dépendances indirectes.
+
+16. **Trois garde-fous dans `test/guardrails/`.** Dépendances hors liste blanche ; API réseau dans `lib/`, permission INTERNET dans le manifeste Android de production ou exception de sécurité de transport dans la configuration iOS ; import de Flutter, du stockage ou de l'interface depuis `lib/domain/`.
+
+17. **Intégration continue : GitHub Actions.** Le SDK Flutter est cloné depuis son dépôt officiel plutôt qu'installé par une action tierce.
+    Raison : chaîne de build plus courte.
+
+18. **Code de traduction généré.** Les fichiers `lib/l10n/app_localizations*.dart` sont générés, commités et exclus de l'analyse. `lib/ui/app.dart` déclare lui-même les délégués de traduction, car la liste générée pointe encore vers les classes d'avant `material_ui`. À simplifier quand le générateur sera à jour.
+
 ## Questions ouvertes
 
-- **Paquets Flutter** à retenir pour : base chiffrée, trousseau sécurisé, notifications locales, biométrie. À proposer en session de plan, en vérifiant qu'ils sont maintenus et qu'ils n'émettent aucun appel réseau.
+- **Paquets Flutter** proposés, versions relevées le 19 novembre 2026, à relire (code et permissions) puis à ajouter à la liste blanche au jalon concerné :
+  - jalon 2 : `drift` et `sqlite3` en variante chiffrée, `flutter_secure_storage`, `share_plus`, `file_picker`, `path_provider` ;
+  - jalon 4 : `flutter_local_notifications` avec `timezone`, `local_auth`.
+- **Chiffrement de la base** : `sqlcipher_flutter_libs` est en fin de vie depuis février 2026. Le chiffrement passe par `sqlite3` ; réglage exact à vérifier au jalon 2. Ce paquet télécharge une bibliothèque précompilée à la compilation : à examiner au regard de la règle 4.
 - **Android** : sans achat intégré, l'appli peut se passer de la permission INTERNET. À confirmer au jalon Android.
 - **Prix** : hypothèse de travail à 9,99 €, soit environ 57 ventes par mois pour l'objectif de revenu. À valider.
 - **Validation du modèle** auprès d'autres utilisatrices : à faire une fois la base de l'appli disponible (décidé le 19 novembre 2026).
