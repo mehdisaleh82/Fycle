@@ -514,6 +514,122 @@ void main() {
     });
   });
 
+  group('after an update', () {
+    Future<Harness> updated(WidgetTester tester, {String build = '17'}) async {
+      final harness = Harness(tester)..build = build;
+      await harness.seed(days: threePeriods());
+      return harness;
+    }
+
+    testWidgets('reminders are asked for again, and turned on if she agrees', (
+      tester,
+    ) async {
+      final harness = await updated(tester);
+      await harness.pumpApp(locale: 'fr');
+
+      expect(harness.reminders.permissionRequests, 1);
+      expect(find.text('Rappels'), findsOneWidget);
+      expect(
+        find.textContaining('Rien ne quitte ce téléphone'),
+        findsOneWidget,
+      );
+      await tapVisible(tester, find.text('Activer'));
+      final settings = await harness.read(
+        (store) => store.database.reminderSettings,
+      );
+      expect(settings.periodEnabled, isTrue);
+      expect(settings.dailyEnabled, isTrue);
+    });
+
+    testWidgets('"later" changes nothing, and the same build asks once', (
+      tester,
+    ) async {
+      final harness = await updated(tester);
+      await harness.pumpApp();
+      await tapVisible(tester, find.text('Later'));
+      final settings = await harness.read(
+        (store) => store.database.reminderSettings,
+      );
+      expect(settings.periodEnabled, isFalse);
+      expect(settings.dailyEnabled, isFalse);
+
+      await harness.pumpApp();
+      expect(find.byType(AlertDialog), findsNothing);
+
+      // The next update asks again.
+      harness.build = '18';
+      await harness.pumpApp();
+      expect(find.text('Later'), findsOneWidget);
+    });
+
+    testWidgets('a phone that blocks notifications is told what it costs', (
+      tester,
+    ) async {
+      final harness = await updated(tester);
+      harness.reminders.allow = false;
+      await harness.pumpApp();
+
+      expect(
+        find.textContaining('Notifications are turned off for Fycle'),
+        findsOneWidget,
+      );
+      // One button: nothing is turned on behind her back.
+      expect(find.text('Turn on'), findsNothing);
+      final settings = await harness.read(
+        (store) => store.database.reminderSettings,
+      );
+      expect(settings.dailyEnabled, isFalse);
+    });
+
+    testWidgets('nothing is asked while both reminders are on', (tester) async {
+      final harness = await updated(tester);
+      await harness.read(
+        (store) => store.database.reminderSettings = store
+            .database
+            .reminderSettings
+            .copyWith(periodEnabled: true, dailyEnabled: true),
+      );
+      await harness.pumpApp();
+      expect(find.byType(AlertDialog), findsNothing);
+    });
+
+    testWidgets('a first launch asks in its own way, not twice', (
+      tester,
+    ) async {
+      final harness = Harness(tester)..build = '17';
+      await harness.pumpApp();
+      await tapVisible(tester, find.byKey(const ValueKey('onboarding-skip')));
+      expect(find.byType(AlertDialog), findsNothing);
+      expect(harness.reminders.permissionRequests, 1);
+
+      await harness.pumpApp();
+      expect(find.byType(AlertDialog), findsNothing);
+    });
+
+    testWidgets('a build made by hand asks nothing', (tester) async {
+      final harness = await updated(tester, build: '');
+      await harness.pumpApp();
+      expect(find.byType(AlertDialog), findsNothing);
+      expect(harness.reminders.permissionRequests, 0);
+    });
+  });
+
+  group('home header', () {
+    testWidgets('shows the date on the home tab, the way home elsewhere', (
+      tester,
+    ) async {
+      final harness = Harness(tester);
+      await harness.seed(days: threePeriods());
+      await harness.pumpApp(locale: 'fr');
+      expect(find.text('Vendredi 20 mars'), findsOneWidget);
+      expect(find.byKey(const ValueKey('app-title')), findsNothing);
+
+      await openJournal(tester);
+      expect(find.byKey(const ValueKey('home-date')), findsNothing);
+      expect(find.byKey(const ValueKey('app-title')), findsOneWidget);
+    });
+  });
+
   group('home', () {
     testWidgets('suggests nothing: reminders and lock are in the settings', (
       tester,

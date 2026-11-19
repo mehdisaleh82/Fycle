@@ -17,6 +17,7 @@ final class AppEnvironment {
     required this.deviceAuth,
     required this.widgets,
     required this.now,
+    this.build = '',
   });
 
   /// The real thing: encrypted database, system file dialogs, today's date.
@@ -27,7 +28,8 @@ final class AppEnvironment {
       reminders = const SystemReminderGateway(),
       deviceAuth = const SystemDeviceAuth(),
       widgets = const SystemWidgetGateway(),
-      now = DateTime.now;
+      now = DateTime.now,
+      build = const String.fromEnvironment('FYCLE_BUILD');
 
   /// Opens the local store. May throw when the store cannot be read.
   final Future<LocalStore> Function() openStore;
@@ -48,6 +50,10 @@ final class AppEnvironment {
 
   /// The current date and time, as the phone shows them.
   final DateTime Function() now;
+
+  /// The build number of the app that is running, given when it is
+  /// compiled. Empty for a build made by hand: nothing then depends on it.
+  final String build;
 
   /// The current calendar day, as the phone shows it.
   CalendarDay today() => CalendarDay.fromDateTime(now());

@@ -137,6 +137,11 @@ final class Harness {
   final Directory dir = Directory.systemTemp.createTempSync('fycle_ui_');
   final InMemoryKeyStore keyStore = InMemoryKeyStore();
   final FakeFiles files = FakeFiles();
+
+  /// The build number the app believes it is. Empty, as a build made by
+  /// hand: reminders are then not asked for again.
+  String build = '';
+
   final FakeReminders reminders = FakeReminders();
   final FakeWidgets widgets = FakeWidgets();
   final FakeDeviceAuth deviceAuth = FakeDeviceAuth();
@@ -196,6 +201,7 @@ final class Harness {
           widgets: widgets,
           deviceAuth: deviceAuth,
           now: () => now,
+          build: build,
         ),
       ),
     );

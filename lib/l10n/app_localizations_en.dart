@@ -1419,8 +1419,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get ringShowUsual => 'Show what usually comes around this day';
 
   @override
-  String get ringHint =>
-      'Slide a finger around the ring to go through your cycle.';
+  String get ringHint => 'Slide along the ring to go through your cycle.';
 
   @override
   String ringExploreValue(int day, String date) {
@@ -1488,4 +1487,18 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get reviewDetailTitle => 'The detail';
+
+  @override
+  String get remindersAskTitle => 'Reminders';
+
+  @override
+  String get remindersAskBody =>
+      'Fycle can tell you a few days before your period, and remind you of your journal each day. Nothing leaves this phone. Turn both reminders on?';
+
+  @override
+  String get remindersAskBlockedBody =>
+      'Notifications are turned off for Fycle in the settings of this phone. Without them, Fycle cannot tell you before your period or remind you of your journal. You can allow them in the settings of the phone.';
+
+  @override
+  String get remindersAskLater => 'Later';
 }

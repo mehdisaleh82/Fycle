@@ -116,7 +116,8 @@ class CycleRing extends StatelessWidget {
             track: accent.badge,
             period: PeriodColors.of(context).fill,
             expected: accent.mark,
-            fertile: accent.onCard,
+            // Lighter than the rest: the widest estimate, the least sure.
+            fertile: accent.onCard.withValues(alpha: 0.4),
             marker: accent.onCard,
           ),
           child: Center(

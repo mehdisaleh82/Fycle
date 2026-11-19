@@ -2243,7 +2243,7 @@ abstract class AppLocalizations {
   /// No description provided for @ringHint.
   ///
   /// In en, this message translates to:
-  /// **'Slide a finger around the ring to go through your cycle.'**
+  /// **'Slide along the ring to go through your cycle.'**
   String get ringHint;
 
   /// No description provided for @ringExploreValue.
@@ -2335,6 +2335,30 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'The detail'**
   String get reviewDetailTitle;
+
+  /// No description provided for @remindersAskTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Reminders'**
+  String get remindersAskTitle;
+
+  /// No description provided for @remindersAskBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Fycle can tell you a few days before your period, and remind you of your journal each day. Nothing leaves this phone. Turn both reminders on?'**
+  String get remindersAskBody;
+
+  /// No description provided for @remindersAskBlockedBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Notifications are turned off for Fycle in the settings of this phone. Without them, Fycle cannot tell you before your period or remind you of your journal. You can allow them in the settings of the phone.'**
+  String get remindersAskBlockedBody;
+
+  /// No description provided for @remindersAskLater.
+  ///
+  /// In en, this message translates to:
+  /// **'Later'**
+  String get remindersAskLater;
 }
 
 class _AppLocalizationsDelegate

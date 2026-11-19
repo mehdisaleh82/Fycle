@@ -145,7 +145,7 @@ class _Group extends StatelessWidget {
         children: [
           Text(title, style: Theme.of(context).textTheme.titleSmall),
           const SizedBox(height: 8),
-          Wrap(spacing: 8, runSpacing: 8, children: children),
+          Wrap(spacing: 8, children: children),
         ],
       ),
     );

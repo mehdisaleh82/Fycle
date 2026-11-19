@@ -132,8 +132,15 @@ class _RootScreenState extends State<RootScreen> with WidgetsBindingObserver {
       });
       _syncReminders();
       if (_onboarded) {
-        // An app set up before reminders were on by default.
-        unawaited(_applyReminderDefault(model));
+        // An app set up before reminders were on by default, then the
+        // question asked again after each update.
+        unawaited(
+          _applyReminderDefault(model)
+              .then((_) => _askRemindersAfterUpdate(model)),
+        );
+      } else {
+        // A first launch asks in its own way: not twice.
+        _markAskedForThisBuild(model);
       }
     } on LocalStoreUnreadableException {
       _showUnreadable();
@@ -233,6 +240,71 @@ class _RootScreenState extends State<RootScreen> with WidgetsBindingObserver {
     }
   }
 
+  /// Name under which the phone remembers that reminders were asked for
+  /// with the build that is running. Null for a build made by hand.
+  String? get _askedForThisBuild {
+    final build = widget.environment.build;
+    return build.isEmpty ? null : 'reminders_asked_$build';
+  }
+
+  void _markAskedForThisBuild(CycleModel model) {
+    final name = _askedForThisBuild;
+    if (name != null && !model.suggestionDismissed(name)) {
+      model.dismissSuggestion(name);
+    }
+  }
+
+  /// Reminders are what brings her back to her journal: after each update,
+  /// once, the app asks for them again if they are not all on (decision
+  /// 137). It asks; it never turns them back on by itself, and it says what
+  /// is true: the app works without them, it only cannot tell her anything.
+  Future<void> _askRemindersAfterUpdate(CycleModel model) async {
+    final name = _askedForThisBuild;
+    if (name == null || model.suggestionDismissed(name)) {
+      return;
+    }
+    model.dismissSuggestion(name);
+    final current = model.reminderSettings;
+    bool allowed;
+    try {
+      // Shows the question of the system if it was never answered; says
+      // what was answered otherwise, without showing anything.
+      allowed = await widget.environment.reminders.requestPermission();
+    } on Exception {
+      allowed = false;
+    }
+    if (!mounted || !identical(model, _model)) {
+      return;
+    }
+    final l10n = AppLocalizations.of(context);
+    if (!allowed) {
+      await showNotice(
+        context,
+        title: l10n.remindersAskTitle,
+        body: l10n.remindersAskBlockedBody,
+      );
+      return;
+    }
+    if (current.periodEnabled && current.dailyEnabled) {
+      return;
+    }
+    final accepted = await confirm(
+      context,
+      title: l10n.remindersAskTitle,
+      body: l10n.remindersAskBody,
+      action: l10n.fertilityTurnOn,
+      cancel: l10n.remindersAskLater,
+    );
+    if (accepted && mounted && identical(model, _model)) {
+      model.setReminderSettings(
+        model.reminderSettings.copyWith(
+          periodEnabled: true,
+          dailyEnabled: true,
+        ),
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
@@ -256,6 +328,7 @@ class _RootScreenState extends State<RootScreen> with WidgetsBindingObserver {
         onDone: () {
           model.completeOnboarding();
           setState(() => _onboarded = true);
+          _markAskedForThisBuild(model);
           _applyReminderDefault(model);
         },
         onRestore: () => _restore(model),

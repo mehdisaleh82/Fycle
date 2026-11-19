@@ -7,6 +7,7 @@ import 'cycle_model.dart';
 import 'day_sheet.dart';
 import 'insights_screen.dart';
 import 'journal_tab.dart';
+import 'labels.dart';
 import 'settings_screen.dart';
 import 'today_tab.dart';
 
@@ -85,21 +86,30 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
     return Scaffold(
       appBar: AppBar(
         titleSpacing: 8,
-        // Always in the same place: the way back to the home tab.
+        // On the home tab, the date, as at the top of a diary page. On the
+        // others, in the same place, the way back home.
         title: Align(
           alignment: AlignmentDirectional.centerStart,
-          child: Tooltip(
-            message: l10n.homeTooltip,
-            child: TextButton.icon(
-              key: const ValueKey('app-title'),
-              onPressed: () => _select(HomeTab.home),
-              icon: const Icon(Icons.home_rounded),
-              label: Text(
-                l10n.tabHome,
-                style: theme.appBarTheme.titleTextStyle,
-              ),
-            ),
-          ),
+          child: _tab == HomeTab.home
+              ? Padding(
+                  padding: const EdgeInsetsDirectional.only(start: 12),
+                  child: Text(
+                    todayTitle(l10n, environment.today()),
+                    key: const ValueKey('home-date'),
+                  ),
+                )
+              : Tooltip(
+                  message: l10n.homeTooltip,
+                  child: TextButton.icon(
+                    key: const ValueKey('app-title'),
+                    onPressed: () => _select(HomeTab.home),
+                    icon: const Icon(Icons.home_rounded),
+                    label: Text(
+                      l10n.tabHome,
+                      style: theme.appBarTheme.titleTextStyle,
+                    ),
+                  ),
+                ),
         ),
       ),
       // The bar has a fixed height: its labels stop growing past a point,

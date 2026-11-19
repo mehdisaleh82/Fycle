@@ -516,7 +516,7 @@
   "widgetSubtitle": "The cycle ring on the home screen of this phone, with no word about periods. Add it from the home screen: touch and hold an empty area, then the + button.",
   "lockTurnedOff": "This phone no longer has a passcode: the lock of Fycle was turned off.",
   "ringShowUsual": "Show what usually comes around this day",
-  "ringHint": "Slide a finger around the ring to go through your cycle.",
+  "ringHint": "Slide along the ring to go through your cycle.",
   "ringExploreValue": "Day {day} of your cycle, {date}",
   "@ringExploreValue": {"placeholders": {"day": {"type": "int"}, "date": {"type": "String"}}},
   "exploreToday": "{date} · today",
@@ -537,5 +537,9 @@
   "@periodEndDays": {"placeholders": {"count": {"type": "int"}}},
   "periodEndToday": "Likely the last day, going by your past periods",
   "reviewSeeDetail": "See the detail",
-  "reviewDetailTitle": "The detail"
+  "reviewDetailTitle": "The detail",
+  "remindersAskTitle": "Reminders",
+  "remindersAskBody": "Fycle can tell you a few days before your period, and remind you of your journal each day. Nothing leaves this phone. Turn both reminders on?",
+  "remindersAskBlockedBody": "Notifications are turned off for Fycle in the settings of this phone. Without them, Fycle cannot tell you before your period or remind you of your journal. You can allow them in the settings of the phone.",
+  "remindersAskLater": "Later"
 }

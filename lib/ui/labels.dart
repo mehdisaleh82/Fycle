@@ -142,6 +142,11 @@ String fullDate(AppLocalizations l10n, CalendarDay day) =>
 String weekdayDate(AppLocalizations l10n, CalendarDay day) =>
     DateFormat.MMMMEEEEd(l10n.localeName).format(_dateTime(day));
 
+/// The date at the top of the home tab: "Friday, March 20" /
+/// "Vendredi 20 mars".
+String todayTitle(AppLocalizations l10n, CalendarDay day) =>
+    toBeginningOfSentenceCase(weekdayDate(l10n, day), l10n.localeName);
+
 /// "March 2026" / "mars 2026".
 String monthTitle(AppLocalizations l10n, int year, int month) {
   final text = DateFormat.yMMMM(l10n.localeName).format(DateTime(year, month));

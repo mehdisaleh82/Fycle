@@ -3,11 +3,13 @@ import 'package:material_ui/material_ui.dart';
 import '../l10n/app_localizations.dart';
 
 /// Asks for a confirmation. Returns true only if the user chose [action].
+/// The other button says "Cancel" unless [cancel] words it otherwise.
 Future<bool> confirm(
   BuildContext context, {
   required String title,
   required String body,
   required String action,
+  String? cancel,
   bool destructive = false,
 }) async {
   final answer = await showDialog<bool>(
@@ -21,7 +23,7 @@ Future<bool> confirm(
         actions: [
           TextButton(
             onPressed: () => Navigator.of(context).pop(false),
-            child: Text(AppLocalizations.of(context).cancel),
+            child: Text(cancel ?? AppLocalizations.of(context).cancel),
           ),
           FilledButton(
             style: destructive

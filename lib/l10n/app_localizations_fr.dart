@@ -1436,8 +1436,7 @@ class AppLocalizationsFr extends AppLocalizations {
       'Afficher ce qui revient d\'habitude vers ce jour';
 
   @override
-  String get ringHint =>
-      'Glisse le doigt autour de l\'anneau pour parcourir ton cycle.';
+  String get ringHint => 'Glisse sur l\'anneau pour parcourir ton cycle.';
 
   @override
   String ringExploreValue(int day, String date) {
@@ -1505,4 +1504,18 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get reviewDetailTitle => 'Le détail';
+
+  @override
+  String get remindersAskTitle => 'Rappels';
+
+  @override
+  String get remindersAskBody =>
+      'Fycle peut te prévenir quelques jours avant tes règles, et te rappeler ton journal chaque jour. Rien ne quitte ce téléphone. Activer les deux rappels ?';
+
+  @override
+  String get remindersAskBlockedBody =>
+      'Les notifications sont coupées pour Fycle dans les réglages de ce téléphone. Sans elles, Fycle ne peut ni te prévenir avant tes règles ni te rappeler ton journal. Tu peux les autoriser dans les réglages du téléphone.';
+
+  @override
+  String get remindersAskLater => 'Plus tard';
 }

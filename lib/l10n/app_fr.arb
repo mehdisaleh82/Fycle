@@ -368,7 +368,7 @@
   "widgetSubtitle": "L'anneau du cycle sur l'écran d'accueil de ce téléphone, sans un mot sur les règles. Ajoute-le depuis l'écran d'accueil : appui long sur une zone vide, puis le bouton +.",
   "lockTurnedOff": "Ce téléphone n'a plus de code : le verrouillage de Fycle a été désactivé.",
   "ringShowUsual": "Afficher ce qui revient d'habitude vers ce jour",
-  "ringHint": "Glisse le doigt autour de l'anneau pour parcourir ton cycle.",
+  "ringHint": "Glisse sur l'anneau pour parcourir ton cycle.",
   "ringExploreValue": "Jour {day} de ton cycle, {date}",
   "exploreToday": "{date} · aujourd'hui",
   "exploreLogged": "Noté : {facts}",
@@ -383,5 +383,9 @@
   "periodEndDays": "{count, plural, =1{Encore 1 jour environ, d'après tes règles précédentes} other{Encore {count} jours environ, d'après tes règles précédentes}}",
   "periodEndToday": "Sans doute le dernier jour, d'après tes règles précédentes",
   "reviewSeeDetail": "Voir le détail",
-  "reviewDetailTitle": "Le détail"
+  "reviewDetailTitle": "Le détail",
+  "remindersAskTitle": "Rappels",
+  "remindersAskBody": "Fycle peut te prévenir quelques jours avant tes règles, et te rappeler ton journal chaque jour. Rien ne quitte ce téléphone. Activer les deux rappels ?",
+  "remindersAskBlockedBody": "Les notifications sont coupées pour Fycle dans les réglages de ce téléphone. Sans elles, Fycle ne peut ni te prévenir avant tes règles ni te rappeler ton journal. Tu peux les autoriser dans les réglages du téléphone.",
+  "remindersAskLater": "Plus tard"
 }

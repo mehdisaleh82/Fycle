@@ -39,9 +39,10 @@ jobs:
       - run: flutter pub get
 
       # Compiles without signing. The build number must grow at each upload:
-      # the run number of this workflow does.
+      # the run number of this workflow does. The app is told that number too:
+      # it asks for reminders again once after each update (decision 137).
       - name: Build the app
-        run: flutter build ipa --release --no-codesign --build-number="$GITHUB_RUN_NUMBER"
+        run: flutter build ipa --release --no-codesign --build-number="$GITHUB_RUN_NUMBER" --dart-define=FYCLE_BUILD="$GITHUB_RUN_NUMBER"
 
       - name: Check that the signing secrets exist
         id: secrets

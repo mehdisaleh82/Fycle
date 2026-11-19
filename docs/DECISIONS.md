@@ -555,6 +555,18 @@ Retour de la testeuse sur la compilation n° 9, rapporté par l'utilisateur : po
     - Écarté : le poids, la taille et le sport. Aucune étude vérifiée ne donne à ce jour un calcul utilisable ; rien n'est inventé (question ouverte « Profil de départ »).
     - Textes nouveaux à faire relire par un professionnel de santé avant toute diffusion au-delà des deux testeurs (règle 7) : la fourchette de fin des règles et les lignes affichées en parcourant l'anneau.
 
+137. **Les rappels sont redemandés une fois après chaque mise à jour** (demande de l'utilisateur : « à chaque mise à jour, Fycle doit demander les notifications : c'est sa base »). Complète la décision 129.
+    - À la première ouverture de chaque nouvelle compilation, si les deux rappels ne sont pas actifs, l'appli pose la question : « Activer les deux rappels ? », avec « Activer » et « Plus tard ». « Plus tard » ne change rien ; la compilation suivante redemandera.
+    - Si le téléphone n'a jamais répondu à la demande de notifications, c'est la question du système qui s'affiche. S'il les a refusées, le système ne permet plus de la reposer : l'appli dit alors ce que cela coûte et où les autoriser, avec un seul bouton.
+    - **Elle demande, elle ne réactive pas d'elle-même** un rappel que l'utilisatrice a coupé, et **elle ne prétend pas que les notifications sont nécessaires pour fonctionner** : ce serait faux, et les règles de l'App Store interdisent d'exiger les notifications pour utiliser une appli. Le texte dit ce qui est vrai : sans elles, l'appli ne peut ni prévenir avant les règles ni rappeler le journal.
+    - Un premier lancement pose déjà la question à sa façon (décision 129) : pas deux fois.
+    - L'appli connaît son numéro de compilation par une constante donnée à la compilation (`--dart-define=FYCLE_BUILD`, dans `.github/workflows/ios.yml`), sans nouvelle dépendance. Une compilation faite à la main n'a pas de numéro et ne demande rien. À reprendre à l'identique dans la compilation Android (règle 10).
+    - Le téléphone retient la compilation déjà traitée parmi ses réglages propres (`reminders_asked_<numéro>`), hors sauvegarde.
+138. **Retouches d'interface après avoir vu les écrans rendus en images.**
+    - En tête de l'accueil, la date du jour (« Vendredi 20 mars »), comme en haut d'une page de journal, à la place du bouton « Accueil », qui n'y menait nulle part. Sur les autres onglets, le bouton de retour à l'accueil reste au même endroit.
+    - La fenêtre de fertilité estimée est tracée plus claire que le reste de l'anneau : c'est l'estimation la plus large et la moins sûre.
+    - La phrase sous l'anneau tient sur une ligne ; les rangées de choix du journal du jour sont resserrées.
+
 ## Questions ouvertes
 
 - **Le nom « Fycle » dans l'appli** : l'utilisateur a demandé qu'il n'apparaisse plus. Fait pour l'en-tête (décision 118). Il reste au démarrage (« Bienvenue dans Fycle »), sur l'écran de verrouillage, dans les réglages et dans l'avertissement : à confirmer avant de le retirer partout.
