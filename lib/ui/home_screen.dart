@@ -110,7 +110,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
             final today = widget.environment.today();
             return SingleChildScrollView(
               // Room at the bottom so the button never hides the notice.
-              padding: const EdgeInsets.fromLTRB(16, 8, 16, 96),
+              padding: const EdgeInsetsDirectional.fromSTEB(16, 8, 16, 96),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
