@@ -1,0 +1,40 @@
+# Allowed packages, direct and transitive. One name per line.
+# A package absent from this list makes `flutter test` fail.
+# Adding a line requires a justification in docs/DECISIONS.md (CLAUDE.md, rule 4).
+
+# Direct, shipped in the app
+flutter                 # SDK
+flutter_localizations   # SDK, English and French
+intl                    # dart.dev, dates and plurals for localization
+material_ui             # flutter.dev, Material widgets
+
+# Direct, development only
+flutter_lints           # flutter.dev, static analysis rules
+flutter_test            # SDK, tests
+
+# Transitive, pulled in by the packages above
+async
+boolean_selector
+characters
+clock
+collection
+cupertino_ui            # flutter.dev, required by material_ui
+fake_async
+leak_tracker
+leak_tracker_flutter_testing
+leak_tracker_testing
+lints
+listen                  # flutter.dev
+matcher
+material_color_utilities
+meta
+path
+sky_engine              # SDK
+source_span
+stack_trace
+stream_channel
+string_scanner
+term_glyph
+test_api
+vector_math
+vm_service
