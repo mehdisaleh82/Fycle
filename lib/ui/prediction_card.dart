@@ -5,6 +5,7 @@ import '../domain/period_prediction.dart';
 import '../domain/period_predictor.dart';
 import '../l10n/app_localizations.dart';
 import 'labels.dart';
+import 'theme.dart';
 
 /// The estimate for the next period: always a range of dates, with what it
 /// is based on. Says, without alarm, when the range is over.
@@ -53,7 +54,7 @@ class PredictionCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
     final theme = Theme.of(context);
-    final scheme = theme.colorScheme;
+    final accent = AccentColors.of(context);
 
     final String title;
     final lines = <String>[];
@@ -92,7 +93,7 @@ class PredictionCard extends StatelessWidget {
 
     return Card.filled(
       margin: EdgeInsets.zero,
-      color: scheme.primaryContainer,
+      color: accent.card,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
       child: Padding(
         padding: const EdgeInsets.all(20),
@@ -107,7 +108,7 @@ class PredictionCard extends StatelessWidget {
                     child: Text(
                       title,
                       style: theme.textTheme.headlineSmall?.copyWith(
-                        color: scheme.onPrimaryContainer,
+                        color: accent.onCard,
                       ),
                     ),
                   ),
@@ -116,7 +117,7 @@ class PredictionCard extends StatelessWidget {
                   ExcludeSemantics(
                     child: DecoratedBox(
                       decoration: BoxDecoration(
-                        color: scheme.surface,
+                        color: accent.badge,
                         shape: BoxShape.circle,
                       ),
                       child: Padding(
@@ -124,7 +125,7 @@ class PredictionCard extends StatelessWidget {
                         child: Icon(
                           Icons.water_drop_outlined,
                           size: 22,
-                          color: scheme.primary,
+                          color: accent.mark,
                         ),
                       ),
                     ),
@@ -139,7 +140,7 @@ class PredictionCard extends StatelessWidget {
                       (index == 0
                               ? theme.textTheme.titleMedium
                               : theme.textTheme.bodyMedium)
-                          ?.copyWith(color: scheme.onPrimaryContainer),
+                          ?.copyWith(color: accent.onCard),
                 ),
               ],
             ],

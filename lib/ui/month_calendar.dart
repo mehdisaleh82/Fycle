@@ -57,7 +57,7 @@ class MonthCalendar extends StatelessWidget {
 
     return Card(
       child: Padding(
-        padding: const EdgeInsets.fromLTRB(8, 8, 8, 16),
+        padding: const EdgeInsetsDirectional.fromSTEB(8, 8, 8, 16),
         child: _content(
           context,
           l10n,
@@ -80,6 +80,9 @@ class MonthCalendar extends StatelessWidget {
     int leading,
     int rows,
   ) {
+    // The arrows point along the reading direction: "previous" points to
+    // where the line starts.
+    final rtl = Directionality.of(context) == TextDirection.rtl;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
@@ -88,7 +91,7 @@ class MonthCalendar extends StatelessWidget {
             IconButton(
               tooltip: l10n.calendarPreviousMonth,
               color: theme.colorScheme.primary,
-              icon: const Icon(Icons.chevron_left),
+              icon: Icon(rtl ? Icons.chevron_right : Icons.chevron_left),
               onPressed: onPreviousMonth,
             ),
             Expanded(
@@ -104,7 +107,7 @@ class MonthCalendar extends StatelessWidget {
             IconButton(
               tooltip: l10n.calendarNextMonth,
               color: theme.colorScheme.primary,
-              icon: const Icon(Icons.chevron_right),
+              icon: Icon(rtl ? Icons.chevron_left : Icons.chevron_right),
               onPressed: onNextMonth,
             ),
           ],
@@ -190,6 +193,7 @@ class _DayCell extends StatelessWidget {
     final theme = Theme.of(context);
     final scheme = theme.colorScheme;
     final period = PeriodColors.of(context);
+    final accent = AccentColors.of(context);
 
     final isPeriod = flow != null && flow != FlowIntensity.spotting;
     final isSpotting = flow == FlowIntensity.spotting;
@@ -241,9 +245,9 @@ class _DayCell extends StatelessWidget {
                 shape: BoxShape.circle,
                 color: isPeriod
                     ? period.fill
-                    : (isToday ? period.todayHalo : null),
+                    : (isToday ? accent.todayHalo : null),
                 border: isExpected
-                    ? Border.all(color: period.fill, width: 2)
+                    ? Border.all(color: accent.mark, width: 2)
                     : null,
               ),
               child: Stack(
@@ -303,6 +307,7 @@ class _Legend extends StatelessWidget {
     final l10n = AppLocalizations.of(context);
     final scheme = Theme.of(context).colorScheme;
     final period = PeriodColors.of(context);
+    final accent = AccentColors.of(context);
     return Wrap(
       spacing: 16,
       runSpacing: 8,
@@ -317,7 +322,7 @@ class _Legend extends StatelessWidget {
             child: DecoratedBox(
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
-                border: Border.all(color: period.fill, width: 2),
+                border: Border.all(color: accent.mark, width: 2),
               ),
             ),
           ),

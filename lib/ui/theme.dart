@@ -1,14 +1,17 @@
 import 'package:material_ui/material_ui.dart';
 
-/// Light or dark theme of the app, following the setting of the phone.
+/// Light or dark theme of the app.
 ///
-/// A powder-pink palette: a white page, outlined white cards, one rose
-/// for actions, generous rounding (docs/DECISIONS.md, decision 61).
+/// Night blue for headers and actions on an off-white page, outlined white
+/// cards, generous rounding (docs/DECISIONS.md, decisions 61, 77 and 82).
+/// The text uses the font of the system: nothing is bundled or downloaded.
 ThemeData fycleTheme(Brightness brightness) {
   final dark = brightness == Brightness.dark;
   final scheme = dark ? _darkScheme : _lightScheme;
   final base = ThemeData(colorScheme: scheme);
   final text = base.textTheme;
+  // Headers are night blue on the light page.
+  final header = dark ? scheme.onSurface : scheme.primary;
   const pill = StadiumBorder();
   const buttonSize = Size(64, 52);
   final buttonText = text.labelLarge?.copyWith(fontWeight: FontWeight.w700);
@@ -32,11 +35,11 @@ ThemeData fycleTheme(Brightness brightness) {
     ),
     appBarTheme: AppBarThemeData(
       backgroundColor: scheme.surface,
-      foregroundColor: scheme.onSurface,
+      foregroundColor: header,
       scrolledUnderElevation: 0,
       titleTextStyle: text.titleLarge?.copyWith(
         fontWeight: FontWeight.w700,
-        color: scheme.onSurface,
+        color: header,
       ),
     ),
     cardTheme: CardThemeData(
@@ -45,7 +48,7 @@ ThemeData fycleTheme(Brightness brightness) {
       color: FycleSurfaces.cardOf(brightness),
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(24),
-        // On a white page, a thin outline is what shows the card.
+        // On a light page, a thin outline is what shows the card.
         side: dark ? BorderSide.none : BorderSide(color: scheme.outlineVariant),
       ),
     ),
@@ -112,92 +115,148 @@ ThemeData fycleTheme(Brightness brightness) {
   );
 }
 
+// Night blue as the base, one sober amber accent kept for estimates, off-white
+// and charcoal as neutrals, a quiet burgundy for period days. Neither pink
+// nor bright red (docs/DECISIONS.md, decisions 77 and 82).
 final _lightScheme =
     ColorScheme.fromSeed(
-      seedColor: const Color(0xFFB83A68),
+      seedColor: const Color(0xFF1B2A4A),
       brightness: Brightness.light,
     ).copyWith(
-      primary: const Color(0xFFB83A68),
+      primary: const Color(0xFF1B2A4A),
       onPrimary: const Color(0xFFFFFFFF),
-      primaryContainer: const Color(0xFFFDE3EB),
-      onPrimaryContainer: const Color(0xFF4A1F2E),
-      secondary: const Color(0xFF8A5A6B),
+      primaryContainer: const Color(0xFFE3E8F2),
+      onPrimaryContainer: const Color(0xFF1B2A4A),
+      secondary: const Color(0xFF4A5568),
       onSecondary: const Color(0xFFFFFFFF),
-      secondaryContainer: const Color(0xFFF9E8EE),
-      onSecondaryContainer: const Color(0xFF4A2A36),
-      surface: const Color(0xFFFFFFFF),
-      onSurface: const Color(0xFF3B1A26),
-      onSurfaceVariant: const Color(0xFF6E4A57),
+      secondaryContainer: const Color(0xFFECE9E1),
+      onSecondaryContainer: const Color(0xFF2B2F36),
+      tertiary: const Color(0xFF4A5568),
+      onTertiary: const Color(0xFFFFFFFF),
+      tertiaryContainer: const Color(0xFFE3E8F2),
+      onTertiaryContainer: const Color(0xFF1B2A4A),
+      error: const Color(0xFFA63A2B),
+      onError: const Color(0xFFFFFFFF),
+      errorContainer: const Color(0xFFF9E3DE),
+      onErrorContainer: const Color(0xFF5C1A10),
+      surface: const Color(0xFFF7F5F0),
+      onSurface: const Color(0xFF2B2F36),
+      onSurfaceVariant: const Color(0xFF5A606B),
       surfaceContainerLowest: const Color(0xFFFFFFFF),
-      surfaceContainerLow: const Color(0xFFF6F2EC),
-      surfaceContainer: const Color(0xFFF2EDE6),
-      surfaceContainerHigh: const Color(0xFFEDE7DF),
-      surfaceContainerHighest: const Color(0xFFE8E1D8),
-      outline: const Color(0xFF9A7482),
-      outlineVariant: const Color(0xFFEAD9DF),
+      surfaceContainerLow: const Color(0xFFF2EFE9),
+      surfaceContainer: const Color(0xFFEDEAE3),
+      surfaceContainerHigh: const Color(0xFFE7E4DC),
+      surfaceContainerHighest: const Color(0xFFE1DDD4),
+      outline: const Color(0xFF7A808C),
+      outlineVariant: const Color(0xFFE3E0D8),
     );
 
 final _darkScheme =
     ColorScheme.fromSeed(
-      seedColor: const Color(0xFFB83A68),
+      seedColor: const Color(0xFF1B2A4A),
       brightness: Brightness.dark,
     ).copyWith(
-      primary: const Color(0xFFFFB1C8),
-      onPrimary: const Color(0xFF5C1133),
-      primaryContainer: const Color(0xFF4F2436),
-      onPrimaryContainer: const Color(0xFFFFD9E3),
-      secondary: const Color(0xFFE3BDC9),
-      onSecondary: const Color(0xFF422932),
-      secondaryContainer: const Color(0xFF3A2A30),
-      onSecondaryContainer: const Color(0xFFF2DDE3),
-      surface: const Color(0xFF1F1418),
-      onSurface: const Color(0xFFF5DDE4),
-      onSurfaceVariant: const Color(0xFFD6BEC6),
-      surfaceContainerLowest: const Color(0xFF170E12),
-      surfaceContainerLow: const Color(0xFF261A1F),
-      surfaceContainer: const Color(0xFF2B1E23),
-      surfaceContainerHigh: const Color(0xFF36282E),
-      surfaceContainerHighest: const Color(0xFF413238),
-      outline: const Color(0xFFA08C93),
-      outlineVariant: const Color(0xFF524349),
+      primary: const Color(0xFFAFC3EE),
+      onPrimary: const Color(0xFF12203F),
+      primaryContainer: const Color(0xFF26324F),
+      onPrimaryContainer: const Color(0xFFDCE5F8),
+      secondary: const Color(0xFFB9C1D1),
+      onSecondary: const Color(0xFF232B3B),
+      secondaryContainer: const Color(0xFF222C44),
+      onSecondaryContainer: const Color(0xFFD5D9E2),
+      tertiary: const Color(0xFFB9C1D1),
+      onTertiary: const Color(0xFF232B3B),
+      tertiaryContainer: const Color(0xFF26324F),
+      onTertiaryContainer: const Color(0xFFDCE5F8),
+      error: const Color(0xFFF2A99B),
+      onError: const Color(0xFF4A130B),
+      errorContainer: const Color(0xFF5C1F14),
+      onErrorContainer: const Color(0xFFFFDAD3),
+      surface: const Color(0xFF0F1626),
+      onSurface: const Color(0xFFECE9E2),
+      onSurfaceVariant: const Color(0xFFB4B9C4),
+      surfaceContainerLowest: const Color(0xFF0A101D),
+      surfaceContainerLow: const Color(0xFF151D30),
+      surfaceContainer: const Color(0xFF1A2338),
+      surfaceContainerHigh: const Color(0xFF222C44),
+      surfaceContainerHighest: const Color(0xFF2B3650),
+      outline: const Color(0xFF8C93A3),
+      outlineVariant: const Color(0xFF38425A),
     );
 
-/// Colour of the cards, fields and chips: white like the page in light mode,
-/// one step lighter than the page in dark mode.
+/// Colour of the cards, fields and chips: white on the off-white page in
+/// light mode, one step lighter than the page in dark mode.
 abstract final class FycleSurfaces {
   static Color cardOf(Brightness brightness) => brightness == Brightness.dark
-      ? const Color(0xFF2B1E23)
+      ? const Color(0xFF1A2338)
       : const Color(0xFFFFFFFF);
 }
 
 /// Colours of period days on the calendar. A logged period is a filled disc,
 /// an expected one a ring: the shape tells them apart, not the colour alone.
 final class PeriodColors {
-  const PeriodColors._({
-    required this.fill,
-    required this.onFill,
-    required this.todayHalo,
-  });
+  const PeriodColors._({required this.fill, required this.onFill});
 
   factory PeriodColors.of(BuildContext context) =>
       Theme.of(context).brightness == Brightness.dark ? _dark : _light;
 
   static const _light = PeriodColors._(
-    fill: Color(0xFFC63F70),
+    fill: Color(0xFF7A2E3B),
     onFill: Color(0xFFFFFFFF),
-    todayHalo: Color(0xFFF8C9D8),
   );
   static const _dark = PeriodColors._(
-    fill: Color(0xFFF48FB1),
-    onFill: Color(0xFF3E0420),
-    todayHalo: Color(0xFF5A2C40),
+    fill: Color(0xFFC0617A),
+    onFill: Color(0xFF1F0A10),
   );
 
-  /// Disc of a logged period day, ring of an expected one.
+  /// Disc of a logged period day.
   final Color fill;
 
   /// Day number written on a filled disc.
   final Color onFill;
+}
+
+/// The single accent of the app, an amber kept for what is estimated and for
+/// the day of the cycle: the estimate card, the ring of expected days, the
+/// halo of today. An accent, not a decoration: nothing else uses it.
+final class AccentColors {
+  const AccentColors._({
+    required this.mark,
+    required this.card,
+    required this.onCard,
+    required this.badge,
+    required this.todayHalo,
+  });
+
+  factory AccentColors.of(BuildContext context) =>
+      Theme.of(context).brightness == Brightness.dark ? _dark : _light;
+
+  static const _light = AccentColors._(
+    mark: Color(0xFFB67A14),
+    card: Color(0xFFFAF0DA),
+    onCard: Color(0xFF1B2A4A),
+    badge: Color(0xFFFFFFFF),
+    todayHalo: Color(0xFFF3DDAE),
+  );
+  static const _dark = AccentColors._(
+    mark: Color(0xFFE3B45C),
+    card: Color(0xFF3A2F17),
+    onCard: Color(0xFFF6E6C2),
+    badge: Color(0xFF0F1626),
+    todayHalo: Color(0xFF4A3C1C),
+  );
+
+  /// Ring of an expected period day, icon of the estimate card.
+  final Color mark;
+
+  /// Background of the estimate card.
+  final Color card;
+
+  /// Text written on the estimate card.
+  final Color onCard;
+
+  /// Small disc behind the icon of the estimate card.
+  final Color badge;
 
   /// Soft disc behind today when it is not a period day.
   final Color todayHalo;
