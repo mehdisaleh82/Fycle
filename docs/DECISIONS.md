@@ -240,7 +240,21 @@
 
 60. **Réponses au questionnaire de chiffrement d'Apple pour les essais privés.** Choix de l'utilisateur, le 19 novembre 2026, pour la compilation n° 2. Type d'algorithme : « chiffrement standard à la place ou en complément de celui du système d'Apple ». Distribution en France : « non », parce que la compilation ne sert qu'à un essai privé en test interne TestFlight (l'utilisateur seul d'abord, sa compagne ensuite, comme membre du compte). Apple repose la question à chaque compilation : la clé `ITSAppUsesNonExemptEncryption` reste absente. **Condition bloquante : pas de test externe ni de publication en France avant la déclaration de chiffrement auprès de l'ANSSI ; la réponse deviendra alors « oui », justificatif à l'appui.**
 
+## Refonte visuelle (19 novembre 2026)
+
+61. **Apparence : palette « rose poudré » sur fond blanc**, choisie par l'utilisateur parmi trois propositions (rose poudré, pêche et corail, lilas et rose), puis validée sur l'aperçu Windows. Raison : la première version, au thème par défaut, a été jugée peu jolie sur l'iPhone ; la demande était des tons clairs, pastel, féminins sans excès.
+    - **Couleurs** (`lib/ui/theme.dart`) : page blanche, cartes blanches à fin contour rosé, un seul rose soutenu pour les actions (`#B83A68`), rose très pâle pour la carte d'estimation, texte prune foncé. Un fond écru clair a été essayé puis écarté par l'utilisateur.
+    - **Formes** : boutons en pilule, cartes et champs arrondis (24 et 16 points), pastilles de choix arrondies, roses une fois choisies.
+    - **Écrans** : estimation en plus grand, calendrier dans sa carte, aujourd'hui sur un halo rose (et toujours souligné), bouton « Saisir aujourd'hui » centré en bas, réglages regroupés en cartes par section, questions du démarrage réunies dans une carte.
+    - **Inchangé** : textes, fonctions, données, prédiction. Les repères du calendrier gardent leur forme (décision 37). Police du système : aucune police ni image embarquée ou téléchargée, aucune dépendance ajoutée.
+    - Les tests de contraste, de zones tactiles et de grand texte (décision 44) passent avec la nouvelle palette. Le bouton « Commencer » du démarrage reste visible sans défiler sur un écran de 390 × 844.
+
+62. **Mode clair uniquement pour le moment**, à la demande de l'utilisateur. L'appli ne suit plus le réglage clair ou sombre du téléphone (modifie la décision 44 et reporte le « mode sombre » du point 11 de la V1 dans `docs/SPEC.md`). Le thème sombre, dans la même palette, reste dans le code et dans les tests : le réactiver tient en une ligne de `lib/ui/app.dart`.
+
 ## Questions ouvertes
+
+- **Mode sombre** (décision 62) : à réactiver ou non avant la sortie publique, après avis de la première utilisatrice.
+- **Refonte visuelle sur iPhone** (décision 61) : validée sur l'aperçu Windows seulement ; le rendu réel, VoiceOver compris, reste à voir sur le téléphone.
 
 - **Déclaration française de chiffrement** (décisions 59 et 60) : à déposer auprès de l'ANSSI avant tout test externe et avant la sortie publique en France. Le délai se compte en semaines : à lancer bien avant. À faire confirmer par une personne compétente : cette déclaration est-elle vraiment exigée pour une appli comme Fycle ?
 - **Icône de l'appli** : c'est encore celle de Flutter. À dessiner avant la fiche publique.
