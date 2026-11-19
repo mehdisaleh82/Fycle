@@ -173,7 +173,6 @@ class _DaySheetState extends State<_DaySheet> {
                 labelText: l10n.dayNoteLabel,
                 hintText: l10n.dayNoteHint,
                 alignLabelWithHint: true,
-                border: const OutlineInputBorder(),
               ),
             ),
             const SizedBox(height: 8),
@@ -202,7 +201,7 @@ class _Section extends StatelessWidget {
           child: Text(title, style: Theme.of(context).textTheme.titleSmall),
         ),
         const SizedBox(height: 8),
-        Wrap(spacing: 8, runSpacing: 4, children: children),
+        Wrap(spacing: 8, runSpacing: 8, children: children),
       ],
     );
   }

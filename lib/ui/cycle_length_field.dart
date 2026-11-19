@@ -60,7 +60,6 @@ class CycleLengthField extends StatelessWidget {
                 PeriodPredictor.maxCycleLength,
               )
             : null,
-        border: const OutlineInputBorder(),
       ),
     );
   }
