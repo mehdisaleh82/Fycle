@@ -78,13 +78,52 @@ void main() {
     semantics.dispose();
   });
 
-  testWidgets('it does not switch while a period is going on', (tester) async {
+  testWidgets('it switches during a period too, for the one after', (
+    tester,
+  ) async {
     final harness = Harness(tester, today: CalendarDay(2026, 3, 1));
     await harness.seed(days: threePeriods());
     await harness.pumpApp();
-
-    expect(_ring, findsNothing);
     expect(middle(tester), ['Day', '2']);
+
+    await tapVisible(tester, _ring);
+    expect(middle(tester), ['Days left', '24–30']);
+  });
+
+  testWidgets('from the first day after the first launch', (tester) async {
+    final harness = Harness(tester);
+    await harness.pumpApp();
+    await tapVisible(tester, find.byKey(const ValueKey('last-period-today')));
+    await tapVisible(tester, find.text('Start'));
+    expect(middle(tester), ['Day', '1']);
+
+    await tapVisible(tester, _ring);
+    expect(middle(tester), ['Days left', '21–35']);
+  });
+
+  testWidgets('a tap anywhere on the card does it, not only on the ring', (
+    tester,
+  ) async {
+    final harness = Harness(tester);
+    await harness.seed(days: threePeriods());
+    await harness.pumpApp();
+
+    await tapVisible(tester, find.text('Period in 5 to 11 days'));
+    expect(middle(tester), ['Days left', '5–11']);
+    await tapVisible(tester, find.byKey(const ValueKey('cycle-day')));
+    expect(middle(tester), ['Day', '21']);
+  });
+
+  testWidgets('two dots show that there is another view', (tester) async {
+    final harness = Harness(tester);
+    await harness.seed(days: threePeriods());
+    await harness.pumpApp();
+    expect(find.byKey(const ValueKey('ring-dots')), findsOneWidget);
+
+    // None when there is nothing to switch to.
+    harness.now = DateTime(2026, 11, 19, 12);
+    await harness.pumpApp();
+    expect(find.byKey(const ValueKey('ring-dots')), findsNothing);
   });
 
   testWidgets('nor when nothing is logged', (tester) async {
