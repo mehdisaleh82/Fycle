@@ -5,7 +5,6 @@ import '../domain/fertility_estimate.dart';
 import '../l10n/app_localizations.dart';
 import 'home_cards.dart';
 import 'labels.dart';
-import 'study_card.dart';
 
 /// The log read with the parameters gynaecologists use: each line gives the
 /// user's value, the published reference range, and where the value stands.
@@ -49,17 +48,6 @@ class ClinicalCard extends StatelessWidget {
             title: l10n.clinicalDuration,
             value: l10n.clinicalToFill,
             reference: l10n.clinicalDurationRef,
-          ),
-          const SizedBox(height: 8),
-          Align(
-            alignment: AlignmentDirectional.centerStart,
-            child: TextButton(
-              style: TextButton.styleFrom(
-                padding: const EdgeInsetsDirectional.only(end: 12),
-              ),
-              onPressed: () => showSources(context),
-              child: Text(l10n.clinicalSource),
-            ),
           ),
         ],
       );
@@ -141,17 +129,6 @@ class ClinicalCard extends StatelessWidget {
             style: theme.textTheme.bodyMedium,
           ),
         ],
-        const SizedBox(height: 8),
-        Align(
-          alignment: AlignmentDirectional.centerStart,
-          child: TextButton(
-            style: TextButton.styleFrom(
-              padding: const EdgeInsetsDirectional.only(end: 12),
-            ),
-            onPressed: () => showSources(context),
-            child: Text(l10n.clinicalSource),
-          ),
-        ),
       ],
     );
   }

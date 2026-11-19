@@ -4,36 +4,32 @@ import 'package:material_ui/material_ui.dart';
 
 import '../domain/cycle_overview.dart';
 import '../domain/cycle_status.dart';
-import '../domain/fertility_estimate.dart';
 import '../domain/period_prediction.dart';
 import '../l10n/app_localizations.dart';
 import 'cycle_ring.dart';
 import 'labels.dart';
 import 'theme.dart';
 
-/// The first thing seen: the day of the cycle on a ring, and the estimate
-/// for the next period, always as a range, with what it is based on. Says,
-/// without alarm, when the range is over.
+/// The first thing seen, and almost the only one: the day of the cycle on a
+/// ring, and the estimate for the next period, always as a range. Says,
+/// without alarm, when the range is over. While no period is logged, one
+/// button logs that it starts today.
 class PredictionCard extends StatelessWidget {
   const PredictionCard({
     super.key,
     required this.status,
     required this.overview,
-    required this.usualCycleLength,
     this.fertileFromDay,
     this.fertileToDay,
     this.ovulationLine,
-    this.showReferenceFertility = false,
+    this.onPeriodStartsToday,
   });
 
   final CycleStatus status;
   final CycleOverview overview;
 
-  /// The cycle length declared by the user, if any.
-  final int? usualCycleLength;
-
   /// Days of the cycle covered by the estimated fertile window, when the
-  /// user turned that estimate on.
+  /// user keeps that estimate on.
   final int? fertileFromDay;
   final int? fertileToDay;
 
@@ -41,9 +37,8 @@ class PredictionCard extends StatelessWidget {
   /// that estimate on and enough cycles are logged.
   final String? ovulationLine;
 
-  /// Whether the reference cycle, drawn while nothing is logged, also
-  /// carries the estimated fertile window: only when that estimate is on.
-  final bool showReferenceFertility;
+  /// Logs that a period starts today. Offered while there is no estimate.
+  final VoidCallback? onPeriodStartsToday;
 
   String _range(
     AppLocalizations l10n,
@@ -56,23 +51,6 @@ class PredictionCard extends StatelessWidget {
         ? l10n.statusNextRange(start, end)
         : l10n.statusExpectedRange(start, end);
   }
-
-  String _basis(AppLocalizations l10n, PeriodPrediction prediction) {
-    if (prediction.cyclesUsed > 0) {
-      return l10n.estimateBasisCycles(prediction.cyclesUsed);
-    }
-    final declared = usualCycleLength;
-    return declared != null
-        ? l10n.estimateBasisDeclared(declared)
-        : l10n.estimateBasisDefault(overview.cycleLength);
-  }
-
-  String _confidence(AppLocalizations l10n, PeriodPrediction prediction) =>
-      switch (prediction.confidence) {
-        PredictionConfidence.low => l10n.confidenceLow,
-        PredictionConfidence.medium => l10n.confidenceMedium,
-        PredictionConfidence.high => l10n.confidenceHigh,
-      };
 
   /// "Period in 5 to 11 days": the countdown is a range too.
   String _countdown(AppLocalizations l10n, int earliest) {
@@ -90,19 +68,13 @@ class PredictionCard extends StatelessWidget {
 
     final String title;
     final lines = <String>[];
-    PeriodPrediction? shown;
     var counting = true;
-    var reference = false;
+    var estimated = false;
     switch (status) {
       case NoEstimate():
         title = l10n.statusNoDataTitle;
-        lines
-          ..add(l10n.statusNoDataBody)
-          ..add(
-            l10n.referenceLine(overview.cycleLength, overview.periodLength),
-          );
+        lines.add(l10n.statusNoDataBody);
         counting = false;
-        reference = true;
       case EstimateOutdated():
         title = l10n.statusOutdatedTitle;
         lines.add(l10n.statusOutdatedBody);
@@ -110,30 +82,25 @@ class PredictionCard extends StatelessWidget {
       case PeriodOngoing(:final dayOfPeriod, :final next):
         title = l10n.statusOngoing(dayOfPeriod);
         lines.add(_range(l10n, next, next: true));
-        shown = next;
+        estimated = true;
       case PeriodExpected(:final prediction, :final daysUntil):
         title = _countdown(l10n, daysUntil);
         lines.add(_range(l10n, prediction));
-        shown = prediction;
+        estimated = true;
       case PeriodDue(:final prediction):
         title = l10n.countdownDue;
         lines.add(_range(l10n, prediction));
-        shown = prediction;
+        estimated = true;
       case PeriodLate(:final prediction, :final daysLate):
         title = _range(l10n, prediction);
         lines
           ..add(l10n.statusLate(daysLate))
           ..add(l10n.statusLateNote);
-        shown = prediction;
+        estimated = true;
     }
     final ovulation = ovulationLine;
-    if (shown != null && ovulation != null) {
+    if (estimated && ovulation != null) {
       lines.add(ovulation);
-    }
-    if (shown != null) {
-      lines
-        ..add(_basis(l10n, shown))
-        ..add(_confidence(l10n, shown));
     }
 
     final day = counting ? overview.dayOfCycle : null;
@@ -145,28 +112,13 @@ class PredictionCard extends StatelessWidget {
     final expectedTo = day != null && latest != null ? day + latest : null;
     final ring = CycleRing(
       dayOfCycle: day,
-      caption: reference ? l10n.referenceCaption : l10n.cycleDayCaption,
-      centerText: reference ? '${overview.cycleLength}' : null,
+      caption: l10n.cycleDayCaption,
       totalDays: [overview.cycleLength, ?day, ?expectedTo].reduce(math.max),
-      periodDays: counting || reference ? overview.periodLength : 0,
-      // Once a period is logged again, the range belongs to the next cycle:
-      // it sits at the end of the ring.
+      periodDays: counting ? overview.periodLength : 0,
       expectedFromDay: expectedFrom,
       expectedToDay: expectedTo,
-      fertileFromDay: reference && showReferenceFertility
-          ? overview.cycleLength -
-                assumedDaysFromOvulationToPeriod -
-                ovulationMarginDays -
-                fertileDaysBeforeOvulation +
-                1
-          : fertileFromDay,
-      fertileToDay: reference && showReferenceFertility
-          ? overview.cycleLength -
-                assumedDaysFromOvulationToPeriod +
-                ovulationMarginDays +
-                fertileDaysAfterOvulation +
-                1
-          : fertileToDay,
+      fertileFromDay: fertileFromDay,
+      fertileToDay: fertileToDay,
     );
 
     final text = Column(
@@ -186,16 +138,13 @@ class PredictionCard extends StatelessWidget {
           SizedBox(height: index == 0 ? 8 : 4),
           Text(
             line,
-            style:
-                (index == 0 || line == ovulation
-                        ? theme.textTheme.titleSmall
-                        : theme.textTheme.bodySmall)
-                    ?.copyWith(color: accent.onCard),
+            style: theme.textTheme.bodyMedium?.copyWith(color: accent.onCard),
           ),
         ],
       ],
     );
 
+    final start = onPeriodStartsToday;
     // Beside the ring on a normal phone, under it when the text is large.
     final stacked = MediaQuery.textScalerOf(context).scale(1) > 1.4;
     return Card.filled(
@@ -204,24 +153,37 @@ class PredictionCard extends StatelessWidget {
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
       child: Padding(
         padding: const EdgeInsets.all(20),
-        child: MergeSemantics(
-          child: stacked
-              ? Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Center(child: ring),
-                    const SizedBox(height: 16),
-                    text,
-                  ],
-                )
-              : Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    ring,
-                    const SizedBox(width: 16),
-                    Expanded(child: text),
-                  ],
-                ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            MergeSemantics(
+              child: stacked
+                  ? Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Center(child: ring),
+                        const SizedBox(height: 16),
+                        text,
+                      ],
+                    )
+                  : Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        ring,
+                        const SizedBox(width: 16),
+                        Expanded(child: text),
+                      ],
+                    ),
+            ),
+            if (!counting && start != null) ...[
+              const SizedBox(height: 16),
+              FilledButton(
+                key: const ValueKey('period-starts-today'),
+                onPressed: start,
+                child: Text(l10n.periodStartsToday),
+              ),
+            ],
+          ],
         ),
       ),
     );

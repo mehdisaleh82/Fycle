@@ -36,7 +36,7 @@
   "onboardingStart": "Start",
   "onboardingToday": "Today",
   "onboardingYesterday": "Yesterday",
-  "onboardingSkip": "I don't remember",
+  "onboardingSkip": "Not yet: I'll log it the day it starts",
   "@onboardingSkip": {
     "description": "Button of the first-launch screen: enters the app without giving the date of the last period."
   },
@@ -320,7 +320,7 @@
   "fertilityLowConfidence": "Your cycles vary a lot: this estimate is not reliable.",
   "fertilityNotEnough": "The estimate appears once two complete cycles are logged.",
   "fertilityHow": "How it is calculated",
-  "fertilityHowBody": "Fycle starts from the estimate of your next period and counts back about 13 days, with 3 days of margin on each side, to place ovulation. The window covers the 5 days before and the day after. These figures come from published studies of several hundred thousand cycles. Cycles differ from one person to another and from one month to the next: these are averages, not measurements of your body.",
+  "fertilityHowBody": "Fycle starts from the estimate of your next period and counts back about 13 days, with 3 days of margin on each side, to place ovulation. The window covers the 5 days before and the day after. Cycles differ from one person to another and from one month to the next: these are averages, not measurements of your body.",
   "@fertilityHowBody": {"description": "Medical wording: to be reviewed by a health professional before any release outside private testing."},
   "legendFertile": "Fertile window (estimate)",
   "calendarDayFertile": "fertile window, estimate",
@@ -345,7 +345,7 @@
   "figureUnknown": "–",
   "sourceLogged": "from your entries",
   "sourceDeclared": "as you indicated",
-  "sourceAssumed": "reference, to adjust",
+  "sourceAssumed": "estimate for now",
   "sourceCurrent": "so far",
   "sourceCycles": "{count, plural, =0{no complete cycle yet} =1{1 complete cycle} other{{count} complete cycles}}",
   "@sourceCycles": {"placeholders": {"count": {"type": "int"}}},
@@ -454,7 +454,7 @@
   "clinicalIntro": "Your log, read with the four parameters gynaecologists use.",
   "clinicalBasis": "{count, plural, =1{Based on 1 complete cycle over the last 12 months.} other{Based on {count} complete cycles over the last 12 months.}}",
   "@clinicalBasis": {"placeholders": {"count": {"type": "int"}}},
-  "clinicalEmpty": "Shown for now: the reference ranges. Your own figures come in once a first cycle has ended.",
+  "clinicalEmpty": "Your own figures come in once a first cycle has ended.",
   "clinicalFrequency": "Frequency",
   "clinicalFrequencyValue": "A cycle of {days} days on average",
   "@clinicalFrequencyValue": {"placeholders": {"days": {"type": "String"}}},
@@ -498,5 +498,6 @@
   "@doctorReportAge": {"placeholders": {"age": {"type": "int"}}},
   "clinicalToFill": "Your figure will replace this line",
   "clinicalRegularityRefAny": "Usual: up to 7 to 9 days apart, depending on age",
+  "periodStartsToday": "My period starts today",
   "lockTurnedOff": "This phone no longer has a passcode: the lock of Fycle was turned off."
 }

@@ -2,31 +2,28 @@ import 'package:material_ui/material_ui.dart';
 
 import '../data/device_auth.dart';
 import '../domain/calendar_day.dart';
-import '../domain/clinical_review.dart';
 import '../domain/cycle_overview.dart';
 import '../domain/cycle_status.dart';
-import '../domain/study_facts.dart';
+import '../domain/flow_intensity.dart';
 import '../l10n/app_localizations.dart';
 import 'app_environment.dart';
 import 'cycle_model.dart';
 import 'cycle_summary_card.dart';
 import 'dialogs.dart';
-import 'disclaimer_card.dart';
 import 'home_cards.dart';
 import 'home_screen.dart';
-import 'insights_screen.dart';
 import 'labels.dart';
 import 'prediction_card.dart';
-import 'study_card.dart';
 import 'today_card.dart';
 
 /// Names of the suggestions made once on the home tab.
 const String reminderSuggestion = 'reminders';
 const String lockSuggestion = 'lock';
 
-/// The home tab: where today falls in the cycle, the key figures, the entry
-/// of the day, and what the entries bring. Everything here changes from one
-/// day to the next or with each entry.
+/// The home tab, kept to the essential: where today falls in the cycle and
+/// the journal of the day. What changes with each day or each entry may
+/// follow (the summary of a cycle that ended, what usually comes around this
+/// day, one suggestion); everything else is in the review.
 class TodayTab extends StatelessWidget {
   const TodayTab({
     super.key,
@@ -128,7 +125,6 @@ class TodayTab extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
-    final theme = Theme.of(context);
     return ListenableBuilder(
       listenable: model,
       builder: (context, _) {
@@ -146,12 +142,6 @@ class TodayTab extends StatelessWidget {
           daysLogged: model.loggedDays.length,
           referenceCycleLength: model.referenceCycleLength,
         );
-        final review = clinicalReview(
-          cycles: model.cycles,
-          flowByDay: model.flowByDay,
-          today: today,
-          age: model.age,
-        );
         final current = status is NoEstimate || status is EstimateOutdated
             ? null
             : model.fertilityEstimate;
@@ -168,10 +158,6 @@ class TodayTab extends StatelessWidget {
                 cycles: model.cycles,
                 days: model.days,
               );
-        final steps = insightSteps(
-          cycles: model.cycles,
-          prediction: model.prediction,
-        );
         final summary = cycleSummaryToShow(model, today);
         final suggestion = _suggestion(context, l10n);
         const gap = SizedBox(height: 16);
@@ -181,35 +167,9 @@ class TodayTab extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               header,
-              // Her journal is hers alone: said on the first page.
-              Padding(
-                padding: const EdgeInsetsDirectional.fromSTEB(4, 0, 4, 12),
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    ExcludeSemantics(
-                      child: Icon(
-                        Icons.lock_outline,
-                        size: 20,
-                        color: theme.colorScheme.primary,
-                      ),
-                    ),
-                    const SizedBox(width: 8),
-                    Expanded(
-                      child: Text(
-                        l10n.homeReassurance,
-                        key: const ValueKey('home-reassurance'),
-                        style: theme.textTheme.bodySmall,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
               PredictionCard(
                 status: status,
                 overview: overview,
-                usualCycleLength: model.usualCycleLength,
-                showReferenceFertility: model.fertilityEstimateEnabled,
                 ovulationLine: current == null
                     ? null
                     : l10n.fertilityOvulationRange(
@@ -222,36 +182,9 @@ class TodayTab extends StatelessWidget {
                 fertileToDay: current == null || cycleStart == null
                     ? null
                     : current.windowEnd.daysSince(cycleStart) + 1,
-              ),
-              gap,
-              // A finding of a study, a new one each day, next to her own
-              // figure: what changes first when the app is opened.
-              StudyCard(
-                fact: studyFactOn(today),
-                review: review,
-                fertility: current,
-                age: model.age,
-                referenceCycleLength: model.referenceCycleLength,
-              ),
-              const SizedBox(height: 12),
-              // What a doctor would look at, one tap away.
-              FilledButton.tonalIcon(
-                key: const ValueKey('open-doctor-report'),
-                onPressed: () => Navigator.of(context).push(
-                  MaterialPageRoute<void>(
-                    builder: (context) => DoctorReportScreen(
-                      model: model,
-                      environment: environment,
-                    ),
-                  ),
+                onPeriodStartsToday: () => model.saveDay(
+                  model.entryFor(today).withFlow(FlowIntensity.medium),
                 ),
-                icon: const Icon(Icons.assignment_outlined),
-                label: Text(l10n.doctorReportTitle),
-              ),
-              gap,
-              KeyFiguresCard(
-                overview: overview,
-                referenceFromAge: model.age != null,
               ),
               gap,
               TodayCard(
@@ -259,10 +192,6 @@ class TodayTab extends StatelessWidget {
                 today: today,
                 onOpenDay: () => onOpenDay(today),
               ),
-              if (steps.any((step) => !step.reached)) ...[
-                gap,
-                UnlockCard(steps: steps),
-              ],
               if (summary != null) ...[
                 gap,
                 CycleSummaryCard(
@@ -273,8 +202,6 @@ class TodayTab extends StatelessWidget {
               ],
               if (usual.isNotEmpty) ...[gap, UsualSignsCard(signs: usual)],
               if (suggestion != null) ...[gap, suggestion],
-              gap,
-              const DisclaimerCard(),
             ],
           ),
         );

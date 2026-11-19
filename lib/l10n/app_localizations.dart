@@ -251,7 +251,7 @@ abstract class AppLocalizations {
   /// Button of the first-launch screen: enters the app without giving the date of the last period.
   ///
   /// In en, this message translates to:
-  /// **'I don\'t remember'**
+  /// **'Not yet: I\'ll log it the day it starts'**
   String get onboardingSkip;
 
   /// No description provided for @onboardingRestore.
@@ -1343,7 +1343,7 @@ abstract class AppLocalizations {
   /// Medical wording: to be reviewed by a health professional before any release outside private testing.
   ///
   /// In en, this message translates to:
-  /// **'Fycle starts from the estimate of your next period and counts back about 13 days, with 3 days of margin on each side, to place ovulation. The window covers the 5 days before and the day after. These figures come from published studies of several hundred thousand cycles. Cycles differ from one person to another and from one month to the next: these are averages, not measurements of your body.'**
+  /// **'Fycle starts from the estimate of your next period and counts back about 13 days, with 3 days of margin on each side, to place ovulation. The window covers the 5 days before and the day after. Cycles differ from one person to another and from one month to the next: these are averages, not measurements of your body.'**
   String get fertilityHowBody;
 
   /// No description provided for @legendFertile.
@@ -1463,7 +1463,7 @@ abstract class AppLocalizations {
   /// No description provided for @sourceAssumed.
   ///
   /// In en, this message translates to:
-  /// **'reference, to adjust'**
+  /// **'estimate for now'**
   String get sourceAssumed;
 
   /// No description provided for @sourceCurrent.
@@ -1955,7 +1955,7 @@ abstract class AppLocalizations {
   /// No description provided for @clinicalEmpty.
   ///
   /// In en, this message translates to:
-  /// **'Shown for now: the reference ranges. Your own figures come in once a first cycle has ended.'**
+  /// **'Your own figures come in once a first cycle has ended.'**
   String get clinicalEmpty;
 
   /// No description provided for @clinicalFrequency.
@@ -2155,6 +2155,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Usual: up to 7 to 9 days apart, depending on age'**
   String get clinicalRegularityRefAny;
+
+  /// No description provided for @periodStartsToday.
+  ///
+  /// In en, this message translates to:
+  /// **'My period starts today'**
+  String get periodStartsToday;
 
   /// No description provided for @lockTurnedOff.
   ///

@@ -26,102 +26,79 @@ Finder within(String key, String text) =>
 
 void main() {
   group('home tab', () {
-    testWidgets('gives figures from the very first date', (tester) async {
-      final harness = Harness(tester);
-      await harness.pumpApp();
-      await tapVisible(tester, find.byKey(const ValueKey('last-period-today')));
-      await tapVisible(tester, find.text('Start'));
-
-      expect(find.text('Day 1 of your cycle'), findsOneWidget);
-      expect(find.text('Day 1 of your period'), findsOneWidget);
-      expect(within('figure-cycle', '28 days'), findsOneWidget);
-      expect(within('figure-cycle', 'reference, to adjust'), findsOneWidget);
-      expect(within('figure-period', '1 day'), findsOneWidget);
-      expect(
-        within('figure-period', 'so far\nreference: 5 days'),
-        findsOneWidget,
-      );
-      expect(within('figure-logged', '1'), findsOneWidget);
-      expect(within('figure-logged', 'no complete cycle yet'), findsOneWidget);
-    });
-
-    testWidgets(
-      'with nothing logged, starts from a reference cycle to adjust',
-      (tester) async {
-        final harness = Harness(tester);
-        await harness.pumpApp();
-        await tapVisible(tester, find.byKey(const ValueKey('onboarding-skip')));
-
-        expect(find.text('No estimate yet'), findsOneWidget);
-        expect(
-          find.text(
-            'Shown for now: a reference cycle of 28 days, with a period of '
-            '5 days. Your own dates will replace it.',
-          ),
-          findsOneWidget,
-        );
-        expect(within('figure-cycle', '28 days'), findsOneWidget);
-        expect(within('figure-cycle', 'reference, to adjust'), findsOneWidget);
-        expect(within('figure-period', '5 days'), findsOneWidget);
-        expect(within('figure-period', 'reference, to adjust'), findsOneWidget);
-        expect(within('figure-logged', '0'), findsOneWidget);
-      },
-    );
-
-    testWidgets('her own figures are set against the reference, in French', (
+    testWidgets('is kept to the ring and the journal of the day', (
       tester,
     ) async {
       final harness = Harness(tester);
-      await harness.seed(
-        days: [
-          ...periodFrom(CalendarDay(2026, 1, 16), length: 6),
-          ...periodFrom(CalendarDay(2026, 2, 17), length: 6),
-        ],
+      await harness.seed(days: threePeriods());
+      await harness.read(
+        (store) => store.database
+          ..dismissSuggestion('reminders')
+          ..dismissSuggestion('lock'),
       );
-      await harness.pumpApp(locale: 'fr');
-
-      expect(within('figure-cycle', '32 jours'), findsOneWidget);
-      expect(
-        within('figure-cycle', "d'après vos saisies\nrepère : 28 jours"),
-        findsOneWidget,
-      );
-      expect(within('figure-period', '6 jours'), findsOneWidget);
-      expect(
-        within('figure-period', "d'après vos saisies\nrepère : 5 jours"),
-        findsOneWidget,
-      );
-    });
-
-    testWidgets('the figures follow the log', (tester) async {
-      final harness = Harness(tester);
-      await harness.seed(days: threePeriods(), usualCycleLength: 30);
       await harness.pumpApp();
 
       expect(find.text('Day 21 of your cycle'), findsOneWidget);
       expect(find.text('Period in 5 to 11 days'), findsOneWidget);
-      expect(within('figure-cycle', '28 days'), findsOneWidget);
-      expect(
-        within('figure-cycle', 'from your entries\nreference: 28 days'),
-        findsOneWidget,
-      );
-      expect(within('figure-period', '4 days'), findsOneWidget);
-      expect(within('figure-logged', '12'), findsOneWidget);
-      expect(within('figure-logged', '2 complete cycles'), findsOneWidget);
+      expect(find.text('My journal today'), findsOneWidget);
+      // Everything else is in the review.
+      expect(find.byType(Card), findsNWidgets(2));
+      expect(find.byKey(const ValueKey('figure-cycle')), findsNothing);
+      expect(find.byKey(const ValueKey('unlock-card')), findsNothing);
+      expect(find.byKey(const ValueKey('open-doctor-report')), findsNothing);
+      // No study, no source, no reference is named anywhere on it.
+      for (final word in ['stud', 'reference', 'FIGO', 'Source']) {
+        expect(find.textContaining(word), findsNothing, reason: word);
+      }
     });
 
-    testWidgets('says the journal is private, first thing', (tester) async {
+    testWidgets('a period can be logged the day it comes, in one tap', (
+      tester,
+    ) async {
       final harness = Harness(tester);
+      await harness.pumpApp();
+      await tapVisible(tester, find.byKey(const ValueKey('onboarding-skip')));
+
+      expect(find.text('No estimate yet'), findsOneWidget);
+      await tapVisible(
+        tester,
+        find.byKey(const ValueKey('period-starts-today')),
+      );
+
+      expect(find.text('Day 1 of your period'), findsOneWidget);
+      expect(find.text('Day 1 of your cycle'), findsOneWidget);
+      expect(find.byKey(const ValueKey('period-starts-today')), findsNothing);
+      expect(
+        await harness.read((store) => store.database.readDay(harness.today)),
+        DayEntry(day: harness.today, flow: FlowIntensity.medium),
+      );
+    });
+
+    testWidgets('that button is worded in French, and gone once a period is '
+        'logged', (tester) async {
+      final harness = Harness(tester);
+      await harness.pumpApp(locale: 'fr');
+      await tapVisible(tester, find.byKey(const ValueKey('onboarding-skip')));
+      expect(find.text("Mes règles commencent aujourd'hui"), findsOneWidget);
+
       await harness.seed(days: threePeriods());
       await harness.pumpApp(locale: 'fr');
+      expect(find.byKey(const ValueKey('period-starts-today')), findsNothing);
+    });
 
-      expect(
-        textOf(tester, 'home-reassurance'),
-        contains("personne d'autre ne peut le lire"),
+    testWidgets('it comes back for a log left aside for months', (
+      tester,
+    ) async {
+      final harness = Harness(tester, today: CalendarDay(2026, 11, 19));
+      await harness.seed(days: threePeriods());
+      await harness.pumpApp();
+
+      expect(find.text('No recent entry'), findsOneWidget);
+      await tapVisible(
+        tester,
+        find.byKey(const ValueKey('period-starts-today')),
       );
-      expect(
-        tester.getTopLeft(find.byKey(const ValueKey('home-reassurance'))).dy,
-        lessThan(tester.getTopLeft(find.byKey(const ValueKey('cycle-day'))).dy),
-      );
+      expect(find.text('Day 1 of your period'), findsOneWidget);
     });
 
     testWidgets('pain and mood are logged in one tap each', (tester) async {
@@ -153,66 +130,6 @@ void main() {
         await harness.read((store) => store.database.readDay(harness.today)),
         DayEntry(day: harness.today, pain: PainLevel.moderate),
       );
-    });
-
-    testWidgets('shows what the entries bring, step by step', (tester) async {
-      final harness = Harness(tester);
-      await harness.seed(days: periodFrom(CalendarDay(2026, 2, 28)));
-      await harness.pumpApp();
-
-      expect(find.text('The more you log, the more you see'), findsOneWidget);
-      expect(textOf(tester, 'unlock-overall'), '1 of 4 available');
-      expect(within('unlock-estimate', 'Available'), findsOneWidget);
-      expect(
-        within('unlock-averages', 'After one complete cycle · 0 of 1'),
-        findsOneWidget,
-      );
-      expect(
-        within('unlock-trends', 'After two complete cycles · 0 of 2'),
-        findsOneWidget,
-      );
-    });
-
-    testWidgets('the steps move forward as cycles are logged', (tester) async {
-      final harness = Harness(tester);
-      await harness.seed(days: threePeriods());
-      await harness.pumpApp(locale: 'fr');
-
-      expect(
-        find.text('Plus vous saisissez, plus vous en voyez'),
-        findsOneWidget,
-      );
-      expect(textOf(tester, 'unlock-overall'), '3 sur 4 disponibles');
-      expect(within('unlock-trends', 'Disponible'), findsOneWidget);
-      expect(
-        within(
-          'unlock-reliableEstimate',
-          'Avec quatre cycles réguliers ou plus · 2 sur 4',
-        ),
-        findsOneWidget,
-      );
-    });
-
-    testWidgets('once everything is available, the steps leave the home tab', (
-      tester,
-    ) async {
-      final harness = Harness(tester);
-      await harness.seed(
-        days: [
-          for (var i = 0; i < 7; i++)
-            ...periodFrom(CalendarDay(2025, 9, 13).addDays(28 * i)),
-        ],
-      );
-      await harness.pumpApp();
-
-      expect(find.byKey(const ValueKey('unlock-card')), findsNothing);
-      // They are still listed in the review.
-      await tapVisible(tester, find.byIcon(Icons.insights_outlined));
-      await tester.scrollUntilVisible(
-        find.byKey(const ValueKey('unlock-overall')),
-        200,
-      );
-      expect(textOf(tester, 'unlock-overall'), '4 of 4 available');
     });
 
     testWidgets('recalls what was logged around this day in past cycles', (
@@ -249,7 +166,7 @@ void main() {
   });
 
   group('tabs', () {
-    testWidgets('each one is named and says what it is for', (tester) async {
+    testWidgets('each one is named', (tester) async {
       final harness = Harness(tester);
       await harness.seed(days: threePeriods());
       await harness.pumpApp(locale: 'fr');
@@ -257,16 +174,9 @@ void main() {
       for (final label in ['Accueil', 'Journal', 'Bilan', 'Réglages']) {
         expect(find.text(label), findsWidgets, reason: label);
       }
-      expect(textOf(tester, 'tab-hint'), contains('Vos chiffres du jour'));
-      await openJournal(tester);
-      expect(textOf(tester, 'tab-hint'), contains('Votre calendrier'));
-      await tapVisible(tester, find.byIcon(Icons.insights_outlined));
-      expect(textOf(tester, 'tab-hint'), contains('Vos moyennes'));
-      await tapVisible(tester, find.byIcon(Icons.settings_outlined));
-      expect(textOf(tester, 'tab-hint'), contains('Rappels'));
     });
 
-    testWidgets('the name of the app leads back home', (tester) async {
+    testWidgets('the home button leads back home', (tester) async {
       final harness = Harness(tester);
       await harness.seed(days: threePeriods());
       await harness.pumpApp();
@@ -353,6 +263,87 @@ void main() {
   });
 
   group('review tab', () {
+    testWidgets('gives figures from the very first date', (tester) async {
+      final harness = Harness(tester);
+      await harness.pumpApp();
+      await tapVisible(tester, find.byKey(const ValueKey('last-period-today')));
+      await tapVisible(tester, find.text('Start'));
+      await openReview(tester);
+
+      expect(within('figure-cycle', '28 days'), findsOneWidget);
+      expect(within('figure-cycle', 'estimate for now'), findsOneWidget);
+      expect(within('figure-period', '1 day'), findsOneWidget);
+      expect(within('figure-period', 'so far'), findsOneWidget);
+      expect(within('figure-logged', '1'), findsOneWidget);
+      expect(within('figure-logged', 'no complete cycle yet'), findsOneWidget);
+    });
+
+    testWidgets('the figures follow the log', (tester) async {
+      final harness = Harness(tester);
+      await harness.seed(days: threePeriods(), usualCycleLength: 30);
+      await harness.pumpApp();
+      await openReview(tester);
+
+      expect(within('figure-cycle', '28 days'), findsOneWidget);
+      expect(within('figure-cycle', 'from your entries'), findsOneWidget);
+      expect(within('figure-period', '4 days'), findsOneWidget);
+      expect(within('figure-logged', '12'), findsOneWidget);
+      expect(within('figure-logged', '2 complete cycles'), findsOneWidget);
+    });
+
+    testWidgets('names no study and no reference', (tester) async {
+      final harness = Harness(tester);
+      await harness.seed(days: threePeriods());
+      await harness.pumpApp();
+      await openReview(tester);
+
+      for (final word in ['stud', 'reference', 'FIGO', 'Source', '2019']) {
+        expect(find.textContaining(word), findsNothing, reason: word);
+      }
+      // The usual ranges are still given, as plain figures.
+      expect(find.text('Usual range: 24 to 38 days'), findsOneWidget);
+    });
+
+    testWidgets('shows what the entries bring, step by step', (tester) async {
+      final harness = Harness(tester);
+      await harness.seed(days: periodFrom(CalendarDay(2026, 2, 28)));
+      await harness.pumpApp();
+      await openReview(tester);
+
+      expect(find.text('The more you log, the more you see'), findsOneWidget);
+      expect(textOf(tester, 'unlock-overall'), '1 of 4 available');
+      expect(within('unlock-estimate', 'Available'), findsOneWidget);
+      expect(
+        within('unlock-averages', 'After one complete cycle · 0 of 1'),
+        findsOneWidget,
+      );
+      expect(
+        within('unlock-trends', 'After two complete cycles · 0 of 2'),
+        findsOneWidget,
+      );
+    });
+
+    testWidgets('the steps move forward as cycles are logged', (tester) async {
+      final harness = Harness(tester);
+      await harness.seed(days: threePeriods());
+      await harness.pumpApp(locale: 'fr');
+      await openReview(tester);
+
+      expect(
+        find.text('Plus vous saisissez, plus vous en voyez'),
+        findsOneWidget,
+      );
+      expect(textOf(tester, 'unlock-overall'), '3 sur 4 disponibles');
+      expect(within('unlock-trends', 'Disponible'), findsOneWidget);
+      expect(
+        within(
+          'unlock-reliableEstimate',
+          'Avec quatre cycles réguliers ou plus · 2 sur 4',
+        ),
+        findsOneWidget,
+      );
+    });
+
     testWidgets('the report of the cycle can be read at any time', (
       tester,
     ) async {
@@ -374,7 +365,7 @@ void main() {
         ],
       );
       await harness.pumpApp();
-      await tapVisible(tester, find.byIcon(Icons.insights_outlined));
+      await openReview(tester);
 
       for (final line in [
         'Day 21 of your cycle',
@@ -393,7 +384,7 @@ void main() {
       final harness = Harness(tester);
       await harness.pumpApp(locale: 'fr');
       await tapVisible(tester, find.byKey(const ValueKey('onboarding-skip')));
-      await tapVisible(tester, find.byIcon(Icons.insights_outlined));
+      await openReview(tester);
 
       expect(
         within(
@@ -407,74 +398,6 @@ void main() {
   });
 
   group('first launch', () {
-    testWidgets('says what the app does before asking anything', (
-      tester,
-    ) async {
-      final harness = Harness(tester);
-      await harness.pumpApp(locale: 'fr');
-
-      expect(find.textContaining('Notez vos règles'), findsOneWidget);
-      expect(find.textContaining('Voyez vos chiffres'), findsOneWidget);
-      expect(
-        find.text("Plus vous saisissez, plus c'est juste."),
-        findsOneWidget,
-      );
-    });
-
-    testWidgets('earlier periods can be added, for figures at once', (
-      tester,
-    ) async {
-      final harness = Harness(tester);
-      await harness.pumpApp();
-      // Nothing to add before the last period is known.
-      expect(find.byKey(const ValueKey('add-earlier-period')), findsNothing);
-      await tapVisible(tester, find.byKey(const ValueKey('last-period-today')));
-
-      // The date picker opens four weeks earlier: accept it, twice.
-      for (var i = 0; i < 2; i++) {
-        await tapVisible(
-          tester,
-          find.byKey(const ValueKey('add-earlier-period')),
-        );
-        await tapVisible(tester, find.text('OK'));
-      }
-      expect(find.text('Feb 20, 2026'), findsOneWidget);
-      expect(find.text('Jan 23, 2026'), findsOneWidget);
-
-      await tapVisible(tester, find.text('Start'));
-      expect(
-        await harness.read((store) => store.database.flowByDay().keys.toList()),
-        [
-          CalendarDay(2026, 1, 23),
-          CalendarDay(2026, 2, 20),
-          CalendarDay(2026, 3, 20),
-        ],
-      );
-      // Two complete cycles from the first minute.
-      expect(within('figure-logged', '2 complete cycles'), findsOneWidget);
-      expect(
-        within('figure-cycle', 'from your entries\nreference: 28 days'),
-        findsOneWidget,
-      );
-    });
-
-    testWidgets('the oldest of the earlier periods can be removed', (
-      tester,
-    ) async {
-      final harness = Harness(tester);
-      await harness.pumpApp();
-      await tapVisible(tester, find.byKey(const ValueKey('last-period-today')));
-      await tapVisible(
-        tester,
-        find.byKey(const ValueKey('add-earlier-period')),
-      );
-      await tapVisible(tester, find.text('OK'));
-      expect(find.text('Feb 20, 2026'), findsOneWidget);
-
-      await tapVisible(tester, find.byTooltip('Remove Feb 20, 2026'));
-      expect(find.text('Feb 20, 2026'), findsNothing);
-    });
-
     testWidgets('reminders are on afterwards, if the phone agrees', (
       tester,
     ) async {
@@ -642,6 +565,22 @@ void main() {
           await tester.pumpAndSettle();
         },
       );
+
+      testWidgets('the home tab with nothing logged holds from right to left '
+          '($locale, × $scale)', (tester) async {
+        tester.platformDispatcher.textScaleFactorTestValue = scale;
+        addTearDown(tester.platformDispatcher.clearTextScaleFactorTestValue);
+        final harness = Harness(tester);
+        if (scale > 1) {
+          tester.view.physicalSize = const Size(320, 568);
+        }
+        await harness.pumpApp(locale: locale, textDirection: TextDirection.rtl);
+        await tapVisible(tester, find.byKey(const ValueKey('onboarding-skip')));
+        expect(
+          find.byKey(const ValueKey('period-starts-today')),
+          findsOneWidget,
+        );
+      });
     }
   }
 }

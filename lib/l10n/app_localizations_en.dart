@@ -89,7 +89,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get onboardingYesterday => 'Yesterday';
 
   @override
-  String get onboardingSkip => 'I don\'t remember';
+  String get onboardingSkip => 'Not yet: I\'ll log it the day it starts';
 
   @override
   String get onboardingRestore => 'I have a backup file';
@@ -773,7 +773,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get fertilityHowBody =>
-      'Fycle starts from the estimate of your next period and counts back about 13 days, with 3 days of margin on each side, to place ovulation. The window covers the 5 days before and the day after. These figures come from published studies of several hundred thousand cycles. Cycles differ from one person to another and from one month to the next: these are averages, not measurements of your body.';
+      'Fycle starts from the estimate of your next period and counts back about 13 days, with 3 days of margin on each side, to place ovulation. The window covers the 5 days before and the day after. Cycles differ from one person to another and from one month to the next: these are averages, not measurements of your body.';
 
   @override
   String get legendFertile => 'Fertile window (estimate)';
@@ -854,7 +854,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get sourceDeclared => 'as you indicated';
 
   @override
-  String get sourceAssumed => 'reference, to adjust';
+  String get sourceAssumed => 'estimate for now';
 
   @override
   String get sourceCurrent => 'so far';
@@ -1211,7 +1211,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get clinicalEmpty =>
-      'Shown for now: the reference ranges. Your own figures come in once a first cycle has ended.';
+      'Your own figures come in once a first cycle has ended.';
 
   @override
   String get clinicalFrequency => 'Frequency';
@@ -1347,6 +1347,9 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get clinicalRegularityRefAny =>
       'Usual: up to 7 to 9 days apart, depending on age';
+
+  @override
+  String get periodStartsToday => 'My period starts today';
 
   @override
   String get lockTurnedOff =>

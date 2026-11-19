@@ -8,7 +8,7 @@ import '../data/fakes.dart';
 import 'harness.dart';
 
 void main() {
-  testWidgets('first launch asks two things and shows the notice', (
+  testWidgets('first launch asks one thing and shows the notice', (
     tester,
   ) async {
     final harness = Harness(tester);
@@ -16,7 +16,8 @@ void main() {
 
     expect(find.text('Welcome to Fycle'), findsOneWidget);
     expect(find.text('When did your last period start?'), findsOneWidget);
-    expect(find.text('How long is your cycle usually?'), findsOneWidget);
+    expect(find.byType(TextField), findsNothing);
+    expect(find.text("Not yet: I'll log it the day it starts"), findsOneWidget);
     expect(
       find.textContaining('not a method of contraception'),
       findsOneWidget,
@@ -39,9 +40,7 @@ void main() {
     );
   });
 
-  testWidgets('a date and a cycle length lead to a predicted range', (
-    tester,
-  ) async {
+  testWidgets('a date leads to a predicted range', (tester) async {
     final harness = Harness(tester);
     await harness.pumpApp();
 
@@ -52,23 +51,20 @@ void main() {
     await tester.pumpAndSettle();
     expect(find.text('Sunday, March 1, 2026'), findsOneWidget);
 
-    await tester.enterText(
-      find.byKey(const ValueKey('cycle-length-field')),
-      '30',
-    );
     await tester.tap(find.text('Start'));
     await tester.pumpAndSettle();
 
-    // 1 March + 30 days, 5 days on each side: a range, never a single date.
+    // 1 March + 28 days, 7 days on each side: a range, never a single date.
     expect(
-      find.text('Period expected between Mar 26 and Apr 5'),
+      find.text('Period expected between Mar 22 and Apr 5'),
       findsOneWidget,
     );
     final stored = await harness.read(
       (store) => (store.database.flowByDay(), store.database.usualCycleLength),
     );
     expect(stored.$1, {CalendarDay(2026, 3, 1): FlowIntensity.medium});
-    expect(stored.$2, 30);
+    // The usual length is not asked at first launch any more.
+    expect(stored.$2, isNull);
   });
 
   testWidgets('today or yesterday is chosen in one tap', (tester) async {
@@ -102,19 +98,6 @@ void main() {
       find.text('Next period expected between Apr 10 and Apr 24'),
       findsOneWidget,
     );
-    expect(find.textContaining('based on a cycle of 28 days'), findsOneWidget);
-
-    // It follows the usual length as it is typed.
-    await tester.enterText(
-      find.byKey(const ValueKey('cycle-length-field')),
-      '30',
-    );
-    await tester.pumpAndSettle();
-    expect(
-      find.text('Next period expected between Apr 14 and Apr 24'),
-      findsOneWidget,
-    );
-    expect(find.textContaining('you gave (30 days)'), findsOneWidget);
 
     // Nothing is saved before "Start".
     final days = await harness.read((store) => store.database.readDays());
@@ -132,7 +115,10 @@ void main() {
       find.text('Prochaines règles prévues entre le 9 avr. et le 23 avr.'),
       findsOneWidget,
     );
-    expect(find.text('Je ne sais plus'), findsOneWidget);
+    expect(
+      find.text('Pas encore : je le noterai le jour venu'),
+      findsOneWidget,
+    );
   });
 
   testWidgets('a date long past shows no estimate that is already behind', (
@@ -161,7 +147,7 @@ void main() {
     final harness = Harness(tester);
     await harness.pumpApp();
 
-    await tester.tap(find.text("I don't remember"));
+    await tester.tap(find.byKey(const ValueKey('onboarding-skip')));
     await tester.pumpAndSettle();
 
     expect(find.text('Welcome to Fycle'), findsNothing);
@@ -174,25 +160,6 @@ void main() {
     await harness.pumpApp();
     expect(find.text('Welcome to Fycle'), findsNothing);
     expect(find.text('No estimate yet'), findsOneWidget);
-  });
-
-  testWidgets('a cycle length out of range is refused', (tester) async {
-    final harness = Harness(tester);
-    await harness.pumpApp();
-
-    await tester.tap(find.text('Choose a date'));
-    await tester.pumpAndSettle();
-    await tester.tap(find.text('OK'));
-    await tester.pumpAndSettle();
-    await tester.enterText(
-      find.byKey(const ValueKey('cycle-length-field')),
-      '9',
-    );
-    await tester.tap(find.text('Start'));
-    await tester.pumpAndSettle();
-
-    expect(find.text('Enter a number between 15 and 90.'), findsOneWidget);
-    expect(find.text('Welcome to Fycle'), findsOneWidget);
   });
 
   testWidgets('the home screen comes straight up once data exists', (

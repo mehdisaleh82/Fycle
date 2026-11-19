@@ -91,8 +91,6 @@ class TodayCard extends StatelessWidget {
               ),
           ],
         ),
-        Text(l10n.todayCardHint, style: muted),
-        const SizedBox(height: 12),
         MergeSemantics(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,

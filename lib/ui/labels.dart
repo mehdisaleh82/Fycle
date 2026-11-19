@@ -6,6 +6,7 @@ import '../domain/flow_intensity.dart';
 import '../domain/libido_level.dart';
 import '../domain/mood.dart';
 import '../domain/pain_level.dart';
+import '../domain/period_prediction.dart';
 import '../domain/sleep_quality.dart';
 import '../domain/symptom.dart';
 import '../l10n/app_localizations.dart';
@@ -77,6 +78,28 @@ String signLabel(AppLocalizations l10n, Enum sign) => switch (sign) {
   ),
   _ => sign.name,
 };
+
+/// What the estimate of the next period rests on.
+String estimateBasis(
+  AppLocalizations l10n,
+  PeriodPrediction prediction, {
+  required int? declaredLength,
+  required int assumedLength,
+}) {
+  if (prediction.cyclesUsed > 0) {
+    return l10n.estimateBasisCycles(prediction.cyclesUsed);
+  }
+  return declaredLength != null
+      ? l10n.estimateBasisDeclared(declaredLength)
+      : l10n.estimateBasisDefault(assumedLength);
+}
+
+String confidenceLabel(AppLocalizations l10n, PeriodPrediction prediction) =>
+    switch (prediction.confidence) {
+      PredictionConfidence.low => l10n.confidenceLow,
+      PredictionConfidence.medium => l10n.confidenceMedium,
+      PredictionConfidence.high => l10n.confidenceHigh,
+    };
 
 /// The words of the CSV export in the language of the interface.
 CsvLabels csvLabels(AppLocalizations l10n) => CsvLabels(

@@ -2,7 +2,6 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:fycle/domain/calendar_day.dart';
 import 'package:fycle/domain/day_entry.dart';
 import 'package:fycle/domain/flow_intensity.dart';
-import 'package:fycle/domain/study_facts.dart';
 import 'package:material_ui/material_ui.dart';
 
 import 'harness.dart';
@@ -28,84 +27,7 @@ String textOf(WidgetTester tester, String key) =>
 Finder within(String key, String text) =>
     find.descendant(of: find.byKey(ValueKey(key)), matching: find.text(text));
 
-/// The first day on or after [from] on which [fact] is shown.
-CalendarDay dayOf(StudyFact fact, {CalendarDay? from}) {
-  var day = from ?? CalendarDay(2026, 3, 20);
-  while (studyFactOn(day) != fact) {
-    day = day.addDays(1);
-  }
-  return day;
-}
-
 void main() {
-  group('study of the day', () {
-    testWidgets('sets a published finding against her own figure', (
-      tester,
-    ) async {
-      final harness = Harness(tester, today: dayOf(StudyFact.exactly28));
-      await harness.seed(days: threePeriods());
-      await harness.pumpApp();
-
-      expect(find.text('What the studies say'), findsOneWidget);
-      expect(
-        textOf(tester, 'study-fact'),
-        'Only about 13% of cycles last exactly 28 days.',
-      );
-      expect(textOf(tester, 'study-you'), 'Your average cycle: 28 days.');
-      expect(textOf(tester, 'study-source'), contains('612,613 cycles'));
-    });
-
-    testWidgets('changes from one day to the next', (tester) async {
-      final harness = Harness(tester);
-      await harness.seed(days: threePeriods());
-      await harness.pumpApp();
-      final first = textOf(tester, 'study-fact');
-
-      harness.now = harness.now.add(const Duration(days: 1));
-      await harness.pumpApp();
-      expect(textOf(tester, 'study-fact'), isNot(first));
-    });
-
-    testWidgets('says what to log when she has no figure yet', (tester) async {
-      final harness = Harness(tester, today: dayOf(StudyFact.variesMoreThan7));
-      await harness.seed(days: periodFrom(harness.today.addDays(-3)));
-      await harness.pumpApp(locale: 'fr');
-
-      expect(textOf(tester, 'study-fact'), contains('4 femmes sur 10'));
-      expect(
-        textOf(tester, 'study-you'),
-        'Saisissez deux débuts de règles pour vous situer.',
-      );
-    });
-
-    testWidgets('uses her age when she gave it', (tester) async {
-      final harness = Harness(tester, today: dayOf(StudyFact.shortensWithAge));
-      await harness.seed(days: periodFrom(harness.today.addDays(-3)));
-      await harness.pumpApp();
-      expect(textOf(tester, 'study-you'), contains('year of birth'));
-
-      await harness.read((store) => store.database.birthYear = 1986);
-      await harness.pumpApp();
-      expect(
-        textOf(tester, 'study-you'),
-        'At 40, the reference cycle is 28 days.',
-      );
-    });
-
-    testWidgets('lists its sources', (tester) async {
-      final harness = Harness(tester);
-      await harness.seed(days: threePeriods());
-      await harness.pumpApp(locale: 'fr');
-
-      await tapVisible(tester, find.byKey(const ValueKey('open-sources')));
-      expect(find.byType(AlertDialog), findsOneWidget);
-      expect(find.textContaining('npj Digital Medicine, 2019'), findsWidgets);
-      expect(find.textContaining('New England Journal'), findsWidgets);
-      expect(find.textContaining('FIGO'), findsWidgets);
-      expect(find.textContaining('pas vous'), findsOneWidget);
-    });
-  });
-
   group('clinical sheet', () {
     testWidgets('usual cycles are shown within every range', (tester) async {
       final harness = Harness(tester);
@@ -230,7 +152,7 @@ void main() {
       await harness.pumpApp();
       await openReview(tester);
 
-      expect(find.textContaining('Shown for now: the reference'), findsOne);
+      expect(find.textContaining('Your own figures come in'), findsOne);
       expect(
         within('clinical-frequency', 'Your figure will replace this line'),
         findsOneWidget,
@@ -248,12 +170,13 @@ void main() {
   });
 
   group('report for the doctor', () {
-    testWidgets('opens in one tap from the home tab', (tester) async {
+    testWidgets('opens in one tap from the review', (tester) async {
       final harness = Harness(tester);
       await harness.seed(days: threePeriods());
       await harness.read((store) => store.database.birthYear = 1990);
       await harness.pumpApp(locale: 'fr');
 
+      await openReview(tester);
       await tapVisible(
         tester,
         find.byKey(const ValueKey('open-doctor-report')),
@@ -269,15 +192,16 @@ void main() {
       expect(find.text('Ce cycle'), findsOneWidget);
       expect(find.text('Historique'), findsOneWidget);
 
-      // And back to the home tab.
+      // And back to the review.
       await tapVisible(tester, find.byType(BackButton));
-      expect(find.byKey(const ValueKey('cycle-day')), findsOneWidget);
+      expect(find.byKey(const ValueKey('open-doctor-report')), findsOneWidget);
     });
 
     testWidgets('says nothing of the age when it is not given', (tester) async {
       final harness = Harness(tester);
       await harness.seed(days: threePeriods());
       await harness.pumpApp();
+      await openReview(tester);
       await tapVisible(
         tester,
         find.byKey(const ValueKey('open-doctor-report')),
@@ -288,55 +212,6 @@ void main() {
   });
 
   group('year of birth', () {
-    testWidgets('given at first launch, it sets the reference cycle', (
-      tester,
-    ) async {
-      final harness = Harness(tester);
-      await harness.pumpApp();
-      await tapVisible(tester, find.byKey(const ValueKey('last-period-today')));
-      await tester.ensureVisible(
-        find.byKey(const ValueKey('birth-year-field')),
-      );
-      await tester.enterText(
-        find.byKey(const ValueKey('birth-year-field')),
-        '2001',
-      );
-      await tester.pumpAndSettle();
-      // The estimate shown before starting already uses it.
-      expect(
-        find.textContaining('Estimate based on a cycle of 30 days'),
-        findsOneWidget,
-      );
-      await tapVisible(tester, find.text('Start'));
-
-      expect(await harness.read((store) => store.database.birthYear), 2001);
-      expect(within('figure-cycle', '30 days'), findsOneWidget);
-      expect(
-        within('figure-cycle', 'reference for your age, to adjust'),
-        findsOneWidget,
-      );
-    });
-
-    testWidgets('a year that makes no sense is refused', (tester) async {
-      final harness = Harness(tester);
-      await harness.pumpApp(locale: 'fr');
-      await tapVisible(tester, find.byKey(const ValueKey('last-period-today')));
-      await tester.ensureVisible(
-        find.byKey(const ValueKey('birth-year-field')),
-      );
-      await tester.enterText(
-        find.byKey(const ValueKey('birth-year-field')),
-        '2024',
-      );
-      await tapVisible(tester, find.text('Commencer'));
-
-      expect(
-        find.text('Saisissez une année entre 1956 et 2016.'),
-        findsOneWidget,
-      );
-      expect(find.byKey(const ValueKey('birth-year-field')), findsOneWidget);
-    });
-
     testWidgets('can be changed or forgotten in the settings', (tester) async {
       final harness = Harness(tester);
       await harness.seed(days: periodFrom(CalendarDay(2026, 3, 18)));
@@ -350,8 +225,8 @@ void main() {
       expect(within('birth-year', '1981'), findsOneWidget);
       expect(await harness.read((store) => store.database.birthYear), 1981);
 
-      // The reference follows: 27 days at 45.
-      await openHome(tester);
+      // The estimate follows: 27 days at 45.
+      await openReview(tester);
       expect(within('figure-cycle', '27 days'), findsOneWidget);
 
       await tapVisible(tester, find.byIcon(Icons.settings_outlined));
@@ -361,17 +236,31 @@ void main() {
       expect(await harness.read((store) => store.database.birthYear), isNull);
     });
 
-    testWidgets('her own cycles take over from the reference', (tester) async {
+    testWidgets('a year that makes no sense is refused', (tester) async {
+      final harness = Harness(tester);
+      await harness.seed(days: periodFrom(CalendarDay(2026, 3, 18)));
+      await harness.pumpApp(locale: 'fr');
+      await tapVisible(tester, find.byIcon(Icons.settings_outlined));
+      await tapVisible(tester, find.byKey(const ValueKey('birth-year')));
+      await tester.enterText(dialogField(), '2024');
+      await tapVisible(tester, find.text('Enregistrer'));
+
+      expect(
+        find.text('Saisissez une année entre 1956 et 2016.'),
+        findsOneWidget,
+      );
+      expect(await harness.read((store) => store.database.birthYear), isNull);
+    });
+
+    testWidgets('her own cycles take over from the estimate', (tester) async {
       final harness = Harness(tester);
       await harness.seed(days: threePeriods());
       await harness.read((store) => store.database.birthYear = 2001);
       await harness.pumpApp();
+      await openReview(tester);
 
       expect(within('figure-cycle', '28 days'), findsOneWidget);
-      expect(
-        within('figure-cycle', 'from your entries\nreference: 30 days'),
-        findsOneWidget,
-      );
+      expect(within('figure-cycle', 'from your entries'), findsOneWidget);
     });
 
     testWidgets('travels with a backup, and goes when everything is deleted', (
@@ -413,14 +302,7 @@ void main() {
           themeMode: ThemeMode.dark,
           textDirection: TextDirection.rtl,
         );
-        await tapVisible(tester, find.byKey(const ValueKey('open-sources')));
-        await tapVisible(
-          tester,
-          find.descendant(
-            of: find.byType(AlertDialog),
-            matching: find.byType(TextButton),
-          ),
-        );
+        await openReview(tester);
         await tapVisible(
           tester,
           find.byKey(const ValueKey('open-doctor-report')),

@@ -92,7 +92,7 @@ class AppLocalizationsFr extends AppLocalizations {
   String get onboardingYesterday => 'Hier';
 
   @override
-  String get onboardingSkip => 'Je ne sais plus';
+  String get onboardingSkip => 'Pas encore : je le noterai le jour venu';
 
   @override
   String get onboardingRestore => 'J\'ai un fichier de sauvegarde';
@@ -780,7 +780,7 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get fertilityHowBody =>
-      'Fycle part de l\'estimation de vos prochaines règles et remonte d\'environ 13 jours, avec 3 jours de marge de chaque côté, pour situer l\'ovulation. La fenêtre couvre les 5 jours qui précèdent et le jour qui suit. Ces chiffres viennent d\'études publiées portant sur plusieurs centaines de milliers de cycles. Les cycles diffèrent d\'une personne à l\'autre et d\'un mois à l\'autre : ce sont des moyennes, pas des mesures de votre corps.';
+      'Fycle part de l\'estimation de vos prochaines règles et remonte d\'environ 13 jours, avec 3 jours de marge de chaque côté, pour situer l\'ovulation. La fenêtre couvre les 5 jours qui précèdent et le jour qui suit. Les cycles diffèrent d\'une personne à l\'autre et d\'un mois à l\'autre : ce sont des moyennes, pas des mesures de votre corps.';
 
   @override
   String get legendFertile => 'Fenêtre de fertilité (estimation)';
@@ -861,7 +861,7 @@ class AppLocalizationsFr extends AppLocalizations {
   String get sourceDeclared => 'indiqué par vous';
 
   @override
-  String get sourceAssumed => 'repère, à ajuster';
+  String get sourceAssumed => 'estimation pour l\'instant';
 
   @override
   String get sourceCurrent => 'pour l\'instant';
@@ -1229,7 +1229,7 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get clinicalEmpty =>
-      'Affichées pour l\'instant : les plages de référence. Vos propres chiffres arrivent dès qu\'un premier cycle est terminé.';
+      'Vos propres chiffres arrivent dès qu\'un premier cycle est terminé.';
 
   @override
   String get clinicalFrequency => 'Fréquence';
@@ -1365,6 +1365,9 @@ class AppLocalizationsFr extends AppLocalizations {
   @override
   String get clinicalRegularityRefAny =>
       'Habituel : jusqu\'à 7 à 9 jours d\'écart, selon l\'âge';
+
+  @override
+  String get periodStartsToday => 'Mes règles commencent aujourd\'hui';
 
   @override
   String get lockTurnedOff =>

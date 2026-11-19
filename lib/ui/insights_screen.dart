@@ -9,6 +9,7 @@ import '../l10n/app_localizations.dart';
 import 'app_environment.dart';
 import 'clinical_card.dart';
 import 'cycle_model.dart';
+import 'disclaimer_card.dart';
 import 'fertility_card.dart';
 import 'home_cards.dart';
 import 'labels.dart';
@@ -37,6 +38,9 @@ class InsightsScreen extends StatelessWidget {
     return ListenableBuilder(
       listenable: model,
       builder: (context, _) {
+        final l10n = AppLocalizations.of(context);
+        final theme = Theme.of(context);
+        final prediction = model.prediction;
         final cycles = model.cycles;
         final today = environment.today();
         final steps = insightSteps(
@@ -58,6 +62,44 @@ class InsightsScreen extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               header,
+              // What a doctor would look at, one tap away.
+              FilledButton.tonalIcon(
+                key: const ValueKey('open-doctor-report'),
+                onPressed: () => Navigator.of(context).push(
+                  MaterialPageRoute<void>(
+                    builder: (context) => DoctorReportScreen(
+                      model: model,
+                      environment: environment,
+                    ),
+                  ),
+                ),
+                icon: const Icon(Icons.assignment_outlined),
+                label: Text(l10n.doctorReportTitle),
+              ),
+              const SizedBox(height: 16),
+              KeyFiguresCard(
+                overview: cycleOverviewOn(
+                  today,
+                  cycles: cycles,
+                  prediction: prediction,
+                  usualCycleLength: model.usualCycleLength,
+                  daysLogged: model.loggedDays.length,
+                  referenceCycleLength: model.referenceCycleLength,
+                ),
+              ),
+              if (prediction != null && status is! EstimateOutdated)
+                Padding(
+                  padding: const EdgeInsetsDirectional.fromSTEB(16, 8, 16, 0),
+                  child: Text(
+                    '${estimateBasis(l10n, prediction, declaredLength: model.usualCycleLength, assumedLength: model.referenceCycleLength)} '
+                    '${confidenceLabel(l10n, prediction)}',
+                    key: const ValueKey('estimate-basis'),
+                    style: theme.textTheme.bodySmall?.copyWith(
+                      color: theme.colorScheme.onSurfaceVariant,
+                    ),
+                  ),
+                ),
+              const SizedBox(height: 16),
               _ReportCard(
                 report: currentCycleReport(
                   cycles: cycles,
@@ -90,6 +132,8 @@ class InsightsScreen extends StatelessWidget {
               _HistoryCard(cycles: cycles),
               const SizedBox(height: 16),
               UnlockCard(steps: steps),
+              const SizedBox(height: 16),
+              const DisclaimerCard(),
             ],
           ),
         );

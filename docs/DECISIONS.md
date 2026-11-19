@@ -497,8 +497,30 @@ Demandé par l'utilisateur après la compilation n° 8, jugée correcte : aller 
 
 119. **Ce qui est vérifié, et où.** Sous Windows : les calculs de la fiche clinique, du repère selon l'âge et de l'étude du jour ; les écrans en anglais et en français, mode sombre, de droite à gauche, grand texte sur petit écran. En attente de l'iPhone : le rendu réel, la longueur de l'accueil, VoiceOver. En attente d'un professionnel de santé : tous les textes et toutes les valeurs de cette partie.
 
+## Épure après le retour de la testeuse (19 novembre 2026)
+
+Retour de la testeuse sur la compilation n° 9, rapporté par l'utilisateur : pouvoir saisir le premier jour de ses règles dès l'installation, ou le saisir le jour où elles arrivent ; ne plus voir les références scientifiques, les modèles devant tourner « derrière, comme un moteur » ; épurer, tout n'ayant pas à être vu. Aucun paquet ajouté.
+
+120. **Démarrage en une question** (`lib/ui/onboarding_screen.dart`). Une seule question, la date des dernières règles (aujourd'hui, hier, ou une date), et deux boutons : commencer, ou « Pas encore : je le noterai le jour venu ». Les trois lignes de présentation, la durée habituelle du cycle, l'année de naissance et les règles précédentes quittent cet écran. La durée du cycle et l'année de naissance se règlent dans les réglages ; des règles passées s'ajoutent depuis le calendrier du journal. Remplace la décision 109 et simplifie les décisions 34 et 86.
+
+121. **Les règles se notent en un appui le jour où elles arrivent.** Tant qu'aucune estimation n'est possible (rien de saisi, ou journal délaissé depuis des mois), la carte du haut porte un bouton « Mes règles commencent aujourd'hui ».
+
+122. **Accueil réduit à deux cartes** : l'anneau avec l'estimation, et « Mon journal du jour ». Peuvent s'y ajouter, seulement quand ils ont quelque chose à dire : le bilan d'un cycle qui vient de finir, « d'habitude, vers ce jour », une proposition (rappels, verrouillage). Quittent l'accueil : la phrase sur le caractère privé (elle reste au démarrage), l'étude du jour, les chiffres, les étapes, le bouton du rapport, l'avertissement, les phrases d'explication des onglets et de la saisie, ainsi que « fondée sur vos N cycles » et la fiabilité. Modifie les décisions 103, 104, 106 et 118.
+
+123. **Le Bilan rassemble le reste**, dans l'ordre : le rapport pour le médecin, les chiffres avec ce sur quoi repose l'estimation et sa fiabilité, le cycle en cours, la fiche clinique, la fenêtre de fertilité, les moyennes, ce qui revient, l'historique, les étapes, l'avertissement. L'avertissement « ni avis médical ni méthode de contraception » reste visible au démarrage, dans le Bilan et dans les réglages.
+
+124. **Les modèles ne se montrent plus.** Supprimés de l'interface : la carte « Ce que disent les études », la liste des sources, la mention de la FIGO, les mots « repère » et « référence », la comparaison de chaque chiffre à un repère, la phrase sur les études dans « Comment c'est calculé ». Remplace la décision 115 et la partie visible des décisions 105 et 113.
+    - Rien ne change dans les calculs : l'estimation de l'ovulation (décision 113), les plages habituelles de la fiche clinique (décision 114) et le cycle de départ selon l'âge (décision 116) tournent toujours. Les sources restent consignées ici et dans les commentaires du code.
+    - La fiche clinique garde ses plages (« Plage habituelle : 24 à 38 jours »), écrites comme de simples chiffres.
+    - Un chiffre qui n'est encore qu'une hypothèse porte la mention « estimation pour l'instant ».
+
+125. **Ludification** : redemandée par l'utilisateur. La règle 13 n'a pas été modifiée ; restent la série de saisie discrète, la jauge du journal du jour et les étapes du Bilan (décision 106).
+
+126. **Ce qui est vérifié, et où.** Sous Windows : le démarrage, le bouton « Mes règles commencent aujourd'hui », l'accueil réduit, le Bilan réorganisé, l'absence de toute mention d'étude ou de référence sur l'accueil et dans le Bilan, en anglais et en français, de droite à gauche et en grand texte. En attente de l'iPhone : le rendu réel.
+
 ## Questions ouvertes
 
+- **Le nom « Fycle » dans l'appli** : l'utilisateur a demandé qu'il n'apparaisse plus. Fait pour l'en-tête (décision 118). Il reste au démarrage (« Bienvenue dans Fycle »), sur l'écran de verrouillage, dans les réglages et dans l'avertissement : à confirmer avant de le retirer partout.
 - **Profil de départ** (demande de l'utilisateur du 19 novembre 2026) : demander la date de naissance, le poids, etc. au démarrage pour partir d'un repère personnalisé et donner une vision à long terme. À cadrer avant tout code : l'année de naissance a un effet publié sur la durée du cycle (décision 113) ; le poids est une donnée sensible, à ne demander que si un effet publié est réellement utilisé ; une « vision à long terme » ne doit jamais devenir une prévision médicale (règle 7).
 
 - **Partage partenaire et règle 2** (décision 76) : un relais, même chiffré de bout en bout, est un serveur et fait sortir des données du téléphone. L'échange direct entre téléphones (code à scanner, fichier) respecte les règles 1 et 2 ; le relais demande de les modifier. À trancher à la conception du sprint 2.

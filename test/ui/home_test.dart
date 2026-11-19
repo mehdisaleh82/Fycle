@@ -34,8 +34,13 @@ void main() {
     );
     expect(find.text('Period in 5 to 11 days'), findsOneWidget);
     expect(find.text('Day 21 of your cycle'), findsOneWidget);
-    expect(find.text('Estimate based on your last 2 cycles.'), findsOneWidget);
-    expect(find.text('Confidence: medium'), findsOneWidget);
+    // Nothing else on the home tab: what it rests on is in the review.
+    expect(find.textContaining('Estimate based'), findsNothing);
+    await openReview(tester);
+    expect(
+      tester.widget<Text>(find.byKey(const ValueKey('estimate-basis'))).data,
+      'Estimate based on your last 2 cycles. Confidence: medium',
+    );
     expect(
       find.textContaining('not a method of contraception'),
       findsOneWidget,

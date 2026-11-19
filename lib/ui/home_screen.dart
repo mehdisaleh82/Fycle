@@ -13,9 +13,8 @@ import 'today_tab.dart';
 /// The four parts of the app.
 enum HomeTab { home, journal, review, settings }
 
-/// The frame of the app once it is set up: the name of the app at the top,
-/// which always leads back to the home tab, and four named tabs at the
-/// bottom. Each tab says in one line what it is for.
+/// The frame of the app once it is set up: a home button at the top, and
+/// four named tabs at the bottom.
 class HomeScreen extends StatefulWidget {
   const HomeScreen({
     super.key,
@@ -76,29 +75,13 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
 
   void _select(HomeTab tab) => setState(() => _tab = tab);
 
-  String _hint(AppLocalizations l10n) => switch (_tab) {
-    HomeTab.home => l10n.tabHomeHint,
-    HomeTab.journal => l10n.tabJournalHint,
-    HomeTab.review => l10n.tabReviewHint,
-    HomeTab.settings => l10n.tabSettingsHint,
-  };
-
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
     final theme = Theme.of(context);
     final model = widget.model;
     final environment = widget.environment;
-    final header = Padding(
-      padding: const EdgeInsetsDirectional.fromSTEB(4, 0, 4, 8),
-      child: Text(
-        _hint(l10n),
-        key: const ValueKey('tab-hint'),
-        style: theme.textTheme.bodyMedium?.copyWith(
-          color: theme.colorScheme.onSurfaceVariant,
-        ),
-      ),
-    );
+    const header = SizedBox(height: 4);
     return Scaffold(
       appBar: AppBar(
         titleSpacing: 8,

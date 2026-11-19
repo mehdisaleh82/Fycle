@@ -5,7 +5,6 @@ import 'package:fycle/domain/cycle_history.dart';
 import 'package:fycle/domain/flow_intensity.dart';
 import 'package:fycle/domain/period_predictor.dart';
 import 'package:fycle/domain/reference_cycle.dart';
-import 'package:fycle/domain/study_facts.dart';
 
 /// Fictional log: periods of [periodLength] days of [intensity], starting
 /// [lengths] days apart from [first], followed by one last period.
@@ -192,24 +191,6 @@ void main() {
       expect(ageIn(2026, 2030), isNull);
       expect(ageIn(2026, 2016), 10);
       expect(ageIn(2026, 1956), 70);
-    });
-  });
-
-  group('studyFactOn', () {
-    test('a new fact each day, the same all day', () {
-      final day = CalendarDay(2026, 3, 20);
-      expect(studyFactOn(day), studyFactOn(CalendarDay(2026, 3, 20)));
-      expect(studyFactOn(day.addDays(1)), isNot(studyFactOn(day)));
-    });
-
-    test('every fact comes up in turn, before and after the first day', () {
-      for (final start in [CalendarDay(2025, 6, 1), CalendarDay(2027, 2, 1)]) {
-        final seen = {
-          for (var i = 0; i < StudyFact.values.length; i++)
-            studyFactOn(start.addDays(i)),
-        };
-        expect(seen, StudyFact.values.toSet());
-      }
     });
   });
 }

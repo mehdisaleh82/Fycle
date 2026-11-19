@@ -77,18 +77,12 @@ class ShareBar extends StatelessWidget {
 
 /// The key figures: length of the cycle, length of the period, days logged.
 /// There is something to read from the first logged date, and each figure
-/// says where it comes from.
+/// says in a word where it comes from. The reference values behind an
+/// estimate are not shown.
 class KeyFiguresCard extends StatelessWidget {
-  const KeyFiguresCard({
-    super.key,
-    required this.overview,
-    this.referenceFromAge = false,
-  });
+  const KeyFiguresCard({super.key, required this.overview});
 
   final CycleOverview overview;
-
-  /// Whether the reference cycle length was chosen for her age.
-  final bool referenceFromAge;
 
   String _source(AppLocalizations l10n, LengthSource? source) =>
       switch (source) {
@@ -102,26 +96,18 @@ class KeyFiguresCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
-    String hint(LengthSource source, int reference) =>
-        source == LengthSource.assumed
-        ? _source(l10n, source)
-        : '${_source(l10n, source)}\n${l10n.figureReference(reference)}';
-    final cycleHint =
-        overview.cycleLengthSource == LengthSource.assumed && referenceFromAge
-        ? l10n.sourceAssumedAge
-        : hint(overview.cycleLengthSource, overview.referenceCycleLength);
     final figures = [
       _Figure(
         key: const ValueKey('figure-cycle'),
         label: l10n.figureCycle,
         value: l10n.figureDays(overview.cycleLength),
-        hint: cycleHint,
+        hint: _source(l10n, overview.cycleLengthSource),
       ),
       _Figure(
         key: const ValueKey('figure-period'),
         label: l10n.figurePeriod,
         value: l10n.figureDays(overview.periodLength),
-        hint: hint(overview.periodLengthSource, referencePeriodLength),
+        hint: _source(l10n, overview.periodLengthSource),
       ),
       _Figure(
         key: const ValueKey('figure-logged'),

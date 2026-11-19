@@ -31,6 +31,8 @@ Aucune autre fonction de la V2 n'est encore écrite. Une refonte de l'accueil et
 
 S'y ajoute un regard clinique (décisions 113 à 119) : une fiche clinique fondée sur le référentiel FIGO, un résultat d'étude publié chaque jour à côté du chiffre de l'utilisatrice, un cycle de repère ajusté sur l'année de naissance, et un rapport pour le médecin à un appui de l'accueil.
 
+Après le retour de la testeuse, l'appli a été épurée (décisions 120 à 126) : démarrage en une question, accueil réduit à l'anneau et au journal du jour, tout le reste dans le Bilan, et plus aucune mention d'étude ou de référence à l'écran. Les calculs fondés sur les études tournent toujours.
+
 Suite prévue (décision 89) : migraines (D), puis F à L.
 
 ## Objectifs
