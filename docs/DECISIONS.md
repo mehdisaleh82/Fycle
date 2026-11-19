@@ -122,12 +122,56 @@
 
 33. **Ce qui ne se vérifie que sur un vrai téléphone.** Le trousseau (la clé survit à un redémarrage, disparaît à la suppression), le dossier privé de l'appli, et la durée de la dérivation de clé. Tout le reste est couvert par les tests sous Windows, avec un trousseau factice en mémoire.
 
+## Décisions du jalon 3 (19 novembre 2026)
+
+34. **Écrans.** Ouverture (`lib/ui/root_screen.dart`), démarrage, accueil (prédiction, calendrier du mois, bouton « Saisir aujourd'hui »), saisie du jour dans un panneau, réglages. Le démarrage s'affiche tant que la base est vide.
+    - **Démarrage** : la date des dernières règles est obligatoire, la durée habituelle facultative. La date est enregistrée comme un jour de règles d'intensité `medium`, modifiable depuis le calendrier (validé par l'utilisateur) : le modèle ne connaît que l'intensité jour par jour (décision 12). Une sauvegarde peut aussi être restaurée dès cet écran.
+    - **Saisie** : chaque choix est enregistré aussitôt, sans bouton de validation. Deux gestes suffisent : ouvrir, toucher l'intensité. Toucher de nouveau un choix l'annule. Les jours à venir ne se saisissent pas.
+    - **Base illisible** (décision 25) : l'écran l'explique et propose de repartir de zéro ou de restaurer un fichier de sauvegarde. Rien n'est effacé sans confirmation.
+
+35. **État de l'appli sans paquet** (décision 11 maintenue). Un seul objet, `CycleModel` (`ChangeNotifier`), relit la base et recalcule la prédiction après chaque saisie. Le calendrier est une grille faite à la main. Ce dont l'interface dépend à l'extérieur (ouverture de la base, fenêtres de fichiers, date du jour) passe par `AppEnvironment`, que les tests remplacent.
+
+36. **Retard et règles en cours : `cycleStatusOn`** (`lib/domain/cycle_status.dart`, Dart pur). La date du jour est un paramètre ; le moteur de prédiction ne la connaît toujours pas (décision 23). Six cas : pas d'estimation, règles en cours (« jour N »), fourchette à venir, fourchette en cours, fourchette dépassée de N jours, estimation périmée au-delà de 90 jours.
+    Le texte reste neutre : « période passée depuis N jours », suivi de « ce n'est qu'une estimation ». Aucun conseil, aucune interprétation (règle 7). La carte indique toujours une fourchette, ce sur quoi elle se fonde et sa fiabilité.
+
+37. **Calendrier.** Règles saisies : disque plein. Règles prévues : anneau. Autre saisie ou traces : point. La forme distingue les trois, pas seulement la couleur. L'intensité n'est pas représentée sur le calendrier, pour qu'il reste lisible ; elle se lit en ouvrant le jour. Chaque jour porte un libellé complet pour le lecteur d'écran.
+
+38. **Listes de la décision 27 confirmées** par l'utilisateur, sans ajout. Libellés français : les humeurs sont des noms (« Joie », « Anxiété »…) pour éviter les accords.
+
+39. **Fichiers : `file_picker` seul** (13.4.0), derrière l'interface `FileGateway` (`lib/data/file_gateway.dart`). Relu le 19 novembre 2026.
+    - Il couvre les trois besoins : enregistrer le `.fycle`, enregistrer le CSV, choisir un fichier à restaurer. C'est l'utilisatrice qui choisit l'emplacement, dans la fenêtre du système.
+    - Aucune permission Android, aucune clé à ajouter sur iOS (iOS 14 minimum ; le projet vise iOS 15). Aucun code réseau sur téléphone.
+    - Onze paquets ajoutés à la liste blanche : `file_picker`, `file_picker_platform_interface`, `android_file_picker`, `file_picker_darwin`, `file_picker_linux`, `windows_file_picker`, `file_picker_web`, `cross_file`, `dbus`, `xml`, `petitparser`.
+    - Deux réserves, sans effet sur téléphone : `dbus` contient du code de communication locale (socket D-Bus) qui ne tourne que sous Linux ; `file_picker_web` et `cross_file` manipulent des fichiers dans le navigateur, sur le web seulement.
+    - Le paquet laisse une copie des fichiers enregistrés ou choisis dans le dossier temporaire de l'appli. `SystemFileGateway` l'efface après chaque opération : le CSV n'est pas chiffré.
+    - Le choix d'un fichier n'est pas filtré par extension : ni iOS ni Android ne connaissent `.fycle`. Le contenu est vérifié à la lecture.
+    - **`share_plus` est écarté** : dix paquets de plus, dont `url_launcher`, et sa fenêtre de partage (messagerie, envoi à proximité) pousse à faire sortir des données de santé du téléphone.
+
+40. **Export et import à l'écran.**
+    - Export chiffré : mot de passe saisi deux fois, 8 caractères minimum, sous un avertissement en rouge : mot de passe oublié, fichier perdu, sans récupération.
+    - Import : confirmation avant de tout remplacer (décision 29). Un mauvais mot de passe se corrige sans rechoisir le fichier, et ne modifie rien.
+    - CSV : avertissement « fichier non chiffré » avant l'export.
+    - Suppression intégrale : un geste dans les réglages, une confirmation, puis retour à l'écran de démarrage avec une clé neuve.
+
+41. **CSV traduit sans texte d'interface dans `lib/data/`.** `daysToCsv` reçoit un objet `CsvLabels` (en-têtes et nom de chaque choix). L'interface le construit depuis ses traductions ; par défaut, ce sont les noms anglais stockés. La date reste au format ISO dans toutes les langues. Complète la décision 30.
+
+42. **Écran qui ne fige pas.** La dérivation de clé de l'export et de l'import s'exécute dans un fil séparé (`Isolate.run`, réglage `codecInBackground`, actif dans l'appli), avec une barre de progression. Les lectures et écritures de la base restent directes : trois petites tables, quelques millisecondes. À mesurer sur iPhone au jalon 5.
+
+43. **Sauvegarde iCloud : le fichier de la base en sera exclu** (validé par l'utilisateur). Raison : sans sa clé, il est inutilisable une fois restauré, et l'exclure applique « rien ne quitte le téléphone » à la lettre. Le code natif (quelques lignes en Swift) sera écrit au jalon 5, avec la première compilation iPhone : il ne se compile ni ne se vérifie sous Windows. D'ici là, le cas de la base restaurée sans clé est géré par l'écran « base illisible ».
+
+44. **Accessibilité.** Mode sombre suivant le réglage du téléphone. Tous les écrans défilent et tiennent avec un texte agrandi 2,5 fois sur un petit écran (320 × 568). Exception : le sélecteur de date du système, à la mise en page fixe, est plafonné à 1,3 fois. Les tests vérifient le contraste des textes, la taille des zones tactiles (44 points) et la présence d'un libellé sur chaque bouton, en anglais et en français, en clair et en sombre.
+
+45. **Ce qui est vérifié, et où.**
+    - Sous Windows, par les tests de widgets (base chiffrée réelle dans un dossier temporaire, trousseau et fenêtres de fichiers factices, date fixe, données fictives) : tous les parcours des décisions 34 à 44.
+    - **Android n'a pas pu être compilé en local** : aucun SDK Android n'est installé sur le poste de développement (constaté le 19 novembre 2026). À installer avant le passage manuel sur Android.
+    - En attente d'un iPhone (jalon 5) : les fenêtres de fichiers d'iOS, VoiceOver, le rendu réel, la durée de la dérivation de clé, l'exclusion iCloud, et tout ce que liste la décision 33.
+
 ## Questions ouvertes
 
-- **Paquets Flutter** proposés, à relire (code et permissions) puis à ajouter à la liste blanche au jalon concerné :
-  - jalon 3 : `file_picker` et, s'il ne suffit pas, `share_plus` (versions 13.4.0 et 13.3.1 relevées le 19 novembre 2026 ; `share_plus` amène `url_launcher`, à examiner) ;
-  - jalon 4 : `flutter_local_notifications` avec `timezone`, `local_auth`.
-- **Sauvegarde iCloud de l'iPhone** : le fichier de la base, chiffré, peut être inclus dans la sauvegarde du téléphone ; il y est illisible sans la clé, qui reste sur l'appareil. À décider : l'en exclure tout de même (demande un peu de code natif).
+- **Paquets Flutter** proposés, à relire (code et permissions) puis à ajouter à la liste blanche au jalon 4 : `flutter_local_notifications` avec `timezone`, `local_auth`.
+- **Démarrage sans date** : la date des dernières règles est obligatoire au premier lancement (décision 34). À revoir si des utilisatrices ne s'en souviennent pas : il faudrait alors mémoriser que le démarrage a été passé.
+- **SDK Android** à installer sur le poste de développement (décision 45).
+- **Exclusion iCloud** : code natif à écrire au jalon 5 (décision 43).
 - **Achat intégré** : paquet à retenir (candidat : `in_app_purchase`, de l'équipe Flutter), à relire avant le jalon du pack Pro.
 - **Android** : peut-on se passer de la permission INTERNET tout en gardant l'achat intégré ? À vérifier.
 - **Pack Pro** : contenu exact et prix. Hypothèse de travail : 9,99 €, soit environ 7 € nets par vente après TVA et commission du store, donc environ 57 ventes par mois pour l'objectif de revenu.
