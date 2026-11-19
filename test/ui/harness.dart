@@ -2,8 +2,10 @@ import 'dart:io';
 import 'dart:typed_data';
 
 import 'package:flutter_test/flutter_test.dart';
+import 'package:fycle/data/device_auth.dart';
 import 'package:fycle/data/file_gateway.dart';
 import 'package:fycle/data/local_store.dart';
+import 'package:fycle/data/reminder_gateway.dart';
 import 'package:fycle/domain/calendar_day.dart';
 import 'package:fycle/domain/day_entry.dart';
 import 'package:fycle/domain/flow_intensity.dart';
@@ -40,12 +42,65 @@ final class FakeFiles implements FileGateway {
   Future<PickedFile?> pick() async => nextPick;
 }
 
+/// Stands in for the notifications of the phone.
+final class FakeReminders implements ReminderGateway {
+  /// What the user answers when asked to allow notifications.
+  bool allow = true;
+
+  /// How many times she was asked.
+  int permissionRequests = 0;
+
+  /// What is currently scheduled.
+  List<ScheduledReminder> scheduled = const [];
+
+  /// How many times the schedule was replaced.
+  int replacements = 0;
+
+  @override
+  Future<bool> requestPermission() async {
+    permissionRequests++;
+    return allow;
+  }
+
+  @override
+  Future<void> replaceAll(
+    List<ScheduledReminder> reminders, {
+    required String channelName,
+  }) async {
+    replacements++;
+    scheduled = List.of(reminders);
+  }
+}
+
+/// Stands in for Face ID, the fingerprint reader and the phone passcode.
+final class FakeDeviceAuth implements DeviceAuth {
+  /// False for a phone with no passcode at all.
+  bool available = true;
+
+  /// What the next prompts answer.
+  AuthOutcome outcome = AuthOutcome.success;
+
+  /// The sentences shown in the prompts so far.
+  final List<String> prompts = [];
+
+  @override
+  Future<bool> isAvailable() async => available;
+
+  @override
+  Future<AuthOutcome> authenticate(String reason) async {
+    prompts.add(reason);
+    return available ? outcome : AuthOutcome.unavailable;
+  }
+}
+
 /// The app on a phone-sized screen, with a real encrypted database in a
-/// temporary folder, a fake keychain, fake file dialogs and a fixed date.
+/// temporary folder, a fake keychain, fake file dialogs, fake notifications,
+/// a fake Face ID and a fixed date (at noon unless [now] is changed).
 /// All data is made up.
 final class Harness {
-  Harness(this.tester, {CalendarDay? today})
-    : today = today ?? CalendarDay(2026, 3, 20) {
+  Harness(this.tester, {CalendarDay? today}) {
+    final day = today ?? CalendarDay(2026, 3, 20);
+    now = DateTime(day.year, day.month, day.day, 12);
     tester.view.physicalSize = const Size(390, 844);
     tester.view.devicePixelRatio = 1;
     addTearDown(tester.view.reset);
@@ -62,10 +117,14 @@ final class Harness {
   }
 
   final WidgetTester tester;
-  CalendarDay today;
+  late DateTime now;
+
+  CalendarDay get today => CalendarDay.fromDateTime(now);
   final Directory dir = Directory.systemTemp.createTempSync('fycle_ui_');
   final InMemoryKeyStore keyStore = InMemoryKeyStore();
   final FakeFiles files = FakeFiles();
+  final FakeReminders reminders = FakeReminders();
+  final FakeDeviceAuth deviceAuth = FakeDeviceAuth();
 
   Future<LocalStore> openStore() =>
       LocalStore.open(directory: dir, keyStore: keyStore, codec: fastCodec);
@@ -103,7 +162,9 @@ final class Harness {
           openStore: openStore,
           wipeStore: () => LocalStore.wipe(directory: dir, keyStore: keyStore),
           files: files,
-          today: () => today,
+          reminders: reminders,
+          deviceAuth: deviceAuth,
+          now: () => now,
         ),
       ),
     );
