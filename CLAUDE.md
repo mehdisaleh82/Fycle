@@ -1,7 +1,7 @@
 # Fycle — règles du projet
 
 Fycle est une appli de suivi du cycle menstruel pour iPhone et Android (web plus tard).
-Promesse : un seul paiement à l'achat, sans abonnement et sans pub, aucun compte, aucune donnée hors du téléphone.
+Promesse : gratuite et sans pub, aucun compte, aucune donnée hors du téléphone, achat unique facultatif.
 
 Avant toute tâche, lire `docs/SPEC.md` (périmètre et jalons) et `docs/DECISIONS.md` (choix et questions ouvertes).
 
@@ -10,7 +10,7 @@ Avant toute tâche, lire `docs/SPEC.md` (périmètre et jalons) et `docs/DECISIO
 1. Les données de l'utilisatrice restent sur l'appareil. Aucun envoi réseau de données de santé, jamais.
 2. Aucun compte, aucun serveur applicatif.
 3. Aucun SDK tiers d'analyse, de publicité, de suivi ou de rapport de plantage distant.
-4. Toute nouvelle dépendance est proposée et justifiée avant d'être ajoutée. Elle ne doit émettre aucun appel réseau.
+4. Toute nouvelle dépendance est proposée et justifiée avant d'être ajoutée. Elle ne doit émettre aucun appel réseau. Seule exception : le paquet d'achat intégré, qui passe par le store du système.
 5. La base locale est chiffrée. La clé est stockée dans le trousseau sécurisé du système (Keychain, Keystore), jamais dans le code ni dans la base.
 6. L'export de ses propres données par l'utilisatrice est toujours gratuit.
 7. Aucune allégation médicale : pas de contraception, pas de diagnostic, pas de « jours sans risque ». Une prédiction est une estimation, affichée avec une fourchette.
@@ -52,6 +52,6 @@ Avant toute tâche, lire `docs/SPEC.md` (périmètre et jalons) et `docs/DECISIO
 ## Garde-fous automatiques à créer puis à maintenir
 
 - Un test échoue si une dépendance absente de la liste blanche apparaît (`tool/allowed_dependencies.txt`).
-- Un test échoue si du code importe une bibliothèque réseau, sans exception.
+- Un test échoue si du code de `lib/` utilise une API réseau, sans exception. L'achat intégré passe par le paquet officiel et le store du système, jamais par du code réseau maison.
 - Un test échoue si `lib/domain/` importe Flutter.
 - Ces tests tournent à chaque `flutter test` et dans l'intégration continue.

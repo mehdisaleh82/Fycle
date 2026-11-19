@@ -1,6 +1,6 @@
 # Fycle
 
-Period tracker for iPhone and Android. Pay once, no account, nothing leaves the phone.
+Period tracker for iPhone and Android. Free, no ads, no account, nothing leaves the phone.
 
 - Rules: [CLAUDE.md](CLAUDE.md)
 - Scope and milestones: [docs/SPEC.md](docs/SPEC.md)

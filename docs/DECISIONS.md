@@ -4,7 +4,7 @@
 
 ## Décisions prises (18 novembre 2026)
 
-1. **Nom : Fycle.** Se prononce comme « cycle ». Le F est un clin d'œil, sans sens officiel : ne pas présenter le nom comme « Free + cycle », puisque l'appli est payante.
+1. **Nom : Fycle.** Se prononce comme « cycle ». Le F est un clin d'œil, sans sens officiel : ne pas présenter le nom comme « Free + cycle », puisque l'appli comporte un achat.
    Titre en store : « Fycle: Period Tracker ».
    Signature : « Monthly cycle. No monthly fee. » (19 novembre 2026, remplace « Fycle. Rhymes with cycle. »)
 
@@ -17,18 +17,18 @@
 4. **Données : local uniquement.** Base chiffrée, pas de compte, pas de serveur.
    Raison : c'est la promesse centrale, et cela supprime tout coût récurrent.
 
-5. **Modèle économique : appli payante au téléchargement, un seul paiement** (19 novembre 2026, remplace « socle gratuit et achat unique facultatif »).
-   Pas d'abonnement, pas de publicité, pas d'achat intégré : tout est inclus dans le prix.
-   Raison : la première utilisatrice a abandonné les autres applis à cause de l'abonnement.
-   Risque connu : elle n'a jamais payé pour une appli, et une appli payante est moins téléchargée qu'une gratuite.
-   Conséquence technique : aucun module d'achat intégré en V1, donc aucune bibliothèque réseau nulle part dans le code.
+5. **Modèle économique : socle gratuit sans pub, pack Pro à vie en achat unique facultatif** (achat intégré non consommable).
+   Historique : décidé le 18 novembre 2026, remplacé le 19 par « payante au téléchargement », rétabli le même jour.
+   Raison : la première utilisatrice a abandonné les autres applis à cause du prix et n'a jamais payé pour une appli. Payer avant d'avoir essayé freine le téléchargement et le bouche-à-oreille.
+   Le pack Pro est proposé après un ou deux cycles d'utilisation, jamais à l'installation, et sans essai qui se transforme en prélèvement.
+   Conséquence technique : un paquet d'achat intégré, seule dépendance autorisée à communiquer, via le store du système. Le code de `lib/` reste sans aucune API réseau.
    Objectif de revenu : 400 € par mois.
 
 6. **Build : développement sous Windows, pas de Mac.**
    iOS est compilé et signé par un service de build cloud, puis distribué par TestFlight.
 
 7. **Positionnement : frontal sur la confidentialité et l'absence d'abonnement.**
-   Lignes : « Pay once. No account. No cloud. » et « No leaks. Of any kind. »
+   Lignes : « Free. No ads. No account. Pay once if you want more. » et « No leaks. Of any kind. »
    Ne jamais citer de concurrent.
 
 8. **Réglementaire : aucune allégation médicale.**
@@ -61,14 +61,23 @@
 
 18. **Code de traduction généré.** Les fichiers `lib/l10n/app_localizations*.dart` sont générés, commités et exclus de l'analyse. `lib/ui/app.dart` déclare lui-même les délégués de traduction, car la liste générée pointe encore vers les classes d'avant `material_ui`. À simplifier quand le générateur sera à jour.
 
+19. **Objectifs produit** (détail dans `docs/SPEC.md`). Confiance, respect du portefeuille, simplicité, bilan pour le médecin, reprise d'un historique existant. Fycle se présente comme un journal d'observation personnelle, avec un avertissement visible.
+    Raison : ce sont les points faibles des applis installées (abonnements, méfiance sur les données, surcharge de contenus).
+    Ajouts au socle gratuit : suppression intégrale des données en un geste, avertissement, import d'un historique. La sauvegarde automatique dans un cloud est écartée, car elle contredit la règle 1.
+
 ## Questions ouvertes
 
 - **Paquets Flutter** proposés, versions relevées le 19 novembre 2026, à relire (code et permissions) puis à ajouter à la liste blanche au jalon concerné :
   - jalon 2 : `drift` et `sqlite3` en variante chiffrée, `flutter_secure_storage`, `share_plus`, `file_picker`, `path_provider` ;
   - jalon 4 : `flutter_local_notifications` avec `timezone`, `local_auth`.
 - **Chiffrement de la base** : `sqlcipher_flutter_libs` est en fin de vie depuis février 2026. Le chiffrement passe par `sqlite3` ; réglage exact à vérifier au jalon 2. Ce paquet télécharge une bibliothèque précompilée à la compilation : à examiner au regard de la règle 4.
-- **Android** : sans achat intégré, l'appli peut se passer de la permission INTERNET. À confirmer au jalon Android.
-- **Prix** : hypothèse de travail à 9,99 €, soit environ 57 ventes par mois pour l'objectif de revenu. À valider.
+- **Achat intégré** : paquet à retenir (candidat : `in_app_purchase`, de l'équipe Flutter), à relire avant le jalon du pack Pro.
+- **Android** : peut-on se passer de la permission INTERNET tout en gardant l'achat intégré ? À vérifier.
+- **Pack Pro** : contenu exact et prix. Hypothèse de travail : 9,99 €, soit environ 7 € nets par vente après TVA et commission du store, donc environ 57 ventes par mois pour l'objectif de revenu.
+- **Hypothèses de marché, non vérifiées** : 3 à 8 % des utilisatrices achèteraient ; un lancement sans publicité sur le seul marché francophone amènerait 5 000 à 20 000 téléchargements en 12 à 24 mois. À ce niveau, l'objectif de 400 € par mois n'est pas atteint : il suppose le marché anglophone ou un relais par des créatrices de contenu. À mesurer dès les premières utilisatrices.
+- **Import depuis d'autres applis** : formats d'export à étudier. Les noms des applis sources n'apparaissent ni dans le code ni dans l'interface (règle 8) ; à voir comment présenter la fonction.
+- **Stores** : politique de confidentialité à rédiger, obligatoire pour une appli de santé.
+- **Niche d'entrée** (douleurs chroniques, arrêt d'une contraception hormonale…) : à décider après les premiers retours.
 - **Validation du modèle** auprès d'autres utilisatrices : à faire une fois la base de l'appli disponible (décidé le 19 novembre 2026).
 - **Réservation du nom** : fiches à créer dans App Store Connect et dans la Play Console.
 - **Import de l'historique** depuis Apple Santé.
