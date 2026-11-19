@@ -6,9 +6,11 @@ import 'package:fycle/data/device_auth.dart';
 import 'package:fycle/data/file_gateway.dart';
 import 'package:fycle/data/local_store.dart';
 import 'package:fycle/data/reminder_gateway.dart';
+import 'package:fycle/data/widget_gateway.dart';
 import 'package:fycle/domain/calendar_day.dart';
 import 'package:fycle/domain/day_entry.dart';
 import 'package:fycle/domain/flow_intensity.dart';
+import 'package:fycle/domain/widget_snapshot.dart';
 import 'package:fycle/ui/app.dart';
 import 'package:fycle/ui/app_environment.dart';
 import 'package:material_ui/material_ui.dart';
@@ -40,6 +42,18 @@ final class FakeFiles implements FileGateway {
 
   @override
   Future<PickedFile?> pick() async => nextPick;
+}
+
+/// Stands in for the home-screen widget of the phone.
+final class FakeWidgets implements WidgetGateway {
+  /// Everything handed to the widget so far, in order. Null clears it.
+  final List<WidgetSnapshot?> handed = [];
+
+  /// What the widget shows now, or null when it shows nothing.
+  WidgetSnapshot? get current => handed.isEmpty ? null : handed.last;
+
+  @override
+  Future<void> update(WidgetSnapshot? snapshot) async => handed.add(snapshot);
 }
 
 /// Stands in for the notifications of the phone.
@@ -124,6 +138,7 @@ final class Harness {
   final InMemoryKeyStore keyStore = InMemoryKeyStore();
   final FakeFiles files = FakeFiles();
   final FakeReminders reminders = FakeReminders();
+  final FakeWidgets widgets = FakeWidgets();
   final FakeDeviceAuth deviceAuth = FakeDeviceAuth();
 
   Future<LocalStore> openStore() =>
@@ -178,6 +193,7 @@ final class Harness {
           wipeStore: () => LocalStore.wipe(directory: dir, keyStore: keyStore),
           files: files,
           reminders: reminders,
+          widgets: widgets,
           deviceAuth: deviceAuth,
           now: () => now,
         ),

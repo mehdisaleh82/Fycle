@@ -7,6 +7,7 @@ cryptography            # dint.dev, pure Dart, encrypts the export file
 file_picker             # system dialogs to save an export and pick an import
 flutter                 # SDK
 flutter_localizations   # SDK, English and French
+home_widget             # hands a few values to the home-screen widget, no network
 intl                    # dart.dev, dates and plurals for localization
 flutter_local_notifications  # reminders scheduled on the phone, no server
 flutter_secure_storage  # database key in the Keychain / Keystore

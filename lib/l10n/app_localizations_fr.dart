@@ -1445,6 +1445,13 @@ class AppLocalizationsFr extends AppLocalizations {
   String get ringShowDay => 'Afficher le jour du cycle';
 
   @override
+  String get widgetTitle => 'Widget d\'écran d\'accueil';
+
+  @override
+  String get widgetSubtitle =>
+      'L\'anneau du cycle sur l\'écran d\'accueil de ce téléphone, sans un mot sur les règles. Ajoute-le depuis l\'écran d\'accueil : appui long sur une zone vide, puis le bouton +.';
+
+  @override
   String get lockTurnedOff =>
       'Ce téléphone n\'a plus de code : le verrouillage de Fycle a été désactivé.';
 }

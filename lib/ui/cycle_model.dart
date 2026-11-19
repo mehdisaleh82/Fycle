@@ -33,6 +33,7 @@ class CycleModel extends ChangeNotifier {
   List<LoggedCycle> _cycles = const [];
   CalendarDay? _dismissedSummaryStart;
   bool _fertilityEstimateEnabled = true;
+  bool _widgetEnabled = true;
   FertilityEstimate? _fertilityEstimate;
   List<FertilityEstimate> _pastFertilityEstimates = const [];
   PeriodPrediction? _prediction;
@@ -57,6 +58,9 @@ class CycleModel extends ChangeNotifier {
 
   /// First day of the last cycle whose summary was closed on this phone.
   CalendarDay? get dismissedSummaryStart => _dismissedSummaryStart;
+
+  /// Whether the home-screen widget is given something to show.
+  bool get widgetEnabled => _widgetEnabled;
 
   /// Whether the user turned the ovulation estimate on.
   bool get fertilityEstimateEnabled => _fertilityEstimateEnabled;
@@ -142,6 +146,11 @@ class CycleModel extends ChangeNotifier {
     reload();
   }
 
+  void setWidgetEnabled(bool enabled) {
+    store.database.widgetEnabled = enabled;
+    reload();
+  }
+
   void setFertilityEstimateEnabled(bool enabled) {
     store.database.fertilityEstimateEnabled = enabled;
     reload();
@@ -195,6 +204,7 @@ class CycleModel extends ChangeNotifier {
           _usualCycleLength ?? (age == null ? null : referenceCycleLength),
     );
     _fertilityEstimateEnabled = database.fertilityEstimateEnabled;
+    _widgetEnabled = database.widgetEnabled;
     final prediction = _prediction;
     _fertilityEstimate =
         _fertilityEstimateEnabled && prediction != null && _cycles.isNotEmpty

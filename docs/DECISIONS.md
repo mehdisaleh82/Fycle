@@ -528,9 +528,17 @@ Retour de la testeuse sur la compilation n° 9, rapporté par l'utilisateur : po
 
 131. **Carte du haut interactive.** Demande de l'utilisateur. Un appui sur l'anneau fait basculer son centre entre le jour du cycle et les jours restants avant les prochaines règles, donnés en fourchette (« 5–11 »), avec un léger retour tactile. L'anneau est un bouton nommé pour le lecteur d'écran. Tant que la période estimée n'est pas devant soi (règles en cours, attendues ces jours-ci, dépassées, rien de saisi), l'anneau ne bascule pas.
 
+132. **Widget d'écran d'accueil : paquet `home_widget` 0.9.2**, validé par l'utilisateur le 19 novembre 2026 (règle 4).
+    - Relu avant ajout : licence BSD à 3 clauses ; dépendances `flutter`, `path_provider` et `path_provider_foundation`, déjà autorisées ; aucun appel réseau dans son code Dart, Swift ou Kotlin ; aucune permission Android déclarée. Côté Android il tire `androidx.glance` et `androidx.work`, à relire au jalon Android.
+    - **Ce qui sort de la base chiffrée** (`lib/domain/widget_snapshot.dart`) : le premier jour du cycle en cours, la durée estimée du cycle, la durée des règles, et la fourchette estimée des prochaines règles. Rien d'autre : ni symptôme, ni note, ni historique. Ces valeurs vont dans une zone partagée entre l'appli et son widget (« App Group » `group.app.fycle`), protégée par le verrouillage du téléphone et non par le chiffrement de la base. Écart assumé avec la règle 5, limité à ces cinq valeurs. Des dates plutôt que « jour 12 » : le widget doit rester juste les jours où l'appli n'est pas ouverte.
+    - Le widget est discret : l'anneau et un nombre, sans le mot « règles » ni le nom de l'appli. Il se voit sans déverrouiller l'appli : c'est dit dans les réglages.
+    - Un interrupteur « Widget d'écran d'accueil » dans les réglages (section Confidentialité), actif par défaut à la demande de l'utilisateur ; l'éteindre vide la zone partagée. « Tout supprimer » la vide aussi.
+    - iOS ne permet pas à une appli de poser elle-même un widget : l'utilisatrice l'ajoute depuis l'écran d'accueil.
+    - Mis à jour aux mêmes moments que les rappels (`lib/ui/widget_sync.dart`) : après chaque saisie, chaque changement de réglage et chaque retour dans l'appli.
+    - Reste à faire : le widget natif en Swift (cible « FycleWidget »), l'App Group chez Apple, la signature dans la compilation cloud. Android : à faire avant toute publication (règle 10).
+
 ## Questions ouvertes
 
-- **Widgets** : paquet `home_widget` soumis à l'utilisateur le 19 novembre 2026, avec ses conséquences (données hors de la base chiffrée, widget visible sans ouvrir l'appli, App Group à créer, projet Xcode à modifier à la main, pas d'activation automatique possible sur iOS). En attente de sa réponse.
 - **Le nom « Fycle » dans l'appli** : l'utilisateur a demandé qu'il n'apparaisse plus. Fait pour l'en-tête (décision 118). Il reste au démarrage (« Bienvenue dans Fycle »), sur l'écran de verrouillage, dans les réglages et dans l'avertissement : à confirmer avant de le retirer partout.
 - **Profil de départ** (demande de l'utilisateur du 19 novembre 2026) : demander la date de naissance, le poids, etc. au démarrage pour partir d'un repère personnalisé et donner une vision à long terme. À cadrer avant tout code : l'année de naissance a un effet publié sur la durée du cycle (décision 113) ; le poids est une donnée sensible, à ne demander que si un effet publié est réellement utilisé ; une « vision à long terme » ne doit jamais devenir une prévision médicale (règle 7).
 

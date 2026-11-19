@@ -1429,6 +1429,13 @@ class AppLocalizationsEn extends AppLocalizations {
   String get ringShowDay => 'Show the day of the cycle';
 
   @override
+  String get widgetTitle => 'Home-screen widget';
+
+  @override
+  String get widgetSubtitle =>
+      'The cycle ring on the home screen of this phone, with no word about periods. Add it from the home screen: touch and hold an empty area, then the + button.';
+
+  @override
   String get lockTurnedOff =>
       'This phone no longer has a passcode: the lock of Fycle was turned off.';
 }

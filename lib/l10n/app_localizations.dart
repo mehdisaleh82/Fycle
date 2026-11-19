@@ -2258,6 +2258,18 @@ abstract class AppLocalizations {
   /// **'Show the day of the cycle'**
   String get ringShowDay;
 
+  /// No description provided for @widgetTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Home-screen widget'**
+  String get widgetTitle;
+
+  /// No description provided for @widgetSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'The cycle ring on the home screen of this phone, with no word about periods. Add it from the home screen: touch and hold an empty area, then the + button.'**
+  String get widgetSubtitle;
+
   /// No description provided for @lockTurnedOff.
   ///
   /// In en, this message translates to:

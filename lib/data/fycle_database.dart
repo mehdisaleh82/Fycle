@@ -101,6 +101,7 @@ final class FycleDatabase {
   static const String _summaryDismissed = 'cycle_summary_dismissed';
   static const String _fertilityEstimate = 'fertility_estimate_enabled';
   static const String _suggestionDismissed = 'suggestion_dismissed_';
+  static const String _widget = 'widget_enabled';
 
   final Database _db;
 
@@ -313,6 +314,13 @@ final class FycleDatabase {
 
   void dismissSuggestion(String name) =>
       _writeDeviceSetting('$_suggestionDismissed$name', _on);
+
+  /// Whether the home-screen widget is given something to show. On unless
+  /// the user turned it off. Not part of an export.
+  bool get widgetEnabled => _deviceSetting(_widget) != _off;
+
+  set widgetEnabled(bool enabled) =>
+      _writeDeviceSetting(_widget, enabled ? null : _off);
 
   /// Everything stored, for export.
   FycleData readAll() => FycleData(

@@ -14,6 +14,7 @@ import 'dialogs.dart';
 import 'home_screen.dart';
 import 'onboarding_screen.dart';
 import 'reminder_sync.dart';
+import 'widget_sync.dart';
 
 enum _Phase { opening, unreadable, ready }
 
@@ -51,6 +52,7 @@ class _RootScreenState extends State<RootScreen> with WidgetsBindingObserver {
   late final ReminderSync _reminders = ReminderSync(
     widget.environment.reminders,
   );
+  late final WidgetSync _widgets = WidgetSync(widget.environment.widgets);
 
   @override
   void initState() {
@@ -102,6 +104,8 @@ class _RootScreenState extends State<RootScreen> with WidgetsBindingObserver {
     if (model == null || !mounted) {
       return;
     }
+    // The widget follows the same moments as the reminders.
+    _widgets.sync(model: model, today: widget.environment.today());
     _reminders.sync(
       model: model,
       now: widget.environment.now(),
@@ -154,6 +158,7 @@ class _RootScreenState extends State<RootScreen> with WidgetsBindingObserver {
     // The settings of the phone go with the data: no reminder is left
     // behind, and the lock is off again.
     _reminders.clear(AppLocalizations.of(context));
+    _widgets.clear();
     widget.lock.start(enabled: false);
     if (model != null) {
       model.removeListener(_onModelChanged);

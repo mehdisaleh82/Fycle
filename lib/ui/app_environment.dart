@@ -2,6 +2,7 @@ import '../data/device_auth.dart';
 import '../data/file_gateway.dart';
 import '../data/local_store.dart';
 import '../data/reminder_gateway.dart';
+import '../data/widget_gateway.dart';
 import '../domain/calendar_day.dart';
 
 /// What the interface needs from the outside world. The app uses
@@ -14,6 +15,7 @@ final class AppEnvironment {
     required this.files,
     required this.reminders,
     required this.deviceAuth,
+    required this.widgets,
     required this.now,
   });
 
@@ -24,6 +26,7 @@ final class AppEnvironment {
       files = const SystemFileGateway(),
       reminders = const SystemReminderGateway(),
       deviceAuth = const SystemDeviceAuth(),
+      widgets = const SystemWidgetGateway(),
       now = DateTime.now;
 
   /// Opens the local store. May throw when the store cannot be read.
@@ -39,6 +42,9 @@ final class AppEnvironment {
 
   /// Face ID, fingerprint or the phone passcode.
   final DeviceAuth deviceAuth;
+
+  /// The home-screen widget of the phone.
+  final WidgetGateway widgets;
 
   /// The current date and time, as the phone shows them.
   final DateTime Function() now;
