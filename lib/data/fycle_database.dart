@@ -5,10 +5,12 @@ import 'package:sqlite3/sqlite3.dart';
 import '../domain/calendar_day.dart';
 import '../domain/day_entry.dart';
 import '../domain/flow_intensity.dart';
+import '../domain/libido_level.dart';
 import '../domain/mood.dart';
 import '../domain/pain_level.dart';
 import '../domain/period_predictor.dart';
 import '../domain/reminders.dart';
+import '../domain/sleep_quality.dart';
 import '../domain/symptom.dart';
 import 'appearance.dart';
 import 'database_key_store.dart';
@@ -83,7 +85,7 @@ final class FycleDatabase {
 
   /// Version of the table layout. Raise it and add a step in [_prepare] when
   /// the tables change.
-  static const int schemaVersion = 2;
+  static const int schemaVersion = 3;
 
   static const String _usualCycleLength = 'usual_cycle_length';
 
@@ -145,6 +147,13 @@ final class FycleDatabase {
           ') WITHOUT ROWID',
         );
         _db.userVersion = 2;
+      });
+    }
+    if (version < 3) {
+      _transaction(() {
+        _db.execute('ALTER TABLE day_entry ADD COLUMN sleep TEXT');
+        _db.execute('ALTER TABLE day_entry ADD COLUMN libido TEXT');
+        _db.userVersion = 3;
       });
     }
   }
@@ -333,9 +342,17 @@ final class FycleDatabase {
       return;
     }
     _db.execute(
-      'INSERT INTO day_entry (day, flow, pain, mood, note) '
-      'VALUES (?, ?, ?, ?, ?)',
-      [day, entry.flow?.name, entry.pain?.name, entry.mood?.name, entry.note],
+      'INSERT INTO day_entry (day, flow, pain, mood, sleep, libido, note) '
+      'VALUES (?, ?, ?, ?, ?, ?, ?)',
+      [
+        day,
+        entry.flow?.name,
+        entry.pain?.name,
+        entry.mood?.name,
+        entry.sleep?.name,
+        entry.libido?.name,
+        entry.note,
+      ],
     );
     for (final symptom in entry.symptoms) {
       _db.execute('INSERT INTO day_symptom (day, symptom) VALUES (?, ?)', [
@@ -359,7 +376,8 @@ final class FycleDatabase {
 
     final entries = <DayEntry>[];
     for (final row in _db.select(
-      'SELECT day, flow, pain, mood, note FROM day_entry $where ORDER BY day',
+      'SELECT day, flow, pain, mood, sleep, libido, note FROM day_entry '
+      '$where ORDER BY day',
       parameters,
     )) {
       final text = row['day'] as String;
@@ -373,6 +391,8 @@ final class FycleDatabase {
           flow: _byName(FlowIntensity.values, row['flow'] as String?),
           pain: _byName(PainLevel.values, row['pain'] as String?),
           mood: _byName(Mood.values, row['mood'] as String?),
+          sleep: _byName(SleepQuality.values, row['sleep'] as String?),
+          libido: _byName(LibidoLevel.values, row['libido'] as String?),
           symptoms: symptoms[text] ?? const {},
           note: row['note'] as String?,
         ),

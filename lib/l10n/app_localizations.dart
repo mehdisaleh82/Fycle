@@ -494,6 +494,54 @@ abstract class AppLocalizations {
   /// **'Symptoms'**
   String get daySymptomsTitle;
 
+  /// No description provided for @daySleepTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Sleep'**
+  String get daySleepTitle;
+
+  /// No description provided for @dayLibidoTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Libido'**
+  String get dayLibidoTitle;
+
+  /// No description provided for @sleepPoor.
+  ///
+  /// In en, this message translates to:
+  /// **'Poor'**
+  String get sleepPoor;
+
+  /// No description provided for @sleepFair.
+  ///
+  /// In en, this message translates to:
+  /// **'Fair'**
+  String get sleepFair;
+
+  /// No description provided for @sleepGood.
+  ///
+  /// In en, this message translates to:
+  /// **'Good'**
+  String get sleepGood;
+
+  /// No description provided for @libidoLow.
+  ///
+  /// In en, this message translates to:
+  /// **'Low'**
+  String get libidoLow;
+
+  /// No description provided for @libidoMedium.
+  ///
+  /// In en, this message translates to:
+  /// **'Medium'**
+  String get libidoMedium;
+
+  /// No description provided for @libidoHigh.
+  ///
+  /// In en, this message translates to:
+  /// **'High'**
+  String get libidoHigh;
+
   /// No description provided for @dayNoteLabel.
   ///
   /// In en, this message translates to:

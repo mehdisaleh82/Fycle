@@ -1,7 +1,9 @@
 import 'calendar_day.dart';
 import 'flow_intensity.dart';
+import 'libido_level.dart';
 import 'mood.dart';
 import 'pain_level.dart';
+import 'sleep_quality.dart';
 import 'symptom.dart';
 
 /// Everything logged for one calendar day.
@@ -14,6 +16,8 @@ final class DayEntry {
     this.flow,
     this.pain,
     this.mood,
+    this.sleep,
+    this.libido,
     Set<Symptom> symptoms = const {},
     String? note,
   }) : symptoms = Set.unmodifiable(symptoms),
@@ -23,6 +27,8 @@ final class DayEntry {
   final FlowIntensity? flow;
   final PainLevel? pain;
   final Mood? mood;
+  final SleepQuality? sleep;
+  final LibidoLevel? libido;
   final Set<Symptom> symptoms;
   final String? note;
 
@@ -31,6 +37,8 @@ final class DayEntry {
       flow == null &&
       pain == null &&
       mood == null &&
+      sleep == null &&
+      libido == null &&
       symptoms.isEmpty &&
       note == null;
 
@@ -41,6 +49,8 @@ final class DayEntry {
       other.flow == flow &&
       other.pain == pain &&
       other.mood == mood &&
+      other.sleep == sleep &&
+      other.libido == libido &&
       other.note == note &&
       other.symptoms.length == symptoms.length &&
       other.symptoms.containsAll(symptoms);
@@ -51,6 +61,8 @@ final class DayEntry {
     flow,
     pain,
     mood,
+    sleep,
+    libido,
     note,
     Object.hashAllUnordered(symptoms),
   );
@@ -58,6 +70,7 @@ final class DayEntry {
   @override
   String toString() =>
       'DayEntry($day, flow: ${flow?.name}, pain: ${pain?.name}, '
-      'mood: ${mood?.name}, symptoms: ${symptoms.map((s) => s.name).toList()}, '
+      'mood: ${mood?.name}, sleep: ${sleep?.name}, libido: ${libido?.name}, '
+      'symptoms: ${symptoms.map((s) => s.name).toList()}, '
       'note: ${note == null ? 'no' : 'yes'})';
 }

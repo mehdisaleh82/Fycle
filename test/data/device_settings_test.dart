@@ -8,7 +8,11 @@ import 'package:fycle/data/local_store.dart';
 import 'package:fycle/domain/calendar_day.dart';
 import 'package:fycle/domain/day_entry.dart';
 import 'package:fycle/domain/flow_intensity.dart';
+import 'package:fycle/domain/libido_level.dart';
+import 'package:fycle/domain/mood.dart';
 import 'package:fycle/domain/reminders.dart';
+import 'package:fycle/domain/sleep_quality.dart';
+import 'package:fycle/domain/symptom.dart';
 import 'package:sqlite3/sqlite3.dart';
 
 import 'fakes.dart';
@@ -125,6 +129,62 @@ void main() {
       expect(db.appLockEnabled, isFalse);
       db.appLockEnabled = true;
       expect(db.appLockEnabled, isTrue);
+    });
+
+    test('a database without sleep and libido is upgraded, data intact', () {
+      final path = '${dir.path}${Platform.pathSeparator}test.db';
+      final hex = key
+          .map((byte) => byte.toRadixString(16).padLeft(2, '0'))
+          .join();
+      // The layout written before sleep and libido could be logged.
+      sqlite3.open(path)
+        ..execute("PRAGMA cipher = 'chacha20'")
+        ..execute('PRAGMA key = "raw:$hex"')
+        ..execute(
+          'CREATE TABLE day_entry (day TEXT NOT NULL PRIMARY KEY, flow TEXT, '
+          'pain TEXT, mood TEXT, note TEXT) WITHOUT ROWID',
+        )
+        ..execute(
+          'CREATE TABLE day_symptom ('
+          'day TEXT NOT NULL REFERENCES day_entry (day) ON DELETE CASCADE, '
+          'symptom TEXT NOT NULL, PRIMARY KEY (day, symptom)) WITHOUT ROWID',
+        )
+        ..execute(
+          'CREATE TABLE setting (name TEXT NOT NULL PRIMARY KEY, '
+          'value TEXT NOT NULL) WITHOUT ROWID',
+        )
+        ..execute(
+          'CREATE TABLE device_setting (name TEXT NOT NULL PRIMARY KEY, '
+          'value TEXT NOT NULL) WITHOUT ROWID',
+        )
+        ..execute(
+          'INSERT INTO day_entry (day, flow, mood, note) '
+          "VALUES ('2026-03-05', 'medium', 'calm', 'Made-up note')",
+        )
+        ..execute("INSERT INTO day_symptom VALUES ('2026-03-05', 'cramps')")
+        ..execute("INSERT INTO device_setting VALUES ('app_lock_enabled', '1')")
+        ..userVersion = 2
+        ..close();
+
+      final db = FycleDatabase.open(path, key);
+      addTearDown(db.close);
+      final before = DayEntry(
+        day: CalendarDay(2026, 3, 5),
+        flow: FlowIntensity.medium,
+        mood: Mood.calm,
+        symptoms: {Symptom.cramps},
+        note: 'Made-up note',
+      );
+      expect(db.readDays(), [before]);
+      expect(db.appLockEnabled, isTrue);
+
+      final after = DayEntry(
+        day: CalendarDay(2026, 3, 6),
+        sleep: SleepQuality.poor,
+        libido: LibidoLevel.high,
+      );
+      db.saveDay(after);
+      expect(db.readDays(), [before, after]);
     });
 
     test('an export does not carry the settings of the phone', () async {

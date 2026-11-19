@@ -263,6 +263,30 @@ class AppLocalizationsFr extends AppLocalizations {
   String get daySymptomsTitle => 'Symptômes';
 
   @override
+  String get daySleepTitle => 'Sommeil';
+
+  @override
+  String get dayLibidoTitle => 'Libido';
+
+  @override
+  String get sleepPoor => 'Mauvais';
+
+  @override
+  String get sleepFair => 'Moyen';
+
+  @override
+  String get sleepGood => 'Bon';
+
+  @override
+  String get libidoLow => 'Basse';
+
+  @override
+  String get libidoMedium => 'Moyenne';
+
+  @override
+  String get libidoHigh => 'Haute';
+
+  @override
   String get dayNoteLabel => 'Note';
 
   @override

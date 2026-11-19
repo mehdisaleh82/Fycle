@@ -7,9 +7,11 @@ import 'package:cryptography/cryptography.dart';
 import '../domain/calendar_day.dart';
 import '../domain/day_entry.dart';
 import '../domain/flow_intensity.dart';
+import '../domain/libido_level.dart';
 import '../domain/mood.dart';
 import '../domain/pain_level.dart';
 import '../domain/period_predictor.dart';
+import '../domain/sleep_quality.dart';
 import '../domain/symptom.dart';
 import 'fycle_data.dart';
 
@@ -224,6 +226,8 @@ final class BackupCodec {
   ///       "flow": "medium",
   ///       "pain": "mild",
   ///       "mood": "calm",
+  ///       "sleep": "good",
+  ///       "libido": "medium",
   ///       "symptoms": ["cramps"],
   ///       "note": "..."
   ///     }
@@ -231,7 +235,8 @@ final class BackupCodec {
   /// }
   /// ```
   ///
-  /// Absent fields mean "not logged".
+  /// Absent fields mean "not logged". Fields may be added without raising
+  /// the content version: a reader ignores the ones it does not know.
   static Map<String, Object?> _toJson(FycleData data) => {
     'content': _contentVersion,
     'usualCycleLength': ?data.usualCycleLength,
@@ -242,6 +247,8 @@ final class BackupCodec {
           'flow': ?entry.flow?.name,
           'pain': ?entry.pain?.name,
           'mood': ?entry.mood?.name,
+          'sleep': ?entry.sleep?.name,
+          'libido': ?entry.libido?.name,
           if (entry.symptoms.isNotEmpty)
             'symptoms': [for (final symptom in entry.symptoms) symptom.name]
               ..sort(),
@@ -295,6 +302,8 @@ final class BackupCodec {
         flow: _byName(FlowIntensity.values, item['flow']),
         pain: _byName(PainLevel.values, item['pain']),
         mood: _byName(Mood.values, item['mood']),
+        sleep: _byName(SleepQuality.values, item['sleep']),
+        libido: _byName(LibidoLevel.values, item['libido']),
         symptoms: {
           if (symptoms is List<Object?>)
             for (final name in symptoms) ?_byName(Symptom.values, name),

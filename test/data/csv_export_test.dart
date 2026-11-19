@@ -8,17 +8,20 @@ import 'fakes.dart';
 
 void main() {
   test('with nothing logged, only the header line is written', () {
-    expect(daysToCsv([]), '﻿date,flow,pain,mood,symptoms,note\r\n');
+    expect(
+      daysToCsv([]),
+      '﻿date,flow,pain,mood,sleep,libido,symptoms,note\r\n',
+    );
   });
 
   test('writes one line per day', () {
     final lines = daysToCsv(sampleData().days).split('\r\n');
     expect(lines, [
-      '﻿date,flow,pain,mood,symptoms,note',
-      '2026-03-05,medium,moderate,irritable,backPain; cramps,'
+      '﻿date,flow,pain,mood,sleep,libido,symptoms,note',
+      '2026-03-05,medium,moderate,irritable,poor,low,backPain; cramps,'
           '"Stayed home, ""slow"" day"',
-      '2026-03-06,heavy,,,,',
-      '2026-03-20,,,happy,,"Été, cœur léger"',
+      '2026-03-06,heavy,,,,,,',
+      '2026-03-20,,,happy,,,,"Été, cœur léger"',
       '',
     ]);
   });
@@ -29,11 +32,15 @@ void main() {
       flow: 'Règles',
       pain: 'Douleur',
       mood: 'Humeur',
+      sleep: 'Sommeil',
+      libido: 'Libido',
       symptoms: 'Symptômes, tous',
       note: 'Note',
       flowName: (flow) => 'F-${flow.name}',
       painName: (pain) => 'P-${pain.name}',
       moodName: (mood) => 'M-${mood.name}',
+      sleepName: (sleep) => 'S-${sleep.name}',
+      libidoName: (libido) => 'L-${libido.name}',
       symptomName: (symptom) =>
           symptom == Symptom.cramps ? 'Zz crampes' : 'Aa dos',
     );
@@ -43,11 +50,12 @@ void main() {
     ).split('\r\n');
     expect(
       lines[0],
-      '\u{FEFF}Jour,Règles,Douleur,Humeur,"Symptômes, tous",Note',
+      '\u{FEFF}Jour,Règles,Douleur,Humeur,Sommeil,Libido,"Symptômes, tous",Note',
     );
     expect(
       lines[1],
-      '2026-03-05,F-medium,P-moderate,M-irritable,Aa dos; Zz crampes,'
+      '2026-03-05,F-medium,P-moderate,M-irritable,S-poor,L-low,'
+      'Aa dos; Zz crampes,'
       '"Stayed home, ""slow"" day"',
     );
   });
@@ -56,7 +64,7 @@ void main() {
     final csv = daysToCsv([
       DayEntry(day: CalendarDay(2026, 3, 5), note: 'one\ntwo'),
     ]);
-    expect(csv, endsWith('2026-03-05,,,,,"one\ntwo"\r\n'));
+    expect(csv, endsWith('2026-03-05,,,,,,,"one\ntwo"\r\n'));
   });
 
   test('a note that looks like a formula is written as plain text', () {

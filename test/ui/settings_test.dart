@@ -172,10 +172,14 @@ void main() {
     // Byte order mark, so that spreadsheets read the accents.
     expect(bytes.sublist(0, 3), [0xEF, 0xBB, 0xBF]);
     final lines = utf8.decode(bytes).split('\r\n');
-    expect(lines[0], 'Date,Règles,Douleur,Humeur,Symptômes,Note');
+    expect(
+      lines[0],
+      'Date,Règles,Douleur,Humeur,Sommeil,Libido,Symptômes,Note',
+    );
     expect(
       lines[1],
-      '2026-03-05,Moyennes,Modérée,Irritabilité,Crampes; Mal de dos,'
+      '2026-03-05,Moyennes,Modérée,Irritabilité,Mauvais,Basse,'
+      'Crampes; Mal de dos,'
       '"Stayed home, ""slow"" day"',
     );
   });

@@ -6,8 +6,10 @@ import 'package:fycle/data/fycle_data.dart';
 import 'package:fycle/domain/calendar_day.dart';
 import 'package:fycle/domain/day_entry.dart';
 import 'package:fycle/domain/flow_intensity.dart';
+import 'package:fycle/domain/libido_level.dart';
 import 'package:fycle/domain/mood.dart';
 import 'package:fycle/domain/pain_level.dart';
+import 'package:fycle/domain/sleep_quality.dart';
 import 'package:fycle/domain/symptom.dart';
 
 /// Stands in for the Keychain / Keystore, which only exist on a phone.
@@ -36,6 +38,8 @@ FycleData sampleData() => FycleData(
       flow: FlowIntensity.medium,
       pain: PainLevel.moderate,
       mood: Mood.irritable,
+      sleep: SleepQuality.poor,
+      libido: LibidoLevel.low,
       symptoms: {Symptom.cramps, Symptom.backPain},
       note: 'Stayed home, "slow" day',
     ),

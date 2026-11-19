@@ -2,8 +2,10 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:fycle/domain/calendar_day.dart';
 import 'package:fycle/domain/day_entry.dart';
 import 'package:fycle/domain/flow_intensity.dart';
+import 'package:fycle/domain/libido_level.dart';
 import 'package:fycle/domain/mood.dart';
 import 'package:fycle/domain/pain_level.dart';
+import 'package:fycle/domain/sleep_quality.dart';
 import 'package:fycle/domain/symptom.dart';
 
 void main() {
@@ -19,6 +21,8 @@ void main() {
       expect(DayEntry(day: day, flow: FlowIntensity.light).isEmpty, isFalse);
       expect(DayEntry(day: day, pain: PainLevel.none).isEmpty, isFalse);
       expect(DayEntry(day: day, mood: Mood.calm).isEmpty, isFalse);
+      expect(DayEntry(day: day, sleep: SleepQuality.good).isEmpty, isFalse);
+      expect(DayEntry(day: day, libido: LibidoLevel.low).isEmpty, isFalse);
       expect(DayEntry(day: day, symptoms: {Symptom.acne}).isEmpty, isFalse);
       expect(DayEntry(day: day, note: 'Tired').isEmpty, isFalse);
     });
@@ -41,6 +45,14 @@ void main() {
       expect(a, b);
       expect(a.hashCode, b.hashCode);
       expect(a, isNot(DayEntry(day: day, flow: FlowIntensity.light)));
+      expect(
+        DayEntry(day: day, sleep: SleepQuality.poor),
+        isNot(DayEntry(day: day, sleep: SleepQuality.good)),
+      );
+      expect(
+        DayEntry(day: day, libido: LibidoLevel.low),
+        isNot(DayEntry(day: day, libido: LibidoLevel.high)),
+      );
     });
 
     test('does not let its symptoms be changed afterwards', () {

@@ -3,8 +3,10 @@ import 'package:intl/intl.dart';
 import '../data/csv_export.dart';
 import '../domain/calendar_day.dart';
 import '../domain/flow_intensity.dart';
+import '../domain/libido_level.dart';
 import '../domain/mood.dart';
 import '../domain/pain_level.dart';
+import '../domain/sleep_quality.dart';
 import '../domain/symptom.dart';
 import '../l10n/app_localizations.dart';
 
@@ -32,6 +34,19 @@ String moodLabel(AppLocalizations l10n, Mood mood) => switch (mood) {
   Mood.irritable => l10n.moodIrritable,
 };
 
+String sleepLabel(AppLocalizations l10n, SleepQuality sleep) => switch (sleep) {
+  SleepQuality.poor => l10n.sleepPoor,
+  SleepQuality.fair => l10n.sleepFair,
+  SleepQuality.good => l10n.sleepGood,
+};
+
+String libidoLabel(AppLocalizations l10n, LibidoLevel libido) =>
+    switch (libido) {
+      LibidoLevel.low => l10n.libidoLow,
+      LibidoLevel.medium => l10n.libidoMedium,
+      LibidoLevel.high => l10n.libidoHigh,
+    };
+
 String symptomLabel(AppLocalizations l10n, Symptom symptom) =>
     switch (symptom) {
       Symptom.cramps => l10n.symptomCramps,
@@ -52,11 +67,15 @@ CsvLabels csvLabels(AppLocalizations l10n) => CsvLabels(
   flow: l10n.dayFlowTitle,
   pain: l10n.dayPainTitle,
   mood: l10n.dayMoodTitle,
+  sleep: l10n.daySleepTitle,
+  libido: l10n.dayLibidoTitle,
   symptoms: l10n.daySymptomsTitle,
   note: l10n.dayNoteLabel,
   flowName: (flow) => flowLabel(l10n, flow),
   painName: (pain) => painLabel(l10n, pain),
   moodName: (mood) => moodLabel(l10n, mood),
+  sleepName: (sleep) => sleepLabel(l10n, sleep),
+  libidoName: (libido) => libidoLabel(l10n, libido),
   symptomName: (symptom) => symptomLabel(l10n, symptom),
 );
 

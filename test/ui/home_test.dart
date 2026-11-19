@@ -3,8 +3,10 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:fycle/domain/calendar_day.dart';
 import 'package:fycle/domain/day_entry.dart';
 import 'package:fycle/domain/flow_intensity.dart';
+import 'package:fycle/domain/libido_level.dart';
 import 'package:fycle/domain/mood.dart';
 import 'package:fycle/domain/pain_level.dart';
+import 'package:fycle/domain/sleep_quality.dart';
 import 'package:fycle/domain/symptom.dart';
 import 'package:material_ui/material_ui.dart';
 
@@ -344,6 +346,37 @@ void main() {
       (store) => store.database.readDay(harness.today),
     );
     expect(after?.mood, isNull);
+  });
+
+  testWidgets('sleep and libido are saved as they are set', (tester) async {
+    final harness = Harness(tester);
+    await harness.seed(days: threePeriods());
+    await harness.pumpApp();
+
+    await tester.tap(find.text('Log today'));
+    await tester.pumpAndSettle();
+    await tapVisible(tester, find.byKey(const ValueKey('sleep-poor')));
+    await tapVisible(tester, find.byKey(const ValueKey('libido-high')));
+
+    final entry = await harness.read(
+      (store) => store.database.readDay(harness.today),
+    );
+    expect(
+      entry,
+      DayEntry(
+        day: harness.today,
+        sleep: SleepQuality.poor,
+        libido: LibidoLevel.high,
+      ),
+    );
+
+    // Tapping a choice again takes it back.
+    await tapVisible(tester, find.byKey(const ValueKey('sleep-poor')));
+    final after = await harness.read(
+      (store) => store.database.readDay(harness.today),
+    );
+    expect(after?.sleep, isNull);
+    expect(after?.libido, LibidoLevel.high);
   });
 
   testWidgets('a past day opens from the calendar, a day to come does not', (

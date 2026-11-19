@@ -3,8 +3,10 @@ import 'package:material_ui/material_ui.dart';
 import '../domain/calendar_day.dart';
 import '../domain/day_entry.dart';
 import '../domain/flow_intensity.dart';
+import '../domain/libido_level.dart';
 import '../domain/mood.dart';
 import '../domain/pain_level.dart';
+import '../domain/sleep_quality.dart';
 import '../domain/symptom.dart';
 import '../l10n/app_localizations.dart';
 import 'cycle_model.dart';
@@ -57,6 +59,8 @@ class _DaySheetState extends State<_DaySheet> {
     FlowIntensity? Function()? flow,
     PainLevel? Function()? pain,
     Mood? Function()? mood,
+    SleepQuality? Function()? sleep,
+    LibidoLevel? Function()? libido,
     Set<Symptom>? symptoms,
   }) {
     final entry = DayEntry(
@@ -64,6 +68,8 @@ class _DaySheetState extends State<_DaySheet> {
       flow: flow == null ? _entry.flow : flow(),
       pain: pain == null ? _entry.pain : pain(),
       mood: mood == null ? _entry.mood : mood(),
+      sleep: sleep == null ? _entry.sleep : sleep(),
+      libido: libido == null ? _entry.libido : libido(),
       symptoms: symptoms ?? _entry.symptoms,
       note: _note.text,
     );
@@ -146,6 +152,32 @@ class _DaySheetState extends State<_DaySheet> {
                     selected: _entry.mood == mood,
                     onSelected: (selected) =>
                         _save(mood: () => selected ? mood : null),
+                  ),
+              ],
+            ),
+            _Section(
+              title: l10n.daySleepTitle,
+              children: [
+                for (final sleep in SleepQuality.values)
+                  ChoiceChip(
+                    key: ValueKey('sleep-${sleep.name}'),
+                    label: Text(sleepLabel(l10n, sleep)),
+                    selected: _entry.sleep == sleep,
+                    onSelected: (selected) =>
+                        _save(sleep: () => selected ? sleep : null),
+                  ),
+              ],
+            ),
+            _Section(
+              title: l10n.dayLibidoTitle,
+              children: [
+                for (final libido in LibidoLevel.values)
+                  ChoiceChip(
+                    key: ValueKey('libido-${libido.name}'),
+                    label: Text(libidoLabel(l10n, libido)),
+                    selected: _entry.libido == libido,
+                    onSelected: (selected) =>
+                        _save(libido: () => selected ? libido : null),
                   ),
               ],
             ),
