@@ -4,50 +4,92 @@ import '../data/fycle_database.dart';
 import '../data/local_store.dart';
 import '../l10n/app_localizations.dart';
 import 'app_environment.dart';
+import 'app_lock.dart';
 import 'backup_flows.dart';
 import 'cycle_model.dart';
 import 'dialogs.dart';
 import 'home_screen.dart';
 import 'onboarding_screen.dart';
+import 'reminder_sync.dart';
 
 enum _Phase { opening, unreadable, ready }
 
 /// Opens the local store, then shows the right screen: the first-launch
 /// screen while nothing is entered, the home screen afterwards, or an
-/// explanation when the stored data can no longer be read.
+/// explanation when the stored data can no longer be read. It also keeps the
+/// app lock and the reminders of the phone in step with what is stored.
 class RootScreen extends StatefulWidget {
-  const RootScreen({super.key, required this.environment});
+  const RootScreen({super.key, required this.environment, required this.lock});
 
   final AppEnvironment environment;
+  final AppLock lock;
 
   @override
   State<RootScreen> createState() => _RootScreenState();
 }
 
-class _RootScreenState extends State<RootScreen> {
+class _RootScreenState extends State<RootScreen> with WidgetsBindingObserver {
   _Phase _phase = _Phase.opening;
   CycleModel? _model;
   bool _onboarded = false;
+  late final ReminderSync _reminders = ReminderSync(
+    widget.environment.reminders,
+  );
 
   @override
   void initState() {
     super.initState();
+    WidgetsBinding.instance.addObserver(this);
+    widget.lock.onTurnedOff = () => _model?.setAppLockEnabled(false);
     _open();
   }
 
   @override
   void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    widget.lock.onTurnedOff = null;
     _closeModel();
     super.dispose();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    // The day, the hour or the time zone may have changed in the meantime.
+    if (state == AppLifecycleState.resumed) {
+      _syncReminders();
+    }
   }
 
   void _closeModel() {
     final model = _model;
     _model = null;
     if (model != null) {
+      model.removeListener(_onModelChanged);
       model.dispose();
       model.store.close();
     }
+  }
+
+  /// After every entry and every change of setting.
+  void _onModelChanged() {
+    final model = _model;
+    if (model == null || !mounted) {
+      return;
+    }
+    widget.lock.setEnabled(model.appLockEnabled);
+    _syncReminders();
+  }
+
+  void _syncReminders() {
+    final model = _model;
+    if (model == null || !mounted) {
+      return;
+    }
+    _reminders.sync(
+      model: model,
+      now: widget.environment.now(),
+      l10n: AppLocalizations.of(context),
+    );
   }
 
   Future<void> _open() async {
@@ -57,12 +99,15 @@ class _RootScreenState extends State<RootScreen> {
         store.close();
         return;
       }
-      final model = CycleModel(store);
+      final model = CycleModel(store)..addListener(_onModelChanged);
+      // Before the first screen is built: a locked app shows nothing.
+      widget.lock.start(enabled: model.appLockEnabled);
       setState(() {
         _model = model;
         _onboarded = !model.isEmpty;
         _phase = _Phase.ready;
       });
+      _syncReminders();
     } on LocalStoreUnreadableException {
       _showUnreadable();
     } on DatabaseUnreadableException {
@@ -83,7 +128,12 @@ class _RootScreenState extends State<RootScreen> {
       _phase = _Phase.opening;
       _model = null;
     });
+    // The settings of the phone go with the data: no reminder is left
+    // behind, and the lock is off again.
+    _reminders.clear(AppLocalizations.of(context));
+    widget.lock.start(enabled: false);
     if (model != null) {
+      model.removeListener(_onModelChanged);
       model.dispose();
       await model.store.deleteEverything();
     } else {

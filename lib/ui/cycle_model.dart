@@ -7,9 +7,11 @@ import '../domain/flow_intensity.dart';
 import '../domain/period_prediction.dart';
 import '../domain/period_predictor.dart';
 import '../domain/period_starts.dart';
+import '../domain/reminders.dart';
 
 /// What the screens show, read from the local store and recomputed after
-/// every change: the flow log, the days with any entry, and the prediction.
+/// every change: the flow log, the days with any entry, the prediction, and
+/// the settings of this phone (reminders, app lock).
 class CycleModel extends ChangeNotifier {
   CycleModel(this.store) {
     _load();
@@ -21,6 +23,8 @@ class CycleModel extends ChangeNotifier {
   Set<CalendarDay> _loggedDays = const {};
   PeriodPrediction? _prediction;
   int? _usualCycleLength;
+  ReminderSettings _reminderSettings = ReminderSettings();
+  bool _appLockEnabled = false;
 
   /// Flow intensity of each day with flow.
   Map<CalendarDay, FlowIntensity> get flowByDay => _flowByDay;
@@ -33,6 +37,12 @@ class CycleModel extends ChangeNotifier {
 
   /// Usual cycle length declared by the user, if any.
   int? get usualCycleLength => _usualCycleLength;
+
+  /// The reminders chosen on this phone.
+  ReminderSettings get reminderSettings => _reminderSettings;
+
+  /// Whether the app is locked when it opens.
+  bool get appLockEnabled => _appLockEnabled;
 
   /// True until something is entered: the first-launch screen is shown.
   bool get isEmpty => _loggedDays.isEmpty && _usualCycleLength == null;
@@ -54,6 +64,16 @@ class CycleModel extends ChangeNotifier {
     reload();
   }
 
+  void setReminderSettings(ReminderSettings settings) {
+    store.database.reminderSettings = settings;
+    reload();
+  }
+
+  void setAppLockEnabled(bool enabled) {
+    store.database.appLockEnabled = enabled;
+    reload();
+  }
+
   /// Reads everything again, for example after an import.
   void reload() {
     _load();
@@ -65,6 +85,8 @@ class CycleModel extends ChangeNotifier {
     _flowByDay = database.flowByDay();
     _loggedDays = {for (final entry in database.readDays()) entry.day};
     _usualCycleLength = database.usualCycleLength;
+    _reminderSettings = database.reminderSettings;
+    _appLockEnabled = database.appLockEnabled;
     _prediction = const PeriodPredictor().predict(
       periodStarts: periodStartsFrom(_flowByDay),
       usualCycleLength: _usualCycleLength,

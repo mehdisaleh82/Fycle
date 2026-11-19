@@ -442,4 +442,91 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get deleteAction => 'Delete everything';
+
+  @override
+  String get ok => 'OK';
+
+  @override
+  String get settingsRemindersSection => 'Reminders';
+
+  @override
+  String get reminderPeriodTitle => 'Period approaching';
+
+  @override
+  String get reminderPeriodSubtitle =>
+      'One notification a few days before the estimated range.';
+
+  @override
+  String get reminderDaysBeforeTitle => 'How long before';
+
+  @override
+  String reminderDaysBefore(int days) {
+    String _temp0 = intl.Intl.pluralLogic(
+      days,
+      locale: localeName,
+      other: '$days days before',
+      one: '1 day before',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get reminderTime => 'Time';
+
+  @override
+  String get reminderDailyTitle => 'Daily entry reminder';
+
+  @override
+  String get reminderDailySubtitle =>
+      'One notification a day, skipped when the day is already logged.';
+
+  @override
+  String get reminderDiscreetNote =>
+      'Notifications stay discreet: they never mention your cycle. They are scheduled on this phone, without any server.';
+
+  @override
+  String get reminderPermissionTitle => 'Notifications are turned off';
+
+  @override
+  String get reminderPermissionBody =>
+      'Fycle is not allowed to show notifications. You can allow them in the settings of your phone, then turn this reminder on.';
+
+  @override
+  String get notificationPeriodBody => 'A look at your calendar?';
+
+  @override
+  String get notificationDailyBody => 'A moment to note your day?';
+
+  @override
+  String get notificationChannelName => 'Reminders';
+
+  @override
+  String get settingsPrivacySection => 'Privacy';
+
+  @override
+  String get lockTitle => 'Lock Fycle';
+
+  @override
+  String get lockSubtitle =>
+      'Face ID, fingerprint or the passcode of this phone, each time Fycle opens.';
+
+  @override
+  String get lockUnavailableTitle => 'No passcode on this phone';
+
+  @override
+  String get lockUnavailableBody =>
+      'Fycle relies on the lock of your phone. Set a passcode in the settings of your phone first.';
+
+  @override
+  String get lockReason => 'Unlock Fycle';
+
+  @override
+  String get lockScreenTitle => 'Fycle is locked';
+
+  @override
+  String get lockScreenUnlock => 'Unlock';
+
+  @override
+  String get lockTurnedOff =>
+      'This phone no longer has a passcode: the lock of Fycle was turned off.';
 }

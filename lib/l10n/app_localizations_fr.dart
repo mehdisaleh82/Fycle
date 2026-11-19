@@ -448,4 +448,91 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get deleteAction => 'Tout supprimer';
+
+  @override
+  String get ok => 'OK';
+
+  @override
+  String get settingsRemindersSection => 'Rappels';
+
+  @override
+  String get reminderPeriodTitle => 'Règles qui approchent';
+
+  @override
+  String get reminderPeriodSubtitle =>
+      'Une notification quelques jours avant la période estimée.';
+
+  @override
+  String get reminderDaysBeforeTitle => 'Combien de temps avant';
+
+  @override
+  String reminderDaysBefore(int days) {
+    String _temp0 = intl.Intl.pluralLogic(
+      days,
+      locale: localeName,
+      other: '$days jours avant',
+      one: '1 jour avant',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get reminderTime => 'Heure';
+
+  @override
+  String get reminderDailyTitle => 'Rappel de saisie quotidien';
+
+  @override
+  String get reminderDailySubtitle =>
+      'Une notification par jour, sauf si la journée est déjà notée.';
+
+  @override
+  String get reminderDiscreetNote =>
+      'Les notifications restent discrètes : elles ne mentionnent jamais votre cycle. Elles sont programmées sur ce téléphone, sans aucun serveur.';
+
+  @override
+  String get reminderPermissionTitle => 'Notifications désactivées';
+
+  @override
+  String get reminderPermissionBody =>
+      'Fycle n\'est pas autorisée à afficher des notifications. Vous pouvez les autoriser dans les réglages de votre téléphone, puis activer ce rappel.';
+
+  @override
+  String get notificationPeriodBody => 'Un coup d\'œil à votre calendrier ?';
+
+  @override
+  String get notificationDailyBody => 'Un moment pour noter votre journée ?';
+
+  @override
+  String get notificationChannelName => 'Rappels';
+
+  @override
+  String get settingsPrivacySection => 'Confidentialité';
+
+  @override
+  String get lockTitle => 'Verrouiller Fycle';
+
+  @override
+  String get lockSubtitle =>
+      'Face ID, empreinte ou code de ce téléphone, à chaque ouverture de Fycle.';
+
+  @override
+  String get lockUnavailableTitle => 'Aucun code sur ce téléphone';
+
+  @override
+  String get lockUnavailableBody =>
+      'Fycle s\'appuie sur le verrouillage de votre téléphone. Définissez d\'abord un code dans les réglages du téléphone.';
+
+  @override
+  String get lockReason => 'Déverrouiller Fycle';
+
+  @override
+  String get lockScreenTitle => 'Fycle est verrouillée';
+
+  @override
+  String get lockScreenUnlock => 'Déverrouiller';
+
+  @override
+  String get lockTurnedOff =>
+      'Ce téléphone n\'a plus de code : le verrouillage de Fycle a été désactivé.';
 }

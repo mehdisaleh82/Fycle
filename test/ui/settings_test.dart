@@ -30,7 +30,7 @@ void main() {
       tester,
     ) async {
       await openSettings(tester);
-      await tester.tap(find.text('Save an encrypted backup'));
+      await tapVisible(tester, find.text('Save an encrypted backup'));
       await tester.pumpAndSettle();
 
       expect(find.textContaining('nobody can open the file'), findsOneWidget);
@@ -39,7 +39,7 @@ void main() {
 
     testWidgets('refuses a short or mistyped password', (tester) async {
       final harness = await openSettings(tester);
-      await tester.tap(find.text('Save an encrypted backup'));
+      await tapVisible(tester, find.text('Save an encrypted backup'));
       await tester.pumpAndSettle();
 
       await tester.enterText(dialogField(), 'short');
@@ -57,7 +57,7 @@ void main() {
 
     testWidgets('saves a file that the password opens', (tester) async {
       final harness = await openSettings(tester);
-      await tester.tap(find.text('Save an encrypted backup'));
+      await tapVisible(tester, find.text('Save an encrypted backup'));
       await tester.pumpAndSettle();
       await tester.enterText(dialogField(), _password);
       await tester.enterText(dialogField(1), _password);
@@ -77,7 +77,7 @@ void main() {
     testWidgets('says nothing was saved when the user cancels', (tester) async {
       final harness = await openSettings(tester);
       harness.files.cancelSave = true;
-      await tester.tap(find.text('Save an encrypted backup'));
+      await tapVisible(tester, find.text('Save an encrypted backup'));
       await tester.pumpAndSettle();
       await tester.enterText(dialogField(), _password);
       await tester.enterText(dialogField(1), _password);
@@ -110,7 +110,7 @@ void main() {
       await tester.tap(find.byIcon(Icons.settings_outlined));
       await tester.pumpAndSettle();
 
-      await tester.tap(find.text('Restore a backup'));
+      await tapVisible(tester, find.text('Restore a backup'));
       await tester.pumpAndSettle();
       expect(find.text('Replace everything?'), findsOneWidget);
       await tester.tap(find.text('Replace'));
@@ -141,7 +141,7 @@ void main() {
         name: 'holiday.jpg',
         bytes: Uint8List.fromList([1, 2, 3, 4, 5, 6, 7, 8]),
       );
-      await tester.tap(find.text('Restore a backup'));
+      await tapVisible(tester, find.text('Restore a backup'));
       await tester.pumpAndSettle();
       await tester.tap(find.text('Replace'));
       await tester.pumpAndSettle();
@@ -162,7 +162,7 @@ void main() {
     tester,
   ) async {
     final harness = await openSettings(tester, locale: 'fr');
-    await tester.tap(find.text('Exporter pour un tableur (CSV)'));
+    await tapVisible(tester, find.text('Exporter pour un tableur (CSV)'));
     await tester.pumpAndSettle();
     expect(find.textContaining("n'est pas chiffré"), findsOneWidget);
     await tester.tap(find.text('Exporter'));
@@ -183,7 +183,7 @@ void main() {
   group('deleting everything', () {
     testWidgets('asks first', (tester) async {
       final harness = await openSettings(tester);
-      await tester.tap(find.text('Delete everything'));
+      await tapVisible(tester, find.text('Delete everything'));
       await tester.pumpAndSettle();
       expect(find.text('Delete everything?'), findsOneWidget);
       await tester.tap(find.text('Cancel'));
@@ -198,7 +198,7 @@ void main() {
     ) async {
       final harness = await openSettings(tester);
       final oldKey = harness.keyStore.key;
-      await tester.tap(find.text('Delete everything'));
+      await tapVisible(tester, find.text('Delete everything'));
       await tester.pumpAndSettle();
       await tester.tap(find.widgetWithText(FilledButton, 'Delete everything'));
       await tester.pumpAndSettle();
@@ -219,14 +219,14 @@ void main() {
     final harness = await openSettings(tester);
     expect(find.text('29 days'), findsOneWidget);
 
-    await tester.tap(find.text('Usual cycle length'));
+    await tapVisible(tester, find.text('Usual cycle length'));
     await tester.pumpAndSettle();
     await tester.enterText(dialogField(), '35');
     await tester.tap(find.text('Save'));
     await tester.pumpAndSettle();
     expect(find.text('35 days'), findsOneWidget);
 
-    await tester.tap(find.text('Usual cycle length'));
+    await tapVisible(tester, find.text('Usual cycle length'));
     await tester.pumpAndSettle();
     await tester.enterText(dialogField(), '');
     await tester.tap(find.text('Save'));

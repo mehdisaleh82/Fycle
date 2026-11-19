@@ -40,6 +40,26 @@ Future<bool> confirm(
   return answer ?? false;
 }
 
+/// Tells the user something she has to read, with a single button.
+Future<void> showNotice(
+  BuildContext context, {
+  required String title,
+  required String body,
+}) => showDialog<void>(
+  context: context,
+  builder: (context) => AlertDialog(
+    scrollable: true,
+    title: Text(title),
+    content: Text(body),
+    actions: [
+      TextButton(
+        onPressed: () => Navigator.of(context).pop(),
+        child: Text(AppLocalizations.of(context).ok),
+      ),
+    ],
+  ),
+);
+
 /// A password field with a button to show or hide what is typed.
 class PasswordField extends StatefulWidget {
   const PasswordField({

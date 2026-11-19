@@ -135,5 +135,30 @@
 
   "deleteTitle": "Tout supprimer ?",
   "deleteBody": "Toutes vos données seront effacées de ce téléphone, définitivement. Pour en garder une copie, enregistrez d'abord une sauvegarde.",
-  "deleteAction": "Tout supprimer"
+  "deleteAction": "Tout supprimer",
+
+  "ok": "OK",
+  "settingsRemindersSection": "Rappels",
+  "reminderPeriodTitle": "Règles qui approchent",
+  "reminderPeriodSubtitle": "Une notification quelques jours avant la période estimée.",
+  "reminderDaysBeforeTitle": "Combien de temps avant",
+  "reminderDaysBefore": "{days, plural, =1{1 jour avant} other{{days} jours avant}}",
+  "reminderTime": "Heure",
+  "reminderDailyTitle": "Rappel de saisie quotidien",
+  "reminderDailySubtitle": "Une notification par jour, sauf si la journée est déjà notée.",
+  "reminderDiscreetNote": "Les notifications restent discrètes : elles ne mentionnent jamais votre cycle. Elles sont programmées sur ce téléphone, sans aucun serveur.",
+  "reminderPermissionTitle": "Notifications désactivées",
+  "reminderPermissionBody": "Fycle n'est pas autorisée à afficher des notifications. Vous pouvez les autoriser dans les réglages de votre téléphone, puis activer ce rappel.",
+  "notificationPeriodBody": "Un coup d'œil à votre calendrier ?",
+  "notificationDailyBody": "Un moment pour noter votre journée ?",
+  "notificationChannelName": "Rappels",
+  "settingsPrivacySection": "Confidentialité",
+  "lockTitle": "Verrouiller Fycle",
+  "lockSubtitle": "Face ID, empreinte ou code de ce téléphone, à chaque ouverture de Fycle.",
+  "lockUnavailableTitle": "Aucun code sur ce téléphone",
+  "lockUnavailableBody": "Fycle s'appuie sur le verrouillage de votre téléphone. Définissez d'abord un code dans les réglages du téléphone.",
+  "lockReason": "Déverrouiller Fycle",
+  "lockScreenTitle": "Fycle est verrouillée",
+  "lockScreenUnlock": "Déverrouiller",
+  "lockTurnedOff": "Ce téléphone n'a plus de code : le verrouillage de Fycle a été désactivé."
 }

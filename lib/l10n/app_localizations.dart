@@ -853,6 +853,150 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Delete everything'**
   String get deleteAction;
+
+  /// No description provided for @ok.
+  ///
+  /// In en, this message translates to:
+  /// **'OK'**
+  String get ok;
+
+  /// No description provided for @settingsRemindersSection.
+  ///
+  /// In en, this message translates to:
+  /// **'Reminders'**
+  String get settingsRemindersSection;
+
+  /// No description provided for @reminderPeriodTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Period approaching'**
+  String get reminderPeriodTitle;
+
+  /// No description provided for @reminderPeriodSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'One notification a few days before the estimated range.'**
+  String get reminderPeriodSubtitle;
+
+  /// No description provided for @reminderDaysBeforeTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'How long before'**
+  String get reminderDaysBeforeTitle;
+
+  /// No description provided for @reminderDaysBefore.
+  ///
+  /// In en, this message translates to:
+  /// **'{days, plural, =1{1 day before} other{{days} days before}}'**
+  String reminderDaysBefore(int days);
+
+  /// No description provided for @reminderTime.
+  ///
+  /// In en, this message translates to:
+  /// **'Time'**
+  String get reminderTime;
+
+  /// No description provided for @reminderDailyTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Daily entry reminder'**
+  String get reminderDailyTitle;
+
+  /// No description provided for @reminderDailySubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'One notification a day, skipped when the day is already logged.'**
+  String get reminderDailySubtitle;
+
+  /// No description provided for @reminderDiscreetNote.
+  ///
+  /// In en, this message translates to:
+  /// **'Notifications stay discreet: they never mention your cycle. They are scheduled on this phone, without any server.'**
+  String get reminderDiscreetNote;
+
+  /// No description provided for @reminderPermissionTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Notifications are turned off'**
+  String get reminderPermissionTitle;
+
+  /// No description provided for @reminderPermissionBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Fycle is not allowed to show notifications. You can allow them in the settings of your phone, then turn this reminder on.'**
+  String get reminderPermissionBody;
+
+  /// Text of a notification, visible on the lock screen. Must stay neutral: no mention of periods, cycles or health.
+  ///
+  /// In en, this message translates to:
+  /// **'A look at your calendar?'**
+  String get notificationPeriodBody;
+
+  /// Text of a notification, visible on the lock screen. Must stay neutral: no mention of periods, cycles or health.
+  ///
+  /// In en, this message translates to:
+  /// **'A moment to note your day?'**
+  String get notificationDailyBody;
+
+  /// No description provided for @notificationChannelName.
+  ///
+  /// In en, this message translates to:
+  /// **'Reminders'**
+  String get notificationChannelName;
+
+  /// No description provided for @settingsPrivacySection.
+  ///
+  /// In en, this message translates to:
+  /// **'Privacy'**
+  String get settingsPrivacySection;
+
+  /// No description provided for @lockTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Lock Fycle'**
+  String get lockTitle;
+
+  /// No description provided for @lockSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Face ID, fingerprint or the passcode of this phone, each time Fycle opens.'**
+  String get lockSubtitle;
+
+  /// No description provided for @lockUnavailableTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'No passcode on this phone'**
+  String get lockUnavailableTitle;
+
+  /// No description provided for @lockUnavailableBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Fycle relies on the lock of your phone. Set a passcode in the settings of your phone first.'**
+  String get lockUnavailableBody;
+
+  /// Sentence shown in the Face ID / fingerprint / passcode prompt of the system.
+  ///
+  /// In en, this message translates to:
+  /// **'Unlock Fycle'**
+  String get lockReason;
+
+  /// No description provided for @lockScreenTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Fycle is locked'**
+  String get lockScreenTitle;
+
+  /// No description provided for @lockScreenUnlock.
+  ///
+  /// In en, this message translates to:
+  /// **'Unlock'**
+  String get lockScreenUnlock;
+
+  /// No description provided for @lockTurnedOff.
+  ///
+  /// In en, this message translates to:
+  /// **'This phone no longer has a passcode: the lock of Fycle was turned off.'**
+  String get lockTurnedOff;
 }
 
 class _AppLocalizationsDelegate

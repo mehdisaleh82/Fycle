@@ -1,5 +1,7 @@
 import 'package:material_ui/material_ui.dart';
 
+import '../data/device_auth.dart';
+import '../domain/reminders.dart';
 import '../l10n/app_localizations.dart';
 import 'app_environment.dart';
 import 'backup_flows.dart';
@@ -8,8 +10,9 @@ import 'cycle_model.dart';
 import 'dialogs.dart';
 import 'disclaimer_card.dart';
 
-/// Settings: the usual cycle length, and everything the user can do with
-/// her own data. Export is always free (CLAUDE.md, rule 6).
+/// Settings: the usual cycle length, the reminders, the app lock, and
+/// everything the user can do with her own data. Export is always free
+/// (CLAUDE.md, rule 6).
 class SettingsScreen extends StatelessWidget {
   const SettingsScreen({
     super.key,
@@ -29,6 +32,106 @@ class SettingsScreen extends StatelessWidget {
     );
     if (result != null) {
       model.setUsualCycleLength(result.days);
+    }
+  }
+
+  /// Stores [next]. Turning a reminder on first asks the phone for the
+  /// permission to show notifications: only then, never at first launch.
+  Future<void> _setReminders(
+    BuildContext context,
+    ReminderSettings next, {
+    bool turningOn = false,
+  }) async {
+    if (turningOn) {
+      bool allowed;
+      try {
+        allowed = await environment.reminders.requestPermission();
+      } on Exception {
+        allowed = false;
+      }
+      if (!allowed) {
+        if (context.mounted) {
+          final l10n = AppLocalizations.of(context);
+          await showNotice(
+            context,
+            title: l10n.reminderPermissionTitle,
+            body: l10n.reminderPermissionBody,
+          );
+        }
+        return;
+      }
+    }
+    model.setReminderSettings(next);
+  }
+
+  Future<void> _pickDaysBefore(BuildContext context) async {
+    final days = await showDialog<int>(
+      context: context,
+      builder: (context) =>
+          _DaysBeforeDialog(current: model.reminderSettings.periodDaysBefore),
+    );
+    if (days != null) {
+      model.setReminderSettings(
+        model.reminderSettings.copyWith(periodDaysBefore: days),
+      );
+    }
+  }
+
+  Future<ClockTime?> _pickTime(BuildContext context, ClockTime current) async {
+    final picked = await showTimePicker(
+      context: context,
+      initialTime: TimeOfDay(hour: current.hour, minute: current.minute),
+      // Like the date picker, the system time picker has a fixed layout.
+      builder: (context, child) =>
+          MediaQuery.withClampedTextScaling(maxScaleFactor: 1.3, child: child!),
+    );
+    return picked == null ? null : ClockTime(picked.hour, picked.minute);
+  }
+
+  Future<void> _pickPeriodTime(BuildContext context) async {
+    final time = await _pickTime(context, model.reminderSettings.periodTime);
+    if (time != null) {
+      model.setReminderSettings(
+        model.reminderSettings.copyWith(periodTime: time),
+      );
+    }
+  }
+
+  Future<void> _pickDailyTime(BuildContext context) async {
+    final time = await _pickTime(context, model.reminderSettings.dailyTime);
+    if (time != null) {
+      model.setReminderSettings(
+        model.reminderSettings.copyWith(dailyTime: time),
+      );
+    }
+  }
+
+  /// Turning the lock on or off asks who is holding the phone first: a
+  /// lock that cannot be opened is never turned on, and a passer-by cannot
+  /// turn it off.
+  Future<void> _setAppLock(BuildContext context, bool enabled) async {
+    final l10n = AppLocalizations.of(context);
+    final auth = environment.deviceAuth;
+    var outcome = AuthOutcome.unavailable;
+    if (await auth.isAvailable()) {
+      outcome = await auth.authenticate(l10n.lockReason);
+    }
+    switch (outcome) {
+      case AuthOutcome.success:
+        model.setAppLockEnabled(enabled);
+      case AuthOutcome.failed:
+        break;
+      case AuthOutcome.unavailable:
+        if (!enabled) {
+          // Nothing can check any more: the lock protects nothing.
+          model.setAppLockEnabled(false);
+        } else if (context.mounted) {
+          await showNotice(
+            context,
+            title: l10n.lockUnavailableTitle,
+            body: l10n.lockUnavailableBody,
+          );
+        }
     }
   }
 
@@ -61,6 +164,9 @@ class SettingsScreen extends StatelessWidget {
           listenable: model,
           builder: (context, _) {
             final length = model.usualCycleLength;
+            final reminders = model.reminderSettings;
+            String timeText(ClockTime time) =>
+                TimeOfDay(hour: time.hour, minute: time.minute).format(context);
             return SingleChildScrollView(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -75,6 +181,70 @@ class SettingsScreen extends StatelessWidget {
                           : l10n.settingsCycleLengthValue(length),
                     ),
                     onTap: () => _editCycleLength(context),
+                  ),
+                  _SectionTitle(l10n.settingsRemindersSection),
+                  SwitchListTile(
+                    secondary: const Icon(Icons.notifications_outlined),
+                    title: Text(l10n.reminderPeriodTitle),
+                    subtitle: Text(l10n.reminderPeriodSubtitle),
+                    value: reminders.periodEnabled,
+                    onChanged: (on) => _setReminders(
+                      context,
+                      reminders.copyWith(periodEnabled: on),
+                      turningOn: on,
+                    ),
+                  ),
+                  if (reminders.periodEnabled) ...[
+                    ListTile(
+                      key: const ValueKey('period-days-before'),
+                      leading: const SizedBox(width: 24),
+                      title: Text(l10n.reminderDaysBeforeTitle),
+                      subtitle: Text(
+                        l10n.reminderDaysBefore(reminders.periodDaysBefore),
+                      ),
+                      onTap: () => _pickDaysBefore(context),
+                    ),
+                    ListTile(
+                      key: const ValueKey('period-time'),
+                      leading: const SizedBox(width: 24),
+                      title: Text(l10n.reminderTime),
+                      subtitle: Text(timeText(reminders.periodTime)),
+                      onTap: () => _pickPeriodTime(context),
+                    ),
+                  ],
+                  SwitchListTile(
+                    secondary: const Icon(Icons.edit_notifications_outlined),
+                    title: Text(l10n.reminderDailyTitle),
+                    subtitle: Text(l10n.reminderDailySubtitle),
+                    value: reminders.dailyEnabled,
+                    onChanged: (on) => _setReminders(
+                      context,
+                      reminders.copyWith(dailyEnabled: on),
+                      turningOn: on,
+                    ),
+                  ),
+                  if (reminders.dailyEnabled)
+                    ListTile(
+                      key: const ValueKey('daily-time'),
+                      leading: const SizedBox(width: 24),
+                      title: Text(l10n.reminderTime),
+                      subtitle: Text(timeText(reminders.dailyTime)),
+                      onTap: () => _pickDailyTime(context),
+                    ),
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(16, 8, 16, 0),
+                    child: Text(
+                      l10n.reminderDiscreetNote,
+                      style: Theme.of(context).textTheme.bodySmall,
+                    ),
+                  ),
+                  _SectionTitle(l10n.settingsPrivacySection),
+                  SwitchListTile(
+                    secondary: const Icon(Icons.fingerprint),
+                    title: Text(l10n.lockTitle),
+                    subtitle: Text(l10n.lockSubtitle),
+                    value: model.appLockEnabled,
+                    onChanged: (on) => _setAppLock(context, on),
                   ),
                   _SectionTitle(l10n.settingsDataSection),
                   ListTile(
@@ -153,6 +323,41 @@ class _SectionTitle extends StatelessWidget {
           ),
         ),
       ),
+    );
+  }
+}
+
+/// Pops with the chosen number of days, or with nothing if cancelled.
+class _DaysBeforeDialog extends StatelessWidget {
+  const _DaysBeforeDialog({required this.current});
+
+  final int current;
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
+    return AlertDialog(
+      scrollable: true,
+      title: Text(l10n.reminderDaysBeforeTitle),
+      contentPadding: const EdgeInsets.symmetric(vertical: 8),
+      content: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          for (final days in ReminderSettings.periodDaysBeforeChoices)
+            ListTile(
+              title: Text(l10n.reminderDaysBefore(days)),
+              selected: days == current,
+              trailing: days == current ? const Icon(Icons.check) : null,
+              onTap: () => Navigator.of(context).pop(days),
+            ),
+        ],
+      ),
+      actions: [
+        TextButton(
+          onPressed: () => Navigator.of(context).pop(),
+          child: Text(l10n.cancel),
+        ),
+      ],
     );
   }
 }
