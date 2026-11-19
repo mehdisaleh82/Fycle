@@ -86,6 +86,15 @@ class AppLocalizationsFr extends AppLocalizations {
   String get onboardingStart => 'Commencer';
 
   @override
+  String get onboardingToday => 'Aujourd\'hui';
+
+  @override
+  String get onboardingYesterday => 'Hier';
+
+  @override
+  String get onboardingSkip => 'Je ne sais plus';
+
+  @override
   String get onboardingRestore => 'J\'ai un fichier de sauvegarde';
 
   @override
@@ -102,6 +111,23 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get homeLogToday => 'Saisir aujourd\'hui';
+
+  @override
+  String get todayCardTitle => 'Règles aujourd\'hui';
+
+  @override
+  String get todayCardHint => 'Un appui enregistre. Un second appui annule.';
+
+  @override
+  String loggingStreak(int days) {
+    String _temp0 = intl.Intl.pluralLogic(
+      days,
+      locale: localeName,
+      other: 'Saisie $days jours de suite',
+      one: 'Saisie 1 jour de suite',
+    );
+    return '$_temp0';
+  }
 
   @override
   String get settingsTooltip => 'Réglages';

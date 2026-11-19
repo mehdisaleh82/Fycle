@@ -34,6 +34,12 @@
   "onboardingChooseDate": "Choose a date",
   "onboardingCycleLengthQuestion": "How long is your cycle usually?",
   "onboardingStart": "Start",
+  "onboardingToday": "Today",
+  "onboardingYesterday": "Yesterday",
+  "onboardingSkip": "I don't remember",
+  "@onboardingSkip": {
+    "description": "Button of the first-launch screen: enters the app without giving the date of the last period."
+  },
   "onboardingRestore": "I have a backup file",
   "cycleLengthFieldLabel": "Days (optional)",
   "cycleLengthHelper": "From the first day of one period to the first day of the next. Leave empty if you don't know.",
@@ -46,6 +52,18 @@
   },
 
   "homeLogToday": "Log today",
+  "todayCardTitle": "Period today",
+  "@todayCardTitle": {
+    "description": "Title of the card of the home screen where one tap on an intensity logs today's period."
+  },
+  "todayCardHint": "One tap saves. Tap again to undo.",
+  "loggingStreak": "{days, plural, =1{Logged 1 day in a row} other{Logged {days} days in a row}}",
+  "@loggingStreak": {
+    "description": "Discreet count of consecutive days with an entry. A plain fact: no praise, no reward.",
+    "placeholders": {
+      "days": {"type": "int"}
+    }
+  },
   "settingsTooltip": "Settings",
   "statusNoDataTitle": "No estimate yet",
   "statusNoDataBody": "Log the first day of your period to get an estimate.",

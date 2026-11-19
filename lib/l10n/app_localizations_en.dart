@@ -83,6 +83,15 @@ class AppLocalizationsEn extends AppLocalizations {
   String get onboardingStart => 'Start';
 
   @override
+  String get onboardingToday => 'Today';
+
+  @override
+  String get onboardingYesterday => 'Yesterday';
+
+  @override
+  String get onboardingSkip => 'I don\'t remember';
+
+  @override
   String get onboardingRestore => 'I have a backup file';
 
   @override
@@ -99,6 +108,23 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get homeLogToday => 'Log today';
+
+  @override
+  String get todayCardTitle => 'Period today';
+
+  @override
+  String get todayCardHint => 'One tap saves. Tap again to undo.';
+
+  @override
+  String loggingStreak(int days) {
+    String _temp0 = intl.Intl.pluralLogic(
+      days,
+      locale: localeName,
+      other: 'Logged $days days in a row',
+      one: 'Logged 1 day in a row',
+    );
+    return '$_temp0';
+  }
 
   @override
   String get settingsTooltip => 'Settings';

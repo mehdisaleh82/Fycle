@@ -236,6 +236,24 @@ abstract class AppLocalizations {
   /// **'Start'**
   String get onboardingStart;
 
+  /// No description provided for @onboardingToday.
+  ///
+  /// In en, this message translates to:
+  /// **'Today'**
+  String get onboardingToday;
+
+  /// No description provided for @onboardingYesterday.
+  ///
+  /// In en, this message translates to:
+  /// **'Yesterday'**
+  String get onboardingYesterday;
+
+  /// Button of the first-launch screen: enters the app without giving the date of the last period.
+  ///
+  /// In en, this message translates to:
+  /// **'I don\'t remember'**
+  String get onboardingSkip;
+
   /// No description provided for @onboardingRestore.
   ///
   /// In en, this message translates to:
@@ -265,6 +283,24 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Log today'**
   String get homeLogToday;
+
+  /// Title of the card of the home screen where one tap on an intensity logs today's period.
+  ///
+  /// In en, this message translates to:
+  /// **'Period today'**
+  String get todayCardTitle;
+
+  /// No description provided for @todayCardHint.
+  ///
+  /// In en, this message translates to:
+  /// **'One tap saves. Tap again to undo.'**
+  String get todayCardHint;
+
+  /// Discreet count of consecutive days with an entry. A plain fact: no praise, no reward.
+  ///
+  /// In en, this message translates to:
+  /// **'{days, plural, =1{Logged 1 day in a row} other{Logged {days} days in a row}}'**
+  String loggingStreak(int days);
 
   /// No description provided for @settingsTooltip.
   ///
