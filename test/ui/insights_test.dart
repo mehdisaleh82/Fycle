@@ -36,8 +36,7 @@ List<DayEntry> logWithSigns() {
   ];
 }
 
-Future<void> openInsights(WidgetTester tester) =>
-    tapVisible(tester, find.byIcon(Icons.insights_outlined));
+Future<void> openInsights(WidgetTester tester) => openReviewDetail(tester);
 
 void main() {
   group('trends screen', () {

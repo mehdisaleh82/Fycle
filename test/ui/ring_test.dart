@@ -1,7 +1,10 @@
+import 'package:flutter/semantics.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fycle/domain/calendar_day.dart';
 import 'package:fycle/domain/day_entry.dart';
+import 'package:fycle/domain/pain_level.dart';
+import 'package:fycle/domain/sleep_quality.dart';
 import 'package:fycle/ui/cycle_ring.dart';
 import 'package:material_ui/material_ui.dart';
 
@@ -135,6 +138,207 @@ void main() {
     expect(middle(tester), ['Day', '–']);
   });
 
+  group('going around the ring', () {
+    /// A finger put on the line of the ring at [day], and lifted.
+    Future<void> touchDay(WidgetTester tester, int day, int totalDays) async {
+      final ring = find.byType(CycleRing);
+      await tester.ensureVisible(ring);
+      await tester.pumpAndSettle();
+      final size = tester.getSize(ring).width;
+      await tester.tapAt(
+        tester.getTopLeft(ring) + CycleRing.positionOf(day, size, totalDays),
+      );
+      await tester.pumpAndSettle();
+    }
+
+    final panel = find.byKey(const ValueKey('explore-panel'));
+    Finder inPanel(String text) =>
+        find.descendant(of: panel, matching: find.text(text));
+
+    testWidgets('a finger on a past day shows its date and what was logged', (
+      tester,
+    ) async {
+      final harness = Harness(tester);
+      await harness.seed(days: threePeriods());
+      await harness.pumpApp();
+      expect(find.byKey(const ValueKey('ring-hint')), findsOneWidget);
+
+      // The ring stands for 32 days: 21 gone by, and up to 11 to come.
+      await touchDay(tester, 2, 32);
+      expect(middle(tester), ['Day', '2']);
+      expect(inPanel('Sunday, March 1'), findsOneWidget);
+      expect(inPanel('Day 2 of your cycle'), findsOneWidget);
+      expect(inPanel('Logged: Period: Medium'), findsOneWidget);
+      expect(find.byKey(const ValueKey('ring-hint')), findsNothing);
+    });
+
+    testWidgets('a day to come says what is estimated, and cannot be opened', (
+      tester,
+    ) async {
+      final harness = Harness(tester);
+      await harness.seed(days: threePeriods());
+      await harness.pumpApp();
+
+      await touchDay(tester, 28, 32);
+      expect(inPanel('Friday, March 27'), findsOneWidget);
+      expect(
+        inPanel('Within the range where your next period is estimated.'),
+        findsOneWidget,
+      );
+      expect(find.byKey(const ValueKey('explore-open')), findsNothing);
+
+      // The estimated fertile window comes with its warning.
+      await touchDay(tester, 15, 32);
+      expect(
+        inPanel(
+          'Within your estimated fertile window. An estimate: neither '
+          'contraception nor a diagnosis.',
+        ),
+        findsOneWidget,
+      );
+    });
+
+    testWidgets('sliding goes from day to day, with a tick at each', (
+      tester,
+    ) async {
+      final harness = Harness(tester);
+      await harness.seed(days: threePeriods());
+      await harness.pumpApp();
+      final ring = find.byType(CycleRing);
+      final size = tester.getSize(ring).width;
+      final origin = tester.getTopLeft(ring);
+
+      final ticks = <MethodCall>[];
+      tester.binding.defaultBinaryMessenger.setMockMethodCallHandler(
+        SystemChannels.platform,
+        (call) async {
+          ticks.add(call);
+          return null;
+        },
+      );
+      addTearDown(
+        () => tester.binding.defaultBinaryMessenger.setMockMethodCallHandler(
+          SystemChannels.platform,
+          null,
+        ),
+      );
+
+      final finger = await tester.startGesture(
+        origin + CycleRing.positionOf(5, size, 32),
+      );
+      await tester.pump();
+      expect(middle(tester), ['Day', '5']);
+      for (final day in [6, 7, 8]) {
+        await finger.moveTo(origin + CycleRing.positionOf(day, size, 32));
+        await tester.pump();
+        expect(middle(tester), ['Day', '$day']);
+      }
+      await finger.up();
+      await tester.pumpAndSettle();
+      expect(ticks, hasLength(4));
+      // The day stays shown once the finger is lifted.
+      expect(middle(tester), ['Day', '8']);
+    });
+
+    testWidgets('a past day opens its page of the journal', (tester) async {
+      final harness = Harness(tester);
+      await harness.seed(days: threePeriods());
+      await harness.pumpApp();
+
+      await touchDay(tester, 10, 32);
+      expect(inPanel('Nothing logged on that day.'), findsOneWidget);
+      await tapVisible(tester, find.byKey(const ValueKey('explore-open')));
+      await tapVisible(tester, find.byKey(const ValueKey('pain-mild')));
+      await tapVisible(tester, find.byKey(const ValueKey('day-done')));
+      expect(
+        await harness.read(
+          (store) => store.database.readDay(CalendarDay(2026, 3, 9))?.pain,
+        ),
+        PainLevel.mild,
+      );
+      expect(inPanel('Logged: Pain: Mild'), findsOneWidget);
+    });
+
+    testWidgets('a tap elsewhere, or the button, comes back to today', (
+      tester,
+    ) async {
+      final harness = Harness(tester);
+      await harness.seed(days: threePeriods());
+      await harness.pumpApp();
+
+      await touchDay(tester, 10, 32);
+      await tapVisible(tester, find.byKey(const ValueKey('explore-back')));
+      expect(panel, findsNothing);
+      expect(middle(tester), ['Day', '21']);
+
+      await touchDay(tester, 10, 32);
+      await tapVisible(tester, find.text('Day 10 of your cycle'));
+      expect(panel, findsNothing);
+      expect(find.text('Period in 5 to 11 days'), findsOneWidget);
+    });
+
+    testWidgets('recalls what usually comes around the day touched', (
+      tester,
+    ) async {
+      final harness = Harness(tester);
+      await harness.seed(
+        days: [
+          ...threePeriods(),
+          // Day 25 of the two complete cycles.
+          DayEntry(day: CalendarDay(2026, 1, 27), sleep: SleepQuality.poor),
+          DayEntry(day: CalendarDay(2026, 2, 24), sleep: SleepQuality.poor),
+        ],
+      );
+      await harness.pumpApp();
+
+      await touchDay(tester, 25, 32);
+      expect(inPanel('Usually around this day: Sleep: Poor'), findsOneWidget);
+    });
+
+    testWidgets('a screen reader goes through it like a slider', (
+      tester,
+    ) async {
+      final semantics = tester.ensureSemantics();
+      final harness = Harness(tester);
+      await harness.seed(days: threePeriods());
+      await harness.pumpApp(locale: 'fr');
+
+      final node = tester.getSemantics(_ring);
+      expect(node.value, 'Jour 21 de ton cycle, vendredi 20 mars');
+      tester.binding.performSemanticsAction(
+        SemanticsActionEvent(
+          type: SemanticsAction.decrease,
+          nodeId: node.id,
+          viewId: tester.view.viewId,
+        ),
+      );
+      await tester.pumpAndSettle();
+      expect(middle(tester), ['Jour', '20']);
+      expect(
+        tester.getSemantics(_ring).value,
+        'Jour 20 de ton cycle, jeudi 19 mars',
+      );
+      semantics.dispose();
+    });
+  });
+
+  testWidgets('during a period, says how long it may still last', (
+    tester,
+  ) async {
+    final harness = Harness(tester, today: CalendarDay(2026, 3, 1));
+    await harness.seed(days: threePeriods());
+    await harness.pumpApp();
+    expect(find.textContaining('going by your past periods'), findsOneWidget);
+  });
+
+  testWidgets('and says nothing of it before two past periods', (tester) async {
+    final harness = Harness(tester);
+    await harness.pumpApp();
+    await tapVisible(tester, find.byKey(const ValueKey('last-period-today')));
+    await tapVisible(tester, find.text('Start'));
+    expect(find.textContaining('past periods'), findsNothing);
+  });
+
   for (final scale in [1.0, 2.5]) {
     testWidgets('holds from right to left, in dark (× $scale)', (tester) async {
       tester.platformDispatcher.textScaleFactorTestValue = scale;
@@ -152,6 +356,17 @@ void main() {
       );
       await tapVisible(tester, _ring);
       expect(middle(tester), ['Jours restants', '5–11']);
+
+      // And with a day of the ring looked at.
+      final ring = find.byType(CycleRing);
+      await tester.ensureVisible(ring);
+      await tester.pumpAndSettle();
+      await tester.tapAt(
+        tester.getTopLeft(ring) +
+            CycleRing.positionOf(15, tester.getSize(ring).width, 32),
+      );
+      await tester.pumpAndSettle();
+      expect(find.byKey(const ValueKey('explore-panel')), findsOneWidget);
     });
   }
 }

@@ -222,6 +222,13 @@ Future<void> openJournal(WidgetTester tester) =>
 Future<void> openReview(WidgetTester tester) =>
     tapVisible(tester, find.byIcon(Icons.insights_outlined));
 
+/// Opens the review tab, then what it keeps one tap away: the clinical
+/// sheet, the trends and the list of cycles.
+Future<void> openReviewDetail(WidgetTester tester) async {
+  await openReview(tester);
+  await tapVisible(tester, find.byKey(const ValueKey('open-review-detail')));
+}
+
 /// Comes back to the home tab.
 Future<void> openHome(WidgetTester tester) =>
     tapVisible(tester, find.byIcon(Icons.home_outlined));
@@ -251,8 +258,9 @@ Future<void> walkEveryScreen(WidgetTester tester, Harness harness) async {
   await openJournal(tester);
   await tapVisible(tester, find.byKey(const ValueKey('journal-write-today')));
   await tapVisible(tester, find.byKey(const ValueKey('day-done')));
-  await tapVisible(tester, find.byIcon(Icons.insights_outlined));
+  await openReviewDetail(tester);
   expect(find.byKey(const ValueKey('cycle-report')), findsOneWidget);
+  await tapVisible(tester, find.byType(BackButton));
 
   // Settings and its dialogs.
   await tapVisible(tester, find.byIcon(Icons.settings_outlined));

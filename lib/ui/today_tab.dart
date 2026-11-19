@@ -1,29 +1,23 @@
 import 'package:material_ui/material_ui.dart';
 
-import '../data/device_auth.dart';
 import '../domain/calendar_day.dart';
 import '../domain/cycle_overview.dart';
 import '../domain/cycle_status.dart';
 import '../domain/flow_intensity.dart';
+import '../domain/period_end_estimate.dart';
 import '../l10n/app_localizations.dart';
 import 'app_environment.dart';
 import 'cycle_model.dart';
 import 'cycle_summary_card.dart';
-import 'dialogs.dart';
-import 'home_cards.dart';
 import 'home_screen.dart';
+import 'insights_screen.dart';
 import 'labels.dart';
 import 'prediction_card.dart';
 import 'today_card.dart';
 
-/// Names of the suggestions made once on the home tab.
-const String reminderSuggestion = 'reminders';
-const String lockSuggestion = 'lock';
-
-/// The home tab, kept to the essential: where today falls in the cycle and
-/// the journal of the day. What changes with each day or each entry may
-/// follow (the summary of a cycle that ended, what usually comes around this
-/// day, one suggestion); everything else is in the review.
+/// The home tab, kept to two things: the cycle, as a ring to touch, and the
+/// journal of the day. The summary of a cycle that just ended comes once,
+/// until it is closed. Everything else is in the review and the settings.
 class TodayTab extends StatelessWidget {
   const TodayTab({
     super.key,
@@ -39,87 +33,28 @@ class TodayTab extends StatelessWidget {
   final ValueChanged<CalendarDay> onOpenDay;
   final ValueChanged<HomeTab> onOpenTab;
 
-  /// One line saying what the tab is for, shown first and scrolled with
-  /// the rest.
+  /// Shown first and scrolled with the rest.
   final Widget header;
 
-  /// Turns both reminders on, if the phone allows notifications.
-  Future<void> _turnRemindersOn(BuildContext context) async {
-    bool allowed;
-    try {
-      allowed = await environment.reminders.requestPermission();
-    } on Exception {
-      allowed = false;
+  /// How long the period going on may still last, in words, when her past
+  /// periods allow an estimate.
+  String? _periodEnd(AppLocalizations l10n, CycleStatus status) {
+    if (status is! PeriodOngoing) {
+      return null;
     }
-    if (allowed) {
-      model.setReminderSettings(
-        model.reminderSettings.copyWith(
-          periodEnabled: true,
-          dailyEnabled: true,
-        ),
-      );
-    } else if (context.mounted) {
-      final l10n = AppLocalizations.of(context);
-      await showNotice(
-        context,
-        title: l10n.reminderPermissionTitle,
-        body: l10n.reminderPermissionBody,
-      );
+    final estimate = periodEndEstimate(
+      dayOfPeriod: status.dayOfPeriod,
+      cycles: model.cycles,
+    );
+    if (estimate == null) {
+      return null;
     }
-    model.dismissSuggestion(reminderSuggestion);
-  }
-
-  /// Turns the lock on, after checking who is holding the phone.
-  Future<void> _turnLockOn(BuildContext context) async {
-    final l10n = AppLocalizations.of(context);
-    final auth = environment.deviceAuth;
-    var outcome = AuthOutcome.unavailable;
-    if (await auth.isAvailable()) {
-      outcome = await auth.authenticate(l10n.lockReason);
+    final from = estimate.earliestDaysLeft;
+    final to = estimate.latestDaysLeft;
+    if (to == 0) {
+      return l10n.periodEndToday;
     }
-    switch (outcome) {
-      case AuthOutcome.success:
-        model.setAppLockEnabled(true);
-      case AuthOutcome.failed:
-        // Nothing changes: the question stays for another time.
-        return;
-      case AuthOutcome.unavailable:
-        if (context.mounted) {
-          await showNotice(
-            context,
-            title: l10n.lockUnavailableTitle,
-            body: l10n.lockUnavailableBody,
-          );
-        }
-    }
-    model.dismissSuggestion(lockSuggestion);
-  }
-
-  Widget? _suggestion(BuildContext context, AppLocalizations l10n) {
-    final reminders = model.reminderSettings;
-    if (!reminders.periodEnabled &&
-        !reminders.dailyEnabled &&
-        !model.suggestionDismissed(reminderSuggestion)) {
-      return SuggestionCard(
-        key: const ValueKey('suggest-reminders'),
-        title: l10n.suggestReminderTitle,
-        body: l10n.suggestReminderBody,
-        accept: l10n.fertilityTurnOn,
-        onAccept: () => _turnRemindersOn(context),
-        onDismiss: () => model.dismissSuggestion(reminderSuggestion),
-      );
-    }
-    if (!model.appLockEnabled && !model.suggestionDismissed(lockSuggestion)) {
-      return SuggestionCard(
-        key: const ValueKey('suggest-lock'),
-        title: l10n.suggestLockTitle,
-        body: l10n.suggestLockBody,
-        accept: l10n.fertilityTurnOn,
-        onAccept: () => _turnLockOn(context),
-        onDismiss: () => model.dismissSuggestion(lockSuggestion),
-      );
-    }
-    return null;
+    return from == to ? l10n.periodEndDays(to) : l10n.periodEndRange(from, to);
   }
 
   @override
@@ -148,18 +83,7 @@ class TodayTab extends StatelessWidget {
         final cycleStart = model.cycles.isEmpty
             ? null
             : model.cycles.last.start;
-        final dayOfCycle = status is EstimateOutdated
-            ? null
-            : overview.dayOfCycle;
-        final usual = dayOfCycle == null
-            ? const <UsualSign>[]
-            : usualSignsAround(
-                dayOfCycle,
-                cycles: model.cycles,
-                days: model.days,
-              );
         final summary = cycleSummaryToShow(model, today);
-        final suggestion = _suggestion(context, l10n);
         const gap = SizedBox(height: 16);
         return SingleChildScrollView(
           padding: const EdgeInsetsDirectional.fromSTEB(16, 0, 16, 24),
@@ -170,18 +94,28 @@ class TodayTab extends StatelessWidget {
               PredictionCard(
                 status: status,
                 overview: overview,
+                today: today,
+                cycleStart: cycleStart,
                 ovulationLine: current == null
                     ? null
                     : l10n.fertilityOvulationRange(
                         shortDate(l10n, current.earliestOvulation),
                         shortDate(l10n, current.latestOvulation),
                       ),
+                periodEndLine: _periodEnd(l10n, status),
                 fertileFromDay: current == null || cycleStart == null
                     ? null
                     : current.windowStart.daysSince(cycleStart) + 1,
                 fertileToDay: current == null || cycleStart == null
                     ? null
                     : current.windowEnd.daysSince(cycleStart) + 1,
+                usualSignsFor: (dayOfCycle) => usualSignsAround(
+                  dayOfCycle,
+                  cycles: model.cycles,
+                  days: model.days,
+                ),
+                entryFor: model.entryFor,
+                onOpenDay: onOpenDay,
                 onPeriodStartsToday: () => model.saveDay(
                   model.entryFor(today).withFlow(FlowIntensity.medium),
                 ),
@@ -197,11 +131,18 @@ class TodayTab extends StatelessWidget {
                 CycleSummaryCard(
                   summary: summary,
                   onClose: () => model.dismissCycleSummary(summary.cycle.start),
-                  onSeeTrends: () => onOpenTab(HomeTab.review),
+                  // Straight to the trends, which the review keeps one
+                  // tap away.
+                  onSeeTrends: () => Navigator.of(context).push(
+                    MaterialPageRoute<void>(
+                      builder: (context) => ReviewDetailScreen(
+                        model: model,
+                        environment: environment,
+                      ),
+                    ),
+                  ),
                 ),
               ],
-              if (usual.isNotEmpty) ...[gap, UsualSignsCard(signs: usual)],
-              if (suggestion != null) ...[gap, suggestion],
             ],
           ),
         );

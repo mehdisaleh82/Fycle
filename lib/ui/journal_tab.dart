@@ -133,27 +133,7 @@ class _Page extends StatelessWidget {
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
     final theme = Theme.of(context);
-    final flow = entry.flow;
-    final pain = entry.pain;
-    final mood = entry.mood;
-    final sleep = entry.sleep;
-    final libido = entry.libido;
-    final symptoms = [
-      for (final symptom in entry.symptoms) symptomLabel(l10n, symptom),
-    ]..sort();
-    final facts = [
-      if (flow != null)
-        l10n.signWithKind(l10n.dayFlowTitle, flowLabel(l10n, flow)),
-      if (pain != null)
-        l10n.signWithKind(l10n.dayPainTitle, painLabel(l10n, pain)),
-      if (mood != null)
-        l10n.signWithKind(l10n.dayMoodTitle, moodLabel(l10n, mood)),
-      if (sleep != null)
-        l10n.signWithKind(l10n.daySleepTitle, sleepLabel(l10n, sleep)),
-      if (libido != null)
-        l10n.signWithKind(l10n.dayLibidoTitle, libidoLabel(l10n, libido)),
-      ...symptoms,
-    ];
+    final facts = entryFacts(l10n, entry);
     final note = entry.note;
     return InkWell(
       key: ValueKey('page-${entry.day}'),

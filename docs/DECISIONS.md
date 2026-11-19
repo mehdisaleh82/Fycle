@@ -537,6 +537,24 @@ Retour de la testeuse sur la compilation n° 9, rapporté par l'utilisateur : po
     - Mis à jour aux mêmes moments que les rappels (`lib/ui/widget_sync.dart`) : après chaque saisie, chaque changement de réglage et chaque retour dans l'appli.
     - Reste à faire : le widget natif en Swift (cible « FycleWidget »), l'App Group chez Apple, la signature dans la compilation cloud. Android : à faire avant toute publication (règle 10).
 
+134. **L'anneau se parcourt au doigt** (demande de l'utilisateur : « interactions plus plus », « explicite »). Le numéro 133 est pris par le widget natif, sur la branche `ios-widget`.
+    - Un doigt posé sur le trait de l'anneau, puis glissé, parcourt le cycle jour par jour, avec un léger retour à chaque jour. Sous l'anneau : la date, le jour du cycle, ce qui a été noté ce jour-là (jours passés), ce qui est estimé (règles à venir, fenêtre de fertilité avec son avertissement, règle 7), et ce qui revient d'habitude vers ce jour dans ses cycles précédents.
+    - Un jour passé s'ouvre dans le journal par un bouton. Un jour à venir ne s'ouvre pas. Un appui ailleurs sur la carte, ou le bouton « Revenir à aujourd'hui », referme.
+    - Le doigt posé sur le trait est pris par l'anneau seul : la page ne défile pas dessous (`_RingBandRecognizer`). Posé ailleurs, rien ne change : l'appui change de vue, le glissement fait défiler.
+    - L'anneau passe de 112 à 168 points et se place au-dessus du texte, centré : il faut la place d'un doigt. Il se lit comme une horloge, dans le même sens quelle que soit la langue.
+    - Lecteur d'écran : l'anneau s'ajuste comme un curseur (jour suivant, jour précédent), et annonce le jour et sa date. La phrase « Glisse le doigt… » ne lui est pas lue.
+    - L'appui fait défiler jusqu'à trois vues : jour du cycle, jours restants, « d'habitude vers ce jour ». La troisième n'existe que si son journal la nourrit. Elle remplace la carte du même nom sur l'accueil.
+135. **Accueil à deux cartes, bilan à trois** (demande de l'utilisateur : « plus épurée »).
+    - Accueil : l'anneau et le journal du jour. Le bilan de fin de cycle y passe encore une fois par cycle, jusqu'à ce qu'il soit fermé (règle 13 : mécanisme sobre). Les suggestions « rappels » et « verrouillage » ne s'y affichent plus : les deux se règlent dans les réglages, et les rappels sont déjà proposés au premier lancement (décision 129).
+    - Bilan : le rapport pour le médecin, les chiffres, la comparaison avec le cycle précédent, la fenêtre de fertilité estimée. La fiche clinique, le détail du cycle, les moyennes, ce qui revient, la liste des cycles et « plus tu saisis » sont à un appui, sur l'écran « Le détail » (`ReviewDetailScreen`). Rien n'est supprimé.
+    - « Voir les tendances », sur le bilan de fin de cycle, ouvre directement cet écran.
+136. **Moteur de prédiction : la référence par âge n'est pas une durée déclarée ; fin des règles estimée.**
+    - Jusqu'ici, la durée de référence pour son âge (décision 113, Bull et al. 2019) entrait dans le calcul à la place de la durée qu'elle déclare, et donnait donc une marge de 5 jours. Une moyenne publiée ne dit rien d'elle : la marge reste celle d'une population, 7 jours de chaque côté. Dans Fehring et al. 2006, 95 % des cycles tiennent entre 22 et 36 jours, soit 7 jours autour de la moyenne. La durée qu'elle déclare garde sa marge de 5 jours.
+    - La référence compte toujours comme un cycle de faible poids tant que moins de trois cycles sont saisis, puis s'efface (`PeriodPredictor.predict`, paramètre `referenceCycleLength`).
+    - Pendant les règles, la carte dit combien de jours elles peuvent encore durer, en fourchette : du plus court au plus long de ses six dernières règles (`lib/domain/period_end_estimate.dart`). Rien n'est dit avant deux règles passées, ni quand celles en cours dépassent toutes les autres. Aucune moyenne publiée n'est utilisée ici : seulement ses propres chiffres.
+    - Écarté : le poids, la taille et le sport. Aucune étude vérifiée ne donne à ce jour un calcul utilisable ; rien n'est inventé (question ouverte « Profil de départ »).
+    - Textes nouveaux à faire relire par un professionnel de santé avant toute diffusion au-delà des deux testeurs (règle 7) : la fourchette de fin des règles et les lignes affichées en parcourant l'anneau.
+
 ## Questions ouvertes
 
 - **Le nom « Fycle » dans l'appli** : l'utilisateur a demandé qu'il n'apparaisse plus. Fait pour l'en-tête (décision 118). Il reste au démarrage (« Bienvenue dans Fycle »), sur l'écran de verrouillage, dans les réglages et dans l'avertissement : à confirmer avant de le retirer partout.

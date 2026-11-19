@@ -2,7 +2,6 @@ import 'package:material_ui/material_ui.dart';
 
 import '../domain/cycle_overview.dart';
 import '../l10n/app_localizations.dart';
-import 'labels.dart';
 
 /// A titled card, the common frame of the home screen.
 class TitledCard extends StatelessWidget {
@@ -178,39 +177,6 @@ class _Figure extends StatelessWidget {
   }
 }
 
-/// What was logged around this day of the cycle in past cycles: a reason to
-/// look today, drawn from the user's own entries.
-class UsualSignsCard extends StatelessWidget {
-  const UsualSignsCard({super.key, required this.signs});
-
-  /// At most the first three are shown.
-  final List<UsualSign> signs;
-
-  @override
-  Widget build(BuildContext context) {
-    final l10n = AppLocalizations.of(context);
-    final theme = Theme.of(context);
-    return TitledCard(
-      key: const ValueKey('usual-signs'),
-      title: l10n.usualTitle,
-      children: [
-        for (final sign in signs.take(3))
-          Padding(
-            padding: const EdgeInsets.only(bottom: 4),
-            child: Text(
-              l10n.usualLine(
-                signLabel(l10n, sign.sign),
-                sign.cycles,
-                sign.cyclesConsidered,
-              ),
-              style: theme.textTheme.bodyMedium,
-            ),
-          ),
-      ],
-    );
-  }
-}
-
 /// "The more you log, the more you see": what the entries already give and
 /// what the next ones will, with how far along each step is. Plain
 /// information about the log: no points, no reward.
@@ -299,60 +265,6 @@ class UnlockCard extends StatelessWidget {
           ),
         ],
       ],
-    );
-  }
-}
-
-/// One question asked once on the home screen, with two answers: turn the
-/// thing on, or not now. Either answer closes it for good.
-class SuggestionCard extends StatelessWidget {
-  const SuggestionCard({
-    super.key,
-    required this.title,
-    required this.body,
-    required this.accept,
-    required this.onAccept,
-    required this.onDismiss,
-  });
-
-  final String title;
-  final String body;
-
-  /// Label of the button that says yes.
-  final String accept;
-  final VoidCallback onAccept;
-  final VoidCallback onDismiss;
-
-  @override
-  Widget build(BuildContext context) {
-    final l10n = AppLocalizations.of(context);
-    final theme = Theme.of(context);
-    return Card(
-      child: Padding(
-        padding: const EdgeInsetsDirectional.fromSTEB(16, 16, 16, 8),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Semantics(
-              header: true,
-              child: Text(title, style: theme.textTheme.titleMedium),
-            ),
-            const SizedBox(height: 4),
-            Text(body, style: theme.textTheme.bodyMedium),
-            const SizedBox(height: 4),
-            Wrap(
-              spacing: 8,
-              children: [
-                FilledButton.tonal(onPressed: onAccept, child: Text(accept)),
-                TextButton(
-                  onPressed: onDismiss,
-                  child: Text(l10n.suggestNotNow),
-                ),
-              ],
-            ),
-          ],
-        ),
-      ),
     );
   }
 }

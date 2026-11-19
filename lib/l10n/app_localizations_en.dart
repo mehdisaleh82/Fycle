@@ -1018,23 +1018,6 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String get suggestFertilityTitle => 'See an ovulation estimate?';
-
-  @override
-  String get suggestFertilityBody =>
-      'A calendar estimate of your fertile window, always shown as a range.';
-
-  @override
-  String get suggestReminderTitle => 'A daily reminder to log?';
-
-  @override
-  String get suggestReminderBody =>
-      'One discreet notification a day, skipped when the day is already logged.';
-
-  @override
-  String get suggestNotNow => 'Not now';
-
-  @override
   String get tabJournal => 'Journal';
 
   @override
@@ -1062,13 +1045,6 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get todayNoteTitle => 'Your note';
-
-  @override
-  String get suggestLockTitle => 'Lock Fycle with Face ID or your passcode?';
-
-  @override
-  String get suggestLockBody =>
-      'Like a diary with a key: asked each time Fycle opens.';
 
   @override
   String get fertilityShortWarning =>
@@ -1438,4 +1414,78 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get lockTurnedOff =>
       'This phone no longer has a passcode: the lock of Fycle was turned off.';
+
+  @override
+  String get ringShowUsual => 'Show what usually comes around this day';
+
+  @override
+  String get ringHint =>
+      'Slide a finger around the ring to go through your cycle.';
+
+  @override
+  String ringExploreValue(int day, String date) {
+    return 'Day $day of your cycle, $date';
+  }
+
+  @override
+  String exploreToday(String date) {
+    return '$date · today';
+  }
+
+  @override
+  String exploreLogged(String facts) {
+    return 'Logged: $facts';
+  }
+
+  @override
+  String get exploreNothingLogged => 'Nothing logged on that day.';
+
+  @override
+  String get exploreExpected =>
+      'Within the range where your next period is estimated.';
+
+  @override
+  String get exploreFertile =>
+      'Within your estimated fertile window. An estimate: neither contraception nor a diagnosis.';
+
+  @override
+  String exploreUsual(String signs) {
+    return 'Usually around this day: $signs';
+  }
+
+  @override
+  String get exploreNothing =>
+      'Nothing stands out around this day in your past cycles yet.';
+
+  @override
+  String get exploreOpen => 'Open this page';
+
+  @override
+  String get exploreBack => 'Back to today';
+
+  @override
+  String periodEndRange(int from, int to) {
+    return 'About $from to $to more days, going by your past periods';
+  }
+
+  @override
+  String periodEndDays(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'About $count more days, going by your past periods',
+      one: 'About 1 more day, going by your past periods',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get periodEndToday =>
+      'Likely the last day, going by your past periods';
+
+  @override
+  String get reviewSeeDetail => 'See the detail';
+
+  @override
+  String get reviewDetailTitle => 'The detail';
 }

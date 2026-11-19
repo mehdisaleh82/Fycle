@@ -1032,23 +1032,6 @@ class AppLocalizationsFr extends AppLocalizations {
   }
 
   @override
-  String get suggestFertilityTitle => 'Voir une estimation de l\'ovulation ?';
-
-  @override
-  String get suggestFertilityBody =>
-      'Une estimation de ta fenêtre de fertilité, calculée sur le calendrier et toujours donnée en fourchette.';
-
-  @override
-  String get suggestReminderTitle => 'Un rappel quotidien pour saisir ?';
-
-  @override
-  String get suggestReminderBody =>
-      'Une notification discrète par jour, sauf si la journée est déjà notée.';
-
-  @override
-  String get suggestNotNow => 'Plus tard';
-
-  @override
   String get tabJournal => 'Journal';
 
   @override
@@ -1076,13 +1059,6 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get todayNoteTitle => 'Ta note';
-
-  @override
-  String get suggestLockTitle => 'Verrouiller Fycle par Face ID ou par code ?';
-
-  @override
-  String get suggestLockBody =>
-      'Comme un journal fermé à clé : demandé à chaque ouverture de Fycle.';
 
   @override
   String get fertilityShortWarning =>
@@ -1454,4 +1430,79 @@ class AppLocalizationsFr extends AppLocalizations {
   @override
   String get lockTurnedOff =>
       'Ce téléphone n\'a plus de code : le verrouillage de Fycle a été désactivé.';
+
+  @override
+  String get ringShowUsual =>
+      'Afficher ce qui revient d\'habitude vers ce jour';
+
+  @override
+  String get ringHint =>
+      'Glisse le doigt autour de l\'anneau pour parcourir ton cycle.';
+
+  @override
+  String ringExploreValue(int day, String date) {
+    return 'Jour $day de ton cycle, $date';
+  }
+
+  @override
+  String exploreToday(String date) {
+    return '$date · aujourd\'hui';
+  }
+
+  @override
+  String exploreLogged(String facts) {
+    return 'Noté : $facts';
+  }
+
+  @override
+  String get exploreNothingLogged => 'Rien de noté ce jour-là.';
+
+  @override
+  String get exploreExpected =>
+      'Dans la période où tes prochaines règles sont estimées.';
+
+  @override
+  String get exploreFertile =>
+      'Dans ta fenêtre de fertilité estimée. Une estimation : ni contraception ni diagnostic.';
+
+  @override
+  String exploreUsual(String signs) {
+    return 'D\'habitude, vers ce jour : $signs';
+  }
+
+  @override
+  String get exploreNothing =>
+      'Rien de marquant vers ce jour dans tes cycles précédents pour l\'instant.';
+
+  @override
+  String get exploreOpen => 'Ouvrir cette page';
+
+  @override
+  String get exploreBack => 'Revenir à aujourd\'hui';
+
+  @override
+  String periodEndRange(int from, int to) {
+    return 'Encore $from à $to jours environ, d\'après tes règles précédentes';
+  }
+
+  @override
+  String periodEndDays(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Encore $count jours environ, d\'après tes règles précédentes',
+      one: 'Encore 1 jour environ, d\'après tes règles précédentes',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get periodEndToday =>
+      'Sans doute le dernier jour, d\'après tes règles précédentes';
+
+  @override
+  String get reviewSeeDetail => 'Voir le détail';
+
+  @override
+  String get reviewDetailTitle => 'Le détail';
 }

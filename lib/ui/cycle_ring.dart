@@ -10,6 +10,9 @@ import 'theme.dart';
 ///
 /// A picture of the figures written next to it: it is hidden from screen
 /// readers, which read the text instead.
+///
+/// A second, hollow mark shows [selectedDay], the day being looked at when
+/// a finger goes around the ring.
 class CycleRing extends StatelessWidget {
   const CycleRing({
     super.key,
@@ -22,8 +25,46 @@ class CycleRing extends StatelessWidget {
     this.fertileFromDay,
     this.fertileToDay,
     this.centerText,
+    this.selectedDay,
     this.size = 112,
   });
+
+  /// Width of the line the ring is drawn with.
+  static const double stroke = 10;
+
+  /// Radius of the middle of the line, for a ring of [size].
+  static double radiusFor(double size) => size / 2 - stroke / 2 - 2;
+
+  /// Whether [position], inside a ring of [size], is on the line or close
+  /// enough for a finger aiming at it.
+  static bool isOnBand(Offset position, double size) {
+    final distance = (position - Offset(size / 2, size / 2)).distance;
+    final radius = radiusFor(size);
+    return distance >= radius - 26 && distance <= radius + 20;
+  }
+
+  /// The day of the cycle drawn in the direction of [position], inside a
+  /// ring of [size] that stands for [totalDays] days. Day 1 starts at the
+  /// top and the days go clockwise, whatever the writing direction: a
+  /// ring reads like a clock.
+  static int dayAt(Offset position, double size, int totalDays) {
+    final offset = position - Offset(size / 2, size / 2);
+    final angle =
+        (math.atan2(offset.dy, offset.dx) + math.pi / 2) % (2 * math.pi);
+    final total = math.max(totalDays, 1);
+    return (angle / (2 * math.pi) * total).floor().clamp(0, total - 1) + 1;
+  }
+
+  /// Where the middle of [day] is drawn, inside a ring of [size].
+  static Offset positionOf(int day, double size, int totalDays) {
+    final total = math.max(totalDays, 1);
+    final angle = -math.pi / 2 + 2 * math.pi * (day - 0.5) / total;
+    final radius = radiusFor(size);
+    return Offset(
+      size / 2 + radius * math.cos(angle),
+      size / 2 + radius * math.sin(angle),
+    );
+  }
 
   /// 1 on the first day of the period. Null when nothing is logged: the
   /// ring is then empty.
@@ -49,6 +90,9 @@ class CycleRing extends StatelessWidget {
   /// Written in the middle instead of the day, for the reference cycle.
   final String? centerText;
 
+  /// The day being looked at, when it is not today.
+  final int? selectedDay;
+
   final double size;
 
   @override
@@ -62,6 +106,7 @@ class CycleRing extends StatelessWidget {
         child: CustomPaint(
           painter: _RingPainter(
             dayOfCycle: day,
+            selectedDay: selectedDay,
             totalDays: math.max(totalDays, 1),
             periodDays: periodDays,
             expectedFromDay: expectedFromDay,
@@ -120,6 +165,7 @@ class CycleRing extends StatelessWidget {
 class _RingPainter extends CustomPainter {
   const _RingPainter({
     required this.dayOfCycle,
+    required this.selectedDay,
     required this.totalDays,
     required this.periodDays,
     required this.expectedFromDay,
@@ -134,6 +180,7 @@ class _RingPainter extends CustomPainter {
   });
 
   final int? dayOfCycle;
+  final int? selectedDay;
   final int totalDays;
   final int periodDays;
   final int? expectedFromDay;
@@ -146,7 +193,7 @@ class _RingPainter extends CustomPainter {
   final Color fertile;
   final Color marker;
 
-  static const double _stroke = 10;
+  static const double _stroke = CycleRing.stroke;
 
   /// Angle at which day [day] starts (day 1 starts at the top).
   double _angle(num day) => -math.pi / 2 + 2 * math.pi * (day - 1) / totalDays;
@@ -225,11 +272,33 @@ class _RingPainter extends CustomPainter {
     canvas
       ..drawCircle(position, _stroke / 2 + 3, Paint()..color = track)
       ..drawCircle(position, _stroke / 2, Paint()..color = marker);
+
+    final selected = selectedDay;
+    if (selected == null || selected == today) {
+      return;
+    }
+    // The day looked at: a larger, hollow mark.
+    final selectedAngle = _angle(selected.clamp(1, totalDays) + 0.5);
+    final selectedPosition = Offset(
+      rect.center.dx + radius * math.cos(selectedAngle),
+      rect.center.dy + radius * math.sin(selectedAngle),
+    );
+    canvas
+      ..drawCircle(selectedPosition, _stroke / 2 + 4, Paint()..color = track)
+      ..drawCircle(
+        selectedPosition,
+        _stroke / 2 + 3,
+        Paint()
+          ..style = PaintingStyle.stroke
+          ..strokeWidth = 3
+          ..color = marker,
+      );
   }
 
   @override
   bool shouldRepaint(_RingPainter old) =>
       old.dayOfCycle != dayOfCycle ||
+      old.selectedDay != selectedDay ||
       old.totalDays != totalDays ||
       old.periodDays != periodDays ||
       old.expectedFromDay != expectedFromDay ||

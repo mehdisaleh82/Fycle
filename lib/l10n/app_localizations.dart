@@ -1670,36 +1670,6 @@ abstract class AppLocalizations {
   /// **'Remove {date}'**
   String onboardingRemoveDate(String date);
 
-  /// No description provided for @suggestFertilityTitle.
-  ///
-  /// In en, this message translates to:
-  /// **'See an ovulation estimate?'**
-  String get suggestFertilityTitle;
-
-  /// No description provided for @suggestFertilityBody.
-  ///
-  /// In en, this message translates to:
-  /// **'A calendar estimate of your fertile window, always shown as a range.'**
-  String get suggestFertilityBody;
-
-  /// No description provided for @suggestReminderTitle.
-  ///
-  /// In en, this message translates to:
-  /// **'A daily reminder to log?'**
-  String get suggestReminderTitle;
-
-  /// No description provided for @suggestReminderBody.
-  ///
-  /// In en, this message translates to:
-  /// **'One discreet notification a day, skipped when the day is already logged.'**
-  String get suggestReminderBody;
-
-  /// No description provided for @suggestNotNow.
-  ///
-  /// In en, this message translates to:
-  /// **'Not now'**
-  String get suggestNotNow;
-
   /// No description provided for @tabJournal.
   ///
   /// In en, this message translates to:
@@ -1753,18 +1723,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Your note'**
   String get todayNoteTitle;
-
-  /// No description provided for @suggestLockTitle.
-  ///
-  /// In en, this message translates to:
-  /// **'Lock Fycle with Face ID or your passcode?'**
-  String get suggestLockTitle;
-
-  /// No description provided for @suggestLockBody.
-  ///
-  /// In en, this message translates to:
-  /// **'Like a diary with a key: asked each time Fycle opens.'**
-  String get suggestLockBody;
 
   /// No description provided for @fertilityShortWarning.
   ///
@@ -2275,6 +2233,108 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'This phone no longer has a passcode: the lock of Fycle was turned off.'**
   String get lockTurnedOff;
+
+  /// No description provided for @ringShowUsual.
+  ///
+  /// In en, this message translates to:
+  /// **'Show what usually comes around this day'**
+  String get ringShowUsual;
+
+  /// No description provided for @ringHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Slide a finger around the ring to go through your cycle.'**
+  String get ringHint;
+
+  /// No description provided for @ringExploreValue.
+  ///
+  /// In en, this message translates to:
+  /// **'Day {day} of your cycle, {date}'**
+  String ringExploreValue(int day, String date);
+
+  /// No description provided for @exploreToday.
+  ///
+  /// In en, this message translates to:
+  /// **'{date} · today'**
+  String exploreToday(String date);
+
+  /// No description provided for @exploreLogged.
+  ///
+  /// In en, this message translates to:
+  /// **'Logged: {facts}'**
+  String exploreLogged(String facts);
+
+  /// No description provided for @exploreNothingLogged.
+  ///
+  /// In en, this message translates to:
+  /// **'Nothing logged on that day.'**
+  String get exploreNothingLogged;
+
+  /// No description provided for @exploreExpected.
+  ///
+  /// In en, this message translates to:
+  /// **'Within the range where your next period is estimated.'**
+  String get exploreExpected;
+
+  /// No description provided for @exploreFertile.
+  ///
+  /// In en, this message translates to:
+  /// **'Within your estimated fertile window. An estimate: neither contraception nor a diagnosis.'**
+  String get exploreFertile;
+
+  /// No description provided for @exploreUsual.
+  ///
+  /// In en, this message translates to:
+  /// **'Usually around this day: {signs}'**
+  String exploreUsual(String signs);
+
+  /// No description provided for @exploreNothing.
+  ///
+  /// In en, this message translates to:
+  /// **'Nothing stands out around this day in your past cycles yet.'**
+  String get exploreNothing;
+
+  /// No description provided for @exploreOpen.
+  ///
+  /// In en, this message translates to:
+  /// **'Open this page'**
+  String get exploreOpen;
+
+  /// No description provided for @exploreBack.
+  ///
+  /// In en, this message translates to:
+  /// **'Back to today'**
+  String get exploreBack;
+
+  /// No description provided for @periodEndRange.
+  ///
+  /// In en, this message translates to:
+  /// **'About {from} to {to} more days, going by your past periods'**
+  String periodEndRange(int from, int to);
+
+  /// No description provided for @periodEndDays.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{About 1 more day, going by your past periods} other{About {count} more days, going by your past periods}}'**
+  String periodEndDays(int count);
+
+  /// No description provided for @periodEndToday.
+  ///
+  /// In en, this message translates to:
+  /// **'Likely the last day, going by your past periods'**
+  String get periodEndToday;
+
+  /// No description provided for @reviewSeeDetail.
+  ///
+  /// In en, this message translates to:
+  /// **'See the detail'**
+  String get reviewSeeDetail;
+
+  /// No description provided for @reviewDetailTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'The detail'**
+  String get reviewDetailTitle;
 }
 
 class _AppLocalizationsDelegate

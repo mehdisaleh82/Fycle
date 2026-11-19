@@ -2,6 +2,7 @@ import 'package:intl/intl.dart';
 
 import '../data/csv_export.dart';
 import '../domain/calendar_day.dart';
+import '../domain/day_entry.dart';
 import '../domain/flow_intensity.dart';
 import '../domain/libido_level.dart';
 import '../domain/mood.dart';
@@ -145,4 +146,30 @@ String weekdayDate(AppLocalizations l10n, CalendarDay day) =>
 String monthTitle(AppLocalizations l10n, int year, int month) {
   final text = DateFormat.yMMMM(l10n.localeName).format(DateTime(year, month));
   return text.isEmpty ? text : text[0].toUpperCase() + text.substring(1);
+}
+
+/// What was ticked on a day, in a few words each: the flow, the pain, the
+/// mood, the sleep, the libido, then the symptoms in alphabetical order.
+List<String> entryFacts(AppLocalizations l10n, DayEntry entry) {
+  final flow = entry.flow;
+  final pain = entry.pain;
+  final mood = entry.mood;
+  final sleep = entry.sleep;
+  final libido = entry.libido;
+  final symptoms = [
+    for (final symptom in entry.symptoms) symptomLabel(l10n, symptom),
+  ]..sort();
+  return [
+    if (flow != null)
+      l10n.signWithKind(l10n.dayFlowTitle, flowLabel(l10n, flow)),
+    if (pain != null)
+      l10n.signWithKind(l10n.dayPainTitle, painLabel(l10n, pain)),
+    if (mood != null)
+      l10n.signWithKind(l10n.dayMoodTitle, moodLabel(l10n, mood)),
+    if (sleep != null)
+      l10n.signWithKind(l10n.daySleepTitle, sleepLabel(l10n, sleep)),
+    if (libido != null)
+      l10n.signWithKind(l10n.dayLibidoTitle, libidoLabel(l10n, libido)),
+    ...symptoms,
+  ];
 }

@@ -50,10 +50,6 @@ class InsightsScreen extends StatelessWidget {
         );
         final cycles = model.cycles;
         final today = environment.today();
-        final steps = insightSteps(
-          cycles: cycles,
-          prediction: model.prediction,
-        );
         final status = cycleStatusOn(
           today,
           flowByDay: model.flowByDay,
@@ -110,45 +106,107 @@ class InsightsScreen extends StatelessWidget {
                 const SizedBox(height: 16),
                 ComparisonCard(comparison: comparison),
               ],
-              const SizedBox(height: 16),
-              _ReportCard(
-                report: currentCycleReport(
-                  cycles: cycles,
-                  days: model.days,
-                  today: today,
-                ),
-              ),
-              const SizedBox(height: 16),
-              ClinicalCard(
-                review: clinicalReview(
-                  cycles: cycles,
-                  flowByDay: model.flowByDay,
-                  today: today,
-                  age: model.age,
-                ),
-              ),
               if (showFertility) ...[
                 const SizedBox(height: 16),
                 FertilityCard(estimate: model.fertilityEstimate),
               ],
               const SizedBox(height: 16),
-              _AveragesCard(
-                averages: cycleAverages(cycles, today: environment.today()),
+              // The clinical sheet, the trends and the history: one tap
+              // away, for the days she wants to dig.
+              OutlinedButton.icon(
+                key: const ValueKey('open-review-detail'),
+                onPressed: () => Navigator.of(context).push(
+                  MaterialPageRoute<void>(
+                    builder: (context) => ReviewDetailScreen(
+                      model: model,
+                      environment: environment,
+                    ),
+                  ),
+                ),
+                icon: const Icon(Icons.expand_circle_down_outlined),
+                label: Text(l10n.reviewSeeDetail),
               ),
-              const SizedBox(height: 16),
-              _TrendsCard(
-                trends: cycleTrends(cycles: cycles, days: model.days),
-              ),
-              const SizedBox(height: 16),
-              _HistoryCard(cycles: cycles),
-              const SizedBox(height: 16),
-              UnlockCard(steps: steps),
               const SizedBox(height: 16),
               const DisclaimerCard(),
             ],
           ),
         );
       },
+    );
+  }
+}
+
+/// What the review keeps one tap away: the current cycle in detail, the
+/// clinical sheet, the averages, what comes back, the list of cycles and
+/// what the next entries will bring.
+///
+/// Everything here counts what was logged. Nothing is interpreted.
+class ReviewDetailScreen extends StatelessWidget {
+  const ReviewDetailScreen({
+    super.key,
+    required this.model,
+    required this.environment,
+  });
+
+  final CycleModel model;
+  final AppEnvironment environment;
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
+    return Scaffold(
+      appBar: AppBar(title: Text(l10n.reviewDetailTitle)),
+      body: SafeArea(
+        child: ListenableBuilder(
+          listenable: model,
+          builder: (context, _) {
+            final cycles = model.cycles;
+            final today = environment.today();
+            final steps = insightSteps(
+              cycles: cycles,
+              prediction: model.prediction,
+            );
+            return SingleChildScrollView(
+              padding: const EdgeInsetsDirectional.fromSTEB(16, 8, 16, 24),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  _ReportCard(
+                    report: currentCycleReport(
+                      cycles: cycles,
+                      days: model.days,
+                      today: today,
+                    ),
+                  ),
+                  const SizedBox(height: 16),
+                  ClinicalCard(
+                    review: clinicalReview(
+                      cycles: cycles,
+                      flowByDay: model.flowByDay,
+                      today: today,
+                      age: model.age,
+                    ),
+                  ),
+                  const SizedBox(height: 16),
+                  _AveragesCard(
+                    averages: cycleAverages(cycles, today: environment.today()),
+                  ),
+                  const SizedBox(height: 16),
+                  _TrendsCard(
+                    trends: cycleTrends(cycles: cycles, days: model.days),
+                  ),
+                  const SizedBox(height: 16),
+                  _HistoryCard(cycles: cycles),
+                  const SizedBox(height: 16),
+                  UnlockCard(steps: steps),
+                  const SizedBox(height: 16),
+                  const DisclaimerCard(),
+                ],
+              ),
+            );
+          },
+        ),
+      ),
     );
   }
 }

@@ -35,7 +35,7 @@ void main() {
         days: [...periodFrom(CalendarDay(2025, 12, 6)), ...threePeriods()],
       );
       await harness.pumpApp();
-      await openReview(tester);
+      await openReviewDetail(tester);
 
       expect(find.text('Clinical sheet'), findsOneWidget);
       expect(
@@ -81,7 +81,7 @@ void main() {
       final harness = Harness(tester);
       await harness.seed(days: unusualCycles());
       await harness.pumpApp(locale: 'fr');
-      await openReview(tester);
+      await openReviewDetail(tester);
 
       expect(
         within(
@@ -118,7 +118,7 @@ void main() {
       final harness = Harness(tester);
       await harness.seed(days: threePeriods());
       await harness.pumpApp();
-      await openReview(tester);
+      await openReviewDetail(tester);
 
       expect(
         within(
@@ -140,7 +140,7 @@ void main() {
         ],
       );
       await harness.pumpApp();
-      await openReview(tester);
+      await openReviewDetail(tester);
       expect(within('clinical-spotting', '2 days logged'), findsOneWidget);
     });
 
@@ -150,7 +150,7 @@ void main() {
       final harness = Harness(tester);
       await harness.seed(days: periodFrom(CalendarDay(2026, 2, 28)));
       await harness.pumpApp();
-      await openReview(tester);
+      await openReviewDetail(tester);
 
       expect(find.textContaining('Your own figures come in'), findsOne);
       expect(
@@ -299,7 +299,13 @@ void main() {
           themeMode: ThemeMode.dark,
           textDirection: TextDirection.rtl,
         );
-        await openReview(tester);
+        await openReviewDetail(tester);
+        await tester.drag(
+          find.byType(SingleChildScrollView).last,
+          const Offset(0, -8000),
+        );
+        await tester.pumpAndSettle();
+        await tapVisible(tester, find.byType(BackButton));
         await tapVisible(
           tester,
           find.byKey(const ValueKey('open-doctor-report')),

@@ -147,6 +147,12 @@ void main() {
       );
       await harness.pumpApp();
 
+      // The third view of the card, after the days left.
+      expect(find.text('Usually around this day'), findsNothing);
+      final card = find.byKey(const ValueKey('cycle-card'));
+      await tapVisible(tester, find.byKey(const ValueKey('cycle-day')));
+      await tapVisible(tester, find.byKey(const ValueKey('cycle-day')));
+      expect(card, findsOneWidget);
       expect(find.text('Usually around this day'), findsOneWidget);
       expect(
         find.text('Sleep: Poor: in 2 of your last 2 cycles'),
@@ -295,7 +301,7 @@ void main() {
       final harness = Harness(tester);
       await harness.seed(days: threePeriods());
       await harness.pumpApp();
-      await openReview(tester);
+      await openReviewDetail(tester);
 
       for (final word in ['stud', 'reference', 'FIGO', 'Source', '2019']) {
         expect(find.textContaining(word), findsNothing, reason: word);
@@ -308,7 +314,7 @@ void main() {
       final harness = Harness(tester);
       await harness.seed(days: periodFrom(CalendarDay(2026, 2, 28)));
       await harness.pumpApp();
-      await openReview(tester);
+      await openReviewDetail(tester);
 
       expect(find.text('The more you log, the more you see'), findsOneWidget);
       expect(textOf(tester, 'unlock-overall'), '1 of 4 available');
@@ -327,7 +333,7 @@ void main() {
       final harness = Harness(tester);
       await harness.seed(days: threePeriods());
       await harness.pumpApp(locale: 'fr');
-      await openReview(tester);
+      await openReviewDetail(tester);
 
       expect(find.text('Plus tu saisis, plus tu en vois'), findsOneWidget);
       expect(textOf(tester, 'unlock-overall'), '3 sur 4 disponibles');
@@ -362,7 +368,7 @@ void main() {
         ],
       );
       await harness.pumpApp();
-      await openReview(tester);
+      await openReviewDetail(tester);
 
       for (final line in [
         'Day 21 of your cycle',
@@ -381,7 +387,7 @@ void main() {
       final harness = Harness(tester);
       await harness.pumpApp(locale: 'fr');
       await tapVisible(tester, find.byKey(const ValueKey('onboarding-skip')));
-      await openReview(tester);
+      await openReviewDetail(tester);
 
       expect(
         within(
@@ -412,8 +418,9 @@ void main() {
       expect(find.byKey(const ValueKey('suggest-reminders')), findsNothing);
     });
 
-    testWidgets('a phone that refuses leaves them off, and is asked once more '
-        'on the home tab', (tester) async {
+    testWidgets('a phone that refuses leaves them off, without insisting', (
+      tester,
+    ) async {
       final harness = Harness(tester);
       harness.reminders.allow = false;
       await harness.pumpApp();
@@ -426,7 +433,7 @@ void main() {
       expect(settings.periodEnabled, isFalse);
       expect(settings.dailyEnabled, isFalse);
       expect(find.byType(AlertDialog), findsNothing);
-      expect(find.byKey(const ValueKey('suggest-reminders')), findsOneWidget);
+      expect(find.byKey(const ValueKey('suggest-reminders')), findsNothing);
     });
   });
 
@@ -507,91 +514,18 @@ void main() {
     });
   });
 
-  group('suggestions', () {
-    testWidgets('reminders are offered once, and "not now" is kept', (
+  group('home', () {
+    testWidgets('suggests nothing: reminders and lock are in the settings', (
       tester,
     ) async {
       final harness = Harness(tester);
       await harness.seed(days: threePeriods());
       await harness.pumpApp();
 
-      expect(find.text('A daily reminder to log?'), findsOneWidget);
-      await tapVisible(tester, find.text('Not now'));
       expect(find.text('A daily reminder to log?'), findsNothing);
+      expect(find.text('Not now'), findsNothing);
       expect(harness.reminders.permissionRequests, 0);
-
-      await harness.pumpApp();
-      expect(find.text('A daily reminder to log?'), findsNothing);
-    });
-
-    testWidgets('accepting turns both reminders on', (tester) async {
-      final harness = Harness(tester);
-      await harness.seed(days: threePeriods());
-      await harness.pumpApp();
-
-      await tapVisible(
-        tester,
-        find.descendant(
-          of: find.byKey(const ValueKey('suggest-reminders')),
-          matching: find.text('Turn on'),
-        ),
-      );
-      final settings = await harness.read(
-        (store) => store.database.reminderSettings,
-      );
-      expect(settings.periodEnabled, isTrue);
-      expect(settings.dailyEnabled, isTrue);
-      expect(harness.reminders.scheduled, isNotEmpty);
-    });
-
-    testWidgets('then the lock is offered, and asks who holds the phone', (
-      tester,
-    ) async {
-      final harness = Harness(tester);
-      await harness.seed(days: threePeriods());
-      await harness.pumpApp(locale: 'fr');
-      await tapVisible(tester, find.text('Plus tard'));
-
-      expect(
-        find.text('Verrouiller Fycle par Face ID ou par code ?'),
-        findsOneWidget,
-      );
-      await tapVisible(
-        tester,
-        find.descendant(
-          of: find.byKey(const ValueKey('suggest-lock')),
-          matching: find.text('Activer'),
-        ),
-      );
-      expect(harness.deviceAuth.prompts, ['Déverrouiller Fycle']);
-      expect(
-        await harness.read((store) => store.database.appLockEnabled),
-        isTrue,
-      );
-      expect(find.byKey(const ValueKey('suggest-lock')), findsNothing);
-    });
-
-    testWidgets('a phone without a passcode gets an explanation', (
-      tester,
-    ) async {
-      final harness = Harness(tester);
-      await harness.seed(days: threePeriods());
-      harness.deviceAuth.available = false;
-      await harness.pumpApp();
-      await tapVisible(tester, find.text('Not now'));
-
-      await tapVisible(
-        tester,
-        find.descendant(
-          of: find.byKey(const ValueKey('suggest-lock')),
-          matching: find.text('Turn on'),
-        ),
-      );
-      expect(find.text('No passcode on this phone'), findsOneWidget);
-      expect(
-        await harness.read((store) => store.database.appLockEnabled),
-        isFalse,
-      );
+      expect(harness.deviceAuth.prompts, isEmpty);
     });
   });
 

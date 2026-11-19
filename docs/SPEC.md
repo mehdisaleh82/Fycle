@@ -33,6 +33,8 @@ S'y ajoute un regard clinique (décisions 113 à 119) : une fiche clinique fond�
 
 Après le retour de la testeuse, l'appli a été épurée (décisions 120 à 126) : démarrage en une question, accueil réduit à l'anneau et au journal du jour, tout le reste dans le Bilan, et plus aucune mention d'étude ou de référence à l'écran. Les calculs fondés sur les études tournent toujours.
 
+Puis l'anneau est devenu le centre de l'appli (décisions 134 à 136) : il se parcourt au doigt, jour par jour ; l'accueil tient en deux cartes et le bilan en trois, le reste à un appui ; le moteur distingue la moyenne publiée pour son âge de la durée qu'elle déclare, et estime la fin des règles en cours à partir de ses règles passées.
+
 Suite prévue (décision 89) : migraines (D), puis F à L.
 
 ## Objectifs
