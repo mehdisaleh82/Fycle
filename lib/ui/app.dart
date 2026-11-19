@@ -1,5 +1,6 @@
 import 'package:material_ui/material_ui.dart';
 
+import '../data/appearance.dart';
 import '../l10n/app_localizations.dart';
 import 'app_environment.dart';
 import 'app_lock.dart';
@@ -13,14 +14,20 @@ class FycleApp extends StatefulWidget {
     super.key,
     this.locale,
     this.themeMode,
+    this.textDirection,
     this.environment = const AppEnvironment.device(),
   });
 
   /// Forces a locale. Left null in production so the system language applies.
   final Locale? locale;
 
-  /// Forces light or dark. Left null in production, which is light only.
+  /// Forces light or dark. Left null in production, where the appearance
+  /// chosen in the settings applies: light by default.
   final ThemeMode? themeMode;
+
+  /// Forces the writing direction. Left null in production, where it follows
+  /// the language.
+  final TextDirection? textDirection;
 
   final AppEnvironment environment;
 
@@ -30,6 +37,21 @@ class FycleApp extends StatefulWidget {
 
 class _FycleAppState extends State<FycleApp> {
   late final AppLock _lock = AppLock(widget.environment.deviceAuth);
+
+  /// Light until the store is open and says otherwise.
+  Appearance _appearance = Appearance.light;
+
+  void _setAppearance(Appearance appearance) {
+    if (appearance != _appearance) {
+      setState(() => _appearance = appearance);
+    }
+  }
+
+  ThemeMode get _themeMode => switch (_appearance) {
+    Appearance.light => ThemeMode.light,
+    Appearance.dark => ThemeMode.dark,
+    Appearance.system => ThemeMode.system,
+  };
 
   @override
   void dispose() {
@@ -51,13 +73,21 @@ class _FycleAppState extends State<FycleApp> {
       supportedLocales: AppLocalizations.supportedLocales,
       theme: fycleTheme(Brightness.light),
       darkTheme: fycleTheme(Brightness.dark),
-      // Light only for now, whatever the phone says: the dark theme is kept
-      // and tested, but not offered (docs/DECISIONS.md, decision 62).
-      themeMode: widget.themeMode ?? ThemeMode.light,
+      themeMode: widget.themeMode ?? _themeMode,
       // Above the navigator, so that the lock covers every screen, dialog
       // and panel.
-      builder: (context, child) => LockGate(lock: _lock, child: child!),
-      home: RootScreen(environment: widget.environment, lock: _lock),
+      builder: (context, child) {
+        final gate = LockGate(lock: _lock, child: child!);
+        final direction = widget.textDirection;
+        return direction == null
+            ? gate
+            : Directionality(textDirection: direction, child: gate);
+      },
+      home: RootScreen(
+        environment: widget.environment,
+        lock: _lock,
+        onAppearance: _setAppearance,
+      ),
     );
   }
 }

@@ -10,6 +10,7 @@ import '../domain/pain_level.dart';
 import '../domain/period_predictor.dart';
 import '../domain/reminders.dart';
 import '../domain/symptom.dart';
+import 'appearance.dart';
 import 'database_key_store.dart';
 import 'fycle_data.dart';
 
@@ -92,6 +93,7 @@ final class FycleDatabase {
   static const String _dailyReminder = 'reminder_daily_enabled';
   static const String _dailyReminderTime = 'reminder_daily_minutes';
   static const String _appLock = 'app_lock_enabled';
+  static const String _appearance = 'appearance';
 
   final Database _db;
 
@@ -238,6 +240,23 @@ final class FycleDatabase {
 
   set appLockEnabled(bool enabled) =>
       _writeDeviceSetting(_appLock, enabled ? _on : null);
+
+  /// Light, dark, or like the phone. Light by default, and whenever the
+  /// stored value is unknown. Not part of an export.
+  Appearance get appearance {
+    final stored = _deviceSetting(_appearance);
+    for (final value in Appearance.values) {
+      if (value.name == stored) {
+        return value;
+      }
+    }
+    return Appearance.light;
+  }
+
+  set appearance(Appearance value) => _writeDeviceSetting(
+    _appearance,
+    value == Appearance.light ? null : value.name,
+  );
 
   /// Everything stored, for export.
   FycleData readAll() =>

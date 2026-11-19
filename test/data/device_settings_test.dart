@@ -2,6 +2,7 @@ import 'dart:io';
 import 'dart:typed_data';
 
 import 'package:flutter_test/flutter_test.dart';
+import 'package:fycle/data/appearance.dart';
 import 'package:fycle/data/fycle_database.dart';
 import 'package:fycle/data/local_store.dart';
 import 'package:fycle/domain/calendar_day.dart';
@@ -46,13 +47,27 @@ void main() {
       expect(db.appLockEnabled, isFalse);
     });
 
+    test('the appearance is light by default, and stored', () {
+      expect(db.appearance, Appearance.light);
+      for (final chosen in [
+        Appearance.dark,
+        Appearance.system,
+        Appearance.light,
+      ]) {
+        db.appearance = chosen;
+        expect(db.appearance, chosen);
+      }
+    });
+
     test('an import replaces the data, not the settings of the phone', () {
       final chosen = ReminderSettings(dailyEnabled: true);
       db
         ..reminderSettings = chosen
         ..appLockEnabled = true
+        ..appearance = Appearance.dark
         ..replaceAll(sampleData());
 
+      expect(db.appearance, Appearance.dark);
       expect(db.readDays(), sampleData().days);
       expect(db.reminderSettings, chosen);
       expect(db.appLockEnabled, isTrue);
@@ -116,6 +131,7 @@ void main() {
       store.database
         ..replaceAll(sampleData())
         ..appLockEnabled = true
+        ..appearance = Appearance.dark
         ..reminderSettings = ReminderSettings(periodEnabled: true);
       final backup = await store.exportEncrypted('made-up password');
       store.close();
@@ -133,6 +149,7 @@ void main() {
 
       expect(other.database.readDays(), sampleData().days);
       expect(other.database.appLockEnabled, isFalse);
+      expect(other.database.appearance, Appearance.light);
       expect(other.database.reminderSettings, ReminderSettings());
     });
   });

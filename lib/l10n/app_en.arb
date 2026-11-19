@@ -233,5 +233,10 @@
   "@lockReason": {"description": "Sentence shown in the Face ID / fingerprint / passcode prompt of the system."},
   "lockScreenTitle": "Fycle is locked",
   "lockScreenUnlock": "Unlock",
+  "settingsAppearanceSection": "Appearance",
+  "settingsAppearance": "Theme",
+  "appearanceLight": "Light",
+  "appearanceDark": "Dark",
+  "appearanceSystem": "Same as the phone",
   "lockTurnedOff": "This phone no longer has a passcode: the lock of Fycle was turned off."
 }

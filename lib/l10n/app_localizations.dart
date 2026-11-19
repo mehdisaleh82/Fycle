@@ -992,6 +992,36 @@ abstract class AppLocalizations {
   /// **'Unlock'**
   String get lockScreenUnlock;
 
+  /// No description provided for @settingsAppearanceSection.
+  ///
+  /// In en, this message translates to:
+  /// **'Appearance'**
+  String get settingsAppearanceSection;
+
+  /// No description provided for @settingsAppearance.
+  ///
+  /// In en, this message translates to:
+  /// **'Theme'**
+  String get settingsAppearance;
+
+  /// No description provided for @appearanceLight.
+  ///
+  /// In en, this message translates to:
+  /// **'Light'**
+  String get appearanceLight;
+
+  /// No description provided for @appearanceDark.
+  ///
+  /// In en, this message translates to:
+  /// **'Dark'**
+  String get appearanceDark;
+
+  /// No description provided for @appearanceSystem.
+  ///
+  /// In en, this message translates to:
+  /// **'Same as the phone'**
+  String get appearanceSystem;
+
   /// No description provided for @lockTurnedOff.
   ///
   /// In en, this message translates to:

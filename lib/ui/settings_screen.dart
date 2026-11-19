@@ -1,5 +1,6 @@
 import 'package:material_ui/material_ui.dart';
 
+import '../data/appearance.dart';
 import '../data/device_auth.dart';
 import '../domain/reminders.dart';
 import '../l10n/app_localizations.dart';
@@ -10,7 +11,8 @@ import 'cycle_model.dart';
 import 'dialogs.dart';
 import 'disclaimer_card.dart';
 
-/// Settings: the usual cycle length, the reminders, the app lock, and
+/// Settings: the usual cycle length, the reminders, the app lock, the
+/// appearance, and
 /// everything the user can do with her own data. Export is always free
 /// (CLAUDE.md, rule 6).
 class SettingsScreen extends StatelessWidget {
@@ -135,6 +137,16 @@ class SettingsScreen extends StatelessWidget {
     }
   }
 
+  Future<void> _pickAppearance(BuildContext context) async {
+    final appearance = await showDialog<Appearance>(
+      context: context,
+      builder: (context) => _AppearanceDialog(current: model.appearance),
+    );
+    if (appearance != null) {
+      model.setAppearance(appearance);
+    }
+  }
+
   Future<void> _deleteEverything(BuildContext context) async {
     final l10n = AppLocalizations.of(context);
     final navigator = Navigator.of(context);
@@ -242,7 +254,12 @@ class SettingsScreen extends StatelessWidget {
                     ],
                   ),
                   Padding(
-                    padding: const EdgeInsets.fromLTRB(32, 12, 32, 0),
+                    padding: const EdgeInsetsDirectional.fromSTEB(
+                      32,
+                      12,
+                      32,
+                      0,
+                    ),
                     child: Text(
                       l10n.reminderDiscreetNote,
                       style: Theme.of(context).textTheme.bodySmall,
@@ -257,6 +274,20 @@ class SettingsScreen extends StatelessWidget {
                         subtitle: Text(l10n.lockSubtitle),
                         value: model.appLockEnabled,
                         onChanged: (on) => _setAppLock(context, on),
+                      ),
+                    ],
+                  ),
+                  _SectionTitle(l10n.settingsAppearanceSection),
+                  _Group(
+                    children: [
+                      ListTile(
+                        key: const ValueKey('appearance'),
+                        leading: const Icon(Icons.brightness_6_outlined),
+                        title: Text(l10n.settingsAppearance),
+                        subtitle: Text(
+                          _appearanceLabel(l10n, model.appearance),
+                        ),
+                        onTap: () => _pickAppearance(context),
                       ),
                     ],
                   ),
@@ -308,11 +339,11 @@ class SettingsScreen extends StatelessWidget {
                   ),
                   _SectionTitle(l10n.settingsAboutSection),
                   Padding(
-                    padding: const EdgeInsets.fromLTRB(32, 0, 32, 8),
+                    padding: const EdgeInsetsDirectional.fromSTEB(32, 0, 32, 8),
                     child: Text(l10n.privacyLine),
                   ),
                   const Padding(
-                    padding: EdgeInsets.fromLTRB(16, 8, 16, 24),
+                    padding: EdgeInsetsDirectional.fromSTEB(16, 8, 16, 24),
                     child: DisclaimerCard(),
                   ),
                 ],
@@ -355,7 +386,7 @@ class _SectionTitle extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     return Padding(
-      padding: const EdgeInsets.fromLTRB(32, 24, 32, 8),
+      padding: const EdgeInsetsDirectional.fromSTEB(32, 24, 32, 8),
       child: Semantics(
         header: true,
         child: Text(
@@ -365,6 +396,49 @@ class _SectionTitle extends StatelessWidget {
           ),
         ),
       ),
+    );
+  }
+}
+
+String _appearanceLabel(AppLocalizations l10n, Appearance appearance) =>
+    switch (appearance) {
+      Appearance.light => l10n.appearanceLight,
+      Appearance.dark => l10n.appearanceDark,
+      Appearance.system => l10n.appearanceSystem,
+    };
+
+/// Pops with the chosen appearance, or with nothing if cancelled.
+class _AppearanceDialog extends StatelessWidget {
+  const _AppearanceDialog({required this.current});
+
+  final Appearance current;
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
+    return AlertDialog(
+      scrollable: true,
+      title: Text(l10n.settingsAppearance),
+      contentPadding: const EdgeInsets.symmetric(vertical: 8),
+      content: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          for (final appearance in Appearance.values)
+            ListTile(
+              key: ValueKey('appearance-${appearance.name}'),
+              title: Text(_appearanceLabel(l10n, appearance)),
+              selected: appearance == current,
+              trailing: appearance == current ? const Icon(Icons.check) : null,
+              onTap: () => Navigator.of(context).pop(appearance),
+            ),
+        ],
+      ),
+      actions: [
+        TextButton(
+          onPressed: () => Navigator.of(context).pop(),
+          child: Text(l10n.cancel),
+        ),
+      ],
     );
   }
 }

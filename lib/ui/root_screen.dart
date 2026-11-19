@@ -1,5 +1,6 @@
 import 'package:material_ui/material_ui.dart';
 
+import '../data/appearance.dart';
 import '../data/fycle_database.dart';
 import '../data/local_store.dart';
 import '../l10n/app_localizations.dart';
@@ -19,10 +20,19 @@ enum _Phase { opening, unreadable, ready }
 /// explanation when the stored data can no longer be read. It also keeps the
 /// app lock and the reminders of the phone in step with what is stored.
 class RootScreen extends StatefulWidget {
-  const RootScreen({super.key, required this.environment, required this.lock});
+  const RootScreen({
+    super.key,
+    required this.environment,
+    required this.lock,
+    required this.onAppearance,
+  });
 
   final AppEnvironment environment;
   final AppLock lock;
+
+  /// Called with the appearance stored on this phone, once the store is
+  /// open and after every change.
+  final ValueChanged<Appearance> onAppearance;
 
   @override
   State<RootScreen> createState() => _RootScreenState();
@@ -77,6 +87,7 @@ class _RootScreenState extends State<RootScreen> with WidgetsBindingObserver {
       return;
     }
     widget.lock.setEnabled(model.appLockEnabled);
+    widget.onAppearance(model.appearance);
     _syncReminders();
   }
 
@@ -102,6 +113,7 @@ class _RootScreenState extends State<RootScreen> with WidgetsBindingObserver {
       final model = CycleModel(store)..addListener(_onModelChanged);
       // Before the first screen is built: a locked app shows nothing.
       widget.lock.start(enabled: model.appLockEnabled);
+      widget.onAppearance(model.appearance);
       setState(() {
         _model = model;
         _onboarded = !model.isEmpty;

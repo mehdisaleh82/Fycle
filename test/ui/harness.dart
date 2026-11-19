@@ -150,14 +150,20 @@ final class Harness {
     }
   }
 
+  /// Starts the app. Without [themeMode], the appearance chosen in the
+  /// settings applies, as on a phone.
   Future<void> pumpApp({
     String locale = 'en',
-    ThemeMode themeMode = ThemeMode.light,
+    ThemeMode? themeMode,
+    TextDirection? textDirection,
   }) async {
     await tester.pumpWidget(
       FycleApp(
+        // A new launch, not an update of the running app.
+        key: UniqueKey(),
         locale: Locale(locale),
         themeMode: themeMode,
+        textDirection: textDirection,
         environment: AppEnvironment(
           openStore: openStore,
           wipeStore: () => LocalStore.wipe(directory: dir, keyStore: keyStore),
@@ -189,4 +195,88 @@ Future<void> tapVisible(WidgetTester tester, Finder finder) async {
   await tester.pumpAndSettle();
   await tester.tap(finder);
   await tester.pumpAndSettle();
+}
+
+/// From the first launch, goes through every screen and opens every dialog.
+/// A layout that overflows makes the test fail.
+Future<void> walkEveryScreen(WidgetTester tester, Harness harness) async {
+  await tapVisible(tester, find.byIcon(Icons.calendar_today));
+  await tapVisible(tester, find.byType(TextButton).last);
+  await tapVisible(tester, find.byType(FilledButton));
+
+  // Home, then the entry of the day.
+  expect(find.byType(FloatingActionButton), findsOneWidget);
+  await tapVisible(tester, find.byType(FloatingActionButton));
+  await tapVisible(tester, find.byKey(const ValueKey('flow-medium')));
+  await tapVisible(tester, find.byType(FilledButton));
+
+  // Settings and its dialogs.
+  await tapVisible(tester, find.byIcon(Icons.settings_outlined));
+  for (final icon in [
+    Icons.loop,
+    Icons.brightness_6_outlined,
+    Icons.lock_outline,
+    Icons.table_chart_outlined,
+    Icons.delete_forever,
+  ]) {
+    await tapVisible(tester, find.byIcon(icon));
+    expect(find.byType(AlertDialog), findsOneWidget);
+    await tapVisible(
+      tester,
+      find.descendant(
+        of: find.byType(AlertDialog),
+        matching: find.byType(TextButton),
+      ),
+    );
+  }
+
+  // Reminders: both switches, then their dialogs.
+  await tapVisible(tester, find.byIcon(Icons.notifications_outlined));
+  await tapVisible(tester, find.byIcon(Icons.edit_notifications_outlined));
+  await tapVisible(tester, find.byKey(const ValueKey('period-days-before')));
+  expect(find.byType(AlertDialog), findsOneWidget);
+  await tapVisible(
+    tester,
+    find.descendant(
+      of: find.byType(AlertDialog),
+      matching: find.byType(TextButton),
+    ),
+  );
+  for (final key in ['period-time', 'daily-time']) {
+    await tapVisible(tester, find.byKey(ValueKey(key)));
+    expect(find.byType(TimePickerDialog), findsOneWidget);
+    await tapVisible(
+      tester,
+      find
+          .descendant(
+            of: find.byType(TimePickerDialog),
+            matching: find.byType(TextButton),
+          )
+          .first,
+    );
+  }
+
+  // A reminder the phone refuses, then the lock on a phone without a
+  // passcode: two notices.
+  await tapVisible(tester, find.byIcon(Icons.notifications_outlined));
+  harness.reminders.allow = false;
+  await tapVisible(tester, find.byIcon(Icons.notifications_outlined));
+  expect(find.byType(AlertDialog), findsOneWidget);
+  await tapVisible(
+    tester,
+    find.descendant(
+      of: find.byType(AlertDialog),
+      matching: find.byType(TextButton),
+    ),
+  );
+  harness.deviceAuth.available = false;
+  await tapVisible(tester, find.byIcon(Icons.fingerprint));
+  expect(find.byType(AlertDialog), findsOneWidget);
+  await tapVisible(
+    tester,
+    find.descendant(
+      of: find.byType(AlertDialog),
+      matching: find.byType(TextButton),
+    ),
+  );
 }

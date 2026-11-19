@@ -533,6 +533,21 @@ class AppLocalizationsFr extends AppLocalizations {
   String get lockScreenUnlock => 'Déverrouiller';
 
   @override
+  String get settingsAppearanceSection => 'Apparence';
+
+  @override
+  String get settingsAppearance => 'Thème';
+
+  @override
+  String get appearanceLight => 'Clair';
+
+  @override
+  String get appearanceDark => 'Sombre';
+
+  @override
+  String get appearanceSystem => 'Comme le téléphone';
+
+  @override
   String get lockTurnedOff =>
       'Ce téléphone n\'a plus de code : le verrouillage de Fycle a été désactivé.';
 }

@@ -527,6 +527,21 @@ class AppLocalizationsEn extends AppLocalizations {
   String get lockScreenUnlock => 'Unlock';
 
   @override
+  String get settingsAppearanceSection => 'Appearance';
+
+  @override
+  String get settingsAppearance => 'Theme';
+
+  @override
+  String get appearanceLight => 'Light';
+
+  @override
+  String get appearanceDark => 'Dark';
+
+  @override
+  String get appearanceSystem => 'Same as the phone';
+
+  @override
   String get lockTurnedOff =>
       'This phone no longer has a passcode: the lock of Fycle was turned off.';
 }

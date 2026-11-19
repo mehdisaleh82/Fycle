@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 
+import '../data/appearance.dart';
 import '../data/local_store.dart';
 import '../domain/calendar_day.dart';
 import '../domain/day_entry.dart';
@@ -11,7 +12,7 @@ import '../domain/reminders.dart';
 
 /// What the screens show, read from the local store and recomputed after
 /// every change: the flow log, the days with any entry, the prediction, and
-/// the settings of this phone (reminders, app lock).
+/// the settings of this phone (reminders, app lock, appearance).
 class CycleModel extends ChangeNotifier {
   CycleModel(this.store) {
     _load();
@@ -25,6 +26,7 @@ class CycleModel extends ChangeNotifier {
   int? _usualCycleLength;
   ReminderSettings _reminderSettings = ReminderSettings();
   bool _appLockEnabled = false;
+  Appearance _appearance = Appearance.light;
 
   /// Flow intensity of each day with flow.
   Map<CalendarDay, FlowIntensity> get flowByDay => _flowByDay;
@@ -43,6 +45,9 @@ class CycleModel extends ChangeNotifier {
 
   /// Whether the app is locked when it opens.
   bool get appLockEnabled => _appLockEnabled;
+
+  /// Light, dark, or like the phone.
+  Appearance get appearance => _appearance;
 
   /// True until something is entered: the first-launch screen is shown.
   bool get isEmpty => _loggedDays.isEmpty && _usualCycleLength == null;
@@ -74,6 +79,11 @@ class CycleModel extends ChangeNotifier {
     reload();
   }
 
+  void setAppearance(Appearance appearance) {
+    store.database.appearance = appearance;
+    reload();
+  }
+
   /// Reads everything again, for example after an import.
   void reload() {
     _load();
@@ -87,6 +97,7 @@ class CycleModel extends ChangeNotifier {
     _usualCycleLength = database.usualCycleLength;
     _reminderSettings = database.reminderSettings;
     _appLockEnabled = database.appLockEnabled;
+    _appearance = database.appearance;
     _prediction = const PeriodPredictor().predict(
       periodStarts: periodStartsFrom(_flowByDay),
       usualCycleLength: _usualCycleLength,

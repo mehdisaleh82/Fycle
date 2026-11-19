@@ -160,5 +160,10 @@
   "lockReason": "Déverrouiller Fycle",
   "lockScreenTitle": "Fycle est verrouillée",
   "lockScreenUnlock": "Déverrouiller",
+  "settingsAppearanceSection": "Apparence",
+  "settingsAppearance": "Thème",
+  "appearanceLight": "Clair",
+  "appearanceDark": "Sombre",
+  "appearanceSystem": "Comme le téléphone",
   "lockTurnedOff": "Ce téléphone n'a plus de code : le verrouillage de Fycle a été désactivé."
 }
