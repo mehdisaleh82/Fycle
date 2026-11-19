@@ -204,6 +204,14 @@
     - En attente d'un iPhone (jalon 5) : l'arrivée réelle des notifications et leur heure, la fenêtre d'autorisation, Face ID et le code, l'aperçu réellement masqué dans le sélecteur d'applis, le comportement en voyage. La phrase d'explication de Face ID est dans `Info.plist`, en anglais seulement.
     - Non fait, faute de pouvoir compiler Android : sa configuration native (voir les questions ouvertes).
 
+## Aperçu Windows (19 novembre 2026)
+
+54. **Fenêtre Windows : un aperçu pour le développement, jamais distribué.** Le dossier `windows/` permet de lancer Fycle sur le poste de développement (`flutter run -d windows`) pour voir les écrans et essayer les fonctions. Ce n'est pas une plateforme livrée.
+    - **Prérequis** : Visual Studio avec le module « Développement Desktop en C++ » et les outils CMake. Avec Visual Studio 2019, la partie Windows de `flutter_local_notifications` ne se compile qu'avec l'option `/await`, ajoutée dans `windows/CMakeLists.txt`.
+    - **Exception à la règle 4, validée par l'utilisateur, limitée à cet aperçu.** La compilation Windows de `local_auth` télécharge `nuget.exe` (vérifié par empreinte), puis deux paquets d'outils Microsoft (`Microsoft.Windows.ImplementationLibrary`, `Microsoft.Windows.CppWinRT`), à version fixée mais sans contrôle d'empreinte. Cela ne se produit que sur le poste de développement : rien n'entre dans l'appli iPhone ou Android, et l'appli n'émet toujours aucun appel réseau.
+    - **Différences avec le téléphone** : les rappels ne s'activent pas (la passerelle ne connaît qu'iOS et Android) ; le verrouillage passe par Windows Hello s'il est configuré. Les données de l'aperçu sont rangées, chiffrées, dans `AppData\Roaming\app\fycle` : données fictives uniquement.
+    - `windows/` est exclu de l'analyse statique (code généré).
+
 ## Questions ouvertes
 
 - **Android, rappels et verrouillage** : à configurer et vérifier au jalon Android. Reprogrammation après redémarrage du téléphone (permission et récepteurs à déclarer dans le manifeste), réglage de compilation exigé par `flutter_local_notifications` (« desugaring »), activité principale à adapter pour `local_auth`, écran masqué dans les applis récentes (`FLAG_SECURE`, quelques lignes natives). Sur Android, le choix d'un fichier fait passer l'appli en arrière-plan : le verrou se redemandera au retour.
