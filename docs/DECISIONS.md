@@ -298,9 +298,25 @@ Décisions de l'utilisateur, reprises de sa note de cadrage du 19 novembre 2026.
     - Stores : déclarer « aucune donnée collectée » ; disponibilité dans tous les pays.
     - Android après Apple : compte Google Play, test fermé de 12 testeurs pendant 14 jours.
 
+80. **Plan du sprint 1, validé par l'utilisateur le 19 novembre 2026.** Un jalon par session, dans cet ordre :
+    - A. Thème : charte de la décision 77, clair et sombre, mise en page miroir.
+    - B. Démarrage en moins d'une minute, saisie en un geste, série de saisie.
+    - C. Journal de symptômes (sommeil, libido), tendances par phase, bilan de fin de cycle.
+    - D. Migraines.
+    - E. Ovulation et fenêtre de fertilité.
+    - F. Signaux « parlez-en à un médecin », périménopause.
+    - G. Mode grossesse, rappel de contraception.
+    - H. Rapport de consultation PDF (paquet envisagé : `pdf`).
+    - I. Sauvegarde manuelle, puis automatique.
+    - J. Achat unique, essai de trois cycles, pourboire (`in_app_purchase`).
+    - K. Apple Santé, Health Connect préparé (`health`).
+    - L. Widgets, icône neutre, complication de montre (`home_widget`).
+    - Chaque paquet est relu et proposé au début de son jalon (règle 4). Le total représente 12 à 14 jours de travail : au 26 novembre, les jalons A à G ou H sont réalistes ; J, K et L suivent. Les textes des jalons E, F et G restent marqués « à relire par un professionnel de santé » avant tout test externe. Rien n'est compilé pour Android pendant ce sprint.
+
+81. **Police du système et mode sombre à trois choix.** Police du système plutôt qu'Inter ou Manrope : elle couvre toutes les écritures sans fichier embarqué (règle 11). Réglage d'apparence : clair (par défaut), sombre, comme le téléphone. Précise la décision 77.
+
 ## Questions ouvertes
 
-- **Police** (décision 77) : embarquée (Inter ou Manrope, fichier dans l'appli, sans téléchargement) ou police du système ? La règle 11 demande les polices du système pour les écritures non latines. Et le mode sombre : deux choix (clair, sombre) ou trois (avec « comme le téléphone ») ?
 - **Partage partenaire et règle 2** (décision 76) : un relais, même chiffré de bout en bout, est un serveur et fait sortir des données du téléphone. L'échange direct entre téléphones (code à scanner, fichier) respecte les règles 1 et 2 ; le relais demande de les modifier. À trancher à la conception du sprint 2.
 - **Chiffrement et stores** (décisions 59 et 60) : la note de cadrage prévoit de répondre « chiffrement standard du système uniquement ». Ce n'est pas le cas de Fycle, qui embarque ses propres algorithmes standards. La décision 60 tient : déclaration à l'ANSSI avant tout test externe en France.
 - **Parité pendant les essais** (règle 10) : comprise comme une condition de publication sur les stores, pas des essais TestFlight, puisque Android ne se compile pas encore sur le poste. À confirmer.
