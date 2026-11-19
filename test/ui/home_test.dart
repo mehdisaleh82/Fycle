@@ -57,7 +57,7 @@ void main() {
       findsOneWidget,
     );
     expect(find.text('Règles dans 5 à 11 jours'), findsOneWidget);
-    expect(find.text('Jour 21 de votre cycle'), findsOneWidget);
+    expect(find.text('Jour 21 de ton cycle'), findsOneWidget);
     await openJournal(tester);
     expect(find.text('Mars 2026'), findsOneWidget);
   });

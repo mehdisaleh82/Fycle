@@ -130,13 +130,22 @@ final class Harness {
       LocalStore.open(directory: dir, keyStore: keyStore, codec: fastCodec);
 
   /// Writes made-up data before the app starts.
+  ///
+  /// By default the phone has already turned reminders on once, as an app
+  /// that was opened before: they are not turned on again when it starts.
+  /// Pass [remindersDefaultApplied] false for an app updated from a version
+  /// that left them off.
   Future<void> seed({
     Iterable<DayEntry> days = const [],
     int? usualCycleLength,
+    bool remindersDefaultApplied = true,
   }) async {
     final store = await openStore();
     days.forEach(store.database.saveDay);
     store.database.usualCycleLength = usualCycleLength;
+    if (remindersDefaultApplied) {
+      store.database.dismissSuggestion('reminders_default');
+    }
     store.close();
   }
 

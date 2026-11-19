@@ -107,7 +107,7 @@ void main() {
       expect(find.text('Cycle moyen : 28 jours'), findsOneWidget);
       expect(find.text('Crampes'), findsOneWidget);
       expect(
-        find.text('Pendant les règles, dans 2 de vos 2 derniers cycles'),
+        find.text('Pendant les règles, dans 2 de tes 2 derniers cycles'),
         findsOneWidget,
       );
       expect(find.text('Sommeil : Mauvais'), findsOneWidget);
@@ -167,10 +167,10 @@ void main() {
       );
       await harness.pumpApp(locale: 'fr');
 
-      expect(find.text('Votre dernier cycle'), findsOneWidget);
+      expect(find.text('Ton dernier cycle'), findsOneWidget);
       expect(find.text('Il a duré 31 jours.'), findsOneWidget);
       expect(
-        find.text('3 jours de plus que vos cycles précédents.'),
+        find.text('3 jours de plus que tes cycles précédents.'),
         findsOneWidget,
       );
       expect(find.textContaining('Le plus noté'), findsNothing);

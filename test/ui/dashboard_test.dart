@@ -329,10 +329,7 @@ void main() {
       await harness.pumpApp(locale: 'fr');
       await openReview(tester);
 
-      expect(
-        find.text('Plus vous saisissez, plus vous en voyez'),
-        findsOneWidget,
-      );
+      expect(find.text('Plus tu saisis, plus tu en vois'), findsOneWidget);
       expect(textOf(tester, 'unlock-overall'), '3 sur 4 disponibles');
       expect(within('unlock-trends', 'Disponible'), findsOneWidget);
       expect(
@@ -389,7 +386,7 @@ void main() {
       expect(
         within(
           'cycle-report',
-          'Saisissez le premier jour de vos règles pour commencer votre '
+          'Saisis le premier jour de tes règles pour commencer ton '
               'bilan.',
         ),
         findsOneWidget,
@@ -430,6 +427,83 @@ void main() {
       expect(settings.dailyEnabled, isFalse);
       expect(find.byType(AlertDialog), findsNothing);
       expect(find.byKey(const ValueKey('suggest-reminders')), findsOneWidget);
+    });
+  });
+
+  group('reminders by default', () {
+    testWidgets('an app set up before gets them at its next opening', (
+      tester,
+    ) async {
+      final harness = Harness(tester);
+      await harness.seed(days: threePeriods(), remindersDefaultApplied: false);
+      await harness.pumpApp();
+
+      expect(harness.reminders.permissionRequests, 1);
+      final settings = await harness.read(
+        (store) => store.database.reminderSettings,
+      );
+      expect(settings.periodEnabled, isTrue);
+      expect(settings.dailyEnabled, isTrue);
+      expect(harness.reminders.scheduled, isNotEmpty);
+    });
+
+    testWidgets('once only: turned off afterwards, they stay off', (
+      tester,
+    ) async {
+      final harness = Harness(tester);
+      await harness.seed(days: threePeriods(), remindersDefaultApplied: false);
+      await harness.pumpApp();
+      await harness.read(
+        (store) => store.database.reminderSettings = store
+            .database
+            .reminderSettings
+            .copyWith(periodEnabled: false, dailyEnabled: false),
+      );
+
+      await harness.pumpApp();
+      expect(harness.reminders.permissionRequests, 1);
+      final settings = await harness.read(
+        (store) => store.database.reminderSettings,
+      );
+      expect(settings.periodEnabled, isFalse);
+      expect(settings.dailyEnabled, isFalse);
+    });
+
+    testWidgets('a phone that refuses is asked once, then left alone', (
+      tester,
+    ) async {
+      final harness = Harness(tester);
+      harness.reminders.allow = false;
+      await harness.seed(days: threePeriods(), remindersDefaultApplied: false);
+      await harness.pumpApp();
+      await harness.pumpApp();
+
+      expect(harness.reminders.permissionRequests, 1);
+      expect(find.byType(AlertDialog), findsNothing);
+      expect(
+        (await harness.read((store) => store.database.reminderSettings))
+            .dailyEnabled,
+        isFalse,
+      );
+    });
+
+    testWidgets('a choice already made is not touched', (tester) async {
+      final harness = Harness(tester);
+      await harness.seed(days: threePeriods(), remindersDefaultApplied: false);
+      await harness.read(
+        (store) => store.database.reminderSettings = store
+            .database
+            .reminderSettings
+            .copyWith(dailyEnabled: true),
+      );
+      await harness.pumpApp();
+
+      expect(harness.reminders.permissionRequests, 0);
+      final settings = await harness.read(
+        (store) => store.database.reminderSettings,
+      );
+      expect(settings.periodEnabled, isFalse);
+      expect(settings.dailyEnabled, isTrue);
     });
   });
 

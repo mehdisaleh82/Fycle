@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:material_ui/material_ui.dart';
 
 import '../data/appearance.dart';
@@ -14,6 +16,10 @@ import 'onboarding_screen.dart';
 import 'reminder_sync.dart';
 
 enum _Phase { opening, unreadable, ready }
+
+/// Name under which the phone remembers that reminders were turned on by
+/// default once.
+const String _reminderDefault = 'reminders_default';
 
 /// Opens the local store, then shows the right screen: the first-launch
 /// screen until it is passed, the home screen afterwards, or an
@@ -121,6 +127,10 @@ class _RootScreenState extends State<RootScreen> with WidgetsBindingObserver {
         _phase = _Phase.ready;
       });
       _syncReminders();
+      if (_onboarded) {
+        // An app set up before reminders were on by default.
+        unawaited(_applyReminderDefault(model));
+      }
     } on LocalStoreUnreadableException {
       _showUnreadable();
     } on DatabaseUnreadableException {
@@ -187,10 +197,21 @@ class _RootScreenState extends State<RootScreen> with WidgetsBindingObserver {
     }
   }
 
-  /// At the end of the first launch, both reminders are turned on if the
-  /// phone allows notifications. A refusal leaves them off, without a
-  /// word: the home tab offers them again once.
-  Future<void> _turnRemindersOn(CycleModel model) async {
+  /// Reminders are on by default: once per phone, both are turned on if the
+  /// phone allows notifications. This happens at the end of the first
+  /// launch, or at the first opening after an update for an app set up
+  /// before. A refusal leaves them off, without a word: the home tab offers
+  /// them again once. Whatever the user chooses afterwards is kept.
+  Future<void> _applyReminderDefault(CycleModel model) async {
+    if (model.suggestionDismissed(_reminderDefault)) {
+      return;
+    }
+    model.dismissSuggestion(_reminderDefault);
+    final current = model.reminderSettings;
+    if (current.periodEnabled || current.dailyEnabled) {
+      // She already chose.
+      return;
+    }
     bool allowed;
     try {
       allowed = await widget.environment.reminders.requestPermission();
@@ -230,7 +251,7 @@ class _RootScreenState extends State<RootScreen> with WidgetsBindingObserver {
         onDone: () {
           model.completeOnboarding();
           setState(() => _onboarded = true);
-          _turnRemindersOn(model);
+          _applyReminderDefault(model);
         },
         onRestore: () => _restore(model),
       );

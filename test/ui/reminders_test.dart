@@ -246,8 +246,8 @@ void main() {
     expect(find.text('09:00'), findsOneWidget);
     final bodies = {for (final r in harness.reminders.scheduled) r.body};
     expect(bodies, {
-      "Un coup d'œil à votre calendrier ?",
-      'Un moment pour noter votre journée ?',
+      "Un coup d'œil à ton calendrier ?",
+      'Un moment pour noter ta journée ?',
     });
   });
 

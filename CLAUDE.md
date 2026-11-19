@@ -44,6 +44,7 @@ Avant toute tâche, lire `docs/SPEC.md` (périmètre et jalons) et `docs/DECISIO
 - Code, identifiants et commentaires en anglais.
 - Textes de l'interface en anglais et en français, dans des fichiers de localisation, jamais en dur dans le code. L'architecture doit accueillir d'autres langues sans retouche du code (règle 11).
 - Mise en page avec les variantes « start / end » plutôt que « left / right », pour le sens d'écriture.
+- En français, l'appli tutoie toujours l'utilisatrice : jamais de « vous », « votre » ou « vos » dans les textes de l'interface.
 - La logique métier (prédiction, statistiques) est écrite en Dart pur, sans dépendance à l'interface, et couverte par des tests.
 - Petits commits, un sujet par commit, message en anglais.
 

@@ -184,7 +184,7 @@ void main() {
       expect(find.text('Rapport pour le médecin'), findsOneWidget);
       expect(
         textOf(tester, 'doctor-report-intro'),
-        'Établi le 20 mars 2026 à partir de vos saisies. Il décrit et '
+        'Établi le 20 mars 2026 à partir de tes saisies. Il décrit et '
         "compare ; ce n'est pas un diagnostic.",
       );
       expect(find.text('Âge : 36 ans'), findsOneWidget);
@@ -245,10 +245,7 @@ void main() {
       await tester.enterText(dialogField(), '2024');
       await tapVisible(tester, find.text('Enregistrer'));
 
-      expect(
-        find.text('Saisissez une année entre 1956 et 2016.'),
-        findsOneWidget,
-      );
+      expect(find.text('Saisis une année entre 1956 et 2016.'), findsOneWidget);
       expect(await harness.read((store) => store.database.birthYear), isNull);
     });
 

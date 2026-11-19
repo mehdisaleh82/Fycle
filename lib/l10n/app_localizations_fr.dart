@@ -42,7 +42,7 @@ class AppLocalizationsFr extends AppLocalizations {
   String get openingLabel => 'Ouverture';
 
   @override
-  String get unreadableTitle => 'Vos données sont illisibles';
+  String get unreadableTitle => 'Tes données sont illisibles';
 
   @override
   String get unreadableBody =>
@@ -69,18 +69,18 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get onboardingLastPeriodQuestion =>
-      'Quand vos dernières règles ont-elles commencé ?';
+      'Quand tes dernières règles ont-elles commencé ?';
 
   @override
   String get onboardingLastPeriodHint =>
-      'Une date approximative suffit. Vous pourrez la corriger plus tard.';
+      'Une date approximative suffit. Tu pourras la corriger plus tard.';
 
   @override
   String get onboardingChooseDate => 'Choisir une date';
 
   @override
   String get onboardingCycleLengthQuestion =>
-      'Combien de temps dure votre cycle d\'habitude ?';
+      'Combien de temps dure ton cycle d\'habitude ?';
 
   @override
   String get onboardingStart => 'Commencer';
@@ -102,11 +102,11 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get cycleLengthHelper =>
-      'Du premier jour des règles au premier jour des suivantes. Laissez vide si vous ne savez pas.';
+      'Du premier jour des règles au premier jour des suivantes. Laisse vide si tu ne sais pas.';
 
   @override
   String cycleLengthError(int min, int max) {
-    return 'Saisissez un nombre entre $min et $max.';
+    return 'Saisis un nombre entre $min et $max.';
   }
 
   @override
@@ -137,11 +137,11 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get statusNoDataBody =>
-      'Saisissez le premier jour de vos règles pour obtenir une estimation.';
+      'Saisis le premier jour de tes règles pour obtenir une estimation.';
 
   @override
   String statusOngoing(int day) {
-    return 'Jour $day de vos règles';
+    return 'Jour $day de tes règles';
   }
 
   @override
@@ -188,27 +188,27 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get statusOutdatedBody =>
-      'Saisissez vos règles pour obtenir une nouvelle estimation.';
+      'Saisis tes règles pour obtenir une nouvelle estimation.';
 
   @override
   String estimateBasisCycles(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: 'Estimation fondée sur vos $count derniers cycles.',
-      one: 'Estimation fondée sur votre dernier cycle.',
+      other: 'Estimation fondée sur tes $count derniers cycles.',
+      one: 'Estimation fondée sur ton dernier cycle.',
     );
     return '$_temp0';
   }
 
   @override
   String estimateBasisDeclared(int days) {
-    return 'Estimation fondée sur la durée habituelle indiquée ($days jours). Elle s\'ajustera au fil de vos saisies.';
+    return 'Estimation fondée sur la durée habituelle indiquée ($days jours). Elle s\'ajustera au fil de tes saisies.';
   }
 
   @override
   String estimateBasisDefault(int days) {
-    return 'Estimation fondée sur un cycle de $days jours. Elle s\'ajustera au fil de vos saisies.';
+    return 'Estimation fondée sur un cycle de $days jours. Elle s\'ajustera au fil de tes saisies.';
   }
 
   @override
@@ -290,7 +290,7 @@ class AppLocalizationsFr extends AppLocalizations {
   String get dayNoteLabel => 'Note';
 
   @override
-  String get dayNoteHint => 'Ce que vous voulez retenir';
+  String get dayNoteHint => 'Ce que tu veux retenir';
 
   @override
   String get daySavedHint =>
@@ -383,14 +383,14 @@ class AppLocalizationsFr extends AppLocalizations {
   String get settingsCycleLengthUnknown => 'Non renseignée';
 
   @override
-  String get settingsDataSection => 'Vos données';
+  String get settingsDataSection => 'Tes données';
 
   @override
   String get settingsExport => 'Enregistrer une sauvegarde chiffrée';
 
   @override
   String get settingsExportSubtitle =>
-      'Un fichier protégé par un mot de passe, à ranger où vous voulez.';
+      'Un fichier protégé par un mot de passe, à ranger où tu veux.';
 
   @override
   String get settingsImport => 'Restaurer une sauvegarde';
@@ -410,7 +410,7 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get settingsDeleteSubtitle =>
-      'Efface toutes vos données de ce téléphone.';
+      'Efface toutes tes données de ce téléphone.';
 
   @override
   String get settingsAboutSection => 'À propos';
@@ -420,13 +420,13 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get exportWarning =>
-      'Si vous oubliez ce mot de passe, personne ne pourra ouvrir le fichier, jamais. Il n\'existe aucun moyen de le récupérer. Notez-le en lieu sûr.';
+      'Si tu oublies ce mot de passe, personne ne pourra ouvrir le fichier, jamais. Il n\'existe aucun moyen de le récupérer. Note-le en lieu sûr.';
 
   @override
   String get passwordLabel => 'Mot de passe';
 
   @override
-  String get passwordConfirmLabel => 'Répétez le mot de passe';
+  String get passwordConfirmLabel => 'Répète le mot de passe';
 
   @override
   String passwordTooShort(int min) {
@@ -467,7 +467,7 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get importErrorVersion =>
-      'Cette sauvegarde vient d\'une version plus récente de Fycle. Mettez l\'appli à jour, puis réessayez.';
+      'Cette sauvegarde vient d\'une version plus récente de Fycle. Mets l\'appli à jour, puis réessaie.';
 
   @override
   String get importErrorWrong =>
@@ -478,7 +478,7 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get csvWarningBody =>
-      'Ce fichier n\'est pas chiffré : toute personne qui l\'obtient peut le lire. Rangez-le dans un endroit de confiance.';
+      'Ce fichier n\'est pas chiffré : toute personne qui l\'obtient peut le lire. Range-le dans un endroit de confiance.';
 
   @override
   String get csvAction => 'Exporter';
@@ -494,7 +494,7 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get deleteBody =>
-      'Toutes vos données seront effacées de ce téléphone, définitivement. Pour en garder une copie, enregistrez d\'abord une sauvegarde.';
+      'Toutes tes données seront effacées de ce téléphone, définitivement. Pour en garder une copie, enregistre d\'abord une sauvegarde.';
 
   @override
   String get deleteAction => 'Tout supprimer';
@@ -538,20 +538,20 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get reminderDiscreetNote =>
-      'Les notifications restent discrètes : elles ne mentionnent jamais votre cycle. Elles sont programmées sur ce téléphone, sans aucun serveur.';
+      'Les notifications restent discrètes : elles ne mentionnent jamais ton cycle. Elles sont programmées sur ce téléphone, sans aucun serveur.';
 
   @override
   String get reminderPermissionTitle => 'Notifications désactivées';
 
   @override
   String get reminderPermissionBody =>
-      'Fycle n\'est pas autorisée à afficher des notifications. Vous pouvez les autoriser dans les réglages de votre téléphone, puis activer ce rappel.';
+      'Fycle n\'est pas autorisée à afficher des notifications. Tu peux les autoriser dans les réglages de ton téléphone, puis activer ce rappel.';
 
   @override
-  String get notificationPeriodBody => 'Un coup d\'œil à votre calendrier ?';
+  String get notificationPeriodBody => 'Un coup d\'œil à ton calendrier ?';
 
   @override
-  String get notificationDailyBody => 'Un moment pour noter votre journée ?';
+  String get notificationDailyBody => 'Un moment pour noter ta journée ?';
 
   @override
   String get notificationChannelName => 'Rappels';
@@ -571,7 +571,7 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get lockUnavailableBody =>
-      'Fycle s\'appuie sur le verrouillage de votre téléphone. Définissez d\'abord un code dans les réglages du téléphone.';
+      'Fycle s\'appuie sur le verrouillage de ton téléphone. Définis d\'abord un code dans les réglages du téléphone.';
 
   @override
   String get lockReason => 'Déverrouiller Fycle';
@@ -601,7 +601,7 @@ class AppLocalizationsFr extends AppLocalizations {
   String get insightsTitle => 'Bilan';
 
   @override
-  String get insightsCyclesTitle => 'Vos cycles';
+  String get insightsCyclesTitle => 'Tes cycles';
 
   @override
   String insightsAverageCycle(String days) {
@@ -618,8 +618,8 @@ class AppLocalizationsFr extends AppLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: 'Calculé sur vos $count derniers cycles complets.',
-      one: 'Calculé sur votre dernier cycle complet.',
+      other: 'Calculé sur tes $count derniers cycles complets.',
+      one: 'Calculé sur ton dernier cycle complet.',
     );
     return '$_temp0';
   }
@@ -637,21 +637,21 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get insightsTrendsNote =>
-      'Ces lignes comptent ce que vous avez noté. Ce sont des observations, pas une interprétation médicale.';
+      'Ces lignes comptent ce que tu as noté. Ce sont des observations, pas une interprétation médicale.';
 
   @override
   String trendDuringPeriod(int count, int total) {
-    return 'Pendant les règles, dans $count de vos $total derniers cycles';
+    return 'Pendant les règles, dans $count de tes $total derniers cycles';
   }
 
   @override
   String trendBeforePeriod(int count, int total) {
-    return 'La semaine avant les règles, dans $count de vos $total derniers cycles';
+    return 'La semaine avant les règles, dans $count de tes $total derniers cycles';
   }
 
   @override
   String trendRest(int count, int total) {
-    return 'Le reste du cycle, dans $count de vos $total derniers cycles';
+    return 'Le reste du cycle, dans $count de tes $total derniers cycles';
   }
 
   @override
@@ -691,7 +691,7 @@ class AppLocalizationsFr extends AppLocalizations {
       'Durée inhabituelle, non comptée dans les moyennes.';
 
   @override
-  String get summaryTitle => 'Votre dernier cycle';
+  String get summaryTitle => 'Ton dernier cycle';
 
   @override
   String summaryLength(int days) {
@@ -703,8 +703,8 @@ class AppLocalizationsFr extends AppLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       days,
       locale: localeName,
-      other: '$days jours de plus que vos cycles précédents.',
-      one: '1 jour de plus que vos cycles précédents.',
+      other: '$days jours de plus que tes cycles précédents.',
+      one: '1 jour de plus que tes cycles précédents.',
     );
     return '$_temp0';
   }
@@ -714,14 +714,14 @@ class AppLocalizationsFr extends AppLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       days,
       locale: localeName,
-      other: '$days jours de moins que vos cycles précédents.',
-      one: '1 jour de moins que vos cycles précédents.',
+      other: '$days jours de moins que tes cycles précédents.',
+      one: '1 jour de moins que tes cycles précédents.',
     );
     return '$_temp0';
   }
 
   @override
-  String get summarySame => 'Comme vos cycles précédents.';
+  String get summarySame => 'Comme tes cycles précédents.';
 
   @override
   String summaryMostLogged(String symptoms) {
@@ -749,7 +749,7 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get fertilityWarning =>
-      'Cette estimation est calculée à partir des dates de vos règles uniquement. Ce n\'est ni une méthode de contraception ni un diagnostic. Elle ne permet pas de savoir quels jours sont sans risque : l\'ovulation peut tomber en dehors des jours affichés.';
+      'Cette estimation est calculée à partir des dates de tes règles uniquement. Ce n\'est ni une méthode de contraception ni un diagnostic. Elle ne permet pas de savoir quels jours sont sans risque : l\'ovulation peut tomber en dehors des jours affichés.';
 
   @override
   String get fertilityTurnOn => 'Activer';
@@ -769,7 +769,7 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get fertilityLowConfidence =>
-      'Vos cycles varient beaucoup : cette estimation est peu fiable.';
+      'Tes cycles varient beaucoup : cette estimation est peu fiable.';
 
   @override
   String get fertilityNotEnough =>
@@ -780,7 +780,7 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get fertilityHowBody =>
-      'Fycle part de l\'estimation de vos prochaines règles et remonte d\'environ 13 jours, avec 3 jours de marge de chaque côté, pour situer l\'ovulation. La fenêtre couvre les 5 jours qui précèdent et le jour qui suit. Les cycles diffèrent d\'une personne à l\'autre et d\'un mois à l\'autre : ce sont des moyennes, pas des mesures de votre corps.';
+      'Fycle part de l\'estimation de tes prochaines règles et remonte d\'environ 13 jours, avec 3 jours de marge de chaque côté, pour situer l\'ovulation. La fenêtre couvre les 5 jours qui précèdent et le jour qui suit. Les cycles diffèrent d\'une personne à l\'autre et d\'un mois à l\'autre : ce sont des moyennes, pas des mesures de ton corps.';
 
   @override
   String get legendFertile => 'Fenêtre de fertilité (estimation)';
@@ -805,7 +805,7 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String cycleDaySemantics(int day) {
-    return 'Jour $day de votre cycle';
+    return 'Jour $day de ton cycle';
   }
 
   @override
@@ -829,7 +829,7 @@ class AppLocalizationsFr extends AppLocalizations {
   String get countdownDue => 'Règles attendues ces jours-ci';
 
   @override
-  String get figuresTitle => 'Vos chiffres';
+  String get figuresTitle => 'Tes chiffres';
 
   @override
   String get figureCycle => 'Cycle';
@@ -855,10 +855,10 @@ class AppLocalizationsFr extends AppLocalizations {
   String get figureUnknown => '–';
 
   @override
-  String get sourceLogged => 'd\'après vos saisies';
+  String get sourceLogged => 'd\'après tes saisies';
 
   @override
-  String get sourceDeclared => 'indiqué par vous';
+  String get sourceDeclared => 'indiqué par toi';
 
   @override
   String get sourceAssumed => 'estimation pour l\'instant';
@@ -883,21 +883,21 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String usualLine(String sign, int count, int total) {
-    return '$sign : dans $count de vos $total derniers cycles';
+    return '$sign : dans $count de tes $total derniers cycles';
   }
 
   @override
-  String get unlockTitle => 'Plus vous saisissez, plus vous en voyez';
+  String get unlockTitle => 'Plus tu saisis, plus tu en vois';
 
   @override
   String get unlockIntro =>
-      'Fycle calcule tout à partir de ce que vous notez. Chaque saisie rend vos chiffres plus justes.';
+      'Fycle calcule tout à partir de ce que tu notes. Chaque saisie rend tes chiffres plus justes.';
 
   @override
-  String get unlockEstimate => 'Estimation de vos prochaines règles';
+  String get unlockEstimate => 'Estimation de tes prochaines règles';
 
   @override
-  String get unlockEstimateNeed => 'Dès vos premières règles saisies';
+  String get unlockEstimateNeed => 'Dès tes premières règles saisies';
 
   @override
   String get unlockAverages => 'Durées moyennes du cycle et des règles';
@@ -946,7 +946,7 @@ class AppLocalizationsFr extends AppLocalizations {
   }
 
   @override
-  String get calendarHint => 'Touchez un jour pour le saisir ou le corriger.';
+  String get calendarHint => 'Touche un jour pour le saisir ou le corriger.';
 
   @override
   String get reportTitle => 'Ce cycle';
@@ -1003,25 +1003,25 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get reportEmpty =>
-      'Saisissez le premier jour de vos règles pour commencer votre bilan.';
+      'Saisis le premier jour de tes règles pour commencer ton bilan.';
 
   @override
   String get onboardingIntro1 =>
-      'Notez vos règles et ce que vous ressentez, en quelques appuis.';
+      'Note tes règles et ce que tu ressens, en quelques appuis.';
 
   @override
   String get onboardingIntro2 =>
-      'Voyez vos chiffres : jour du cycle, estimation des prochaines règles, ce qui revient.';
+      'Vois tes chiffres : jour du cycle, estimation des prochaines règles, ce qui revient.';
 
   @override
-  String get onboardingIntro3 => 'Plus vous saisissez, plus c\'est juste.';
+  String get onboardingIntro3 => 'Plus tu saisis, plus c\'est juste.';
 
   @override
   String get onboardingEarlierTitle => 'Règles précédentes (facultatif)';
 
   @override
   String get onboardingEarlierHint =>
-      'Ajoutez le premier jour d\'une ou deux règles précédentes : vos moyennes et vos tendances arrivent plus vite.';
+      'Ajoute le premier jour d\'une ou deux règles précédentes : tes moyennes et tes tendances arrivent plus vite.';
 
   @override
   String get onboardingAddEarlier => 'Ajouter des règles précédentes';
@@ -1036,7 +1036,7 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get suggestFertilityBody =>
-      'Une estimation de votre fenêtre de fertilité, calculée sur le calendrier et toujours donnée en fourchette.';
+      'Une estimation de ta fenêtre de fertilité, calculée sur le calendrier et toujours donnée en fourchette.';
 
   @override
   String get suggestReminderTitle => 'Un rappel quotidien pour saisir ?';
@@ -1052,32 +1052,30 @@ class AppLocalizationsFr extends AppLocalizations {
   String get tabJournal => 'Journal';
 
   @override
-  String get tabHomeHint => 'Vos chiffres du jour et la saisie rapide.';
+  String get tabHomeHint => 'Tes chiffres du jour et la saisie rapide.';
 
   @override
-  String get tabJournalHint =>
-      'Votre calendrier et vos pages, jour après jour.';
+  String get tabJournalHint => 'Ton calendrier et tes pages, jour après jour.';
 
   @override
-  String get tabReviewHint =>
-      'Vos moyennes, ce qui revient et votre historique.';
+  String get tabReviewHint => 'Tes moyennes, ce qui revient et ton historique.';
 
   @override
   String get tabSettingsHint =>
-      'Rappels, confidentialité, sauvegarde et vos données.';
+      'Rappels, confidentialité, sauvegarde et tes données.';
 
   @override
-  String get journalPagesTitle => 'Vos dernières pages';
+  String get journalPagesTitle => 'Tes dernières pages';
 
   @override
   String get journalEmpty =>
-      'Rien d\'écrit pour l\'instant. Votre première page commence aujourd\'hui.';
+      'Rien d\'écrit pour l\'instant. Ta première page commence aujourd\'hui.';
 
   @override
   String get journalWriteToday => 'Écrire la page d\'aujourd\'hui';
 
   @override
-  String get todayNoteTitle => 'Votre note';
+  String get todayNoteTitle => 'Ta note';
 
   @override
   String get suggestLockTitle => 'Verrouiller Fycle par Face ID ou par code ?';
@@ -1095,7 +1093,7 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get homeReassurance =>
-      'Votre journal est privé. Il reste sur ce téléphone, et personne d\'autre ne peut le lire.';
+      'Ton journal est privé. Il reste sur ce téléphone, et personne d\'autre ne peut le lire.';
 
   @override
   String figureReference(int days) {
@@ -1104,7 +1102,7 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String referenceLine(int cycle, int period) {
-    return 'Affiché pour l\'instant : un cycle de repère de $cycle jours, avec des règles de $period jours. Vos propres dates le remplaceront.';
+    return 'Affiché pour l\'instant : un cycle de repère de $cycle jours, avec des règles de $period jours. Tes propres dates le remplaceront.';
   }
 
   @override
@@ -1143,7 +1141,7 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String youMeanCycle(String days) {
-    return 'Votre cycle moyen : $days jours.';
+    return 'Ton cycle moyen : $days jours.';
   }
 
   @override
@@ -1152,9 +1150,9 @@ class AppLocalizationsFr extends AppLocalizations {
       days,
       locale: localeName,
       other:
-          'Chez vous : $days jours d\'écart entre votre cycle le plus court et le plus long.',
-      one: 'Chez vous : 1 jour d\'écart entre votre cycle le plus court et le plus long.',
-      zero: 'Chez vous : vos cycles ont tous eu la même durée.',
+          'Chez toi : $days jours d\'écart entre ton cycle le plus court et le plus long.',
+      one: 'Chez toi : 1 jour d\'écart entre ton cycle le plus court et le plus long.',
+      zero: 'Chez toi : tes cycles ont tous eu la même durée.',
     );
     return '$_temp0';
   }
@@ -1166,7 +1164,7 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get youAgeUnknown =>
-      'Indiquez votre année de naissance dans les réglages pour partir d\'un repère plus proche de votre âge.';
+      'Indique ton année de naissance dans les réglages pour partir d\'un repère plus proche de ton âge.';
 
   @override
   String youFollicular(int min, int max) {
@@ -1175,23 +1173,23 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String youWindow(String start, String end) {
-    return 'Votre fenêtre estimée : du $start au $end.';
+    return 'Ta fenêtre estimée : du $start au $end.';
   }
 
   @override
   String youFigo(String cycle, String period) {
-    return 'Votre cycle : $cycle jours. Vos règles : $period jours.';
+    return 'Ton cycle : $cycle jours. Tes règles : $period jours.';
   }
 
   @override
-  String get youNotYet => 'Saisissez deux débuts de règles pour vous situer.';
+  String get youNotYet => 'Saisis deux débuts de règles pour te situer.';
 
   @override
   String get sourcesTitle => 'Sources';
 
   @override
   String get sourcesIntro =>
-      'Les chiffres de repère viennent de ces études publiées. Elles décrivent des groupes de femmes, pas vous : vos propres saisies prennent toujours le dessus.';
+      'Les chiffres de repère viennent de ces études publiées. Elles décrivent des groupes de femmes, pas toi : tes propres saisies prennent toujours le dessus.';
 
   @override
   String get sourceBull2019 =>
@@ -1214,7 +1212,7 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get clinicalIntro =>
-      'Votre journal, lu avec les quatre paramètres utilisés par les gynécologues.';
+      'Ton journal, lu avec les quatre paramètres utilisés par les gynécologues.';
 
   @override
   String clinicalBasis(int count) {
@@ -1229,7 +1227,7 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get clinicalEmpty =>
-      'Vos propres chiffres arrivent dès qu\'un premier cycle est terminé.';
+      'Tes propres chiffres arrivent dès qu\'un premier cycle est terminé.';
 
   @override
   String get clinicalFrequency => 'Fréquence';
@@ -1281,13 +1279,13 @@ class AppLocalizationsFr extends AppLocalizations {
   String get clinicalVolume => 'Abondance';
 
   @override
-  String get clinicalVolumeLight => 'Légère, d\'après vos saisies';
+  String get clinicalVolumeLight => 'Légère, d\'après tes saisies';
 
   @override
-  String get clinicalVolumeModerate => 'Moyenne, d\'après vos saisies';
+  String get clinicalVolumeModerate => 'Moyenne, d\'après tes saisies';
 
   @override
-  String get clinicalVolumeHeavy => 'Abondante, d\'après vos saisies';
+  String get clinicalVolumeHeavy => 'Abondante, d\'après tes saisies';
 
   @override
   String get clinicalPhases => 'Les deux parties du cycle (estimation)';
@@ -1330,18 +1328,18 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get birthYearHelper =>
-      'Sert à partir d\'un cycle de repère plus proche de votre âge. Elle reste sur ce téléphone.';
+      'Sert à partir d\'un cycle de repère plus proche de ton âge. Elle reste sur ce téléphone.';
 
   @override
   String birthYearError(int min, int max) {
-    return 'Saisissez une année entre $min et $max.';
+    return 'Saisis une année entre $min et $max.';
   }
 
   @override
   String get settingsBirthYear => 'Année de naissance';
 
   @override
-  String get sourceAssumedAge => 'repère pour votre âge, à ajuster';
+  String get sourceAssumedAge => 'repère pour ton âge, à ajuster';
 
   @override
   String get settingsBirthYearUnknown => 'Non indiquée';
@@ -1351,7 +1349,7 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String doctorReportIntro(String date) {
-    return 'Établi le $date à partir de vos saisies. Il décrit et compare ; ce n\'est pas un diagnostic.';
+    return 'Établi le $date à partir de tes saisies. Il décrit et compare ; ce n\'est pas un diagnostic.';
   }
 
   @override
@@ -1360,7 +1358,7 @@ class AppLocalizationsFr extends AppLocalizations {
   }
 
   @override
-  String get clinicalToFill => 'Votre chiffre remplacera cette ligne';
+  String get clinicalToFill => 'Ton chiffre remplacera cette ligne';
 
   @override
   String get clinicalRegularityRefAny =>
