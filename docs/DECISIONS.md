@@ -345,6 +345,31 @@ Décisions de l'utilisateur, reprises de sa note de cadrage du 19 novembre 2026.
 
 85. **Ce qui est vérifié, et où (jalon A).** Sous Windows : contraste, zones tactiles et grand texte en clair et en sombre avec la nouvelle palette ; le réglage d'apparence (défaut, choix, relance, suppression, export) ; la mise en page miroir. En attente de l'iPhone : le rendu réel des couleurs sur l'écran du téléphone, la police du système d'iOS, VoiceOver, l'éclair clair éventuel au lancement en mode sombre.
 
+## Décisions du jalon B du sprint 1 (19 novembre 2026)
+
+Plan validé par l'utilisateur le 19 novembre 2026, y compris l'ordre de la suite (décision 89).
+
+86. **Démarrage en moins d'une minute** (`lib/ui/onboarding_screen.dart`). Complète la décision 34.
+    - **Deux raccourcis, « Aujourd'hui » et « Hier »**, à côté du choix de date : un appui suffit dans le cas le plus courant.
+    - **L'estimation s'affiche sur l'écran de démarrage dès qu'une date est choisie**, avant « Commencer », et suit la durée habituelle à mesure qu'elle est tapée. Toujours une fourchette, avec ce sur quoi elle se fonde. Rien n'est enregistré avant « Commencer ». Si la date est si ancienne que la fourchette est déjà passée, rien n'est affiché.
+    - **« Je ne sais plus »** : l'appli s'ouvre sans date, sur « Pas encore d'estimation ». Ferme la question ouverte « démarrage sans date ».
+    - **Le passage du démarrage est mémorisé** dans `device_setting` (nom `onboarding_done`, décision 50), avec ou sans réponse : hors export, effacé par « Tout supprimer ». Conséquence : effacer sa seule saisie ne ramène plus à l'écran de démarrage.
+    - **« Commencer » est fixé en bas de l'écran**, au-dessus du clavier, quelle que soit la longueur de la page.
+    - La carte d'estimation de cet écran est en ambre : c'est le même rôle que la carte d'estimation de l'accueil (décision 82), pas un quatrième usage.
+
+87. **Saisie en un geste** (`lib/ui/today_card.dart`). Sur l'accueil, une carte « Règles aujourd'hui » avec les quatre intensités : un appui enregistre, un second appui annule, le reste de la saisie du jour (douleur, humeur, symptômes, note) est conservé. Complète la décision 34 : le panneau de saisie et son bouton restent pour le détail.
+    - **Retour tactile** : un léger « tic » (`HapticFeedback.selectionClick`, fourni par Flutter, aucun paquet ajouté). Il suit le réglage du téléphone ; aucun réglage dans Fycle.
+    - La carte ne propose que les règles : c'est la saisie qui nourrit l'estimation. Douleur, humeur et symptômes en un geste pourront venir avec le journal du jalon C.
+
+88. **Série de saisie discrète** (`lib/domain/logging_streak.dart`, Dart pur). Nombre de jours de suite avec une saisie, quelle qu'elle soit.
+    - Un jour pas encore saisi n'interrompt pas la série avant d'être fini : le compte repart de la veille.
+    - Affichée à partir de 2 jours, en petit, sous la carte « Règles aujourd'hui » : « Saisie 5 jours de suite ».
+    - Règle 13 : un simple constat. Ni félicitation, ni palier, ni notification, et rien ne s'affiche quand la série s'interrompt.
+
+89. **Ordre de la suite du sprint 1**, validé par l'utilisateur : C (journal de symptômes, tendances, bilan), puis **E (ovulation et fenêtre de fertilité) avant D (migraines)**, puis F, G, H, I, J, K, L. Modifie l'ordre de la décision 80. Raison : mettre en premier ce que les testeuses attendent le plus. Tant que le jalon J (achat) n'est pas fait, tout est débloqué pour elles.
+
+90. **Ce qui est vérifié, et où (jalon B).** Sous Windows : le calcul de la série ; les parcours du démarrage (raccourcis, estimation immédiate, passage sans date, relance) et de la carte « Règles aujourd'hui » (enregistrement, annulation, retour tactile demandé, saisie du jour conservée), en anglais et en français ; grand texte et mise en page miroir par les parcours existants. Rendu contrôlé sur des captures du moteur de test, en clair et en sombre. En attente de l'iPhone : le retour tactile réel, la place prise par la carte sur l'accueil (le calendrier descend d'autant), le clavier sur l'écran de démarrage.
+
 ## Questions ouvertes
 
 - **Partage partenaire et règle 2** (décision 76) : un relais, même chiffré de bout en bout, est un serveur et fait sortir des données du téléphone. L'échange direct entre téléphones (code à scanner, fichier) respecte les règles 1 et 2 ; le relais demande de les modifier. À trancher à la conception du sprint 2.
@@ -365,7 +390,6 @@ Décisions de l'utilisateur, reprises de sa note de cadrage du 19 novembre 2026.
 
 - **Android, rappels et verrouillage** : à configurer et vérifier au jalon Android. Reprogrammation après redémarrage du téléphone (permission et récepteurs à déclarer dans le manifeste), réglage de compilation exigé par `flutter_local_notifications` (« desugaring »), activité principale à adapter pour `local_auth`, écran masqué dans les applis récentes (`FLAG_SECURE`, quelques lignes natives). Sur Android, le choix d'un fichier fait passer l'appli en arrière-plan : le verrou se redemandera au retour.
 - **Code propre à l'appli** pour le verrouillage (décision 51) : à revoir si des utilisatrices partagent le code de leur téléphone.
-- **Démarrage sans date** : la date des dernières règles est obligatoire au premier lancement (décision 34). À revoir si des utilisatrices ne s'en souviennent pas : il faudrait alors mémoriser que le démarrage a été passé.
 - **SDK Android** à installer sur le poste de développement (décision 45).
 - **Achat intégré** : paquet à retenir (candidat : `in_app_purchase`, de l'équipe Flutter), à relire avant le jalon du pack Pro.
 - **Android** : peut-on se passer de la permission INTERNET tout en gardant l'achat intégré ? À vérifier.
