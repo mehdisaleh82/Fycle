@@ -180,11 +180,13 @@ final class Harness {
   }
 
   /// Starts the app. Without [themeMode], the appearance chosen in the
-  /// settings applies, as on a phone.
+  /// settings applies, as on a phone. With [settle] false, the launch
+  /// animation is still playing when this returns.
   Future<void> pumpApp({
     String locale = 'en',
     ThemeMode? themeMode,
     TextDirection? textDirection,
+    bool settle = true,
   }) async {
     await tester.pumpWidget(
       FycleApp(
@@ -205,7 +207,11 @@ final class Harness {
         ),
       ),
     );
-    await tester.pumpAndSettle();
+    if (settle) {
+      await tester.pumpAndSettle();
+    } else {
+      await tester.pump();
+    }
   }
 }
 

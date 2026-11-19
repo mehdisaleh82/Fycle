@@ -4,6 +4,7 @@ import '../data/appearance.dart';
 import '../l10n/app_localizations.dart';
 import 'app_environment.dart';
 import 'app_lock.dart';
+import 'launch_animation.dart';
 import 'root_screen.dart';
 import 'theme.dart';
 
@@ -77,7 +78,11 @@ class _FycleAppState extends State<FycleApp> {
       // Above the navigator, so that the lock covers every screen, dialog
       // and panel.
       builder: (context, child) {
-        final gate = LockGate(lock: _lock, child: child!);
+        // The launch animation plays over everything, the lock included,
+        // while the app gets ready underneath.
+        final gate = LaunchAnimation(
+          child: LockGate(lock: _lock, child: child!),
+        );
         final direction = widget.textDirection;
         return direction == null
             ? gate

@@ -567,6 +567,14 @@ Retour de la testeuse sur la compilation n° 9, rapporté par l'utilisateur : po
     - La fenêtre de fertilité estimée est tracée plus claire que le reste de l'anneau : c'est l'estimation la plus large et la moins sûre.
     - La phrase sous l'anneau tient sur une ligne ; les rangées de choix du journal du jour sont resserrées.
 
+139. **Animation de lancement** (demande de l'utilisateur : une signature animée à chaque lancement).
+    - À chaque lancement, sur fond bleu nuit, l'anneau du cycle se trace dans le sens des aiguilles d'une montre (les jours de règles d'abord), un point le précède puis se pose, et l'anneau s'ouvre sur l'appli. Un peu plus d'une seconde et demie ; un appui la passe (`lib/ui/launch_animation.dart`).
+    - C'est l'anneau de l'accueil qui sert de signe : l'appli n'a pas encore de logo, et le nom n'y figure pas. Dessin original, sans son.
+    - Jouée au lancement seulement, pas au retour depuis l'arrière-plan. Elle passe par-dessus tout, verrou compris, pendant que l'appli se prépare dessous : elle n'ajoute pas d'attente à l'ouverture de la base.
+    - Pas jouée quand le téléphone demande de réduire les animations. Cachée au lecteur d'écran, qui va droit à l'appli.
+    - Mêmes couleurs en clair et en sombre. L'écran de lancement natif d'iOS prend le même bleu nuit, pour qu'il n'y ait pas d'éclair blanc avant l'animation.
+    - À faire : l'icône de l'appli est encore celle par défaut de Flutter. À dessiner à partir du même anneau, sur décision de l'utilisateur.
+
 ## Questions ouvertes
 
 - **Le nom « Fycle » dans l'appli** : l'utilisateur a demandé qu'il n'apparaisse plus. Fait pour l'en-tête (décision 118). Il reste au démarrage (« Bienvenue dans Fycle »), sur l'écran de verrouillage, dans les réglages et dans l'avertissement : à confirmer avant de le retirer partout.
