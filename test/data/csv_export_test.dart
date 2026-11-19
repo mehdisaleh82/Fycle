@@ -2,6 +2,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:fycle/data/csv_export.dart';
 import 'package:fycle/domain/calendar_day.dart';
 import 'package:fycle/domain/day_entry.dart';
+import 'package:fycle/domain/symptom.dart';
 
 import 'fakes.dart';
 
@@ -20,6 +21,35 @@ void main() {
       '2026-03-20,,,happy,,"Été, cœur léger"',
       '',
     ]);
+  });
+
+  test('uses the labels it is given, and sorts symptoms by label', () {
+    final labels = CsvLabels(
+      date: 'Jour',
+      flow: 'Règles',
+      pain: 'Douleur',
+      mood: 'Humeur',
+      symptoms: 'Symptômes, tous',
+      note: 'Note',
+      flowName: (flow) => 'F-${flow.name}',
+      painName: (pain) => 'P-${pain.name}',
+      moodName: (mood) => 'M-${mood.name}',
+      symptomName: (symptom) =>
+          symptom == Symptom.cramps ? 'Zz crampes' : 'Aa dos',
+    );
+    final lines = daysToCsv(
+      sampleData().days.take(1),
+      labels: labels,
+    ).split('\r\n');
+    expect(
+      lines[0],
+      '\u{FEFF}Jour,Règles,Douleur,Humeur,"Symptômes, tous",Note',
+    );
+    expect(
+      lines[1],
+      '2026-03-05,F-medium,P-moderate,M-irritable,Aa dos; Zz crampes,'
+      '"Stayed home, ""slow"" day"',
+    );
   });
 
   test('keeps a note with line breaks inside one quoted cell', () {
