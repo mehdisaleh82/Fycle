@@ -75,6 +75,8 @@ final _forbidden = <RegExp>[
     r'NetworkImage|NetworkAssetBundle)\b',
   ),
   RegExp(r'\bImage\.network\b'),
+  // The only two files of the timezone package able to download anything.
+  RegExp(r'package:timezone/(standalone|browser)\.dart'),
 ];
 
 /// Network-related imports or identifiers found in [source].
