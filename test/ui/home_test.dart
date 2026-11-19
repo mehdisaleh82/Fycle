@@ -1,3 +1,4 @@
+import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fycle/domain/calendar_day.dart';
 import 'package:fycle/domain/day_entry.dart';
@@ -122,7 +123,7 @@ void main() {
 
     await tester.tap(find.text('Log today'));
     await tester.pumpAndSettle();
-    await tester.tap(find.text('Heavy'));
+    await tester.tap(find.byKey(const ValueKey('flow-heavy')));
     await tester.pumpAndSettle();
 
     final entry = await harness.read(
@@ -133,6 +134,177 @@ void main() {
     await tapVisible(tester, find.text('Done'));
     expect(find.text('Day 1 of your period'), findsOneWidget);
     expect(find.textContaining('Next period expected between'), findsOneWidget);
+  });
+
+  group('period of the day in one tap', () {
+    /// Records the haptic feedback asked from the phone.
+    List<Object?> recordHaptics(WidgetTester tester) {
+      final haptics = <Object?>[];
+      tester.binding.defaultBinaryMessenger.setMockMethodCallHandler(
+        SystemChannels.platform,
+        (call) async {
+          if (call.method == 'HapticFeedback.vibrate') {
+            haptics.add(call.arguments);
+          }
+          return null;
+        },
+      );
+      addTearDown(
+        () => tester.binding.defaultBinaryMessenger.setMockMethodCallHandler(
+          SystemChannels.platform,
+          null,
+        ),
+      );
+      return haptics;
+    }
+
+    bool chosen(WidgetTester tester, String key) =>
+        tester.widget<ChoiceChip>(find.byKey(ValueKey(key))).selected;
+
+    testWidgets('one tap logs it, with a tick, and updates the estimate', (
+      tester,
+    ) async {
+      final harness = Harness(tester);
+      await harness.seed(days: threePeriods());
+      await harness.pumpApp();
+      final haptics = recordHaptics(tester);
+
+      expect(find.text('Period today'), findsOneWidget);
+      await tapVisible(tester, find.byKey(const ValueKey('quick-flow-light')));
+
+      final entry = await harness.read(
+        (store) => store.database.readDay(harness.today),
+      );
+      expect(entry?.flow, FlowIntensity.light);
+      expect(haptics, ['HapticFeedbackType.selectionClick']);
+      expect(find.text('Day 1 of your period'), findsOneWidget);
+      expect(chosen(tester, 'quick-flow-light'), isTrue);
+    });
+
+    testWidgets('a second tap takes it back', (tester) async {
+      final harness = Harness(tester);
+      await harness.seed(days: threePeriods());
+      await harness.pumpApp();
+
+      await tapVisible(tester, find.byKey(const ValueKey('quick-flow-heavy')));
+      await tapVisible(tester, find.byKey(const ValueKey('quick-flow-heavy')));
+
+      final entry = await harness.read(
+        (store) => store.database.readDay(harness.today),
+      );
+      expect(entry, isNull);
+      expect(
+        find.text('Period expected between Mar 25 and Mar 31'),
+        findsOneWidget,
+      );
+    });
+
+    testWidgets('what else is logged for the day is kept', (tester) async {
+      final harness = Harness(tester);
+      await harness.seed(
+        days: [
+          ...threePeriods(),
+          DayEntry(
+            day: CalendarDay(2026, 3, 20),
+            pain: PainLevel.mild,
+            mood: Mood.calm,
+            symptoms: {Symptom.fatigue},
+            note: 'Made-up note',
+          ),
+        ],
+      );
+      await harness.pumpApp();
+
+      await tapVisible(tester, find.byKey(const ValueKey('quick-flow-medium')));
+
+      final entry = await harness.read(
+        (store) => store.database.readDay(harness.today),
+      );
+      expect(
+        entry,
+        DayEntry(
+          day: harness.today,
+          flow: FlowIntensity.medium,
+          pain: PainLevel.mild,
+          mood: Mood.calm,
+          symptoms: {Symptom.fatigue},
+          note: 'Made-up note',
+        ),
+      );
+    });
+
+    testWidgets('the card follows what is chosen in the entry of the day', (
+      tester,
+    ) async {
+      final harness = Harness(tester);
+      await harness.seed(days: threePeriods());
+      await harness.pumpApp();
+
+      await tester.tap(find.text('Log today'));
+      await tester.pumpAndSettle();
+      await tester.tap(find.byKey(const ValueKey('flow-spotting')));
+      await tester.pumpAndSettle();
+      await tapVisible(tester, find.text('Done'));
+
+      expect(chosen(tester, 'quick-flow-spotting'), isTrue);
+    });
+  });
+
+  group('days logged in a row', () {
+    List<DayEntry> moodsBack(Iterable<int> offsets) => [
+      for (final offset in offsets)
+        DayEntry(
+          day: CalendarDay(2026, 3, 20).addDays(-offset),
+          mood: Mood.calm,
+        ),
+    ];
+
+    testWidgets('are counted discreetly, from two days', (tester) async {
+      final harness = Harness(tester);
+      await harness.seed(
+        days: [
+          ...threePeriods(),
+          ...moodsBack([1, 2, 3]),
+        ],
+      );
+      await harness.pumpApp();
+
+      // Today is not logged yet: the run is not broken.
+      expect(find.text('Logged 3 days in a row'), findsOneWidget);
+
+      await tapVisible(tester, find.byKey(const ValueKey('quick-flow-light')));
+      expect(find.text('Logged 4 days in a row'), findsOneWidget);
+    });
+
+    testWidgets('are shown in French', (tester) async {
+      final harness = Harness(tester);
+      await harness.seed(
+        days: [
+          ...threePeriods(),
+          ...moodsBack([0, 1]),
+        ],
+      );
+      await harness.pumpApp(locale: 'fr');
+
+      expect(find.text("Règles aujourd'hui"), findsOneWidget);
+      expect(find.text('Saisie 2 jours de suite'), findsOneWidget);
+    });
+
+    testWidgets('nothing is said for a single day or after a gap', (
+      tester,
+    ) async {
+      final harness = Harness(tester);
+      await harness.seed(
+        days: [
+          ...threePeriods(),
+          ...moodsBack([0, 2, 3]),
+        ],
+      );
+      await harness.pumpApp();
+
+      expect(find.byKey(const ValueKey('logging-streak')), findsNothing);
+      expect(find.textContaining('in a row'), findsNothing);
+    });
   });
 
   testWidgets('pain, mood, symptoms and a note are saved as they are set', (
@@ -181,8 +353,7 @@ void main() {
     await harness.seed(days: threePeriods());
     await harness.pumpApp();
 
-    await tester.tap(find.byKey(const ValueKey('day-2026-03-27')));
-    await tester.pumpAndSettle();
+    await tapVisible(tester, find.byKey(const ValueKey('day-2026-03-27')));
     expect(find.text('Done'), findsNothing);
 
     await tester.tap(find.byKey(const ValueKey('day-2026-03-02')));

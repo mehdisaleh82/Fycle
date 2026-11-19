@@ -10,9 +10,10 @@ import 'disclaimer_card.dart';
 import 'month_calendar.dart';
 import 'prediction_card.dart';
 import 'settings_screen.dart';
+import 'today_card.dart';
 
-/// Home: the estimate for the next period, the calendar of the month, and
-/// one button to log today.
+/// Home: the estimate for the next period, today's period in one tap, the
+/// calendar of the month, and one button to log the rest of the day.
 class HomeScreen extends StatefulWidget {
   const HomeScreen({
     super.key,
@@ -122,6 +123,8 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                     ),
                     usualCycleLength: model.usualCycleLength,
                   ),
+                  const SizedBox(height: 16),
+                  TodayCard(model: model, today: today),
                   const SizedBox(height: 16),
                   MonthCalendar(
                     year: _year,
