@@ -1274,6 +1274,90 @@ abstract class AppLocalizations {
   /// **'Close'**
   String get summaryClose;
 
+  /// No description provided for @fertilitySettingTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Ovulation estimate'**
+  String get fertilitySettingTitle;
+
+  /// No description provided for @fertilitySettingSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Shows an estimated fertile window on the home screen and in the calendar.'**
+  String get fertilitySettingSubtitle;
+
+  /// No description provided for @fertilityWarningTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'An estimate, nothing more'**
+  String get fertilityWarningTitle;
+
+  /// Medical wording: to be reviewed by a health professional before any release outside private testing.
+  ///
+  /// In en, this message translates to:
+  /// **'This estimate is calculated from the dates of your periods only. It is not a method of contraception and not a diagnosis. It cannot tell which days are without risk: ovulation may fall outside the days shown.'**
+  String get fertilityWarning;
+
+  /// No description provided for @fertilityTurnOn.
+  ///
+  /// In en, this message translates to:
+  /// **'Turn on'**
+  String get fertilityTurnOn;
+
+  /// No description provided for @fertilityCardTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Estimated fertile window'**
+  String get fertilityCardTitle;
+
+  /// No description provided for @fertilityWindowRange.
+  ///
+  /// In en, this message translates to:
+  /// **'Between {start} and {end}'**
+  String fertilityWindowRange(String start, String end);
+
+  /// No description provided for @fertilityOvulationRange.
+  ///
+  /// In en, this message translates to:
+  /// **'Ovulation estimated between {start} and {end}'**
+  String fertilityOvulationRange(String start, String end);
+
+  /// No description provided for @fertilityLowConfidence.
+  ///
+  /// In en, this message translates to:
+  /// **'Your cycles vary a lot: this estimate is not reliable.'**
+  String get fertilityLowConfidence;
+
+  /// No description provided for @fertilityNotEnough.
+  ///
+  /// In en, this message translates to:
+  /// **'The estimate appears once two complete cycles are logged.'**
+  String get fertilityNotEnough;
+
+  /// No description provided for @fertilityHow.
+  ///
+  /// In en, this message translates to:
+  /// **'How it is calculated'**
+  String get fertilityHow;
+
+  /// Medical wording: to be reviewed by a health professional before any release outside private testing.
+  ///
+  /// In en, this message translates to:
+  /// **'Fycle starts from the estimate of your next period and counts back about 14 days, with 2 days of margin on each side, to place ovulation. The window covers the 5 days before and the day after. Cycles differ from one person to another and from one month to the next: these are assumptions, not measurements.'**
+  String get fertilityHowBody;
+
+  /// No description provided for @legendFertile.
+  ///
+  /// In en, this message translates to:
+  /// **'Fertile window (estimate)'**
+  String get legendFertile;
+
+  /// No description provided for @calendarDayFertile.
+  ///
+  /// In en, this message translates to:
+  /// **'fertile window, estimate'**
+  String get calendarDayFertile;
+
   /// No description provided for @lockTurnedOff.
   ///
   /// In en, this message translates to:

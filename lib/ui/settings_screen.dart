@@ -137,6 +137,23 @@ class SettingsScreen extends StatelessWidget {
     }
   }
 
+  /// Turning the estimate on first shows what it is not.
+  Future<void> _setFertilityEstimate(BuildContext context, bool enabled) async {
+    if (enabled) {
+      final l10n = AppLocalizations.of(context);
+      final accepted = await confirm(
+        context,
+        title: l10n.fertilityWarningTitle,
+        body: l10n.fertilityWarning,
+        action: l10n.fertilityTurnOn,
+      );
+      if (!accepted) {
+        return;
+      }
+    }
+    model.setFertilityEstimateEnabled(enabled);
+  }
+
   Future<void> _pickAppearance(BuildContext context) async {
     final appearance = await showDialog<Appearance>(
       context: context,
@@ -195,6 +212,14 @@ class SettingsScreen extends StatelessWidget {
                               : l10n.settingsCycleLengthValue(length),
                         ),
                         onTap: () => _editCycleLength(context),
+                      ),
+                      SwitchListTile(
+                        key: const ValueKey('fertility-estimate'),
+                        secondary: const Icon(Icons.egg_outlined),
+                        title: Text(l10n.fertilitySettingTitle),
+                        subtitle: Text(l10n.fertilitySettingSubtitle),
+                        value: model.fertilityEstimateEnabled,
+                        onChanged: (on) => _setFertilityEstimate(context, on),
                       ),
                     ],
                   ),

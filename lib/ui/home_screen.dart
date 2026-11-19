@@ -2,12 +2,14 @@ import 'package:material_ui/material_ui.dart';
 
 import '../domain/calendar_day.dart';
 import '../domain/cycle_status.dart';
+import '../domain/fertility_estimate.dart';
 import '../l10n/app_localizations.dart';
 import 'app_environment.dart';
 import 'cycle_model.dart';
 import 'cycle_summary_card.dart';
 import 'day_sheet.dart';
 import 'disclaimer_card.dart';
+import 'fertility_card.dart';
 import 'insights_screen.dart';
 import 'month_calendar.dart';
 import 'prediction_card.dart';
@@ -128,6 +130,16 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
           builder: (context, _) {
             final today = widget.environment.today();
             final summary = cycleSummaryToShow(model, today);
+            final status = cycleStatusOn(
+              today,
+              flowByDay: model.flowByDay,
+              prediction: model.prediction,
+            );
+            final fertility = <FertilityEstimate>[
+              ...model.pastFertilityEstimates,
+              // Nothing is said of a cycle left aside for months.
+              if (status is! EstimateOutdated) ?model.fertilityEstimate,
+            ];
             return SingleChildScrollView(
               // Room at the bottom so the button never hides the notice.
               padding: const EdgeInsetsDirectional.fromSTEB(16, 8, 16, 96),
@@ -135,13 +147,15 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   PredictionCard(
-                    status: cycleStatusOn(
-                      today,
-                      flowByDay: model.flowByDay,
-                      prediction: model.prediction,
-                    ),
+                    status: status,
                     usualCycleLength: model.usualCycleLength,
                   ),
+                  if (model.fertilityEstimateEnabled &&
+                      status is! NoEstimate &&
+                      status is! EstimateOutdated) ...[
+                    const SizedBox(height: 16),
+                    FertilityCard(estimate: model.fertilityEstimate),
+                  ],
                   if (summary != null) ...[
                     const SizedBox(height: 16),
                     CycleSummaryCard(
@@ -161,6 +175,8 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                     flowByDay: model.flowByDay,
                     loggedDays: model.loggedDays,
                     prediction: model.prediction,
+                    fertility: fertility,
+                    showFertility: model.fertilityEstimateEnabled,
                     onDayTap: _openDay,
                     onPreviousMonth: () => _moveMonth(-1),
                     onNextMonth: () => _moveMonth(1),

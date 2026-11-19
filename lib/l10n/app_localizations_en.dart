@@ -731,6 +731,57 @@ class AppLocalizationsEn extends AppLocalizations {
   String get summaryClose => 'Close';
 
   @override
+  String get fertilitySettingTitle => 'Ovulation estimate';
+
+  @override
+  String get fertilitySettingSubtitle =>
+      'Shows an estimated fertile window on the home screen and in the calendar.';
+
+  @override
+  String get fertilityWarningTitle => 'An estimate, nothing more';
+
+  @override
+  String get fertilityWarning =>
+      'This estimate is calculated from the dates of your periods only. It is not a method of contraception and not a diagnosis. It cannot tell which days are without risk: ovulation may fall outside the days shown.';
+
+  @override
+  String get fertilityTurnOn => 'Turn on';
+
+  @override
+  String get fertilityCardTitle => 'Estimated fertile window';
+
+  @override
+  String fertilityWindowRange(String start, String end) {
+    return 'Between $start and $end';
+  }
+
+  @override
+  String fertilityOvulationRange(String start, String end) {
+    return 'Ovulation estimated between $start and $end';
+  }
+
+  @override
+  String get fertilityLowConfidence =>
+      'Your cycles vary a lot: this estimate is not reliable.';
+
+  @override
+  String get fertilityNotEnough =>
+      'The estimate appears once two complete cycles are logged.';
+
+  @override
+  String get fertilityHow => 'How it is calculated';
+
+  @override
+  String get fertilityHowBody =>
+      'Fycle starts from the estimate of your next period and counts back about 14 days, with 2 days of margin on each side, to place ovulation. The window covers the 5 days before and the day after. Cycles differ from one person to another and from one month to the next: these are assumptions, not measurements.';
+
+  @override
+  String get legendFertile => 'Fertile window (estimate)';
+
+  @override
+  String get calendarDayFertile => 'fertile window, estimate';
+
+  @override
   String get lockTurnedOff =>
       'This phone no longer has a passcode: the lock of Fycle was turned off.';
 }

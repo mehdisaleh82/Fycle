@@ -5,6 +5,7 @@ import '../data/local_store.dart';
 import '../domain/calendar_day.dart';
 import '../domain/cycle_history.dart';
 import '../domain/day_entry.dart';
+import '../domain/fertility_estimate.dart';
 import '../domain/flow_intensity.dart';
 import '../domain/period_prediction.dart';
 import '../domain/period_predictor.dart';
@@ -26,6 +27,9 @@ class CycleModel extends ChangeNotifier {
   List<DayEntry> _days = const [];
   List<LoggedCycle> _cycles = const [];
   CalendarDay? _dismissedSummaryStart;
+  bool _fertilityEstimateEnabled = false;
+  FertilityEstimate? _fertilityEstimate;
+  List<FertilityEstimate> _pastFertilityEstimates = const [];
   PeriodPrediction? _prediction;
   int? _usualCycleLength;
   ReminderSettings _reminderSettings = ReminderSettings();
@@ -47,6 +51,17 @@ class CycleModel extends ChangeNotifier {
 
   /// First day of the last cycle whose summary was closed on this phone.
   CalendarDay? get dismissedSummaryStart => _dismissedSummaryStart;
+
+  /// Whether the user turned the ovulation estimate on.
+  bool get fertilityEstimateEnabled => _fertilityEstimateEnabled;
+
+  /// The ovulation estimate of the current cycle. Null while it is turned
+  /// off, and while too few cycles are logged.
+  FertilityEstimate? get fertilityEstimate => _fertilityEstimate;
+
+  /// The estimates of the cycles that ended, looking back. Empty while
+  /// the estimate is turned off.
+  List<FertilityEstimate> get pastFertilityEstimates => _pastFertilityEstimates;
 
   /// The estimate for the next period, or null if no period was logged.
   PeriodPrediction? get prediction => _prediction;
@@ -101,6 +116,11 @@ class CycleModel extends ChangeNotifier {
     reload();
   }
 
+  void setFertilityEstimateEnabled(bool enabled) {
+    store.database.fertilityEstimateEnabled = enabled;
+    reload();
+  }
+
   /// Closes the summary of the cycle that started on [start] for good.
   void dismissCycleSummary(CalendarDay start) {
     store.database.dismissedSummaryStart = start;
@@ -135,5 +155,16 @@ class CycleModel extends ChangeNotifier {
       periodStarts: periodStartsFrom(_flowByDay),
       usualCycleLength: _usualCycleLength,
     );
+    _fertilityEstimateEnabled = database.fertilityEstimateEnabled;
+    final prediction = _prediction;
+    _fertilityEstimate =
+        _fertilityEstimateEnabled && prediction != null && _cycles.isNotEmpty
+        ? fertilityEstimateFrom(prediction, lastPeriodStart: _cycles.last.start)
+        : null;
+    _pastFertilityEstimates = _fertilityEstimateEnabled
+        ? List.unmodifiable([
+            for (final cycle in _cycles) ?pastFertilityEstimate(cycle),
+          ])
+        : const [];
   }
 }

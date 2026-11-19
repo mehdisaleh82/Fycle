@@ -98,6 +98,7 @@ final class FycleDatabase {
   static const String _appearance = 'appearance';
   static const String _onboardingDone = 'onboarding_done';
   static const String _summaryDismissed = 'cycle_summary_dismissed';
+  static const String _fertilityEstimate = 'fertility_estimate_enabled';
 
   final Database _db;
 
@@ -283,6 +284,15 @@ final class FycleDatabase {
 
   set dismissedSummaryStart(CalendarDay? start) =>
       _writeDeviceSetting(_summaryDismissed, start?.toString());
+
+  /// Whether the estimate of ovulation and of the fertile window is shown.
+  /// Off until the user turns it on, after reading what it is not. Not
+  /// part of an export.
+  bool get fertilityEstimateEnabled =>
+      _deviceSetting(_fertilityEstimate) == _on;
+
+  set fertilityEstimateEnabled(bool enabled) =>
+      _writeDeviceSetting(_fertilityEstimate, enabled ? _on : null);
 
   /// Everything stored, for export.
   FycleData readAll() =>

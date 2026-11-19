@@ -214,6 +214,7 @@ Future<void> walkEveryScreen(WidgetTester tester, Harness harness) async {
   await tapVisible(tester, find.byIcon(Icons.settings_outlined));
   for (final icon in [
     Icons.loop,
+    Icons.egg_outlined,
     Icons.brightness_6_outlined,
     Icons.lock_outline,
     Icons.table_chart_outlined,

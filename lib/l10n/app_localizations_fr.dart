@@ -738,6 +738,57 @@ class AppLocalizationsFr extends AppLocalizations {
   String get summaryClose => 'Fermer';
 
   @override
+  String get fertilitySettingTitle => 'Estimation de l\'ovulation';
+
+  @override
+  String get fertilitySettingSubtitle =>
+      'Affiche une fenêtre de fertilité estimée sur l\'accueil et dans le calendrier.';
+
+  @override
+  String get fertilityWarningTitle => 'Une estimation, rien de plus';
+
+  @override
+  String get fertilityWarning =>
+      'Cette estimation est calculée à partir des dates de vos règles uniquement. Ce n\'est ni une méthode de contraception ni un diagnostic. Elle ne permet pas de savoir quels jours sont sans risque : l\'ovulation peut tomber en dehors des jours affichés.';
+
+  @override
+  String get fertilityTurnOn => 'Activer';
+
+  @override
+  String get fertilityCardTitle => 'Fenêtre de fertilité estimée';
+
+  @override
+  String fertilityWindowRange(String start, String end) {
+    return 'Entre le $start et le $end';
+  }
+
+  @override
+  String fertilityOvulationRange(String start, String end) {
+    return 'Ovulation estimée entre le $start et le $end';
+  }
+
+  @override
+  String get fertilityLowConfidence =>
+      'Vos cycles varient beaucoup : cette estimation est peu fiable.';
+
+  @override
+  String get fertilityNotEnough =>
+      'L\'estimation apparaît dès que deux cycles complets sont saisis.';
+
+  @override
+  String get fertilityHow => 'Comment c\'est calculé';
+
+  @override
+  String get fertilityHowBody =>
+      'Fycle part de l\'estimation de vos prochaines règles et remonte d\'environ 14 jours, avec 2 jours de marge de chaque côté, pour situer l\'ovulation. La fenêtre couvre les 5 jours qui précèdent et le jour qui suit. Les cycles diffèrent d\'une personne à l\'autre et d\'un mois à l\'autre : ce sont des hypothèses, pas des mesures.';
+
+  @override
+  String get legendFertile => 'Fenêtre de fertilité (estimation)';
+
+  @override
+  String get calendarDayFertile => 'fenêtre de fertilité, estimation';
+
+  @override
   String get lockTurnedOff =>
       'Ce téléphone n\'a plus de code : le verrouillage de Fycle a été désactivé.';
 }

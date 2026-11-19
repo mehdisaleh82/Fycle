@@ -1,6 +1,7 @@
 import 'package:material_ui/material_ui.dart';
 
 import '../domain/calendar_day.dart';
+import '../domain/fertility_estimate.dart';
 import '../domain/flow_intensity.dart';
 import '../domain/period_prediction.dart';
 import '../l10n/app_localizations.dart';
@@ -8,7 +9,8 @@ import 'labels.dart';
 import 'theme.dart';
 
 /// One month: logged period days as filled discs, the expected period as
-/// rings, a dot under days with another entry. Built by hand, without a
+/// rings, a dot under days with another entry and, when the user asked for
+/// it, a short bar over the days of an estimated fertile window. Built by hand, without a
 /// calendar package (docs/DECISIONS.md, decision 11).
 class MonthCalendar extends StatelessWidget {
   const MonthCalendar({
@@ -19,6 +21,8 @@ class MonthCalendar extends StatelessWidget {
     required this.flowByDay,
     required this.loggedDays,
     required this.prediction,
+    this.fertility = const [],
+    this.showFertility = false,
     required this.onDayTap,
     required this.onPreviousMonth,
     required this.onNextMonth,
@@ -31,6 +35,12 @@ class MonthCalendar extends StatelessWidget {
   final Set<CalendarDay> loggedDays;
   final PeriodPrediction? prediction;
 
+  /// The estimated fertile windows to mark, past and current.
+  final List<FertilityEstimate> fertility;
+
+  /// Whether the legend explains the mark of the fertile window.
+  final bool showFertility;
+
   /// Called for today and past days. Days to come cannot be logged.
   final ValueChanged<CalendarDay> onDayTap;
   final VoidCallback onPreviousMonth;
@@ -42,6 +52,9 @@ class MonthCalendar extends StatelessWidget {
         !day.isBefore(prediction.earliestStart) &&
         !day.isAfter(prediction.latestStart);
   }
+
+  bool _isFertile(CalendarDay day) =>
+      fertility.any((estimate) => estimate.windowContains(day));
 
   @override
   Widget build(BuildContext context) {
@@ -142,9 +155,9 @@ class MonthCalendar extends StatelessWidget {
             ],
           ),
         const SizedBox(height: 12),
-        const Padding(
-          padding: EdgeInsets.symmetric(horizontal: 8),
-          child: _Legend(),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 8),
+          child: _Legend(showFertility: showFertility),
         ),
       ],
     );
@@ -163,6 +176,7 @@ class MonthCalendar extends StatelessWidget {
       isToday: day == today,
       flow: flow,
       isExpected: flow == null && _isExpected(day),
+      isFertile: _isFertile(day),
       hasEntry: loggedDays.contains(day),
       onTap: day.isAfter(today) ? null : () => onDayTap(day),
     );
@@ -176,6 +190,7 @@ class _DayCell extends StatelessWidget {
     required this.isToday,
     required this.flow,
     required this.isExpected,
+    required this.isFertile,
     required this.hasEntry,
     required this.onTap,
   });
@@ -184,6 +199,7 @@ class _DayCell extends StatelessWidget {
   final bool isToday;
   final FlowIntensity? flow;
   final bool isExpected;
+  final bool isFertile;
   final bool hasEntry;
   final VoidCallback? onTap;
 
@@ -213,6 +229,7 @@ class _DayCell extends StatelessWidget {
       if (isPeriod) '${l10n.calendarDayPeriod}: ${flowLabel(l10n, flow!)}',
       if (isSpotting) l10n.calendarDaySpotting,
       if (isExpected) l10n.calendarDayExpected,
+      if (isFertile) l10n.calendarDayFertile,
       if (hasEntry && flow == null) l10n.calendarDayEntry,
     ].join(', ');
 
@@ -268,6 +285,13 @@ class _DayCell extends StatelessWidget {
                       ),
                     ),
                   ),
+                  if (isFertile)
+                    Align(
+                      alignment: const Alignment(0, -0.82),
+                      child: _FertileMark(
+                        color: isPeriod ? period.onFill : scheme.primary,
+                      ),
+                    ),
                   if (dotColor != null)
                     Align(
                       alignment: const Alignment(0, 0.82),
@@ -298,9 +322,31 @@ class _Dot extends StatelessWidget {
   );
 }
 
-/// Explains the three marks of the calendar.
+/// The short bar over a day of an estimated fertile window: a shape of its
+/// own, so that it is not told apart by colour alone.
+class _FertileMark extends StatelessWidget {
+  const _FertileMark({required this.color});
+
+  final Color color;
+
+  @override
+  Widget build(BuildContext context) => SizedBox(
+    width: 12,
+    height: 3,
+    child: DecoratedBox(
+      decoration: BoxDecoration(
+        color: color,
+        borderRadius: BorderRadius.circular(2),
+      ),
+    ),
+  );
+}
+
+/// Explains the marks of the calendar.
 class _Legend extends StatelessWidget {
-  const _Legend();
+  const _Legend({required this.showFertility});
+
+  final bool showFertility;
 
   @override
   Widget build(BuildContext context) {
@@ -332,6 +378,11 @@ class _Legend extends StatelessWidget {
           mark: _Dot(color: scheme.onSurfaceVariant, size: 6),
           label: l10n.legendEntry,
         ),
+        if (showFertility)
+          _LegendItem(
+            mark: _FertileMark(color: scheme.primary),
+            label: l10n.legendFertile,
+          ),
       ],
     );
   }
