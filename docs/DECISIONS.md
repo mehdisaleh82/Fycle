@@ -535,7 +535,14 @@ Retour de la testeuse sur la compilation n° 9, rapporté par l'utilisateur : po
     - Un interrupteur « Widget d'écran d'accueil » dans les réglages (section Confidentialité), actif par défaut à la demande de l'utilisateur ; l'éteindre vide la zone partagée. « Tout supprimer » la vide aussi.
     - iOS ne permet pas à une appli de poser elle-même un widget : l'utilisatrice l'ajoute depuis l'écran d'accueil.
     - Mis à jour aux mêmes moments que les rappels (`lib/ui/widget_sync.dart`) : après chaque saisie, chaque changement de réglage et chaque retour dans l'appli.
-    - Reste à faire : le widget natif en Swift (cible « FycleWidget »), l'App Group chez Apple, la signature dans la compilation cloud. Android : à faire avant toute publication (règle 10).
+    - Android : à faire avant toute publication (règle 10).
+
+133. **Widget natif iOS** (`ios/FycleWidget/`, branche `ios-widget` tant qu'il n'est pas vérifié sur iPhone).
+    - Une cible « FycleWidget » (WidgetKit, SwiftUI), ajoutée à la main au projet Xcode faute de Mac. Un seul format, le petit carré : l'anneau (règles en bordeaux, période estimée en ambre) et le jour du cycle au centre. Aucun mot, aucun nom.
+    - Il lit les cinq valeurs de la décision 132 et compte les jours lui-même : une entrée par jour sur deux semaines, pour changer à minuit sans ouvrir l'appli. Aucun réseau, aucun accès à la base ni au trousseau (garde-fou dans `test/guardrails/platform_config_test.dart`).
+    - Droits demandés : l'App Group `group.app.fycle`, pour l'appli et pour le widget, et rien d'autre. Les deux déclarations de confidentialité mentionnent l'usage des préférences partagées (motif 1C8F.1).
+    - **La compilation cloud signe désormais pendant la construction** (`xcodebuild archive` avec la clé App Store Connect), et non plus après coup : le droit d'App Group doit faire partie de la signature de l'appli et du widget. Modifie la décision 56. Sans les secrets, l'appli est seulement compilée sans signature.
+    - Non vérifié : tout ce qui précède n'a jamais été compilé avant la première compilation cloud de la branche. L'App Group doit être créé par Xcode avec la clé ; sinon l'utilisateur le crée dans son compte développeur.
 
 ## Questions ouvertes
 
