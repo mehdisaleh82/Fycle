@@ -30,6 +30,15 @@ final class PeriodPredictor {
   /// The range reaches this many standard deviations on each side.
   static const double spreadFactor = 1.5;
 
+  /// Margin on each side while nothing is known of her own cycles and the
+  /// estimate rests on a published average. In Fehring et al., 2006, 95 % of
+  /// cycles fell within 22 to 36 days: seven days on each side of the mean.
+  static const int populationMarginDays = 7;
+
+  /// Margin on each side while the estimate rests on the usual length she
+  /// gave herself: she knows her cycle better than an average does.
+  static const int declaredMarginDays = 5;
+
   /// The range never reaches further than this on each side.
   static const int maxMarginDays = 10;
 
@@ -40,12 +49,18 @@ final class PeriodPredictor {
   /// Predicts the next period start from [periodStarts] (any order,
   /// duplicates allowed) and, if the user gave one, [usualCycleLength].
   ///
+  /// [referenceCycleLength] is the published average for her age, when her
+  /// age is known. It stands in while she declared no length, and fades as
+  /// her own cycles come in; it never narrows the range, since it says
+  /// nothing of her.
+  ///
   /// Returns null when [periodStarts] is empty: there is nothing to count
   /// from. Throws an [ArgumentError] if [usualCycleLength] is outside
   /// [minCycleLength]..[maxCycleLength].
   PeriodPrediction? predict({
     required Iterable<CalendarDay> periodStarts,
     int? usualCycleLength,
+    int? referenceCycleLength,
   }) {
     if (usualCycleLength != null &&
         (usualCycleLength < minCycleLength ||
@@ -63,14 +78,21 @@ final class PeriodPredictor {
     }
     final lastStart = starts.last;
 
-    final cycles = _retainedCycles(starts, usualCycleLength);
+    final reference = referenceCycleLength?.clamp(
+      minCycleLength,
+      maxCycleLength,
+    );
+    // What stands in for her own cycles while there are few of them.
+    final startingLength = usualCycleLength ?? reference;
+    final cycles = _retainedCycles(starts, startingLength);
 
     if (cycles.isEmpty) {
-      final length = usualCycleLength ?? defaultCycleLength;
       return _prediction(
         lastStart: lastStart,
-        cycleLength: length,
-        margin: usualCycleLength != null ? 5 : 7,
+        cycleLength: startingLength ?? defaultCycleLength,
+        margin: usualCycleLength != null
+            ? declaredMarginDays
+            : populationMarginDays,
         confidence: PredictionConfidence.low,
         cyclesUsed: 0,
       );
@@ -83,9 +105,9 @@ final class PeriodPredictor {
       lengths.add(cycles[cycles.length - 1 - age]);
       weights.add(maxCyclesConsidered - age);
     }
-    if (usualCycleLength != null &&
+    if (startingLength != null &&
         cycles.length < cyclesBeforeIgnoringDeclaredLength) {
-      lengths.add(usualCycleLength);
+      lengths.add(startingLength);
       weights.add(1);
     }
 

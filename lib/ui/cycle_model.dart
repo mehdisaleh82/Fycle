@@ -199,9 +199,9 @@ class CycleModel extends ChangeNotifier {
     _onboardingDone = database.onboardingDone;
     _prediction = const PeriodPredictor().predict(
       periodStarts: periodStartsFrom(_flowByDay),
+      usualCycleLength: _usualCycleLength,
       // Without a declared length, the reference for her age stands in.
-      usualCycleLength:
-          _usualCycleLength ?? (age == null ? null : referenceCycleLength),
+      referenceCycleLength: age == null ? null : referenceCycleLength,
     );
     _fertilityEstimateEnabled = database.fertilityEstimateEnabled;
     _widgetEnabled = database.widgetEnabled;

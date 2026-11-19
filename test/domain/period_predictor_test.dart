@@ -271,6 +271,44 @@ void main() {
     });
   });
 
+  group('reference length for her age', () {
+    final start = CalendarDay(2026, 3, 1);
+
+    test('centres the first estimate, with the range of an average', () {
+      final prediction = predictor.predict(
+        periodStarts: [start],
+        referenceCycleLength: 30,
+      )!;
+      expect(prediction.estimatedCycleLength, 30);
+      // An average says nothing of her: the range stays the widest.
+      expect(marginOf(prediction), PeriodPredictor.populationMarginDays);
+      expect(prediction.cyclesUsed, 0);
+    });
+
+    test('gives way to the length she declared', () {
+      final prediction = predictor.predict(
+        periodStarts: [start],
+        usualCycleLength: 26,
+        referenceCycleLength: 30,
+      )!;
+      expect(prediction.estimatedCycleLength, 26);
+      expect(marginOf(prediction), PeriodPredictor.declaredMarginDays);
+    });
+
+    test('weighs lightly beside her first cycles, then not at all', () {
+      PeriodPrediction withReference(List<int> cycles) => predictor.predict(
+        periodStarts: startsFromCycles(cycles),
+        referenceCycleLength: 30,
+      )!;
+      // One cycle of 24 days: pulled a little towards the reference.
+      expect(withReference([24]).estimatedCycleLength, 25);
+      expect(
+        withReference([24, 24, 24]).estimatedCycleLength,
+        predictFromCycles([24, 24, 24]).estimatedCycleLength,
+      );
+    });
+  });
+
   group('declared usual length', () {
     test('rejects lengths outside the plausible range', () {
       final starts = [CalendarDay(2026, 3, 1)];
