@@ -20,13 +20,14 @@ Fycle vise la place que personne n'occupe : la confidentialité **et** la finiti
 
 La V1 tourne sur iPhone en essai privé (TestFlight) : saisie, calendrier, prédiction en fourchette avec niveau de confiance, rappels, verrouillage, stockage chiffré, export et import. Elle n'est pas publiée : la première version publique sera la V2.
 
-De la V2, trois jalons du sprint 1 sont faits :
+De la V2, quatre jalons du sprint 1 sont faits :
 
 - **Jalon A** : la nouvelle charte (bleu nuit et ambre), le réglage d'apparence (clair, sombre, comme le téléphone) et la mise en page miroir. C'est ce que contient la compilation TestFlight n° 4.
 - **Jalon B** : démarrage en moins d'une minute (raccourcis « Aujourd'hui » et « Hier », estimation affichée dès la date choisie, « Je ne sais plus »), règles du jour en un appui depuis l'accueil avec retour tactile, série de saisie discrète. Codé et testé sous Windows, pas encore dans une compilation TestFlight.
 - **Jalon C** : sommeil et libido dans la saisie du jour, écran « Tendances » (durées moyennes, ce qui revient au même moment du cycle, historique des cycles), bilan sobre à la fin de chaque cycle. Codé et testé sous Windows.
+- **Jalon E** : estimation de l'ovulation et de la fenêtre de fertilité, en fourchettes, désactivée par défaut et précédée d'un avertissement. Codé et testé sous Windows ; ses textes médicaux restent à relire par un professionnel de santé.
 
-Aucune autre fonction de la V2 n'est encore écrite. Suite prévue (décision 89) : ovulation et fenêtre de fertilité (E), migraines (D), puis F à L.
+Aucune autre fonction de la V2 n'est encore écrite. Suite prévue (décision 89) : migraines (D), puis F à L.
 
 ## Objectifs
 

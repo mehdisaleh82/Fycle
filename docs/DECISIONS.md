@@ -401,6 +401,27 @@ Plan validé par l'utilisateur le 19 novembre 2026. Aucun paquet ajouté.
 
 97. **Ce qui est vérifié, et où (jalon C).** Sous Windows : les calculs (historique, moyennes, moments, tendances, bilan) ; la mise à niveau de la base ; l'aller-retour sauvegarde et CSV ; l'écran Tendances et la carte de bilan en anglais et en français, de droite à gauche, en grand texte sur petit écran. En attente de l'iPhone : le rendu réel de l'écran Tendances, la longueur de la fiche du jour avec deux lignes de plus, VoiceOver.
 
+## Décisions du jalon E du sprint 1 (19 novembre 2026)
+
+Plan validé par l'utilisateur le 19 novembre 2026. Aucun paquet ajouté.
+
+98. **Estimation de l'ovulation et de la fenêtre de fertilité** (`lib/domain/fertility_estimate.dart`, Dart pur). Un calcul de calendrier, sans aucune mesure du corps.
+    - Départ : la fourchette estimée des prochaines règles. Ovulation estimée 14 jours avant, avec 2 jours de marge de chaque côté ; la fourchette des règles s'y ajoute. Le résultat est toujours une fourchette.
+    - Fenêtre de fertilité estimée : des 5 jours avant le début de cette fourchette au lendemain de sa fin. Elle ne commence jamais avant le premier jour des règles du cycle.
+    - Aucune estimation tant que la prédiction des règles repose sur moins de deux cycles saisis. Rien non plus pour un journal délaissé depuis des mois.
+    - Cycles terminés : la même estimation, faite après coup depuis la date réelle des règles suivantes. Pas pour un cycle de durée inhabituelle (décision 92).
+    - **Les valeurs 14, 2, 5 et 1 sont des hypothèses de départ, à faire confirmer par un professionnel de santé** avant tout test hors du cercle privé.
+
+99. **Désactivée par défaut**, choix de l'utilisateur. Un interrupteur « Estimation de l'ovulation » dans les réglages (réglage de l'appareil `fertility_estimate_enabled`, hors export). L'activer affiche d'abord l'avertissement, à accepter ; le désactiver ne demande rien. Raison : toutes les utilisatrices ne veulent pas voir une information de fertilité, et c'est la fonction la plus exposée à la règle 7.
+
+100. **Affichage** (`lib/ui/fertility_card.dart`, `lib/ui/month_calendar.dart`). Une carte sur l'accueil, sous l'estimation des règles : la fenêtre puis l'ovulation, chacune « entre le … et le … », et une ligne « peu fiable » quand les cycles varient beaucoup. Dans le calendrier, un court trait au-dessus du jour, en bleu nuit : une forme à part, distincte du disque des règles, de l'anneau des règles prévues et du point des autres saisies. La légende et le lecteur d'écran le nomment « fenêtre de fertilité, estimation ».
+
+101. **Avertissement et vocabulaire (règle 7).** Le mot « estimation » partout, jamais « jour fertile » ni « jour sûr ». L'avertissement dit que ce n'est ni une méthode de contraception ni un diagnostic, et que les jours hors de la fenêtre ne sont pas sans risque. Il est affiché à l'activation et répété dans « Comment c'est calculé ».
+    - **Textes à relire par un professionnel de santé avant tout test externe**, marqués dans les fichiers de textes : `fertilityWarning`, `fertilityHowBody`. Personne n'est encore désigné.
+    - Les trois moments de la décision 93 ne changent pas : pas de noms de phases avant cette relecture.
+
+102. **Ce qui est vérifié, et où (jalon E).** Sous Windows : le calcul ; l'interrupteur (désactivé par défaut, avertissement, annulation, relance) ; la carte et le calendrier en anglais et en français ; mode sombre, de droite à gauche, grand texte sur petit écran. En attente de l'iPhone : la lisibilité du trait dans le calendrier, la place de la carte sur l'accueil, VoiceOver.
+
 ## Questions ouvertes
 
 - **Partage partenaire et règle 2** (décision 76) : un relais, même chiffré de bout en bout, est un serveur et fait sortir des données du téléphone. L'échange direct entre téléphones (code à scanner, fichier) respecte les règles 1 et 2 ; le relais demande de les modifier. À trancher à la conception du sprint 2.
