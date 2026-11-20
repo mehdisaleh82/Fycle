@@ -10,6 +10,7 @@ import 'package:fycle/data/widget_gateway.dart';
 import 'package:fycle/domain/calendar_day.dart';
 import 'package:fycle/domain/day_entry.dart';
 import 'package:fycle/domain/flow_intensity.dart';
+import 'package:fycle/domain/life_stage.dart';
 import 'package:fycle/domain/start_profile.dart';
 import 'package:fycle/domain/symptom.dart';
 import 'package:fycle/domain/widget_snapshot.dart';
@@ -165,6 +166,9 @@ final class Harness {
     Set<RecentChange> recentChanges = const {},
     Set<Tracked> tracked = const {},
     Set<Symptom> startSigns = const {},
+    Profile? profile,
+    CalendarDay? pregnancyStart,
+    CalendarDay? deliveryDate,
     bool remindersDefaultApplied = true,
   }) async {
     final store = await openStore();
@@ -175,6 +179,9 @@ final class Harness {
     store.database.recentChanges = recentChanges;
     store.database.tracked = tracked;
     store.database.startSigns = startSigns;
+    store.database.profile = profile;
+    store.database.pregnancyStart = pregnancyStart;
+    store.database.deliveryDate = deliveryDate;
     if (remindersDefaultApplied) {
       store.database.dismissSuggestion('reminders_default');
     }

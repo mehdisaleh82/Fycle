@@ -2,6 +2,7 @@ import 'package:material_ui/material_ui.dart';
 
 import '../domain/calendar_day.dart';
 import '../domain/daily_figures.dart';
+import '../domain/life_stage.dart';
 import '../domain/period_prediction.dart';
 import '../domain/start_profile.dart';
 import '../l10n/app_localizations.dart';
@@ -115,8 +116,12 @@ class FollowCard extends StatelessWidget {
             );
           },
         ),
-        const SizedBox(height: 10),
-        _Reliability(prediction: model.prediction),
+        // Nothing is estimated during a pregnancy, nor after a birth before
+        // periods are back: no reliability to speak of.
+        if (followsACycle(model.profile) || model.prediction != null) ...[
+          const SizedBox(height: 10),
+          _Reliability(prediction: model.prediction),
+        ],
       ],
     );
   }

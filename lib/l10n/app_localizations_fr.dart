@@ -2172,4 +2172,158 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get weekAnyNote => 'La journée';
+
+  @override
+  String get setupProfileTitle => 'Où en es-tu ?';
+
+  @override
+  String get setupProfileHint =>
+      'L\'appli s\'adapte à ta réponse. Tu pourras la changer à tout moment dans les réglages.';
+
+  @override
+  String get profileDiscovering => 'Je découvre mon cycle';
+
+  @override
+  String get profileDiscoveringDetail =>
+      'Mes premières règles, ou je commence à les suivre.';
+
+  @override
+  String get profileTracking => 'Je suis mes règles';
+
+  @override
+  String get profileTrackingDetail =>
+      'Savoir quand elles arrivent et noter mes journées.';
+
+  @override
+  String get profileConceiving => 'Je cherche à concevoir';
+
+  @override
+  String get profileConceivingDetail =>
+      'Repérer ma fenêtre de fertilité estimée.';
+
+  @override
+  String get profilePregnant => 'Je suis enceinte';
+
+  @override
+  String get profilePregnantDetail =>
+      'Compter les semaines et noter mes journées.';
+
+  @override
+  String get profilePostpartum => 'J\'ai accouché';
+
+  @override
+  String get profilePostpartumDetail => 'En attendant le retour de mes règles.';
+
+  @override
+  String get profilePerimenopause => 'Mon cycle change';
+
+  @override
+  String get profilePerimenopauseDetail =>
+      'Préménopause : suivre ce qui bouge.';
+
+  @override
+  String get setupPregnancyDateHint =>
+      'Les semaines de grossesse se comptent à partir de ce jour. Une date approximative suffit.';
+
+  @override
+  String get setupBirthDateTitle => 'Quand as-tu accouché ?';
+
+  @override
+  String get setupBirthDateHint =>
+      'Pour compter les semaines depuis la naissance, et repartir de zéro au retour de tes règles.';
+
+  @override
+  String get setupChooseDate => 'Choisir la date';
+
+  @override
+  String get changeDate => 'Changer la date';
+
+  @override
+  String get pregnancyTitle => 'Ta grossesse';
+
+  @override
+  String pregnancyWeeks(int weeks, int days) {
+    String _temp0 = intl.Intl.pluralLogic(
+      weeks,
+      locale: localeName,
+      other: '$weeks semaines',
+      one: '1 semaine',
+      zero: '0 semaine',
+    );
+    String _temp1 = intl.Intl.pluralLogic(
+      days,
+      locale: localeName,
+      other: '$days jours',
+      one: '1 jour',
+      zero: '0 jour',
+    );
+    return '$_temp0 et $_temp1';
+  }
+
+  @override
+  String get pregnancyCounted =>
+      'comptés depuis le premier jour de tes dernières règles';
+
+  @override
+  String pregnancyTerm(String from, String to) {
+    return 'Naissance à terme estimée entre le $from et le $to.';
+  }
+
+  @override
+  String get pregnancyNote =>
+      'Une estimation : seule l\'échographie de datation donne une date fiable.';
+
+  @override
+  String get pregnancyNoDate =>
+      'Indique le premier jour de tes dernières règles pour compter les semaines.';
+
+  @override
+  String get pregnancyPast =>
+      'Plus de 42 semaines se sont écoulées depuis cette date. Tu peux changer la date ou quitter le mode grossesse.';
+
+  @override
+  String get pregnancyPaused => 'L\'estimation des règles est en pause.';
+
+  @override
+  String get pregnancyLeave => 'Quitter le mode grossesse';
+
+  @override
+  String get leaveTitle => 'Où en es-tu maintenant ?';
+
+  @override
+  String get leaveGaveBirth => 'J\'ai accouché';
+
+  @override
+  String get leaveBackToCycle => 'Revenir au suivi de mon cycle';
+
+  @override
+  String get postpartumTitle => 'Après ton accouchement';
+
+  @override
+  String postpartumWeeks(int weeks) {
+    String _temp0 = intl.Intl.pluralLogic(
+      weeks,
+      locale: localeName,
+      other: '$weeks semaines',
+      one: '1 semaine',
+      zero: 'Moins d\'une semaine',
+    );
+    return '$_temp0 depuis ton accouchement';
+  }
+
+  @override
+  String get postpartumBody =>
+      'Le retour des règles varie beaucoup d\'une femme à l\'autre. Note leur premier jour quand elles reviennent : l\'estimation reprendra à partir de là.';
+
+  @override
+  String get postpartumNoDate =>
+      'Indique la date de ton accouchement pour compter les semaines.';
+
+  @override
+  String get recapPregnancy =>
+      'Mode grossesse : les semaines sont comptées, l\'estimation des règles est en pause.';
+
+  @override
+  String get recapPostpartum =>
+      'Après l\'accouchement : l\'estimation reprendra au retour de tes règles.';
 }

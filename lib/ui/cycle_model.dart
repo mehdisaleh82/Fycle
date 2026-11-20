@@ -7,6 +7,7 @@ import '../domain/cycle_history.dart';
 import '../domain/day_entry.dart';
 import '../domain/fertility_estimate.dart';
 import '../domain/flow_intensity.dart';
+import '../domain/life_stage.dart';
 import '../domain/pain_level.dart';
 import '../domain/period_prediction.dart';
 import '../domain/period_predictor.dart';
@@ -54,6 +55,9 @@ class CycleModel extends ChangeNotifier {
   FlowIntensity? _usualFlow;
   PainLevel? _usualPain;
   Set<Symptom> _startSigns = const {};
+  Profile? _profile;
+  CalendarDay? _pregnancyStart;
+  CalendarDay? _deliveryDate;
   ReminderSettings _reminderSettings = ReminderSettings();
   bool _appLockEnabled = false;
   Appearance _appearance = Appearance.light;
@@ -127,6 +131,18 @@ class CycleModel extends ChangeNotifier {
 
   /// The signs she said she had when the app was set up.
   Set<Symptom> get startSigns => _startSigns;
+
+  /// Where she is in her life, as she said. Null when she did not say.
+  Profile? get profile => _profile;
+
+  /// First day of the last period before the pregnancy going on.
+  CalendarDay? get pregnancyStart => _pregnancyStart;
+
+  /// The day she gave birth.
+  CalendarDay? get deliveryDate => _deliveryDate;
+
+  /// Whether the estimate of periods is paused: during a pregnancy.
+  bool get estimatePaused => _profile == Profile.pregnant;
 
   /// Whether the app follows what changes from one cycle to the next.
   bool get followsCycleChanges =>
@@ -214,6 +230,30 @@ class CycleModel extends ChangeNotifier {
     reload();
   }
 
+  /// Changes where she is in her life, with the date that goes with it
+  /// when one is given. A date not given is kept as it was.
+  void setProfile(
+    Profile? profile, {
+    CalendarDay? pregnancyStart,
+    CalendarDay? deliveryDate,
+  }) {
+    final database = store.database;
+    database.profile = profile;
+    if (pregnancyStart != null) {
+      database.pregnancyStart = pregnancyStart;
+    }
+    if (deliveryDate != null) {
+      database.deliveryDate = deliveryDate;
+    }
+    database.goals = goalsOf(profile);
+    if (!followsACycle(profile)) {
+      // No fertile window is estimated during a pregnancy or before
+      // periods are back.
+      database.fertilityEstimateEnabled = false;
+    }
+    reload();
+  }
+
   void setReminderSettings(ReminderSettings settings) {
     store.database.reminderSettings = settings;
     reload();
@@ -287,17 +327,32 @@ class CycleModel extends ChangeNotifier {
     _usualFlow = database.usualFlow;
     _usualPain = database.usualPain;
     _startSigns = database.startSigns;
+    _profile = database.profile;
+    _pregnancyStart = database.pregnancyStart;
+    _deliveryDate = database.deliveryDate;
     _reminderSettings = database.reminderSettings;
     _appLockEnabled = database.appLockEnabled;
     _appearance = database.appearance;
     _onboardingDone = database.onboardingDone;
-    _prediction = const PeriodPredictor().predict(
-      periodStarts: periodStartsFrom(_flowByDay),
-      usualCycleLength: _usualCycleLength,
-      // Without a declared length, the reference for her age stands in.
-      referenceCycleLength: age == null ? null : referenceCycleLength,
-      irregular: _regularity == CycleRegularity.irregular,
-    );
+    // During a pregnancy nothing is estimated. After a birth, only the
+    // periods that came back count, and the first cycles are expected to
+    // vary.
+    final delivery = _deliveryDate;
+    final afterBirth = _profile == Profile.postpartum && delivery != null;
+    final starts = afterBirth
+        ? startsSinceBirth(periodStartsFrom(_flowByDay), delivery)
+        : periodStartsFrom(_flowByDay).toList();
+    _prediction = _profile == Profile.pregnant
+        ? null
+        : const PeriodPredictor().predict(
+            periodStarts: starts,
+            usualCycleLength: afterBirth ? null : _usualCycleLength,
+            // Without a declared length, the reference for her age stands in.
+            referenceCycleLength: age == null ? null : referenceCycleLength,
+            irregular:
+                _regularity == CycleRegularity.irregular ||
+                (afterBirth && starts.length <= cyclesBeforeSettledAfterBirth),
+          );
     _fertilityEstimateEnabled = database.fertilityEstimateEnabled;
     _widgetEnabled = database.widgetEnabled;
     final prediction = _prediction;

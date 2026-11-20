@@ -2151,4 +2151,154 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get weekAnyNote => 'The day';
+
+  @override
+  String get setupProfileTitle => 'Where are you at?';
+
+  @override
+  String get setupProfileHint =>
+      'The app adapts to your answer. You can change it at any time in the settings.';
+
+  @override
+  String get profileDiscovering => 'I am discovering my cycle';
+
+  @override
+  String get profileDiscoveringDetail =>
+      'My first periods, or I am starting to track them.';
+
+  @override
+  String get profileTracking => 'I track my periods';
+
+  @override
+  String get profileTrackingDetail => 'Know when they come and log my days.';
+
+  @override
+  String get profileConceiving => 'I am trying to conceive';
+
+  @override
+  String get profileConceivingDetail => 'Find my estimated fertile window.';
+
+  @override
+  String get profilePregnant => 'I am pregnant';
+
+  @override
+  String get profilePregnantDetail => 'Count the weeks and log my days.';
+
+  @override
+  String get profilePostpartum => 'I gave birth';
+
+  @override
+  String get profilePostpartumDetail => 'Waiting for my periods to come back.';
+
+  @override
+  String get profilePerimenopause => 'My cycle is changing';
+
+  @override
+  String get profilePerimenopauseDetail => 'Perimenopause: follow what moves.';
+
+  @override
+  String get setupPregnancyDateHint =>
+      'The weeks of pregnancy are counted from that day. An approximate date is enough.';
+
+  @override
+  String get setupBirthDateTitle => 'When did you give birth?';
+
+  @override
+  String get setupBirthDateHint =>
+      'To count the weeks since the birth, and start afresh when your periods come back.';
+
+  @override
+  String get setupChooseDate => 'Choose the date';
+
+  @override
+  String get changeDate => 'Change the date';
+
+  @override
+  String get pregnancyTitle => 'Your pregnancy';
+
+  @override
+  String pregnancyWeeks(int weeks, int days) {
+    String _temp0 = intl.Intl.pluralLogic(
+      weeks,
+      locale: localeName,
+      other: '$weeks weeks',
+      one: '1 week',
+      zero: '0 weeks',
+    );
+    String _temp1 = intl.Intl.pluralLogic(
+      days,
+      locale: localeName,
+      other: '$days days',
+      one: '1 day',
+      zero: '0 days',
+    );
+    return '$_temp0 and $_temp1';
+  }
+
+  @override
+  String get pregnancyCounted =>
+      'counted from the first day of your last period';
+
+  @override
+  String pregnancyTerm(String from, String to) {
+    return 'A birth at term is estimated between $from and $to.';
+  }
+
+  @override
+  String get pregnancyNote =>
+      'An estimate: only a dating scan gives a reliable date.';
+
+  @override
+  String get pregnancyNoDate =>
+      'Give the first day of your last period to count the weeks.';
+
+  @override
+  String get pregnancyPast =>
+      'More than 42 weeks have gone by since that date. You can change the date or leave the pregnancy mode.';
+
+  @override
+  String get pregnancyPaused => 'The estimate of your periods is paused.';
+
+  @override
+  String get pregnancyLeave => 'Leave the pregnancy mode';
+
+  @override
+  String get leaveTitle => 'Where are you at now?';
+
+  @override
+  String get leaveGaveBirth => 'I gave birth';
+
+  @override
+  String get leaveBackToCycle => 'Go back to tracking my cycle';
+
+  @override
+  String get postpartumTitle => 'After the birth';
+
+  @override
+  String postpartumWeeks(int weeks) {
+    String _temp0 = intl.Intl.pluralLogic(
+      weeks,
+      locale: localeName,
+      other: '$weeks weeks',
+      one: '1 week',
+      zero: 'Less than a week',
+    );
+    return '$_temp0 since you gave birth';
+  }
+
+  @override
+  String get postpartumBody =>
+      'When periods come back varies a lot from one woman to another. Log their first day when they do: the estimate will start again from there.';
+
+  @override
+  String get postpartumNoDate =>
+      'Give the date of the birth to count the weeks.';
+
+  @override
+  String get recapPregnancy =>
+      'Pregnancy mode: the weeks are counted, the estimate of your periods is paused.';
+
+  @override
+  String get recapPostpartum =>
+      'After the birth: the estimate will start again when your periods come back.';
 }

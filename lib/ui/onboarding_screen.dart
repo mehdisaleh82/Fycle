@@ -7,6 +7,7 @@ import '../domain/calendar_day.dart';
 import '../domain/cycle_change.dart';
 import '../domain/day_entry.dart';
 import '../domain/flow_intensity.dart';
+import '../domain/life_stage.dart';
 import '../domain/pain_level.dart';
 import '../domain/period_prediction.dart';
 import '../domain/period_predictor.dart';
@@ -21,6 +22,7 @@ import 'dialogs.dart';
 import 'disclaimer_card.dart';
 import 'labels.dart';
 import 'launch_animation.dart';
+import 'life_stage_cards.dart';
 import 'theme.dart';
 
 /// Name under which the phone remembers that the reminders were decided
@@ -67,6 +69,7 @@ enum _Step {
   birthYear,
   goals,
   wishes,
+  keyDate,
   regularity,
   lengths,
   usual,
@@ -142,6 +145,11 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
         initialItem: (_birthYear ?? _thisYear - 30) - _firstYear,
       );
   late Set<Goal> _goals = {...widget.model.goals};
+  late Profile? _profile = widget.model.profile;
+
+  /// The date that goes with a pregnancy (first day of the last period)
+  /// or with a birth.
+  CalendarDay? _keyDate;
   late CycleRegularity? _regularity = widget.model.regularity;
   late int? _cycleLength = widget.model.usualCycleLength;
   late int? _periodLength = widget.model.usualPeriodLength;
@@ -168,18 +176,20 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
 
   /// The screens she goes through, which depend on what she answered.
   List<_Step> get _steps {
-    final periods = hasPeriods(_regularity);
-    final changes = asksAboutRecentChanges(goals: _goals, age: _age);
+    final cycle = followsACycle(_profile);
+    final periods = cycle && hasPeriods(_regularity);
+    final changes = cycle && asksAboutRecentChanges(goals: _goals, age: _age);
     return [
       if (!widget.editing) ...[_Step.welcome, _Step.privacy],
       _Step.name,
       _Step.birthYear,
+      // Where she is decides what is asked next.
       _Step.goals,
-      _Step.wishes,
-      _Step.regularity,
+      if (cycle) ...[_Step.wishes, _Step.regularity],
       if (periods) ...[_Step.lengths, _Step.usual],
-      _Step.contraception,
+      if (_profile != Profile.pregnant) _Step.contraception,
       if (changes) ...[_Step.changes, _Step.signs],
+      if (!widget.editing && !cycle) _Step.keyDate,
       if (!widget.editing && periods) ...[
         _Step.lastPeriod,
         if (_lastPeriod != null) _Step.earlier,
@@ -249,7 +259,11 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
         // The year in the middle of the wheel is her answer.
         _birthYear = _firstYear + _yearWheel.selectedItem;
       case _Step.reminders:
-        await _saveReminders(_reminders);
+        await _saveReminders(
+          followsACycle(_profile)
+              ? _reminders
+              : _reminders.copyWith(periodEnabled: false),
+        );
         if (!mounted) {
           return;
         }
@@ -269,6 +283,9 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
         _yearChosen = false;
       case _Step.goals:
         _goals = {};
+        _profile = null;
+      case _Step.keyDate:
+        _keyDate = null;
       case _Step.regularity:
         _regularity = null;
       case _Step.lengths:
@@ -341,20 +358,26 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
   /// Whether the estimate of the fertile window is shown, going by what
   /// she answered.
   bool get _showsFertility =>
+      followsACycle(_profile) &&
       showsFertilityFor(_goals, wishes: _wishes, contraception: _contraception);
 
   bool _same<T>(Set<T> a, Set<T> b) => a.length == b.length && a.containsAll(b);
 
   void _finish() {
     final model = widget.model;
-    final periods = hasPeriods(_regularity);
-    final follows = asksAboutRecentChanges(goals: _goals, age: _age);
+    final cycle = followsACycle(_profile);
+    final periods = cycle && hasPeriods(_regularity);
+    final follows = cycle && asksAboutRecentChanges(goals: _goals, age: _age);
     // In the settings, the estimate of the fertile window only follows the
     // answers that changed: what she set by hand since is hers.
     final fertilityAnswered =
-        _goals.isNotEmpty || _wishes.isNotEmpty || _contraception != null;
+        _profile != null ||
+        _goals.isNotEmpty ||
+        _wishes.isNotEmpty ||
+        _contraception != null;
     final fertilityChanged =
         !widget.editing ||
+        _profile != model.profile ||
         !_same(_goals, model.goals) ||
         !_same(_wishes, model.wishes) ||
         _contraception != model.contraception;
@@ -375,6 +398,18 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
     );
     if (fertilityAnswered && fertilityChanged) {
       model.setFertilityEstimateEnabled(_showsFertility);
+    }
+    if (_profile != model.profile || _keyDate != null) {
+      // A pregnancy noted from the settings counts from the last period
+      // logged, until she gives another date.
+      final lastLogged = model.cycles.isEmpty ? null : model.cycles.last.start;
+      model.setProfile(
+        _profile,
+        pregnancyStart: _profile == Profile.pregnant
+            ? _keyDate ?? (model.pregnancyStart == null ? lastLogged : null)
+            : null,
+        deliveryDate: _profile == Profile.postpartum ? _keyDate : null,
+      );
     }
     if (!model.suggestionDismissed(fertilityFromAnswers)) {
       model.dismissSuggestion(fertilityFromAnswers);
@@ -398,7 +433,11 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
     final prediction = _preview();
     final reminders = model.reminderSettings;
     return [
-      if (prediction == null)
+      if (_profile == Profile.pregnant)
+        (Icons.pregnant_woman, l10n.recapPregnancy)
+      else if (_profile == Profile.postpartum)
+        (Icons.child_friendly_outlined, l10n.recapPostpartum)
+      else if (prediction == null)
         (Icons.event_outlined, l10n.recapNoDate)
       else ...[
         (
@@ -418,14 +457,15 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
           ),
         ),
       ],
-      (
-        Icons.egg_outlined,
-        _contraception == Contraception.hormonal
-            ? l10n.recapFertilityHormonal
-            : _showsFertility
-            ? l10n.recapFertilityOn
-            : l10n.recapFertilityOff,
-      ),
+      if (followsACycle(_profile))
+        (
+          Icons.egg_outlined,
+          _contraception == Contraception.hormonal
+              ? l10n.recapFertilityHormonal
+              : _showsFertility
+              ? l10n.recapFertilityOn
+              : l10n.recapFertilityOff,
+        ),
       if (_tracked.isNotEmpty)
         (
           Icons.edit_note,
@@ -611,30 +651,61 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
         );
       case _Step.goals:
         return _Question(
-          title: l10n.setupGoalsTitle,
-          hint: l10n.setupGoalsHint,
+          title: l10n.setupProfileTitle,
+          hint: l10n.setupProfileHint,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              for (final (goal, icon, label) in [
+              for (final (profile, icon, label, detail) in [
                 (
-                  Goal.trackPeriods,
-                  Icons.water_drop_outlined,
-                  l10n.goalTrackPeriods,
+                  Profile.discovering,
+                  Icons.explore_outlined,
+                  l10n.profileDiscovering,
+                  l10n.profileDiscoveringDetail,
                 ),
-                (Goal.understandBody, Icons.insights, l10n.goalUnderstandBody),
-                (Goal.conceive, Icons.favorite_border, l10n.goalConceive),
-                (Goal.perimenopause, Icons.timelapse, l10n.goalPerimenopause),
+                (
+                  Profile.tracking,
+                  Icons.water_drop_outlined,
+                  l10n.profileTracking,
+                  l10n.profileTrackingDetail,
+                ),
+                (
+                  Profile.conceiving,
+                  Icons.favorite_border,
+                  l10n.profileConceiving,
+                  l10n.profileConceivingDetail,
+                ),
+                (
+                  Profile.pregnant,
+                  Icons.pregnant_woman,
+                  l10n.profilePregnant,
+                  l10n.profilePregnantDetail,
+                ),
+                (
+                  Profile.postpartum,
+                  Icons.child_friendly_outlined,
+                  l10n.profilePostpartum,
+                  l10n.profilePostpartumDetail,
+                ),
+                (
+                  Profile.perimenopause,
+                  Icons.timelapse,
+                  l10n.profilePerimenopause,
+                  l10n.profilePerimenopauseDetail,
+                ),
               ])
                 _Choice(
-                  key: ValueKey('goal-${goal.name}'),
+                  key: ValueKey('profile-${profile.name}'),
                   icon: icon,
                   label: label,
-                  selected: _goals.contains(goal),
-                  several: true,
-                  onTap: () => _toggle(_goals, goal),
+                  detail: detail,
+                  selected: _profile == profile,
+                  onTap: () => setState(() {
+                    _profile = profile;
+                    _goals = goalsOf(profile);
+                  }),
                 ),
-              if (_goals.contains(Goal.conceive)) ...[
+              if (_profile == Profile.conceiving) ...[
                 const SizedBox(height: 4),
                 // The estimate of the fertile window comes with what it is
                 // not (rule 7).
@@ -644,6 +715,48 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                   style: theme.textTheme.bodySmall,
                 ),
               ],
+            ],
+          ),
+        );
+      case _Step.keyDate:
+        final pregnant = _profile == Profile.pregnant;
+        final date = _keyDate;
+        return _Question(
+          title: pregnant
+              ? l10n.onboardingLastPeriodQuestion
+              : l10n.setupBirthDateTitle,
+          hint: pregnant
+              ? l10n.setupPregnancyDateHint
+              : l10n.setupBirthDateHint,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              if (date != null) ...[
+                Text(
+                  fullDate(l10n, date),
+                  key: const ValueKey('key-date'),
+                  style: theme.textTheme.titleMedium,
+                ),
+                const SizedBox(height: 12),
+              ],
+              OutlinedButton.icon(
+                key: const ValueKey('key-date-pick'),
+                onPressed: () async {
+                  final picked = await pickPastDay(
+                    context,
+                    today: widget.environment.today(),
+                    daysBack: pregnant ? pregnancyDaysBack : birthDaysBack,
+                    current: date,
+                  );
+                  if (picked != null && mounted) {
+                    setState(() => _keyDate = picked);
+                  }
+                },
+                icon: const Icon(Icons.calendar_today),
+                label: Text(
+                  date == null ? l10n.setupChooseDate : l10n.changeDate,
+                ),
+              ),
             ],
           ),
         );
@@ -790,17 +903,18 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              SwitchListTile(
-                key: const ValueKey('setup-period-reminder'),
-                contentPadding: EdgeInsets.zero,
-                title: Text(l10n.setupPeriodReminder),
-                subtitle: Text(l10n.setupPeriodReminderHint),
-                value: reminders.periodEnabled,
-                onChanged: (on) => setState(
-                  () => _reminders = reminders.copyWith(periodEnabled: on),
+              if (followsACycle(_profile))
+                SwitchListTile(
+                  key: const ValueKey('setup-period-reminder'),
+                  contentPadding: EdgeInsets.zero,
+                  title: Text(l10n.setupPeriodReminder),
+                  subtitle: Text(l10n.setupPeriodReminderHint),
+                  value: reminders.periodEnabled,
+                  onChanged: (on) => setState(
+                    () => _reminders = reminders.copyWith(periodEnabled: on),
+                  ),
                 ),
-              ),
-              if (reminders.periodEnabled) ...[
+              if (followsACycle(_profile) && reminders.periodEnabled) ...[
                 Wrap(
                   spacing: 8,
                   children: [
@@ -830,7 +944,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                   ),
                 ),
               ],
-              const Divider(),
+              if (followsACycle(_profile)) const Divider(),
               SwitchListTile(
                 key: const ValueKey('setup-daily-reminder'),
                 contentPadding: EdgeInsets.zero,
@@ -1280,10 +1394,14 @@ class _Choice extends StatelessWidget {
     required this.selected,
     required this.onTap,
     this.icon,
+    this.detail,
     this.several = false,
   });
 
   final String label;
+
+  /// A few words under the label, when the answer needs them.
+  final String? detail;
   final bool selected;
   final VoidCallback onTap;
   final IconData? icon;
@@ -1330,11 +1448,27 @@ class _Choice extends StatelessWidget {
                       const SizedBox(width: 14),
                     ],
                     Expanded(
-                      child: Text(
-                        label,
-                        style: theme.textTheme.titleMedium?.copyWith(
-                          color: selected ? scheme.onPrimary : scheme.onSurface,
-                        ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            label,
+                            style: theme.textTheme.titleMedium?.copyWith(
+                              color: selected
+                                  ? scheme.onPrimary
+                                  : scheme.onSurface,
+                            ),
+                          ),
+                          if (detail != null)
+                            Text(
+                              detail!,
+                              style: theme.textTheme.bodySmall?.copyWith(
+                                color: selected
+                                    ? scheme.onPrimary
+                                    : scheme.onSurfaceVariant,
+                              ),
+                            ),
+                        ],
                       ),
                     ),
                     const SizedBox(width: 8),

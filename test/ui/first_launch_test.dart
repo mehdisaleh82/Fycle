@@ -77,7 +77,7 @@ void main() {
     await tester.pumpAndSettle();
     await tap(tester, next);
 
-    await tap(tester, const ValueKey('goal-trackPeriods'));
+    await tap(tester, const ValueKey('profile-tracking'));
     await tap(tester, next);
     await tap(tester, const ValueKey('wish-knowWhen'));
     await tap(tester, next);
@@ -250,8 +250,8 @@ void main() {
     final harness = Harness(tester);
     await harness.pumpApp();
 
-    await to(tester, 'What brings you here?');
-    await tap(tester, const ValueKey('goal-perimenopause'));
+    await to(tester, 'Where are you at?');
+    await tap(tester, const ValueKey('profile-perimenopause'));
     // Passing a question forgets its answer: answers are confirmed.
     await tap(tester, next);
     await to(tester, 'Have your periods changed in the last few months?');
@@ -304,9 +304,9 @@ void main() {
     final harness = Harness(tester);
     await harness.pumpApp();
 
-    await to(tester, 'What brings you here?');
+    await to(tester, 'Where are you at?');
     expect(find.byKey(const ValueKey('goal-conceive-warning')), findsNothing);
-    await tap(tester, const ValueKey('goal-conceive'));
+    await tap(tester, const ValueKey('profile-conceiving'));
     expect(
       find.textContaining('not a method of contraception'),
       findsOneWidget,
@@ -327,8 +327,8 @@ void main() {
     final harness = Harness(tester);
     await harness.pumpApp();
 
-    await to(tester, 'What brings you here?');
-    await tap(tester, const ValueKey('goal-understandBody'));
+    await to(tester, 'Where are you at?');
+    await tap(tester, const ValueKey('profile-discovering'));
     await tap(tester, next);
     await to(tester, 'All set');
     expect(
@@ -507,7 +507,7 @@ void main() {
     await tester.enterText(find.byKey(const ValueKey('first-name')), 'Maya');
     await tap(tester, next);
     await tap(tester, skip);
-    await tap(tester, const ValueKey('goal-conceive'));
+    await tap(tester, const ValueKey('profile-conceiving'));
     await tap(tester, next);
     await to(tester, 'Are your periods regular?');
     await tap(tester, const ValueKey('regularity-irregular'));

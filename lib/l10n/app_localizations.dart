@@ -3349,6 +3349,228 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'The day'**
   String get weekAnyNote;
+
+  /// No description provided for @setupProfileTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Where are you at?'**
+  String get setupProfileTitle;
+
+  /// No description provided for @setupProfileHint.
+  ///
+  /// In en, this message translates to:
+  /// **'The app adapts to your answer. You can change it at any time in the settings.'**
+  String get setupProfileHint;
+
+  /// No description provided for @profileDiscovering.
+  ///
+  /// In en, this message translates to:
+  /// **'I am discovering my cycle'**
+  String get profileDiscovering;
+
+  /// No description provided for @profileDiscoveringDetail.
+  ///
+  /// In en, this message translates to:
+  /// **'My first periods, or I am starting to track them.'**
+  String get profileDiscoveringDetail;
+
+  /// No description provided for @profileTracking.
+  ///
+  /// In en, this message translates to:
+  /// **'I track my periods'**
+  String get profileTracking;
+
+  /// No description provided for @profileTrackingDetail.
+  ///
+  /// In en, this message translates to:
+  /// **'Know when they come and log my days.'**
+  String get profileTrackingDetail;
+
+  /// No description provided for @profileConceiving.
+  ///
+  /// In en, this message translates to:
+  /// **'I am trying to conceive'**
+  String get profileConceiving;
+
+  /// No description provided for @profileConceivingDetail.
+  ///
+  /// In en, this message translates to:
+  /// **'Find my estimated fertile window.'**
+  String get profileConceivingDetail;
+
+  /// No description provided for @profilePregnant.
+  ///
+  /// In en, this message translates to:
+  /// **'I am pregnant'**
+  String get profilePregnant;
+
+  /// No description provided for @profilePregnantDetail.
+  ///
+  /// In en, this message translates to:
+  /// **'Count the weeks and log my days.'**
+  String get profilePregnantDetail;
+
+  /// No description provided for @profilePostpartum.
+  ///
+  /// In en, this message translates to:
+  /// **'I gave birth'**
+  String get profilePostpartum;
+
+  /// No description provided for @profilePostpartumDetail.
+  ///
+  /// In en, this message translates to:
+  /// **'Waiting for my periods to come back.'**
+  String get profilePostpartumDetail;
+
+  /// No description provided for @profilePerimenopause.
+  ///
+  /// In en, this message translates to:
+  /// **'My cycle is changing'**
+  String get profilePerimenopause;
+
+  /// No description provided for @profilePerimenopauseDetail.
+  ///
+  /// In en, this message translates to:
+  /// **'Perimenopause: follow what moves.'**
+  String get profilePerimenopauseDetail;
+
+  /// No description provided for @setupPregnancyDateHint.
+  ///
+  /// In en, this message translates to:
+  /// **'The weeks of pregnancy are counted from that day. An approximate date is enough.'**
+  String get setupPregnancyDateHint;
+
+  /// No description provided for @setupBirthDateTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'When did you give birth?'**
+  String get setupBirthDateTitle;
+
+  /// No description provided for @setupBirthDateHint.
+  ///
+  /// In en, this message translates to:
+  /// **'To count the weeks since the birth, and start afresh when your periods come back.'**
+  String get setupBirthDateHint;
+
+  /// No description provided for @setupChooseDate.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose the date'**
+  String get setupChooseDate;
+
+  /// No description provided for @changeDate.
+  ///
+  /// In en, this message translates to:
+  /// **'Change the date'**
+  String get changeDate;
+
+  /// No description provided for @pregnancyTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Your pregnancy'**
+  String get pregnancyTitle;
+
+  /// No description provided for @pregnancyWeeks.
+  ///
+  /// In en, this message translates to:
+  /// **'{weeks, plural, =0{0 weeks} =1{1 week} other{{weeks} weeks}} and {days, plural, =0{0 days} =1{1 day} other{{days} days}}'**
+  String pregnancyWeeks(int weeks, int days);
+
+  /// No description provided for @pregnancyCounted.
+  ///
+  /// In en, this message translates to:
+  /// **'counted from the first day of your last period'**
+  String get pregnancyCounted;
+
+  /// No description provided for @pregnancyTerm.
+  ///
+  /// In en, this message translates to:
+  /// **'A birth at term is estimated between {from} and {to}.'**
+  String pregnancyTerm(String from, String to);
+
+  /// No description provided for @pregnancyNote.
+  ///
+  /// In en, this message translates to:
+  /// **'An estimate: only a dating scan gives a reliable date.'**
+  String get pregnancyNote;
+
+  /// No description provided for @pregnancyNoDate.
+  ///
+  /// In en, this message translates to:
+  /// **'Give the first day of your last period to count the weeks.'**
+  String get pregnancyNoDate;
+
+  /// No description provided for @pregnancyPast.
+  ///
+  /// In en, this message translates to:
+  /// **'More than 42 weeks have gone by since that date. You can change the date or leave the pregnancy mode.'**
+  String get pregnancyPast;
+
+  /// No description provided for @pregnancyPaused.
+  ///
+  /// In en, this message translates to:
+  /// **'The estimate of your periods is paused.'**
+  String get pregnancyPaused;
+
+  /// No description provided for @pregnancyLeave.
+  ///
+  /// In en, this message translates to:
+  /// **'Leave the pregnancy mode'**
+  String get pregnancyLeave;
+
+  /// No description provided for @leaveTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Where are you at now?'**
+  String get leaveTitle;
+
+  /// No description provided for @leaveGaveBirth.
+  ///
+  /// In en, this message translates to:
+  /// **'I gave birth'**
+  String get leaveGaveBirth;
+
+  /// No description provided for @leaveBackToCycle.
+  ///
+  /// In en, this message translates to:
+  /// **'Go back to tracking my cycle'**
+  String get leaveBackToCycle;
+
+  /// No description provided for @postpartumTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'After the birth'**
+  String get postpartumTitle;
+
+  /// No description provided for @postpartumWeeks.
+  ///
+  /// In en, this message translates to:
+  /// **'{weeks, plural, =0{Less than a week} =1{1 week} other{{weeks} weeks}} since you gave birth'**
+  String postpartumWeeks(int weeks);
+
+  /// No description provided for @postpartumBody.
+  ///
+  /// In en, this message translates to:
+  /// **'When periods come back varies a lot from one woman to another. Log their first day when they do: the estimate will start again from there.'**
+  String get postpartumBody;
+
+  /// No description provided for @postpartumNoDate.
+  ///
+  /// In en, this message translates to:
+  /// **'Give the date of the birth to count the weeks.'**
+  String get postpartumNoDate;
+
+  /// No description provided for @recapPregnancy.
+  ///
+  /// In en, this message translates to:
+  /// **'Pregnancy mode: the weeks are counted, the estimate of your periods is paused.'**
+  String get recapPregnancy;
+
+  /// No description provided for @recapPostpartum.
+  ///
+  /// In en, this message translates to:
+  /// **'After the birth: the estimate will start again when your periods come back.'**
+  String get recapPostpartum;
 }
 
 class _AppLocalizationsDelegate

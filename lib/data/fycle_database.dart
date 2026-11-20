@@ -6,6 +6,7 @@ import '../domain/calendar_day.dart';
 import '../domain/day_entry.dart';
 import '../domain/flow_intensity.dart';
 import '../domain/libido_level.dart';
+import '../domain/life_stage.dart';
 import '../domain/mood.dart';
 import '../domain/pain_level.dart';
 import '../domain/period_predictor.dart';
@@ -101,6 +102,9 @@ final class FycleDatabase {
   static const String _usualFlow = 'usual_flow';
   static const String _usualPain = 'usual_pain';
   static const String _startSigns = 'start_signs';
+  static const String _profile = 'profile';
+  static const String _pregnancyStart = 'pregnancy_start';
+  static const String _deliveryDate = 'delivery_date';
 
   static const String _periodReminder = 'reminder_period_enabled';
   static const String _periodReminderDays = 'reminder_period_days_before';
@@ -310,6 +314,25 @@ final class FycleDatabase {
 
   set startSigns(Set<Symptom> signs) =>
       _writeDeviceSetting(_startSigns, _joined(signs));
+
+  /// Where she is in her life, as she said. Not part of an export.
+  Profile? get profile => _byName(Profile.values, _deviceSetting(_profile));
+
+  set profile(Profile? value) => _writeDeviceSetting(_profile, value?.name);
+
+  /// First day of the last period before a pregnancy, and the day of a
+  /// birth, as she gave them. Not part of an export.
+  CalendarDay? get pregnancyStart =>
+      CalendarDay.tryParse(_deviceSetting(_pregnancyStart) ?? '');
+
+  set pregnancyStart(CalendarDay? day) =>
+      _writeDeviceSetting(_pregnancyStart, day?.toString());
+
+  CalendarDay? get deliveryDate =>
+      CalendarDay.tryParse(_deviceSetting(_deliveryDate) ?? '');
+
+  set deliveryDate(CalendarDay? day) =>
+      _writeDeviceSetting(_deliveryDate, day?.toString());
 
   /// Stores the year of birth, or forgets it if [year] is null.
   set birthYear(int? year) => _transaction(() => _writeBirthYear(year));

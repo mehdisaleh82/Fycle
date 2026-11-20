@@ -4,6 +4,7 @@ import '../domain/calendar_day.dart';
 import '../domain/cycle_overview.dart';
 import '../domain/cycle_status.dart';
 import '../domain/flow_intensity.dart';
+import '../domain/life_stage.dart';
 import '../domain/period_end_estimate.dart';
 import '../l10n/app_localizations.dart';
 import 'app_environment.dart';
@@ -13,6 +14,7 @@ import 'follow_card.dart';
 import 'home_screen.dart';
 import 'insights_screen.dart';
 import 'labels.dart';
+import 'life_stage_cards.dart';
 import 'prediction_card.dart';
 import 'today_card.dart';
 
@@ -99,35 +101,41 @@ class TodayTab extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               header,
-              PredictionCard(
-                status: status,
-                overview: overview,
-                today: today,
-                cycleStart: cycleStart,
-                ovulationLine: current == null
-                    ? null
-                    : l10n.fertilityOvulationRange(
-                        shortDate(l10n, current.earliestOvulation),
-                        shortDate(l10n, current.latestOvulation),
-                      ),
-                periodEndLine: _periodEnd(l10n, status),
-                fertileFromDay: current == null || cycleStart == null
-                    ? null
-                    : current.windowStart.daysSince(cycleStart) + 1,
-                fertileToDay: current == null || cycleStart == null
-                    ? null
-                    : current.windowEnd.daysSince(cycleStart) + 1,
-                usualSignsFor: (dayOfCycle) => usualSignsAround(
-                  dayOfCycle,
-                  cycles: model.cycles,
-                  days: model.days,
+              if (model.profile == Profile.pregnant)
+                PregnancyCard(model: model, today: today)
+              else if (model.profile == Profile.postpartum &&
+                  model.prediction == null)
+                PostpartumCard(model: model, today: today)
+              else
+                PredictionCard(
+                  status: status,
+                  overview: overview,
+                  today: today,
+                  cycleStart: cycleStart,
+                  ovulationLine: current == null
+                      ? null
+                      : l10n.fertilityOvulationRange(
+                          shortDate(l10n, current.earliestOvulation),
+                          shortDate(l10n, current.latestOvulation),
+                        ),
+                  periodEndLine: _periodEnd(l10n, status),
+                  fertileFromDay: current == null || cycleStart == null
+                      ? null
+                      : current.windowStart.daysSince(cycleStart) + 1,
+                  fertileToDay: current == null || cycleStart == null
+                      ? null
+                      : current.windowEnd.daysSince(cycleStart) + 1,
+                  usualSignsFor: (dayOfCycle) => usualSignsAround(
+                    dayOfCycle,
+                    cycles: model.cycles,
+                    days: model.days,
+                  ),
+                  entryFor: model.entryFor,
+                  onOpenDay: onOpenDay,
+                  onPeriodStartsToday: () => model.saveDay(
+                    model.entryFor(today).withFlow(FlowIntensity.medium),
+                  ),
                 ),
-                entryFor: model.entryFor,
-                onOpenDay: onOpenDay,
-                onPeriodStartsToday: () => model.saveDay(
-                  model.entryFor(today).withFlow(FlowIntensity.medium),
-                ),
-              ),
               gap,
               TodayCard(
                 model: model,
