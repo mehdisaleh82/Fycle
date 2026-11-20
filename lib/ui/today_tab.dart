@@ -9,6 +9,7 @@ import '../l10n/app_localizations.dart';
 import 'app_environment.dart';
 import 'cycle_model.dart';
 import 'cycle_summary_card.dart';
+import 'follow_card.dart';
 import 'home_screen.dart';
 import 'insights_screen.dart';
 import 'labels.dart';
@@ -133,6 +134,8 @@ class TodayTab extends StatelessWidget {
                 today: today,
                 onOpenDay: () => onOpenDay(today),
               ),
+              gap,
+              FollowCard(model: model, today: today),
               if (summary != null) ...[
                 gap,
                 CycleSummaryCard(

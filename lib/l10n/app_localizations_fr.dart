@@ -1983,4 +1983,124 @@ class AppLocalizationsFr extends AppLocalizations {
   String changeStartSigns(String signs) {
     return 'Signes indiqués au départ : $signs.';
   }
+
+  @override
+  String get followTitle => 'Ton suivi';
+
+  @override
+  String get followJournal => 'Journal';
+
+  @override
+  String followRow(String name, int days) {
+    String _temp0 = intl.Intl.pluralLogic(
+      days,
+      locale: localeName,
+      other: '$days jours',
+      one: '1 jour',
+      zero: 'aucun jour',
+    );
+    return '$name : $_temp0 sur les 7 derniers';
+  }
+
+  @override
+  String followWeek(int days) {
+    String _temp0 = intl.Intl.pluralLogic(
+      days,
+      locale: localeName,
+      other: '$days jours notés sur les 7 derniers',
+      one: '1 jour noté sur les 7 derniers',
+      zero: 'Aucun jour noté sur les 7 derniers',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String followMonth(int days, int total) {
+    String _temp0 = intl.Intl.pluralLogic(
+      days,
+      locale: localeName,
+      other: 'Ce mois-ci : $days jours notés sur $total',
+      one: 'Ce mois-ci : 1 jour noté sur $total',
+      zero: 'Ce mois-ci : aucun jour noté sur $total',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String followCycleTitle(int day) {
+    return 'Ce cycle, jour $day';
+  }
+
+  @override
+  String get figureDaysLogged => 'Jours notés';
+
+  @override
+  String figureOutOf(int count, int total) {
+    return '$count sur $total';
+  }
+
+  @override
+  String get figureGoodNights => 'Bonnes nuits';
+
+  @override
+  String get figurePainDays => 'Jours de douleur';
+
+  @override
+  String get figureMood => 'Humeur la plus fréquente';
+
+  @override
+  String get figureLibido => 'Libido la plus fréquente';
+
+  @override
+  String figurePrevious(String value) {
+    return 'Cycle précédent, au même point : $value';
+  }
+
+  @override
+  String get reliabilityTitle => 'Fiabilité de l\'estimation';
+
+  @override
+  String get reliabilityLow => 'Faible';
+
+  @override
+  String get reliabilityMedium => 'Moyenne';
+
+  @override
+  String get reliabilityHigh => 'Élevée';
+
+  @override
+  String get reliabilityNone =>
+      'Note le premier jour de tes règles pour obtenir une estimation.';
+
+  @override
+  String reliabilityToMedium(int cycles) {
+    String _temp0 = intl.Intl.pluralLogic(
+      cycles,
+      locale: localeName,
+      other:
+          'Encore $cycles cycles notés avant qu\'elle puisse passer à moyenne.',
+      one: 'Encore 1 cycle noté avant qu\'elle puisse passer à moyenne.',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String reliabilityToHigh(int cycles) {
+    String _temp0 = intl.Intl.pluralLogic(
+      cycles,
+      locale: localeName,
+      other:
+          'Encore $cycles cycles notés avant qu\'elle puisse passer à élevée.',
+      one: 'Encore 1 cycle noté avant qu\'elle puisse passer à élevée.',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get reliabilityHeldByVariation =>
+      'Tes cycles diffèrent d\'une fois à l\'autre : elle montera s\'ils se rapprochent. Rien à voir avec ta façon de noter.';
+
+  @override
+  String get reliabilityAtTop =>
+      'Le niveau le plus élevé : il tient tant que tes cycles se ressemblent.';
 }

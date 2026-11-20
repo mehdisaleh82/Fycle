@@ -26,31 +26,33 @@ Finder within(String key, String text) =>
 
 void main() {
   group('home tab', () {
-    testWidgets('is kept to the ring and the journal of the day', (
-      tester,
-    ) async {
-      final harness = Harness(tester);
-      await harness.seed(days: threePeriods());
-      await harness.read(
-        (store) => store.database
-          ..dismissSuggestion('reminders')
-          ..dismissSuggestion('lock'),
-      );
-      await harness.pumpApp();
+    testWidgets(
+      'is kept to the ring, the journal of the day and her tracking',
+      (tester) async {
+        final harness = Harness(tester);
+        await harness.seed(days: threePeriods());
+        await harness.read(
+          (store) => store.database
+            ..dismissSuggestion('reminders')
+            ..dismissSuggestion('lock'),
+        );
+        await harness.pumpApp();
 
-      expect(find.text('Day 21 of your cycle'), findsOneWidget);
-      expect(find.text('Period in 5 to 11 days'), findsOneWidget);
-      expect(find.text('My journal today'), findsOneWidget);
-      // Everything else is in the review.
-      expect(find.byType(Card), findsNWidgets(2));
-      expect(find.byKey(const ValueKey('figure-cycle')), findsNothing);
-      expect(find.byKey(const ValueKey('unlock-card')), findsNothing);
-      expect(find.byKey(const ValueKey('open-doctor-report')), findsNothing);
-      // No study, no source, no reference is named anywhere on it.
-      for (final word in ['stud', 'reference', 'FIGO', 'Source']) {
-        expect(find.textContaining(word), findsNothing, reason: word);
-      }
-    });
+        expect(find.text('Day 21 of your cycle'), findsOneWidget);
+        expect(find.text('Period in 5 to 11 days'), findsOneWidget);
+        expect(find.text('My journal today'), findsOneWidget);
+        // Everything else is in the review.
+        expect(find.byType(Card), findsNWidgets(3));
+        expect(find.byKey(const ValueKey('follow-card')), findsOneWidget);
+        expect(find.byKey(const ValueKey('figure-cycle')), findsNothing);
+        expect(find.byKey(const ValueKey('unlock-card')), findsNothing);
+        expect(find.byKey(const ValueKey('open-doctor-report')), findsNothing);
+        // No study, no source, no reference is named anywhere on it.
+        for (final word in ['stud', 'reference', 'FIGO', 'Source']) {
+          expect(find.textContaining(word), findsNothing, reason: word);
+        }
+      },
+    );
 
     testWidgets('a period can be logged the day it comes, in one tap', (
       tester,

@@ -625,6 +625,12 @@ Retour de la testeuse sur la compilation n° 9, rapporté par l'utilisateur : po
     - **Pas encore fait**, à cadrer : import depuis Apple Santé et Health Connect (nouvelle dépendance, règle 4), mode grossesse, partage avec un partenaire (règle 2), articles (à faire écrire et relire par un professionnel de santé), rappel de prise de contraception, illustrations.
     - Textes à faire relire par un professionnel de santé avant toute diffusion au-delà des deux testeurs : la phrase sur la contraception hormonale, la liste des signes.
 144. **Fichier de sauvegarde fictif pour voir l'appli après un an** (`test/fixtures/demo-one-year.fycle`, écrit par `tool/make_demo_backup.dart`). Quatorze cycles inventés, du 25 septembre 2025 au 20 novembre 2026, année de naissance 1984. Aucune donnée réelle. Son mot de passe est dans le script : il ne protège que des jours inventés.
+145. **Carte « Ton suivi » sur l'accueil : des chiffres qui donnent envie de noter chaque jour, sans ludification** (demande de l'utilisateur du 20 novembre 2026 : « plus de KPI qui donnent envie de remplir quotidiennement »). Revient sur la décision 135 : l'accueil a de nouveau trois cartes.
+    - Les sept derniers jours, une ligne par chose suivie (le journal dans son ensemble, puis ce qu'elle a choisi au départ ; douleur et humeur sinon) : un point plein quand c'est noté, vide sinon. Les jours vides se voient d'un coup d'œil, sans commentaire.
+    - Deux comptes : jours notés sur les 7 derniers, jours notés ce mois-ci sur les jours écoulés.
+    - Le cycle en cours en chiffres : jours notés, bonnes nuits, jours de douleur, humeur et libido les plus fréquentes, chacun à côté du cycle précédent pris au même nombre de jours (`lib/domain/daily_figures.dart`). Humeur et libido n'apparaissent que si elles ont été notées.
+    - La fiabilité de l'estimation sur trois crans, avec ce qui la ferait monter : le nombre de cycles encore à noter, tiré des règles du moteur (`PeriodPredictor.cyclesForMediumConfidence`, `cyclesForHighConfidence`). Quand ce ne sont pas les cycles qui manquent mais ses cycles qui varient, la carte le dit, et dit que cela ne tient pas à sa façon de noter : aucune promesse fausse.
+    - Règle 13 : ni points, ni badge, ni félicitations, ni reproche. Un test vérifie l'absence de ces mots. La série de saisie reste dans la carte du journal du jour.
 
 ## Questions ouvertes
 

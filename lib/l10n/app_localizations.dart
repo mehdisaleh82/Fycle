@@ -3073,6 +3073,138 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Signs you named when you set the app up: {signs}.'**
   String changeStartSigns(String signs);
+
+  /// No description provided for @followTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Your tracking'**
+  String get followTitle;
+
+  /// No description provided for @followJournal.
+  ///
+  /// In en, this message translates to:
+  /// **'Journal'**
+  String get followJournal;
+
+  /// No description provided for @followRow.
+  ///
+  /// In en, this message translates to:
+  /// **'{name}: {days, plural, =0{no day} =1{1 day} other{{days} days}} out of the last 7'**
+  String followRow(String name, int days);
+
+  /// No description provided for @followWeek.
+  ///
+  /// In en, this message translates to:
+  /// **'{days, plural, =0{No day logged out of the last 7} =1{1 day logged out of the last 7} other{{days} days logged out of the last 7}}'**
+  String followWeek(int days);
+
+  /// No description provided for @followMonth.
+  ///
+  /// In en, this message translates to:
+  /// **'{days, plural, =0{This month: no day logged out of {total}} =1{This month: 1 day logged out of {total}} other{This month: {days} days logged out of {total}}}'**
+  String followMonth(int days, int total);
+
+  /// No description provided for @followCycleTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'This cycle, day {day}'**
+  String followCycleTitle(int day);
+
+  /// No description provided for @figureDaysLogged.
+  ///
+  /// In en, this message translates to:
+  /// **'Days logged'**
+  String get figureDaysLogged;
+
+  /// No description provided for @figureOutOf.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} of {total}'**
+  String figureOutOf(int count, int total);
+
+  /// No description provided for @figureGoodNights.
+  ///
+  /// In en, this message translates to:
+  /// **'Good nights'**
+  String get figureGoodNights;
+
+  /// No description provided for @figurePainDays.
+  ///
+  /// In en, this message translates to:
+  /// **'Days with pain'**
+  String get figurePainDays;
+
+  /// No description provided for @figureMood.
+  ///
+  /// In en, this message translates to:
+  /// **'Most frequent mood'**
+  String get figureMood;
+
+  /// No description provided for @figureLibido.
+  ///
+  /// In en, this message translates to:
+  /// **'Most frequent libido'**
+  String get figureLibido;
+
+  /// No description provided for @figurePrevious.
+  ///
+  /// In en, this message translates to:
+  /// **'Previous cycle, at the same point: {value}'**
+  String figurePrevious(String value);
+
+  /// No description provided for @reliabilityTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Reliability of the estimate'**
+  String get reliabilityTitle;
+
+  /// No description provided for @reliabilityLow.
+  ///
+  /// In en, this message translates to:
+  /// **'Low'**
+  String get reliabilityLow;
+
+  /// No description provided for @reliabilityMedium.
+  ///
+  /// In en, this message translates to:
+  /// **'Medium'**
+  String get reliabilityMedium;
+
+  /// No description provided for @reliabilityHigh.
+  ///
+  /// In en, this message translates to:
+  /// **'High'**
+  String get reliabilityHigh;
+
+  /// No description provided for @reliabilityNone.
+  ///
+  /// In en, this message translates to:
+  /// **'Log the first day of a period to get an estimate.'**
+  String get reliabilityNone;
+
+  /// No description provided for @reliabilityToMedium.
+  ///
+  /// In en, this message translates to:
+  /// **'{cycles, plural, =1{1 more logged cycle before it can reach medium.} other{{cycles} more logged cycles before it can reach medium.}}'**
+  String reliabilityToMedium(int cycles);
+
+  /// No description provided for @reliabilityToHigh.
+  ///
+  /// In en, this message translates to:
+  /// **'{cycles, plural, =1{1 more logged cycle before it can reach high.} other{{cycles} more logged cycles before it can reach high.}}'**
+  String reliabilityToHigh(int cycles);
+
+  /// No description provided for @reliabilityHeldByVariation.
+  ///
+  /// In en, this message translates to:
+  /// **'Your cycles differ from one another: it will rise if they come closer. Nothing to do with how you log.'**
+  String get reliabilityHeldByVariation;
+
+  /// No description provided for @reliabilityAtTop.
+  ///
+  /// In en, this message translates to:
+  /// **'The highest level: it holds as long as your cycles stay alike.'**
+  String get reliabilityAtTop;
 }
 
 class _AppLocalizationsDelegate

@@ -1964,4 +1964,122 @@ class AppLocalizationsEn extends AppLocalizations {
   String changeStartSigns(String signs) {
     return 'Signs you named when you set the app up: $signs.';
   }
+
+  @override
+  String get followTitle => 'Your tracking';
+
+  @override
+  String get followJournal => 'Journal';
+
+  @override
+  String followRow(String name, int days) {
+    String _temp0 = intl.Intl.pluralLogic(
+      days,
+      locale: localeName,
+      other: '$days days',
+      one: '1 day',
+      zero: 'no day',
+    );
+    return '$name: $_temp0 out of the last 7';
+  }
+
+  @override
+  String followWeek(int days) {
+    String _temp0 = intl.Intl.pluralLogic(
+      days,
+      locale: localeName,
+      other: '$days days logged out of the last 7',
+      one: '1 day logged out of the last 7',
+      zero: 'No day logged out of the last 7',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String followMonth(int days, int total) {
+    String _temp0 = intl.Intl.pluralLogic(
+      days,
+      locale: localeName,
+      other: 'This month: $days days logged out of $total',
+      one: 'This month: 1 day logged out of $total',
+      zero: 'This month: no day logged out of $total',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String followCycleTitle(int day) {
+    return 'This cycle, day $day';
+  }
+
+  @override
+  String get figureDaysLogged => 'Days logged';
+
+  @override
+  String figureOutOf(int count, int total) {
+    return '$count of $total';
+  }
+
+  @override
+  String get figureGoodNights => 'Good nights';
+
+  @override
+  String get figurePainDays => 'Days with pain';
+
+  @override
+  String get figureMood => 'Most frequent mood';
+
+  @override
+  String get figureLibido => 'Most frequent libido';
+
+  @override
+  String figurePrevious(String value) {
+    return 'Previous cycle, at the same point: $value';
+  }
+
+  @override
+  String get reliabilityTitle => 'Reliability of the estimate';
+
+  @override
+  String get reliabilityLow => 'Low';
+
+  @override
+  String get reliabilityMedium => 'Medium';
+
+  @override
+  String get reliabilityHigh => 'High';
+
+  @override
+  String get reliabilityNone =>
+      'Log the first day of a period to get an estimate.';
+
+  @override
+  String reliabilityToMedium(int cycles) {
+    String _temp0 = intl.Intl.pluralLogic(
+      cycles,
+      locale: localeName,
+      other: '$cycles more logged cycles before it can reach medium.',
+      one: '1 more logged cycle before it can reach medium.',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String reliabilityToHigh(int cycles) {
+    String _temp0 = intl.Intl.pluralLogic(
+      cycles,
+      locale: localeName,
+      other: '$cycles more logged cycles before it can reach high.',
+      one: '1 more logged cycle before it can reach high.',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get reliabilityHeldByVariation =>
+      'Your cycles differ from one another: it will rise if they come closer. Nothing to do with how you log.';
+
+  @override
+  String get reliabilityAtTop =>
+      'The highest level: it holds as long as your cycles stay alike.';
 }

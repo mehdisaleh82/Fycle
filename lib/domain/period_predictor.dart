@@ -58,6 +58,11 @@ final class PeriodPredictor {
   /// counts as one extra, lightly weighted cycle.
   static const int cyclesBeforeIgnoringDeclaredLength = 3;
 
+  /// From this many logged cycles, the confidence can be medium, then
+  /// high, if the range is narrow enough.
+  static const int cyclesForMediumConfidence = 2;
+  static const int cyclesForHighConfidence = 4;
+
   /// Predicts the next period start from [periodStarts] (any order,
   /// duplicates allowed) and, if the user gave one, [usualCycleLength].
   ///
@@ -217,8 +222,12 @@ final class PeriodPredictor {
   }
 
   PredictionConfidence _confidence(int cycleCount, int margin) {
-    if (cycleCount >= 4 && margin <= 2) return PredictionConfidence.high;
-    if (cycleCount >= 2 && margin <= 4) return PredictionConfidence.medium;
+    if (cycleCount >= cyclesForHighConfidence && margin <= 2) {
+      return PredictionConfidence.high;
+    }
+    if (cycleCount >= cyclesForMediumConfidence && margin <= 4) {
+      return PredictionConfidence.medium;
+    }
     return PredictionConfidence.low;
   }
 
