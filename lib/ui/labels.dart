@@ -9,6 +9,7 @@ import '../domain/mood.dart';
 import '../domain/pain_level.dart';
 import '../domain/period_prediction.dart';
 import '../domain/sleep_quality.dart';
+import '../domain/start_profile.dart';
 import '../domain/symptom.dart';
 import '../l10n/app_localizations.dart';
 
@@ -63,6 +64,10 @@ String symptomLabel(AppLocalizations l10n, Symptom symptom) =>
       Symptom.insomnia => l10n.symptomInsomnia,
       Symptom.hotFlashes => l10n.symptomHotFlashes,
       Symptom.nightSweats => l10n.symptomNightSweats,
+      Symptom.vaginalDryness => l10n.symptomVaginalDryness,
+      Symptom.jointPain => l10n.symptomJointPain,
+      Symptom.brainFog => l10n.symptomBrainFog,
+      Symptom.palpitations => l10n.symptomPalpitations,
     };
 
 /// The name of a sign listed in the trends: a symptom as it is, any other
@@ -123,6 +128,15 @@ CsvLabels csvLabels(AppLocalizations l10n) => CsvLabels(
 );
 
 DateTime _dateTime(CalendarDay day) => DateTime(day.year, day.month, day.day);
+
+String trackedLabel(AppLocalizations l10n, Tracked tracked) =>
+    switch (tracked) {
+      Tracked.pain => l10n.trackedPain,
+      Tracked.mood => l10n.trackedMood,
+      Tracked.sleep => l10n.trackedSleep,
+      Tracked.libido => l10n.trackedLibido,
+      Tracked.symptoms => l10n.trackedSymptoms,
+    };
 
 /// "Mar 5" / "5 mars".
 String shortDate(AppLocalizations l10n, CalendarDay day) =>

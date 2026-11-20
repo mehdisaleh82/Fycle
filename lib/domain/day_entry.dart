@@ -69,6 +69,30 @@ final class DayEntry {
     note: note,
   );
 
+  /// The same day with another sleep quality.
+  DayEntry withSleep(SleepQuality? sleep) => DayEntry(
+    day: day,
+    flow: flow,
+    pain: pain,
+    mood: mood,
+    sleep: sleep,
+    libido: libido,
+    symptoms: symptoms,
+    note: note,
+  );
+
+  /// The same day with another libido level.
+  DayEntry withLibido(LibidoLevel? libido) => DayEntry(
+    day: day,
+    flow: flow,
+    pain: pain,
+    mood: mood,
+    sleep: sleep,
+    libido: libido,
+    symptoms: symptoms,
+    note: note,
+  );
+
   /// How many of the groups of choices are filled in: flow, pain, mood,
   /// sleep, libido and symptoms. The note is free text and is not counted.
   int get filledGroups => [

@@ -1743,26 +1743,7 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get changeNoSigns =>
-      'Ni bouffées de chaleur ni sueurs nocturnes notées ces 90 derniers jours. Tu peux les cocher dans ton journal.';
-
-  @override
-  String changeSigns(int hot, int night) {
-    String _temp0 = intl.Intl.pluralLogic(
-      hot,
-      locale: localeName,
-      other: '$hot jours',
-      one: '1 jour',
-      zero: 'aucun jour',
-    );
-    String _temp1 = intl.Intl.pluralLogic(
-      night,
-      locale: localeName,
-      other: '$night jours',
-      one: '1 jour',
-      zero: 'aucun jour',
-    );
-    return 'Ces 90 derniers jours : bouffées de chaleur notées $_temp0, sueurs nocturnes $_temp1.';
-  }
+      'Aucun des signes à suivre n\'a été noté ces 90 derniers jours. Tu peux les cocher dans ton journal.';
 
   @override
   String changeSaid(String changes) {
@@ -1788,4 +1769,218 @@ class AppLocalizationsFr extends AppLocalizations {
   @override
   String get changeFooter =>
       'Beaucoup de choses peuvent faire bouger un cycle. Seul un professionnel de santé peut dire ce qu\'un changement signifie.';
+
+  @override
+  String get setupPrivacyTitle => 'Tes données restent ici';
+
+  @override
+  String get setupPrivacyHint =>
+      'Ce qui distingue cette appli, avant toute question.';
+
+  @override
+  String get privacyNoAccount =>
+      'Aucun compte, aucune adresse e-mail, aucun mot de passe à créer.';
+
+  @override
+  String get privacyOnPhone =>
+      'Ce que tu notes est rangé sur ce téléphone, chiffré. L\'appli n\'envoie rien sur le réseau.';
+
+  @override
+  String get privacyBackup =>
+      'Une sauvegarde est un fichier chiffré que tu ranges où tu veux.';
+
+  @override
+  String get privacyNoAds => 'Ni publicité, ni suivi, ni abonnement.';
+
+  @override
+  String setupGreeting(String name) {
+    return 'Bienvenue, $name.';
+  }
+
+  @override
+  String get setupWishesTitle => 'Dis-m\'en plus sur ce que tu veux';
+
+  @override
+  String get setupWishesHint =>
+      'Plusieurs réponses possibles. Chacune décide de ce que l\'appli met en avant.';
+
+  @override
+  String get wishKnowWhen => 'Savoir quand mes règles arrivent';
+
+  @override
+  String get wishKnowUsualRanges =>
+      'Situer mon cycle par rapport aux repères habituels';
+
+  @override
+  String get wishFertileWindow => 'Connaître ma fenêtre de fertilité estimée';
+
+  @override
+  String get wishAfterContraception =>
+      'Comprendre mon cycle après l\'arrêt d\'une contraception';
+
+  @override
+  String get wishWhatComesBack => 'Voir ce qui revient à chaque cycle';
+
+  @override
+  String get setupUsualTitle => 'Tes règles, d\'habitude';
+
+  @override
+  String get setupUsualHint =>
+      'Cela règle le point de départ. Tu notes ensuite les vrais jours.';
+
+  @override
+  String get setupUsualFlow => 'Abondance';
+
+  @override
+  String get setupUsualPain => 'Douleur';
+
+  @override
+  String get setupContraceptionTitle => 'Utilises-tu une contraception ?';
+
+  @override
+  String get setupContraceptionHint =>
+      'Avec une contraception hormonale, les saignements ne suivent pas un cycle naturel : l\'appli masque alors l\'estimation d\'ovulation. Elle ne donne aucun conseil de contraception.';
+
+  @override
+  String get contraceptionNone => 'Non';
+
+  @override
+  String get contraceptionHormonal =>
+      'Oui, hormonale (pilule, implant, stérilet hormonal, anneau, patch)';
+
+  @override
+  String get contraceptionNonHormonal =>
+      'Oui, sans hormones (stérilet au cuivre, préservatifs, autre)';
+
+  @override
+  String get setupSignsTitle => 'As-tu certains de ces signes en ce moment ?';
+
+  @override
+  String get setupSignsHint =>
+      'Plusieurs réponses possibles. Tu pourras les cocher jour après jour dans ton journal.';
+
+  @override
+  String get symptomVaginalDryness => 'Sécheresse vaginale';
+
+  @override
+  String get symptomJointPain => 'Douleurs articulaires';
+
+  @override
+  String get symptomBrainFog => 'Difficulté à se concentrer';
+
+  @override
+  String get symptomPalpitations => 'Palpitations';
+
+  @override
+  String get setupEarlierTitle => 'Et les règles d\'avant ?';
+
+  @override
+  String get setupEarlierHint =>
+      'Touche le premier jour de tes règles précédentes, trois au plus, si tu t\'en souviens. L\'estimation part alors de ton propre cycle.';
+
+  @override
+  String get setupTrackedTitle => 'Que veux-tu suivre au quotidien ?';
+
+  @override
+  String get setupTrackedHint =>
+      'Ton journal commence par ce que tu choisis. Le reste reste à portée.';
+
+  @override
+  String get trackedPain => 'Douleur';
+
+  @override
+  String get trackedMood => 'Humeur';
+
+  @override
+  String get trackedSleep => 'Sommeil';
+
+  @override
+  String get trackedLibido => 'Libido';
+
+  @override
+  String get trackedSymptoms => 'Symptômes';
+
+  @override
+  String get recapTitle => 'Ce que j\'ai réglé pour toi';
+
+  @override
+  String recapCycleOwn(int days) {
+    return 'Ton estimation part de tes propres dates : un cycle de $days jours.';
+  }
+
+  @override
+  String recapCycleDeclared(int days) {
+    return 'Ton estimation part de ce que tu as indiqué : un cycle de $days jours.';
+  }
+
+  @override
+  String recapCycleAge(int days) {
+    return 'Ton estimation part de la moyenne publiée pour ton âge : $days jours.';
+  }
+
+  @override
+  String recapCycleDefault(int days) {
+    return 'Ton estimation part d\'un cycle courant de $days jours.';
+  }
+
+  @override
+  String recapRange(int days) {
+    return 'Une fourchette de $days jours de chaque côté, qui se resserre avec tes dates.';
+  }
+
+  @override
+  String get recapNoDate =>
+      'Pas encore d\'estimation : elle démarre le jour où tu notes des règles.';
+
+  @override
+  String get recapFertilityOn =>
+      'La fenêtre de fertilité estimée est affichée. Une estimation : ni contraception ni diagnostic.';
+
+  @override
+  String get recapFertilityHormonal =>
+      'L\'estimation d\'ovulation est masquée : elle n\'a pas de sens sous contraception hormonale.';
+
+  @override
+  String get recapFertilityOff =>
+      'La fenêtre de fertilité estimée est masquée. Tu peux l\'activer dans les réglages.';
+
+  @override
+  String recapJournal(String items) {
+    return 'Ton journal commence par : $items.';
+  }
+
+  @override
+  String get recapChanges =>
+      'Le bilan suit ce qui change d\'un cycle au suivant.';
+
+  @override
+  String get recapRemindersOn => 'Les rappels sont activés.';
+
+  @override
+  String get recapRemindersOff =>
+      'Les rappels sont coupés. Tu peux les activer dans les réglages.';
+
+  @override
+  String get recapLockOn => 'L\'appli est verrouillée à l\'ouverture.';
+
+  @override
+  String changeSignsList(String signs) {
+    return 'Ces 90 derniers jours : $signs.';
+  }
+
+  @override
+  String changeSignDays(String sign, int days) {
+    String _temp0 = intl.Intl.pluralLogic(
+      days,
+      locale: localeName,
+      other: '$days jours',
+      one: '1 jour',
+    );
+    return '$sign ($_temp0)';
+  }
+
+  @override
+  String changeStartSigns(String signs) {
+    return 'Signes indiqués au départ : $signs.';
+  }
 }

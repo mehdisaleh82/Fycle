@@ -11,6 +11,7 @@ import 'package:fycle/domain/calendar_day.dart';
 import 'package:fycle/domain/day_entry.dart';
 import 'package:fycle/domain/flow_intensity.dart';
 import 'package:fycle/domain/start_profile.dart';
+import 'package:fycle/domain/symptom.dart';
 import 'package:fycle/domain/widget_snapshot.dart';
 import 'package:fycle/ui/app.dart';
 import 'package:fycle/ui/app_environment.dart';
@@ -162,6 +163,8 @@ final class Harness {
     int? birthYear,
     Set<Goal> goals = const {},
     Set<RecentChange> recentChanges = const {},
+    Set<Tracked> tracked = const {},
+    Set<Symptom> startSigns = const {},
     bool remindersDefaultApplied = true,
   }) async {
     final store = await openStore();
@@ -170,6 +173,8 @@ final class Harness {
     store.database.birthYear = birthYear;
     store.database.goals = goals;
     store.database.recentChanges = recentChanges;
+    store.database.tracked = tracked;
+    store.database.startSigns = startSigns;
     if (remindersDefaultApplied) {
       store.database.dismissSuggestion('reminders_default');
     }
@@ -260,6 +265,23 @@ Future<void> tapVisible(WidgetTester tester, Finder finder) async {
   await tester.pumpAndSettle();
 }
 
+/// Goes on in the setup, without answering, until the screen that shows
+/// [text]. Reminders passed on the way stay off.
+Future<void> setupTo(WidgetTester tester, String text) async {
+  const skip = ValueKey('onboarding-step-skip');
+  for (var i = 0; i < 30 && find.text(text).evaluate().isEmpty; i++) {
+    await tapVisible(
+      tester,
+      find.byKey(
+        find.byKey(skip).evaluate().isEmpty
+            ? const ValueKey('onboarding-next')
+            : skip,
+      ),
+    );
+  }
+  expect(find.text(text), findsOneWidget);
+}
+
 /// Goes through the setup of the first launch without answering, except for
 /// the first day of the last period when [lastPeriod] is given. Reminders
 /// are left as proposed: both on.
@@ -267,7 +289,7 @@ Future<void> finishSetup(WidgetTester tester, {CalendarDay? lastPeriod}) async {
   const next = ValueKey('onboarding-next');
   const finish = ValueKey('onboarding-finish');
   await tapVisible(tester, find.byKey(next));
-  for (var i = 0; i < 12 && find.byKey(finish).evaluate().isEmpty; i++) {
+  for (var i = 0; i < 30 && find.byKey(finish).evaluate().isEmpty; i++) {
     final pick = find.byKey(ValueKey('pick-$lastPeriod'));
     if (pick.evaluate().isNotEmpty) {
       await tapVisible(tester, pick);
@@ -278,9 +300,10 @@ Future<void> finishSetup(WidgetTester tester, {CalendarDay? lastPeriod}) async {
         .isNotEmpty) {
       await tapVisible(tester, find.byKey(next));
     } else {
+      const skip = ValueKey('onboarding-step-skip');
       await tapVisible(
         tester,
-        find.byKey(const ValueKey('onboarding-step-skip')),
+        find.byKey(find.byKey(skip).evaluate().isEmpty ? next : skip),
       );
     }
   }
@@ -294,7 +317,7 @@ Future<void> walkEveryScreen(WidgetTester tester, Harness harness) async {
   const next = ValueKey('onboarding-next');
   const finish = ValueKey('onboarding-finish');
   await tapVisible(tester, find.byKey(next));
-  for (var i = 0; i < 12 && find.byKey(finish).evaluate().isEmpty; i++) {
+  for (var i = 0; i < 30 && find.byKey(finish).evaluate().isEmpty; i++) {
     final today = find.byKey(ValueKey('pick-${harness.today}'));
     if (today.evaluate().isNotEmpty) {
       await tapVisible(tester, today);

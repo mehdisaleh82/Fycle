@@ -4,9 +4,12 @@ import 'package:material_ui/material_ui.dart';
 import '../domain/calendar_day.dart';
 import '../domain/day_entry.dart';
 import '../domain/flow_intensity.dart';
+import '../domain/libido_level.dart';
 import '../domain/logging_streak.dart';
 import '../domain/mood.dart';
 import '../domain/pain_level.dart';
+import '../domain/sleep_quality.dart';
+import '../domain/start_profile.dart';
 import '../l10n/app_localizations.dart';
 import 'cycle_model.dart';
 import 'home_cards.dart';
@@ -32,6 +35,17 @@ class TodayCard extends StatelessWidget {
 
   /// Opens the full entry of today.
   final VoidCallback onOpenDay;
+
+  /// The rows offered in one tap, after the flow: what she follows among
+  /// pain, mood, sleep and libido, or pain and mood when she did not say.
+  /// Symptoms are too many for a row: they stay in the full entry.
+  static List<Tracked> _quickRows(Set<Tracked> tracked) {
+    final rows = [
+      for (final kind in Tracked.values)
+        if (kind != Tracked.symptoms && tracked.contains(kind)) kind,
+    ];
+    return rows.isEmpty ? const [Tracked.pain, Tracked.mood] : rows;
+  }
 
   void _save(DayEntry entry) {
     // A light tick under the finger: the tap was taken into account.
@@ -65,32 +79,63 @@ class TodayCard extends StatelessWidget {
               ),
           ],
         ),
-        _Group(
-          title: l10n.dayPainTitle,
-          children: [
-            for (final pain in PainLevel.values)
-              ChoiceChip(
-                key: ValueKey('quick-pain-${pain.name}'),
-                label: Text(painLabel(l10n, pain)),
-                selected: entry.pain == pain,
-                onSelected: (selected) =>
-                    _save(entry.withPain(selected ? pain : null)),
-              ),
-          ],
-        ),
-        _Group(
-          title: l10n.dayMoodTitle,
-          children: [
-            for (final mood in Mood.values)
-              ChoiceChip(
-                key: ValueKey('quick-mood-${mood.name}'),
-                label: Text(moodLabel(l10n, mood)),
-                selected: entry.mood == mood,
-                onSelected: (selected) =>
-                    _save(entry.withMood(selected ? mood : null)),
-              ),
-          ],
-        ),
+        // What she said she wants to follow; pain and mood otherwise.
+        for (final kind in _quickRows(model.tracked))
+          switch (kind) {
+            Tracked.pain => _Group(
+              title: l10n.dayPainTitle,
+              children: [
+                for (final pain in PainLevel.values)
+                  ChoiceChip(
+                    key: ValueKey('quick-pain-${pain.name}'),
+                    label: Text(painLabel(l10n, pain)),
+                    selected: entry.pain == pain,
+                    onSelected: (selected) =>
+                        _save(entry.withPain(selected ? pain : null)),
+                  ),
+              ],
+            ),
+            Tracked.mood => _Group(
+              title: l10n.dayMoodTitle,
+              children: [
+                for (final mood in Mood.values)
+                  ChoiceChip(
+                    key: ValueKey('quick-mood-${mood.name}'),
+                    label: Text(moodLabel(l10n, mood)),
+                    selected: entry.mood == mood,
+                    onSelected: (selected) =>
+                        _save(entry.withMood(selected ? mood : null)),
+                  ),
+              ],
+            ),
+            Tracked.sleep => _Group(
+              title: l10n.daySleepTitle,
+              children: [
+                for (final sleep in SleepQuality.values)
+                  ChoiceChip(
+                    key: ValueKey('quick-sleep-${sleep.name}'),
+                    label: Text(sleepLabel(l10n, sleep)),
+                    selected: entry.sleep == sleep,
+                    onSelected: (selected) =>
+                        _save(entry.withSleep(selected ? sleep : null)),
+                  ),
+              ],
+            ),
+            Tracked.libido => _Group(
+              title: l10n.dayLibidoTitle,
+              children: [
+                for (final libido in LibidoLevel.values)
+                  ChoiceChip(
+                    key: ValueKey('quick-libido-${libido.name}'),
+                    label: Text(libidoLabel(l10n, libido)),
+                    selected: entry.libido == libido,
+                    onSelected: (selected) =>
+                        _save(entry.withLibido(selected ? libido : null)),
+                  ),
+              ],
+            ),
+            Tracked.symptoms => const SizedBox.shrink(),
+          },
         MergeSemantics(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,

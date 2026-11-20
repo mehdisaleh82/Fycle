@@ -7,6 +7,7 @@ import '../domain/cycle_history.dart';
 import '../domain/day_entry.dart';
 import '../domain/fertility_estimate.dart';
 import '../domain/flow_intensity.dart';
+import '../domain/pain_level.dart';
 import '../domain/period_prediction.dart';
 import '../domain/period_predictor.dart';
 import '../domain/period_starts.dart';
@@ -14,6 +15,7 @@ import '../domain/reference_cycle.dart';
 import '../domain/reminders.dart';
 import '../domain/start_profile.dart';
 import '../domain/start_profile.dart' as start_profile;
+import '../domain/symptom.dart';
 
 /// What the screens show, read from the local store and recomputed after
 /// every change: the flow log, the days with any entry, the prediction, and
@@ -46,6 +48,12 @@ class CycleModel extends ChangeNotifier {
   String? _firstName;
   Set<Goal> _goals = const {};
   Set<RecentChange> _recentChanges = const {};
+  Set<Wish> _wishes = const {};
+  Contraception? _contraception;
+  Set<Tracked> _tracked = const {};
+  FlowIntensity? _usualFlow;
+  PainLevel? _usualPain;
+  Set<Symptom> _startSigns = const {};
   ReminderSettings _reminderSettings = ReminderSettings();
   bool _appLockEnabled = false;
   Appearance _appearance = Appearance.light;
@@ -103,6 +111,22 @@ class CycleModel extends ChangeNotifier {
 
   /// The changes she noticed in her periods when the app was set up.
   Set<RecentChange> get recentChanges => _recentChanges;
+
+  /// What she wants to know, in more detail.
+  Set<Wish> get wishes => _wishes;
+
+  /// The contraception she said she uses, if she said.
+  Contraception? get contraception => _contraception;
+
+  /// What she wants to follow day by day. Empty when she did not say.
+  Set<Tracked> get tracked => _tracked;
+
+  /// How heavy and how painful her periods usually are, as she said.
+  FlowIntensity? get usualFlow => _usualFlow;
+  PainLevel? get usualPain => _usualPain;
+
+  /// The signs she said she had when the app was set up.
+  Set<Symptom> get startSigns => _startSigns;
 
   /// Whether the app follows what changes from one cycle to the next.
   bool get followsCycleChanges =>
@@ -166,6 +190,12 @@ class CycleModel extends ChangeNotifier {
     required int? usualCycleLength,
     required int? usualPeriodLength,
     required Set<RecentChange> recentChanges,
+    required Set<Wish> wishes,
+    required Contraception? contraception,
+    required Set<Tracked> tracked,
+    required FlowIntensity? usualFlow,
+    required PainLevel? usualPain,
+    required Set<Symptom> startSigns,
   }) {
     final database = store.database;
     database.firstName = firstName;
@@ -175,6 +205,12 @@ class CycleModel extends ChangeNotifier {
     database.usualCycleLength = usualCycleLength;
     database.usualPeriodLength = usualPeriodLength;
     database.recentChanges = recentChanges;
+    database.wishes = wishes;
+    database.contraception = contraception;
+    database.tracked = tracked;
+    database.usualFlow = usualFlow;
+    database.usualPain = usualPain;
+    database.startSigns = startSigns;
     reload();
   }
 
@@ -245,6 +281,12 @@ class CycleModel extends ChangeNotifier {
     _firstName = database.firstName;
     _goals = database.goals;
     _recentChanges = database.recentChanges;
+    _wishes = database.wishes;
+    _contraception = database.contraception;
+    _tracked = database.tracked;
+    _usualFlow = database.usualFlow;
+    _usualPain = database.usualPain;
+    _startSigns = database.startSigns;
     _reminderSettings = database.reminderSettings;
     _appLockEnabled = database.appLockEnabled;
     _appearance = database.appearance;

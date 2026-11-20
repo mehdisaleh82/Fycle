@@ -1,6 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fycle/domain/calendar_day.dart';
 import 'package:fycle/domain/day_entry.dart';
+import 'package:fycle/domain/libido_level.dart';
 import 'package:fycle/domain/start_profile.dart';
 import 'package:fycle/domain/symptom.dart';
 import 'package:material_ui/material_ui.dart';
@@ -52,6 +53,7 @@ void main() {
       ],
       goals: {Goal.perimenopause},
       recentChanges: {RecentChange.lessRegular, RecentChange.heavierFlow},
+      startSigns: {Symptom.nightSweats, Symptom.jointPain},
     );
     await harness.pumpApp();
     await openReview(tester);
@@ -66,16 +68,20 @@ void main() {
       findsOneWidget,
     );
     expect(
-      find.text(
-        'In the last 90 days: hot flashes logged on 1 day, night sweats on '
-        'no day.',
-      ),
+      find.text('In the last 90 days: Hot flashes (1 day).'),
       findsOneWidget,
     );
     expect(
       find.text(
         'When you set the app up, you said: heavier flow, less regular '
         'periods.',
+      ),
+      findsOneWidget,
+    );
+    expect(
+      find.text(
+        'Signs you named when you set the app up: Night sweats, Joint '
+        'pain.',
       ),
       findsOneWidget,
     );
@@ -141,6 +147,49 @@ void main() {
     expect(find.byKey(card), findsOneWidget);
   });
 
+  group('what she follows', () {
+    testWidgets('comes first in the entry of the day, after the flow', (
+      tester,
+    ) async {
+      final harness = Harness(tester);
+      await harness.seed(
+        days: threePeriods(),
+        tracked: {Tracked.libido, Tracked.sleep},
+      );
+      await harness.pumpApp();
+      await tapVisible(tester, find.byKey(const ValueKey('log-today')));
+
+      double top(String key) => tester.getTopLeft(find.byKey(ValueKey(key))).dy;
+      expect(top('flow-medium'), lessThan(top('sleep-good')));
+      expect(top('sleep-good'), lessThan(top('libido-low')));
+      expect(top('libido-low'), lessThan(top('pain-mild')));
+      expect(top('pain-mild'), lessThan(top('mood-calm')));
+    });
+
+    testWidgets('is one tap away on the home', (tester) async {
+      final harness = Harness(tester);
+      await harness.seed(days: threePeriods(), tracked: {Tracked.libido});
+      await harness.pumpApp();
+      await tapVisible(tester, find.byKey(const ValueKey('quick-libido-high')));
+
+      final entry = await harness.read(
+        (store) => store.database.readDay(harness.today),
+      );
+      expect(entry?.libido, LibidoLevel.high);
+      expect(find.byKey(const ValueKey('quick-mood-calm')), findsNothing);
+    });
+
+    testWidgets('pain and mood when she did not say', (tester) async {
+      final harness = Harness(tester);
+      await harness.seed(days: threePeriods());
+      await harness.pumpApp();
+
+      expect(find.byKey(const ValueKey('quick-pain-mild')), findsOneWidget);
+      expect(find.byKey(const ValueKey('quick-mood-calm')), findsOneWidget);
+      expect(find.byKey(const ValueKey('quick-sleep-good')), findsNothing);
+    });
+  });
+
   group('signs in the journal', () {
     const hotFlashes = ValueKey('symptom-hotFlashes');
 
@@ -158,6 +207,24 @@ void main() {
         (store) => store.database.readDay(harness.today),
       );
       expect(entry?.symptoms, {Symptom.hotFlashes});
+    });
+
+    testWidgets('all six are there to tick', (tester) async {
+      final harness = Harness(tester);
+      await harness.seed(days: threePeriods(), birthYear: 1980);
+      await harness.pumpApp();
+      await tapVisible(tester, find.byKey(const ValueKey('log-today')));
+
+      for (final name in [
+        'hotFlashes',
+        'nightSweats',
+        'vaginalDryness',
+        'jointPain',
+        'brainFog',
+        'palpitations',
+      ]) {
+        expect(find.byKey(ValueKey('symptom-$name')), findsOneWidget);
+      }
     });
 
     testWidgets('and not to the others', (tester) async {

@@ -34,14 +34,24 @@ const int longIntervalDays = 60;
 /// The signs asked about are counted over this many days.
 const int signWindowDays = 90;
 
+/// The signs offered to those who follow a changing cycle, in the order
+/// they are shown.
+const List<Symptom> changeSigns = [
+  Symptom.hotFlashes,
+  Symptom.nightSweats,
+  Symptom.vaginalDryness,
+  Symptom.jointPain,
+  Symptom.brainFog,
+  Symptom.palpitations,
+];
+
 final class CycleChange {
   const CycleChange({
     required this.cyclesCompared,
     required this.markedDifferences,
     required this.longestInterval,
     required this.daysSinceLastPeriod,
-    required this.hotFlashDays,
-    required this.nightSweatDays,
+    required this.signDays,
   });
 
   /// Complete cycles compared with the one before. Zero while fewer than
@@ -63,10 +73,9 @@ final class CycleChange {
   /// reaches [longIntervalDays]. Null otherwise.
   final int? daysSinceLastPeriod;
 
-  /// Days with hot flashes, and with night sweats, logged in the last
-  /// [signWindowDays] days.
-  final int hotFlashDays;
-  final int nightSweatDays;
+  /// Days on which each of the [changeSigns] was logged in the last
+  /// [signWindowDays] days. Signs never logged are absent.
+  final Map<Symptom, int> signDays;
 
   /// True when there is nothing to tell yet: too few cycles to compare, no
   /// long interval and no sign logged.
@@ -74,8 +83,7 @@ final class CycleChange {
       cyclesCompared == 0 &&
       longestInterval == null &&
       daysSinceLastPeriod == null &&
-      hotFlashDays == 0 &&
-      nightSweatDays == 0;
+      signDays.isEmpty;
 }
 
 /// Reads [cycles] (as returned by [cycleHistory], oldest first, the current
@@ -127,18 +135,16 @@ CycleChange cycleChangeOn(
     }
   }
 
-  var hotFlashes = 0;
-  var nightSweats = 0;
+  final signDays = <Symptom, int>{};
   for (final entry in days) {
     final ago = today.daysSince(entry.day);
     if (ago < 0 || ago >= signWindowDays) {
       continue;
     }
-    if (entry.symptoms.contains(Symptom.hotFlashes)) {
-      hotFlashes++;
-    }
-    if (entry.symptoms.contains(Symptom.nightSweats)) {
-      nightSweats++;
+    for (final sign in changeSigns) {
+      if (entry.symptoms.contains(sign)) {
+        signDays[sign] = (signDays[sign] ?? 0) + 1;
+      }
     }
   }
 
@@ -147,7 +153,6 @@ CycleChange cycleChangeOn(
     markedDifferences: marked,
     longestInterval: longest,
     daysSinceLastPeriod: sinceLast,
-    hotFlashDays: hotFlashes,
-    nightSweatDays: nightSweats,
+    signDays: Map.unmodifiable(signDays),
   );
 }

@@ -607,6 +607,24 @@ Retour de la testeuse sur la compilation n° 9, rapporté par l'utilisateur : po
     - Un cycle de plus de 90 jours reste traité comme un oubli de saisie, pas comme un changement (décision sur les cycles plausibles).
     - Textes à faire relire par un professionnel de santé avant toute diffusion au-delà des deux testeurs.
     - Non fait : articles d'information sur la périménopause (à écrire et relire par un professionnel de santé), autres signes (humeur et sommeil sont déjà dans le journal).
+143. **Parcours de départ complet : dix-huit écrans au plus, et un récapitulatif de ce qui a été réglé** (demande de l'utilisateur du 20 novembre 2026 : « un parcours complet (libido, préménopause, plein de choses) »). Complète la décision 141.
+    - Écrans ajoutés : « Tes données restent ici » (quatre phrases vraies, aucune case à cocher), un mot d'accueil avec le prénom, « Dis-m'en plus sur ce que tu veux », « Tes règles, d'habitude » (abondance et douleur), la contraception, les signes du moment (pour celles qui suivent un cycle qui change), les règles d'avant (trois premiers jours au plus, sur un calendrier), « Que veux-tu suivre au quotidien ? ».
+    - **Chaque réponse sert, sinon la question n'est pas posée** :
+        - Règles d'avant : l'estimation part de ses propres cycles dès le premier jour. C'est la réponse qui pèse le plus dans le calcul.
+        - Contraception hormonale : l'estimation d'ovulation et la fenêtre de fertilité sont masquées, car des saignements sous hormones ne suivent pas un cycle naturel. L'appli le dit et ne donne aucun conseil de contraception (règle 7). Le rappel de prise n'est pas fait.
+        - « Connaître ma fenêtre de fertilité » : l'affiche, avec son avertissement, sauf sous contraception hormonale.
+        - Ce qu'elle veut suivre (douleur, humeur, sommeil, libido, symptômes) : le journal du jour commence par là, après les règles, et l'accueil propose ces rubriques en un appui. Rien n'est caché : le reste suit. Sans réponse, douleur et humeur, comme avant.
+        - Abondance habituelle : les premiers jours donnés pendant le parcours sont enregistrés avec cette abondance, moyenne sinon.
+        - Signes du moment et changements récents : rappelés dans la carte « Ce qui change » et dans le rapport pour le médecin.
+        - Douleur habituelle, et les souhaits « situer mon cycle », « après l'arrêt d'une contraception », « ce qui revient » : enregistrés, sans effet sur le calcul pour l'instant. Aucun chiffre publié et vérifié ne permet aujourd'hui de régler la fourchette après l'arrêt d'une contraception : rien n'est inventé.
+    - Le dernier écran dit ce qui a réellement été réglé : d'où part l'estimation (ses dates, sa réponse, la moyenne publiée pour son âge, ou la valeur courante), la fourchette, la fenêtre de fertilité affichée ou non et pourquoi, l'ordre du journal, le suivi des changements, les rappels, le verrouillage. Il remplace l'écran d'attente « personnalisation » des applis du domaine, qui ne calcule rien.
+    - Quatre signes de plus pour celles qui suivent un cycle qui change : sécheresse vaginale, douleurs articulaires, difficulté à se concentrer, palpitations. La carte « Ce qui change » compte les jours de chacun (complète la décision 142).
+    - Toutes ces réponses sont des réglages du téléphone, hors sauvegarde.
+    - Passer une question efface sa réponse : une réponse se confirme par « Continuer ».
+    - **Non repris**, volontairement : l'abonnement (règle 9), l'engagement « maintiens le doigt appuyé » (règle 13), le suivi publicitaire, le compte, l'écran d'attente factice.
+    - **Pas encore fait**, à cadrer : import depuis Apple Santé et Health Connect (nouvelle dépendance, règle 4), mode grossesse, partage avec un partenaire (règle 2), articles (à faire écrire et relire par un professionnel de santé), rappel de prise de contraception, illustrations.
+    - Textes à faire relire par un professionnel de santé avant toute diffusion au-delà des deux testeurs : la phrase sur la contraception hormonale, la liste des signes.
+144. **Fichier de sauvegarde fictif pour voir l'appli après un an** (`test/fixtures/demo-one-year.fycle`, écrit par `tool/make_demo_backup.dart`). Quatorze cycles inventés, du 25 septembre 2025 au 20 novembre 2026, année de naissance 1984. Aucune donnée réelle. Son mot de passe est dans le script : il ne protège que des jours inventés.
 
 ## Questions ouvertes
 

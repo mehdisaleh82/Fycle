@@ -95,6 +95,12 @@ final class FycleDatabase {
   static const String _firstName = 'first_name';
   static const String _goals = 'goals';
   static const String _recentChanges = 'recent_changes';
+  static const String _wishes = 'wishes';
+  static const String _contraception = 'contraception';
+  static const String _tracked = 'tracked';
+  static const String _usualFlow = 'usual_flow';
+  static const String _usualPain = 'usual_pain';
+  static const String _startSigns = 'start_signs';
 
   static const String _periodReminder = 'reminder_period_enabled';
   static const String _periodReminderDays = 'reminder_period_days_before';
@@ -265,6 +271,45 @@ final class FycleDatabase {
 
   set recentChanges(Set<RecentChange> changes) =>
       _writeDeviceSetting(_recentChanges, _joined(changes));
+
+  /// What she wants to know, in more detail. Not part of an export.
+  Set<Wish> get wishes => _names(Wish.values, _deviceSetting(_wishes));
+
+  set wishes(Set<Wish> wishes) => _writeDeviceSetting(_wishes, _joined(wishes));
+
+  /// The contraception she said she uses. Not part of an export.
+  Contraception? get contraception =>
+      _byName(Contraception.values, _deviceSetting(_contraception));
+
+  set contraception(Contraception? value) =>
+      _writeDeviceSetting(_contraception, value?.name);
+
+  /// What she wants to follow day by day. Not part of an export.
+  Set<Tracked> get tracked => _names(Tracked.values, _deviceSetting(_tracked));
+
+  set tracked(Set<Tracked> tracked) =>
+      _writeDeviceSetting(_tracked, _joined(tracked));
+
+  /// How heavy and how painful her periods usually are, as she said when
+  /// the app was set up. Not part of an export.
+  FlowIntensity? get usualFlow =>
+      _byName(FlowIntensity.values, _deviceSetting(_usualFlow));
+
+  set usualFlow(FlowIntensity? flow) =>
+      _writeDeviceSetting(_usualFlow, flow?.name);
+
+  PainLevel? get usualPain =>
+      _byName(PainLevel.values, _deviceSetting(_usualPain));
+
+  set usualPain(PainLevel? pain) => _writeDeviceSetting(_usualPain, pain?.name);
+
+  /// The signs she said she had when the app was set up. Not part of an
+  /// export.
+  Set<Symptom> get startSigns =>
+      _names(Symptom.values, _deviceSetting(_startSigns));
+
+  set startSigns(Set<Symptom> signs) =>
+      _writeDeviceSetting(_startSigns, _joined(signs));
 
   /// Stores the year of birth, or forgets it if [year] is null.
   set birthYear(int? year) => _transaction(() => _writeBirthYear(year));

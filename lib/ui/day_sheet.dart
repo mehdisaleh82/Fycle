@@ -1,12 +1,14 @@
 import 'package:material_ui/material_ui.dart';
 
 import '../domain/calendar_day.dart';
+import '../domain/cycle_change.dart';
 import '../domain/day_entry.dart';
 import '../domain/flow_intensity.dart';
 import '../domain/libido_level.dart';
 import '../domain/mood.dart';
 import '../domain/pain_level.dart';
 import '../domain/sleep_quality.dart';
+import '../domain/start_profile.dart';
 import '../domain/symptom.dart';
 import '../l10n/app_localizations.dart';
 import 'cycle_model.dart';
@@ -39,10 +41,17 @@ class _DaySheet extends StatefulWidget {
 }
 
 class _DaySheetState extends State<_DaySheet> {
-  static const Set<Symptom> _changeSigns = {
-    Symptom.hotFlashes,
-    Symptom.nightSweats,
-  };
+  /// Flow first, then what she said she wants to follow, then the rest:
+  /// nothing is hidden, only put in her order.
+  List<Widget> _inOrder(List<(Tracked?, Widget)> sections) {
+    final first = widget.model.tracked;
+    return [
+      for (final (kind, section) in sections)
+        if (kind == null || first.contains(kind)) section,
+      for (final (kind, section) in sections)
+        if (kind != null && !first.contains(kind)) section,
+    ];
+  }
 
   late DayEntry _entry;
   late final TextEditingController _note;
@@ -122,88 +131,108 @@ class _DaySheetState extends State<_DaySheet> {
                 ),
               ],
             ),
-            _Section(
-              title: l10n.dayFlowTitle,
-              children: [
-                for (final flow in FlowIntensity.values)
-                  ChoiceChip(
-                    key: ValueKey('flow-${flow.name}'),
-                    label: Text(flowLabel(l10n, flow)),
-                    selected: _entry.flow == flow,
-                    onSelected: (selected) =>
-                        _save(flow: () => selected ? flow : null),
-                  ),
-              ],
-            ),
-            _Section(
-              title: l10n.dayPainTitle,
-              children: [
-                for (final pain in PainLevel.values)
-                  ChoiceChip(
-                    key: ValueKey('pain-${pain.name}'),
-                    label: Text(painLabel(l10n, pain)),
-                    selected: _entry.pain == pain,
-                    onSelected: (selected) =>
-                        _save(pain: () => selected ? pain : null),
-                  ),
-              ],
-            ),
-            _Section(
-              title: l10n.dayMoodTitle,
-              children: [
-                for (final mood in Mood.values)
-                  ChoiceChip(
-                    key: ValueKey('mood-${mood.name}'),
-                    label: Text(moodLabel(l10n, mood)),
-                    selected: _entry.mood == mood,
-                    onSelected: (selected) =>
-                        _save(mood: () => selected ? mood : null),
-                  ),
-              ],
-            ),
-            _Section(
-              title: l10n.daySleepTitle,
-              children: [
-                for (final sleep in SleepQuality.values)
-                  ChoiceChip(
-                    key: ValueKey('sleep-${sleep.name}'),
-                    label: Text(sleepLabel(l10n, sleep)),
-                    selected: _entry.sleep == sleep,
-                    onSelected: (selected) =>
-                        _save(sleep: () => selected ? sleep : null),
-                  ),
-              ],
-            ),
-            _Section(
-              title: l10n.dayLibidoTitle,
-              children: [
-                for (final libido in LibidoLevel.values)
-                  ChoiceChip(
-                    key: ValueKey('libido-${libido.name}'),
-                    label: Text(libidoLabel(l10n, libido)),
-                    selected: _entry.libido == libido,
-                    onSelected: (selected) =>
-                        _save(libido: () => selected ? libido : null),
-                  ),
-              ],
-            ),
-            _Section(
-              title: l10n.daySymptomsTitle,
-              children: [
-                for (final symptom in Symptom.values)
-                  // The signs of a changing cycle are offered to those
-                  // who follow it, and kept wherever they were ticked.
-                  if (!_changeSigns.contains(symptom) ||
-                      widget.model.followsCycleChanges ||
-                      _entry.symptoms.contains(symptom))
-                    FilterChip(
-                      key: ValueKey('symptom-${symptom.name}'),
-                      label: Text(symptomLabel(l10n, symptom)),
-                      selected: _entry.symptoms.contains(symptom),
-                      onSelected: (_) => _toggleSymptom(symptom),
-                    ),
-              ],
-            ),
+            ..._inOrder([
+              (
+                null,
+                _Section(
+                  title: l10n.dayFlowTitle,
+                  children: [
+                    for (final flow in FlowIntensity.values)
+                      ChoiceChip(
+                        key: ValueKey('flow-${flow.name}'),
+                        label: Text(flowLabel(l10n, flow)),
+                        selected: _entry.flow == flow,
+                        onSelected: (selected) =>
+                            _save(flow: () => selected ? flow : null),
+                      ),
+                  ],
+                ),
+              ),
+              (
+                Tracked.pain,
+                _Section(
+                  title: l10n.dayPainTitle,
+                  children: [
+                    for (final pain in PainLevel.values)
+                      ChoiceChip(
+                        key: ValueKey('pain-${pain.name}'),
+                        label: Text(painLabel(l10n, pain)),
+                        selected: _entry.pain == pain,
+                        onSelected: (selected) =>
+                            _save(pain: () => selected ? pain : null),
+                      ),
+                  ],
+                ),
+              ),
+              (
+                Tracked.mood,
+                _Section(
+                  title: l10n.dayMoodTitle,
+                  children: [
+                    for (final mood in Mood.values)
+                      ChoiceChip(
+                        key: ValueKey('mood-${mood.name}'),
+                        label: Text(moodLabel(l10n, mood)),
+                        selected: _entry.mood == mood,
+                        onSelected: (selected) =>
+                            _save(mood: () => selected ? mood : null),
+                      ),
+                  ],
+                ),
+              ),
+              (
+                Tracked.sleep,
+                _Section(
+                  title: l10n.daySleepTitle,
+                  children: [
+                    for (final sleep in SleepQuality.values)
+                      ChoiceChip(
+                        key: ValueKey('sleep-${sleep.name}'),
+                        label: Text(sleepLabel(l10n, sleep)),
+                        selected: _entry.sleep == sleep,
+                        onSelected: (selected) =>
+                            _save(sleep: () => selected ? sleep : null),
+                      ),
+                  ],
+                ),
+              ),
+              (
+                Tracked.libido,
+                _Section(
+                  title: l10n.dayLibidoTitle,
+                  children: [
+                    for (final libido in LibidoLevel.values)
+                      ChoiceChip(
+                        key: ValueKey('libido-${libido.name}'),
+                        label: Text(libidoLabel(l10n, libido)),
+                        selected: _entry.libido == libido,
+                        onSelected: (selected) =>
+                            _save(libido: () => selected ? libido : null),
+                      ),
+                  ],
+                ),
+              ),
+              (
+                Tracked.symptoms,
+                _Section(
+                  title: l10n.daySymptomsTitle,
+                  children: [
+                    for (final symptom in Symptom.values)
+                      // The signs of a changing cycle are offered to those
+                      // who follow it, and kept wherever they were ticked.
+                      if (!changeSigns.contains(symptom) ||
+                          widget.model.followsCycleChanges ||
+                          _entry.symptoms.contains(symptom))
+                        FilterChip(
+                          key: ValueKey('symptom-${symptom.name}'),
+                          label: Text(symptomLabel(l10n, symptom)),
+                          selected: _entry.symptoms.contains(symptom),
+                          onSelected: (_) => _toggleSymptom(symptom),
+                        ),
+                  ],
+                ),
+              ),
+            ]),
             const SizedBox(height: 20),
             TextField(
               controller: _note,

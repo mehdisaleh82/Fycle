@@ -5,6 +5,24 @@ library;
 /// Why she uses the app. Several may hold at once.
 enum Goal { trackPeriods, understandBody, conceive, perimenopause }
 
+/// What she wants to know, in more detail. Several may hold at once.
+enum Wish {
+  knowWhen,
+  knowUsualRanges,
+  fertileWindow,
+  afterContraception,
+  whatComesBack,
+}
+
+/// The contraception she uses, as far as it changes what the app shows.
+/// With a hormonal one, bleeding does not follow a natural cycle and an
+/// ovulation estimated from dates means nothing.
+enum Contraception { none, hormonal, nonHormonal }
+
+/// What she wants to follow day by day, besides her periods. It decides
+/// what the journal and the home put first; nothing is ever hidden.
+enum Tracked { pain, mood, sleep, libido, symptoms }
+
 /// Whether the number of days between her periods stays about the same.
 ///
 /// FIGO (Munro, Critchley, Fraser, 2018) calls cycles regular when the
@@ -42,13 +60,26 @@ bool followsCycleChanges({required Set<Goal> goals, int? age}) =>
     asksAboutRecentChanges(goals: goals, age: age);
 
 /// Whether the estimate of the fertile window is shown from the start.
-/// Without an answer, it is. With answers, only if one of them is about
-/// conceiving or about understanding her body: someone who only wants the
-/// dates of her periods gets a plainer home.
-bool showsFertilityFor(Set<Goal> goals) =>
-    goals.isEmpty ||
-    goals.contains(Goal.conceive) ||
-    goals.contains(Goal.understandBody);
+///
+/// Never with a hormonal contraception. Otherwise, without any answer, it
+/// is; with answers, only if one of them is about conceiving, about her
+/// fertile window or about understanding her body: someone who only wants
+/// the dates of her periods gets a plainer home.
+bool showsFertilityFor(
+  Set<Goal> goals, {
+  Set<Wish> wishes = const {},
+  Contraception? contraception,
+}) {
+  if (contraception == Contraception.hormonal) {
+    return false;
+  }
+  if (goals.isEmpty && wishes.isEmpty) {
+    return true;
+  }
+  return goals.contains(Goal.conceive) ||
+      goals.contains(Goal.understandBody) ||
+      wishes.contains(Wish.fertileWindow);
+}
 
 /// Whether the setup asks for dates and lengths of periods at all.
 bool hasPeriods(CycleRegularity? regularity) =>

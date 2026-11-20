@@ -24,6 +24,31 @@ void main() {
       expect(showsFertilityFor({Goal.perimenopause}), isFalse);
       expect(showsFertilityFor({Goal.trackPeriods, Goal.conceive}), isTrue);
       expect(showsFertilityFor({Goal.understandBody}), isTrue);
+      // Asking for it by name is enough.
+      expect(
+        showsFertilityFor({Goal.trackPeriods}, wishes: {Wish.fertileWindow}),
+        isTrue,
+      );
+      expect(showsFertilityFor({}, wishes: {Wish.knowWhen}), isFalse);
+    });
+
+    test('never with a hormonal contraception', () {
+      expect(
+        showsFertilityFor({}, contraception: Contraception.hormonal),
+        isFalse,
+      );
+      expect(
+        showsFertilityFor(
+          {Goal.conceive},
+          wishes: {Wish.fertileWindow},
+          contraception: Contraception.hormonal,
+        ),
+        isFalse,
+      );
+      expect(
+        showsFertilityFor({}, contraception: Contraception.nonHormonal),
+        isTrue,
+      );
     });
 
     test('no dates are asked of someone without periods', () {

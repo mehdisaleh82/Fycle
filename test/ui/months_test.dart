@@ -80,13 +80,7 @@ void main() {
   ) async {
     final harness = Harness(tester);
     await harness.pumpApp(locale: 'fr');
-    await tapVisible(tester, find.byKey(const ValueKey('onboarding-next')));
-    for (var i = 0; i < 8; i++) {
-      await tapVisible(
-        tester,
-        find.byKey(const ValueKey('onboarding-step-skip')),
-      );
-    }
+    await setupTo(tester, 'Tout est prêt');
     expect(
       find.text(
         "Note tes règles le jour où elles commencent : l'estimation "

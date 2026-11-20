@@ -15,4 +15,8 @@ enum Symptom {
   insomnia,
   hotFlashes,
   nightSweats,
+  vaginalDryness,
+  jointPain,
+  brainFog,
+  palpitations,
 }

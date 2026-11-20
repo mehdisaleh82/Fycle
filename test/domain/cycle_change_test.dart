@@ -101,7 +101,6 @@ void main() {
         signs(10, {Symptom.cramps}),
       ],
     );
-    expect(change.hotFlashDays, 3);
-    expect(change.nightSweatDays, 1);
+    expect(change.signDays, {Symptom.hotFlashes: 3, Symptom.nightSweats: 1});
   });
 }

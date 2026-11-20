@@ -117,6 +117,7 @@ class InsightsScreen extends StatelessWidget {
                     days: model.days,
                   ),
                   saidAtSetup: model.recentChanges,
+                  signsAtSetup: model.startSigns,
                 ),
               ],
               if (showFertility) ...[
@@ -566,6 +567,7 @@ class DoctorReportScreen extends StatelessWidget {
                         days: model.days,
                       ),
                       saidAtSetup: model.recentChanges,
+                      signsAtSetup: model.startSigns,
                     ),
                   ],
                   gap,

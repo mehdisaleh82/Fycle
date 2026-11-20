@@ -2,8 +2,10 @@ import 'package:material_ui/material_ui.dart';
 
 import '../domain/cycle_change.dart';
 import '../domain/start_profile.dart';
+import '../domain/symptom.dart';
 import '../l10n/app_localizations.dart';
 import 'home_cards.dart';
+import 'labels.dart';
 
 /// What her dates show from one cycle to the next: differences that come
 /// back, long intervals, and the signs she logged. It counts and reports;
@@ -14,12 +16,16 @@ class ChangeCard extends StatelessWidget {
     super.key,
     required this.change,
     required this.saidAtSetup,
+    this.signsAtSetup = const {},
   });
 
   final CycleChange change;
 
   /// The changes she named when the app was set up.
   final Set<RecentChange> saidAtSetup;
+
+  /// The signs she said she had when the app was set up.
+  final Set<Symptom> signsAtSetup;
 
   @override
   Widget build(BuildContext context) {
@@ -81,15 +87,32 @@ class ChangeCard extends StatelessWidget {
         _Fact(
           name: 'signs',
           icon: Icons.thermostat,
-          text: change.hotFlashDays == 0 && change.nightSweatDays == 0
+          text: change.signDays.isEmpty
               ? l10n.changeNoSigns
-              : l10n.changeSigns(change.hotFlashDays, change.nightSweatDays),
+              : l10n.changeSignsList(
+                  [
+                    for (final sign in changeSigns)
+                      if (change.signDays[sign] case final days?)
+                        l10n.changeSignDays(symptomLabel(l10n, sign), days),
+                  ].join(l10n.listSeparator),
+                ),
         ),
         if (said.isNotEmpty)
           _Fact(
             name: 'said',
             icon: Icons.format_quote,
             text: l10n.changeSaid(said.join(l10n.listSeparator)),
+          ),
+        if (signsAtSetup.isNotEmpty)
+          _Fact(
+            name: 'start-signs',
+            icon: Icons.flag_outlined,
+            text: l10n.changeStartSigns(
+              [
+                for (final sign in changeSigns)
+                  if (signsAtSetup.contains(sign)) symptomLabel(l10n, sign),
+              ].join(l10n.listSeparator),
+            ),
           ),
         const SizedBox(height: 8),
         Text(

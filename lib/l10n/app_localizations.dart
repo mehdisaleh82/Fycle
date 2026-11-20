@@ -2693,14 +2693,8 @@ abstract class AppLocalizations {
   /// No description provided for @changeNoSigns.
   ///
   /// In en, this message translates to:
-  /// **'No hot flashes or night sweats logged in the last 90 days. You can tick them in your journal.'**
+  /// **'None of the signs to follow was logged in the last 90 days. You can tick them in your journal.'**
   String get changeNoSigns;
-
-  /// No description provided for @changeSigns.
-  ///
-  /// In en, this message translates to:
-  /// **'In the last 90 days: hot flashes logged on {hot, plural, =0{no day} =1{1 day} other{{hot} days}}, night sweats on {night, plural, =0{no day} =1{1 day} other{{night} days}}.'**
-  String changeSigns(int hot, int night);
 
   /// No description provided for @changeSaid.
   ///
@@ -2743,6 +2737,342 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Many things can move a cycle. Only a health professional can say what a change means.'**
   String get changeFooter;
+
+  /// No description provided for @setupPrivacyTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Your data stays here'**
+  String get setupPrivacyTitle;
+
+  /// No description provided for @setupPrivacyHint.
+  ///
+  /// In en, this message translates to:
+  /// **'What sets this app apart, before any question.'**
+  String get setupPrivacyHint;
+
+  /// No description provided for @privacyNoAccount.
+  ///
+  /// In en, this message translates to:
+  /// **'No account, no e-mail address, no password to create.'**
+  String get privacyNoAccount;
+
+  /// No description provided for @privacyOnPhone.
+  ///
+  /// In en, this message translates to:
+  /// **'What you log is stored on this phone, encrypted. The app sends nothing over the network.'**
+  String get privacyOnPhone;
+
+  /// No description provided for @privacyBackup.
+  ///
+  /// In en, this message translates to:
+  /// **'A backup is an encrypted file that you keep where you choose.'**
+  String get privacyBackup;
+
+  /// No description provided for @privacyNoAds.
+  ///
+  /// In en, this message translates to:
+  /// **'No advertising, no tracking, no subscription.'**
+  String get privacyNoAds;
+
+  /// No description provided for @setupGreeting.
+  ///
+  /// In en, this message translates to:
+  /// **'Welcome, {name}.'**
+  String setupGreeting(String name);
+
+  /// No description provided for @setupWishesTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Tell me more about what you want'**
+  String get setupWishesTitle;
+
+  /// No description provided for @setupWishesHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Several answers are possible. Each one decides what the app puts forward.'**
+  String get setupWishesHint;
+
+  /// No description provided for @wishKnowWhen.
+  ///
+  /// In en, this message translates to:
+  /// **'Know when my period is coming'**
+  String get wishKnowWhen;
+
+  /// No description provided for @wishKnowUsualRanges.
+  ///
+  /// In en, this message translates to:
+  /// **'See how my cycle compares with the usual ranges'**
+  String get wishKnowUsualRanges;
+
+  /// No description provided for @wishFertileWindow.
+  ///
+  /// In en, this message translates to:
+  /// **'Know my estimated fertile window'**
+  String get wishFertileWindow;
+
+  /// No description provided for @wishAfterContraception.
+  ///
+  /// In en, this message translates to:
+  /// **'Understand my cycle after stopping contraception'**
+  String get wishAfterContraception;
+
+  /// No description provided for @wishWhatComesBack.
+  ///
+  /// In en, this message translates to:
+  /// **'See what comes back with each cycle'**
+  String get wishWhatComesBack;
+
+  /// No description provided for @setupUsualTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Your periods, usually'**
+  String get setupUsualTitle;
+
+  /// No description provided for @setupUsualHint.
+  ///
+  /// In en, this message translates to:
+  /// **'It sets what the app starts from. You log the real days afterwards.'**
+  String get setupUsualHint;
+
+  /// No description provided for @setupUsualFlow.
+  ///
+  /// In en, this message translates to:
+  /// **'Flow'**
+  String get setupUsualFlow;
+
+  /// No description provided for @setupUsualPain.
+  ///
+  /// In en, this message translates to:
+  /// **'Pain'**
+  String get setupUsualPain;
+
+  /// No description provided for @setupContraceptionTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Do you use contraception?'**
+  String get setupContraceptionTitle;
+
+  /// No description provided for @setupContraceptionHint.
+  ///
+  /// In en, this message translates to:
+  /// **'With a hormonal contraception, bleeding does not follow a natural cycle: the app then hides the ovulation estimate. It gives no advice on contraception.'**
+  String get setupContraceptionHint;
+
+  /// No description provided for @contraceptionNone.
+  ///
+  /// In en, this message translates to:
+  /// **'No'**
+  String get contraceptionNone;
+
+  /// No description provided for @contraceptionHormonal.
+  ///
+  /// In en, this message translates to:
+  /// **'Yes, hormonal (pill, implant, hormonal IUD, ring, patch)'**
+  String get contraceptionHormonal;
+
+  /// No description provided for @contraceptionNonHormonal.
+  ///
+  /// In en, this message translates to:
+  /// **'Yes, without hormones (copper IUD, condoms, other)'**
+  String get contraceptionNonHormonal;
+
+  /// No description provided for @setupSignsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Do you have any of these signs these days?'**
+  String get setupSignsTitle;
+
+  /// No description provided for @setupSignsHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Several answers are possible. You will be able to tick them day by day in your journal.'**
+  String get setupSignsHint;
+
+  /// No description provided for @symptomVaginalDryness.
+  ///
+  /// In en, this message translates to:
+  /// **'Vaginal dryness'**
+  String get symptomVaginalDryness;
+
+  /// No description provided for @symptomJointPain.
+  ///
+  /// In en, this message translates to:
+  /// **'Joint pain'**
+  String get symptomJointPain;
+
+  /// No description provided for @symptomBrainFog.
+  ///
+  /// In en, this message translates to:
+  /// **'Trouble concentrating'**
+  String get symptomBrainFog;
+
+  /// No description provided for @symptomPalpitations.
+  ///
+  /// In en, this message translates to:
+  /// **'Palpitations'**
+  String get symptomPalpitations;
+
+  /// No description provided for @setupEarlierTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'And the periods before?'**
+  String get setupEarlierTitle;
+
+  /// No description provided for @setupEarlierHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Touch the first day of up to three earlier periods, if you remember them. The estimate then starts from your own cycle.'**
+  String get setupEarlierHint;
+
+  /// No description provided for @setupTrackedTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'What do you want to follow day by day?'**
+  String get setupTrackedTitle;
+
+  /// No description provided for @setupTrackedHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Your journal starts with what you choose. The rest stays within reach.'**
+  String get setupTrackedHint;
+
+  /// No description provided for @trackedPain.
+  ///
+  /// In en, this message translates to:
+  /// **'Pain'**
+  String get trackedPain;
+
+  /// No description provided for @trackedMood.
+  ///
+  /// In en, this message translates to:
+  /// **'Mood'**
+  String get trackedMood;
+
+  /// No description provided for @trackedSleep.
+  ///
+  /// In en, this message translates to:
+  /// **'Sleep'**
+  String get trackedSleep;
+
+  /// No description provided for @trackedLibido.
+  ///
+  /// In en, this message translates to:
+  /// **'Libido'**
+  String get trackedLibido;
+
+  /// No description provided for @trackedSymptoms.
+  ///
+  /// In en, this message translates to:
+  /// **'Symptoms'**
+  String get trackedSymptoms;
+
+  /// No description provided for @recapTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'What I set up for you'**
+  String get recapTitle;
+
+  /// No description provided for @recapCycleOwn.
+  ///
+  /// In en, this message translates to:
+  /// **'Your estimate starts from your own dates: a cycle of {days} days.'**
+  String recapCycleOwn(int days);
+
+  /// No description provided for @recapCycleDeclared.
+  ///
+  /// In en, this message translates to:
+  /// **'Your estimate starts from what you said: a cycle of {days} days.'**
+  String recapCycleDeclared(int days);
+
+  /// No description provided for @recapCycleAge.
+  ///
+  /// In en, this message translates to:
+  /// **'Your estimate starts from the published average for your age: {days} days.'**
+  String recapCycleAge(int days);
+
+  /// No description provided for @recapCycleDefault.
+  ///
+  /// In en, this message translates to:
+  /// **'Your estimate starts from a common cycle of {days} days.'**
+  String recapCycleDefault(int days);
+
+  /// No description provided for @recapRange.
+  ///
+  /// In en, this message translates to:
+  /// **'A range of {days} days on each side, which narrows as your dates come in.'**
+  String recapRange(int days);
+
+  /// No description provided for @recapNoDate.
+  ///
+  /// In en, this message translates to:
+  /// **'No estimate yet: it starts the day you log a period.'**
+  String get recapNoDate;
+
+  /// No description provided for @recapFertilityOn.
+  ///
+  /// In en, this message translates to:
+  /// **'The estimated fertile window is shown. An estimate: neither contraception nor a diagnosis.'**
+  String get recapFertilityOn;
+
+  /// No description provided for @recapFertilityHormonal.
+  ///
+  /// In en, this message translates to:
+  /// **'The ovulation estimate is hidden: it means nothing with a hormonal contraception.'**
+  String get recapFertilityHormonal;
+
+  /// No description provided for @recapFertilityOff.
+  ///
+  /// In en, this message translates to:
+  /// **'The estimated fertile window is hidden. You can turn it on in the settings.'**
+  String get recapFertilityOff;
+
+  /// No description provided for @recapJournal.
+  ///
+  /// In en, this message translates to:
+  /// **'Your journal starts with: {items}.'**
+  String recapJournal(String items);
+
+  /// No description provided for @recapChanges.
+  ///
+  /// In en, this message translates to:
+  /// **'The review follows what changes from one cycle to the next.'**
+  String get recapChanges;
+
+  /// No description provided for @recapRemindersOn.
+  ///
+  /// In en, this message translates to:
+  /// **'Reminders are on.'**
+  String get recapRemindersOn;
+
+  /// No description provided for @recapRemindersOff.
+  ///
+  /// In en, this message translates to:
+  /// **'Reminders are off. You can turn them on in the settings.'**
+  String get recapRemindersOff;
+
+  /// No description provided for @recapLockOn.
+  ///
+  /// In en, this message translates to:
+  /// **'The app is locked when it opens.'**
+  String get recapLockOn;
+
+  /// No description provided for @changeSignsList.
+  ///
+  /// In en, this message translates to:
+  /// **'In the last 90 days: {signs}.'**
+  String changeSignsList(String signs);
+
+  /// No description provided for @changeSignDays.
+  ///
+  /// In en, this message translates to:
+  /// **'{sign} ({days, plural, =1{1 day} other{{days} days}})'**
+  String changeSignDays(String sign, int days);
+
+  /// No description provided for @changeStartSigns.
+  ///
+  /// In en, this message translates to:
+  /// **'Signs you named when you set the app up: {signs}.'**
+  String changeStartSigns(String signs);
 }
 
 class _AppLocalizationsDelegate

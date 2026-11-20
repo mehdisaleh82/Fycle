@@ -4,13 +4,16 @@ import 'package:material_ui/material_ui.dart';
 
 import '../data/device_auth.dart';
 import '../domain/calendar_day.dart';
+import '../domain/cycle_change.dart';
 import '../domain/day_entry.dart';
 import '../domain/flow_intensity.dart';
+import '../domain/pain_level.dart';
 import '../domain/period_prediction.dart';
 import '../domain/period_predictor.dart';
 import '../domain/reference_cycle.dart';
 import '../domain/reminders.dart';
 import '../domain/start_profile.dart';
+import '../domain/symptom.dart';
 import '../l10n/app_localizations.dart';
 import 'app_environment.dart';
 import 'cycle_model.dart';
@@ -59,13 +62,20 @@ Future<void> changeAppLock(
 
 enum _Step {
   welcome,
+  privacy,
   name,
   birthYear,
   goals,
+  wishes,
   regularity,
   lengths,
+  usual,
+  contraception,
   changes,
+  signs,
   lastPeriod,
+  earlier,
+  tracked,
   reminders,
   lock,
   ready,
@@ -112,6 +122,11 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
   /// Where the lengths start when she touches them for the first time.
   static const int _firstPeriodLength = 5;
 
+  /// How many earlier periods may be given, and how close to the last one
+  /// an earlier period may start.
+  static const int _maxEarlier = 3;
+  static const int _earlierMonthsShown = 4;
+
   late _Step _step = widget.editing ? _Step.name : _Step.welcome;
 
   late final TextEditingController _name = TextEditingController(
@@ -131,7 +146,16 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
   late int? _cycleLength = widget.model.usualCycleLength;
   late int? _periodLength = widget.model.usualPeriodLength;
   late Set<RecentChange> _changes = {...widget.model.recentChanges};
+  late Set<Wish> _wishes = {...widget.model.wishes};
+  late Contraception? _contraception = widget.model.contraception;
+  late Set<Tracked> _tracked = {...widget.model.tracked};
+  late FlowIntensity? _usualFlow = widget.model.usualFlow;
+  late PainLevel? _usualPain = widget.model.usualPain;
+  late Set<Symptom> _signs = {...widget.model.startSigns};
   CalendarDay? _lastPeriod;
+
+  /// First days of earlier periods, three at most.
+  final Set<CalendarDay> _earlier = {};
   late ReminderSettings _reminders = widget.model.reminderSettings.copyWith(
     periodEnabled: true,
     dailyEnabled: true,
@@ -143,21 +167,27 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
   int? get _age => ageIn(_thisYear, _birthYear);
 
   /// The screens she goes through, which depend on what she answered.
-  List<_Step> get _steps => [
-    if (!widget.editing) _Step.welcome,
-    _Step.name,
-    _Step.birthYear,
-    _Step.goals,
-    _Step.regularity,
-    if (hasPeriods(_regularity)) _Step.lengths,
-    if (asksAboutRecentChanges(goals: _goals, age: _age)) _Step.changes,
-    if (!widget.editing) ...[
-      if (hasPeriods(_regularity)) _Step.lastPeriod,
-      _Step.reminders,
-      _Step.lock,
-      _Step.ready,
-    ],
-  ];
+  List<_Step> get _steps {
+    final periods = hasPeriods(_regularity);
+    final changes = asksAboutRecentChanges(goals: _goals, age: _age);
+    return [
+      if (!widget.editing) ...[_Step.welcome, _Step.privacy],
+      _Step.name,
+      _Step.birthYear,
+      _Step.goals,
+      _Step.wishes,
+      _Step.regularity,
+      if (periods) ...[_Step.lengths, _Step.usual],
+      _Step.contraception,
+      if (changes) ...[_Step.changes, _Step.signs],
+      if (!widget.editing && periods) ...[
+        _Step.lastPeriod,
+        if (_lastPeriod != null) _Step.earlier,
+      ],
+      _Step.tracked,
+      if (!widget.editing) ...[_Step.reminders, _Step.lock, _Step.ready],
+    ];
+  }
 
   @override
   void dispose() {
@@ -175,7 +205,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
     }
     final age = _age;
     final prediction = const PeriodPredictor().predict(
-      periodStarts: [day],
+      periodStarts: [day, ..._earlier],
       usualCycleLength: _cycleLength,
       referenceCycleLength: age == null
           ? null
@@ -248,6 +278,20 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
         _changes = {};
       case _Step.lastPeriod:
         _lastPeriod = null;
+        _earlier.clear();
+      case _Step.earlier:
+        _earlier.clear();
+      case _Step.wishes:
+        _wishes = {};
+      case _Step.usual:
+        _usualFlow = null;
+        _usualPain = null;
+      case _Step.contraception:
+        _contraception = null;
+      case _Step.signs:
+        _signs = {};
+      case _Step.tracked:
+        _tracked = {};
       case _Step.reminders:
         await _saveReminders(
           _reminders.copyWith(periodEnabled: false, dailyEnabled: false),
@@ -255,7 +299,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
         if (!mounted) {
           return;
         }
-      case _Step.welcome || _Step.lock || _Step.ready:
+      case _Step.welcome || _Step.privacy || _Step.lock || _Step.ready:
         break;
     }
     _advance();
@@ -294,11 +338,26 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
     }
   }
 
+  /// Whether the estimate of the fertile window is shown, going by what
+  /// she answered.
+  bool get _showsFertility =>
+      showsFertilityFor(_goals, wishes: _wishes, contraception: _contraception);
+
+  bool _same<T>(Set<T> a, Set<T> b) => a.length == b.length && a.containsAll(b);
+
   void _finish() {
     final model = widget.model;
     final periods = hasPeriods(_regularity);
-    final goalsChanged =
-        _goals.length != model.goals.length || !_goals.containsAll(model.goals);
+    final follows = asksAboutRecentChanges(goals: _goals, age: _age);
+    // In the settings, the estimate of the fertile window only follows the
+    // answers that changed: what she set by hand since is hers.
+    final fertilityAnswered =
+        _goals.isNotEmpty || _wishes.isNotEmpty || _contraception != null;
+    final fertilityChanged =
+        !widget.editing ||
+        !_same(_goals, model.goals) ||
+        !_same(_wishes, model.wishes) ||
+        _contraception != model.contraception;
     model.setStartProfile(
       firstName: _name.text,
       birthYear: _birthYear,
@@ -306,20 +365,84 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
       regularity: _regularity,
       usualCycleLength: periods ? _cycleLength : null,
       usualPeriodLength: periods ? _periodLength : null,
-      recentChanges: asksAboutRecentChanges(goals: _goals, age: _age)
-          ? _changes
-          : const {},
+      recentChanges: follows ? _changes : const {},
+      wishes: _wishes,
+      contraception: _contraception,
+      tracked: _tracked,
+      usualFlow: periods ? _usualFlow : null,
+      usualPain: periods ? _usualPain : null,
+      startSigns: follows ? _signs : const {},
     );
-    if (goalsChanged && _goals.isNotEmpty) {
-      model.setFertilityEstimateEnabled(showsFertilityFor(_goals));
+    if (fertilityAnswered && fertilityChanged) {
+      model.setFertilityEstimateEnabled(_showsFertility);
     }
     final day = _lastPeriod;
     if (day != null && periods && !widget.editing) {
-      // Only the day is asked. It is stored as a day of medium flow, which
-      // can be corrected from the journal.
-      model.saveDay(DayEntry(day: day, flow: FlowIntensity.medium));
+      // Only first days are asked. Each is stored as one day of the flow
+      // she calls usual, medium otherwise; the journal corrects it.
+      for (final start in [..._earlier, day]) {
+        model.saveDay(
+          DayEntry(day: start, flow: _usualFlow ?? FlowIntensity.medium),
+        );
+      }
     }
     widget.onDone();
+  }
+
+  /// What her answers set, in plain sentences: shown before she starts.
+  List<(IconData, String)> _recap(AppLocalizations l10n) {
+    final model = widget.model;
+    final prediction = _preview();
+    final reminders = model.reminderSettings;
+    return [
+      if (prediction == null)
+        (Icons.event_outlined, l10n.recapNoDate)
+      else ...[
+        (
+          Icons.event_outlined,
+          prediction.cyclesUsed > 0
+              ? l10n.recapCycleOwn(prediction.estimatedCycleLength)
+              : _cycleLength != null
+              ? l10n.recapCycleDeclared(prediction.estimatedCycleLength)
+              : _age != null
+              ? l10n.recapCycleAge(prediction.estimatedCycleLength)
+              : l10n.recapCycleDefault(prediction.estimatedCycleLength),
+        ),
+        (
+          Icons.swap_horiz,
+          l10n.recapRange(
+            prediction.latestStart.daysSince(prediction.earliestStart) ~/ 2,
+          ),
+        ),
+      ],
+      (
+        Icons.egg_outlined,
+        _contraception == Contraception.hormonal
+            ? l10n.recapFertilityHormonal
+            : _showsFertility
+            ? l10n.recapFertilityOn
+            : l10n.recapFertilityOff,
+      ),
+      if (_tracked.isNotEmpty)
+        (
+          Icons.edit_note,
+          l10n.recapJournal(
+            [
+              for (final kind in Tracked.values)
+                if (_tracked.contains(kind)) trackedLabel(l10n, kind),
+            ].join(l10n.listSeparator),
+          ),
+        ),
+      if (asksAboutRecentChanges(goals: _goals, age: _age))
+        (Icons.timeline, l10n.recapChanges),
+      (
+        Icons.notifications_outlined,
+        reminders.periodEnabled || reminders.dailyEnabled
+            ? l10n.recapRemindersOn
+            : l10n.recapRemindersOff,
+      ),
+      if (model.appLockEnabled) (Icons.lock_outline, l10n.recapLockOn),
+    ];
   }
 
   Future<void> _pickTime(
@@ -350,7 +473,10 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
     final steps = _steps;
     final index = steps.indexOf(_step);
     final last = index == steps.length - 1;
-    final plain = _step == _Step.welcome || _step == _Step.ready;
+    final plain =
+        _step == _Step.welcome ||
+        _step == _Step.privacy ||
+        _step == _Step.ready;
     return Scaffold(
       body: SafeArea(
         child: Column(
@@ -468,6 +594,9 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
         );
       case _Step.birthYear:
         return _Question(
+          lead: _name.text.trim().isEmpty
+              ? null
+              : l10n.setupGreeting(_name.text.trim()),
           title: l10n.setupBirthTitle,
           hint: l10n.setupBirthHint,
           child: _YearWheel(
@@ -638,8 +767,13 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                   year: DateTime(today.year, today.month - back).year,
                   month: DateTime(today.year, today.month - back).month,
                   today: today,
-                  selected: day,
-                  onPick: (picked) => setState(() => _lastPeriod = picked),
+                  latest: today,
+                  selected: {?day},
+                  onPick: (picked) => setState(() {
+                    _lastPeriod = picked;
+                    // Earlier periods are earlier than this one.
+                    _earlier.clear();
+                  }),
                 ),
             ],
           ),
@@ -742,15 +876,206 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
             ),
           ),
         );
+      case _Step.privacy:
+        return _Question(
+          title: l10n.setupPrivacyTitle,
+          hint: l10n.setupPrivacyHint,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              for (final (icon, text) in [
+                (Icons.person_off_outlined, l10n.privacyNoAccount),
+                (Icons.phonelink_lock, l10n.privacyOnPhone),
+                (Icons.save_alt, l10n.privacyBackup),
+                (Icons.block, l10n.privacyNoAds),
+              ])
+                _Line(icon: icon, text: text),
+            ],
+          ),
+        );
+      case _Step.wishes:
+        return _Question(
+          title: l10n.setupWishesTitle,
+          hint: l10n.setupWishesHint,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              for (final (wish, label) in [
+                (Wish.knowWhen, l10n.wishKnowWhen),
+                (Wish.knowUsualRanges, l10n.wishKnowUsualRanges),
+                (Wish.fertileWindow, l10n.wishFertileWindow),
+                (Wish.afterContraception, l10n.wishAfterContraception),
+                (Wish.whatComesBack, l10n.wishWhatComesBack),
+              ])
+                _Choice(
+                  key: ValueKey('wish-${wish.name}'),
+                  label: label,
+                  selected: _wishes.contains(wish),
+                  several: true,
+                  onTap: () => _toggle(_wishes, wish),
+                ),
+              if (_wishes.contains(Wish.fertileWindow)) ...[
+                const SizedBox(height: 4),
+                Text(l10n.fertilityWarning, style: theme.textTheme.bodySmall),
+              ],
+            ],
+          ),
+        );
+      case _Step.usual:
+        return _Question(
+          title: l10n.setupUsualTitle,
+          hint: l10n.setupUsualHint,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(l10n.setupUsualFlow, style: theme.textTheme.titleMedium),
+              const SizedBox(height: 8),
+              Wrap(
+                spacing: 8,
+                runSpacing: 8,
+                children: [
+                  for (final flow in [
+                    FlowIntensity.light,
+                    FlowIntensity.medium,
+                    FlowIntensity.heavy,
+                  ])
+                    ChoiceChip(
+                      key: ValueKey('usual-flow-${flow.name}'),
+                      label: Text(flowLabel(l10n, flow)),
+                      selected: _usualFlow == flow,
+                      onSelected: (on) =>
+                          setState(() => _usualFlow = on ? flow : null),
+                    ),
+                ],
+              ),
+              const SizedBox(height: 24),
+              Text(l10n.setupUsualPain, style: theme.textTheme.titleMedium),
+              const SizedBox(height: 8),
+              Wrap(
+                spacing: 8,
+                runSpacing: 8,
+                children: [
+                  for (final pain in PainLevel.values)
+                    ChoiceChip(
+                      key: ValueKey('usual-pain-${pain.name}'),
+                      label: Text(painLabel(l10n, pain)),
+                      selected: _usualPain == pain,
+                      onSelected: (on) =>
+                          setState(() => _usualPain = on ? pain : null),
+                    ),
+                ],
+              ),
+            ],
+          ),
+        );
+      case _Step.contraception:
+        return _Question(
+          title: l10n.setupContraceptionTitle,
+          hint: l10n.setupContraceptionHint,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              for (final (value, label) in [
+                (Contraception.none, l10n.contraceptionNone),
+                (Contraception.hormonal, l10n.contraceptionHormonal),
+                (Contraception.nonHormonal, l10n.contraceptionNonHormonal),
+              ])
+                _Choice(
+                  key: ValueKey('contraception-${value.name}'),
+                  label: label,
+                  selected: _contraception == value,
+                  onTap: () {
+                    _contraception = value;
+                    _advance();
+                  },
+                ),
+            ],
+          ),
+        );
+      case _Step.signs:
+        return _Question(
+          title: l10n.setupSignsTitle,
+          hint: l10n.setupSignsHint,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              for (final sign in changeSigns)
+                _Choice(
+                  key: ValueKey('sign-${sign.name}'),
+                  label: symptomLabel(l10n, sign),
+                  selected: _signs.contains(sign),
+                  several: true,
+                  onTap: () => _toggle(_signs, sign),
+                ),
+            ],
+          ),
+        );
+      case _Step.earlier:
+        final last = _lastPeriod!;
+        final preview = _preview();
+        // An earlier period starts at least a short cycle before.
+        final latest = last.addDays(-PeriodPredictor.minCycleLength);
+        return _Question(
+          title: l10n.setupEarlierTitle,
+          hint: l10n.setupEarlierHint,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              if (preview != null) ...[
+                _EstimatePreview(prediction: preview),
+                const SizedBox(height: 8),
+              ],
+              for (var back = 0; back < _earlierMonthsShown; back++)
+                _PickMonth(
+                  year: DateTime(latest.year, latest.month - back).year,
+                  month: DateTime(latest.year, latest.month - back).month,
+                  today: widget.environment.today(),
+                  latest: latest,
+                  selected: _earlier,
+                  onPick: (picked) => setState(() {
+                    if (!_earlier.remove(picked) &&
+                        _earlier.length < _maxEarlier) {
+                      _earlier.add(picked);
+                    }
+                  }),
+                ),
+            ],
+          ),
+        );
+      case _Step.tracked:
+        return _Question(
+          title: l10n.setupTrackedTitle,
+          hint: l10n.setupTrackedHint,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              for (final (kind, icon) in [
+                (Tracked.pain, Icons.healing_outlined),
+                (Tracked.mood, Icons.mood),
+                (Tracked.sleep, Icons.bedtime_outlined),
+                (Tracked.libido, Icons.favorite_border),
+                (Tracked.symptoms, Icons.checklist),
+              ])
+                _Choice(
+                  key: ValueKey('tracked-${kind.name}'),
+                  icon: icon,
+                  label: trackedLabel(l10n, kind),
+                  selected: _tracked.contains(kind),
+                  several: true,
+                  onTap: () => _toggle(_tracked, kind),
+                ),
+            ],
+          ),
+        );
       case _Step.ready:
         final name = _name.text.trim();
         final preview = _preview();
         return Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            const SizedBox(height: 32),
-            const Center(child: _MarkTile(size: 132)),
-            const SizedBox(height: 28),
+            const SizedBox(height: 16),
+            const Center(child: _MarkTile(size: 104)),
+            const SizedBox(height: 20),
             Semantics(
               header: true,
               child: Text(
@@ -774,6 +1099,18 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
               const SizedBox(height: 20),
               _EstimatePreview(prediction: preview),
             ],
+            const SizedBox(height: 24),
+            Semantics(
+              header: true,
+              child: Text(
+                l10n.recapTitle,
+                key: const ValueKey('setup-recap'),
+                style: theme.textTheme.titleMedium,
+              ),
+            ),
+            const SizedBox(height: 12),
+            for (final (icon, text) in _recap(l10n))
+              _Line(icon: icon, text: text),
           ],
         );
     }
@@ -861,11 +1198,14 @@ class _TopBar extends StatelessWidget {
 /// One question: what is asked, why, and the way to answer.
 class _Question extends StatelessWidget {
   const _Question({
+    this.lead,
     required this.title,
     required this.hint,
     required this.child,
   });
 
+  /// A word said before the question, such as a greeting.
+  final String? lead;
   final String title;
   final String hint;
   final Widget child;
@@ -873,10 +1213,21 @@ class _Question extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final lead = this.lead;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         const SizedBox(height: 8),
+        if (lead != null) ...[
+          Text(
+            lead,
+            key: const ValueKey('setup-greeting'),
+            style: theme.textTheme.titleMedium?.copyWith(
+              color: theme.colorScheme.primary,
+            ),
+          ),
+          const SizedBox(height: 8),
+        ],
         Semantics(
           header: true,
           child: Text(title, style: theme.textTheme.headlineSmall),
@@ -891,6 +1242,30 @@ class _Question extends StatelessWidget {
         const SizedBox(height: 20),
         child,
       ],
+    );
+  }
+}
+
+/// One plain statement, with its picture.
+class _Line extends StatelessWidget {
+  const _Line({required this.icon, required this.text});
+
+  final IconData icon;
+  final String text;
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 14),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          ExcludeSemantics(child: Icon(icon, color: theme.colorScheme.primary)),
+          const SizedBox(width: 14),
+          Expanded(child: Text(text, style: theme.textTheme.bodyLarge)),
+        ],
+      ),
     );
   }
 }
@@ -1166,13 +1541,14 @@ class _LengthStepper extends StatelessWidget {
   }
 }
 
-/// One month to pick the first day of the last period in. Days to come
-/// cannot be picked.
+/// One month to pick first days of periods in. Days after [latest] cannot
+/// be picked.
 class _PickMonth extends StatelessWidget {
   const _PickMonth({
     required this.year,
     required this.month,
     required this.today,
+    required this.latest,
     required this.selected,
     required this.onPick,
   });
@@ -1180,7 +1556,10 @@ class _PickMonth extends StatelessWidget {
   final int year;
   final int month;
   final CalendarDay today;
-  final CalendarDay? selected;
+
+  /// The last day that can be picked.
+  final CalendarDay latest;
+  final Set<CalendarDay> selected;
   final ValueChanged<CalendarDay> onPick;
 
   @override
@@ -1200,8 +1579,8 @@ class _PickMonth extends StatelessWidget {
         return const SizedBox(height: 44);
       }
       final day = CalendarDay(year, month, dayOfMonth);
-      final future = day.isAfter(today);
-      final chosen = day == selected;
+      final future = day.isAfter(latest);
+      final chosen = selected.contains(day);
       final isToday = day == today;
       return Semantics(
         button: !future,

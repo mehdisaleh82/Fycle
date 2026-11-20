@@ -1724,26 +1724,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get changeNoSigns =>
-      'No hot flashes or night sweats logged in the last 90 days. You can tick them in your journal.';
-
-  @override
-  String changeSigns(int hot, int night) {
-    String _temp0 = intl.Intl.pluralLogic(
-      hot,
-      locale: localeName,
-      other: '$hot days',
-      one: '1 day',
-      zero: 'no day',
-    );
-    String _temp1 = intl.Intl.pluralLogic(
-      night,
-      locale: localeName,
-      other: '$night days',
-      one: '1 day',
-      zero: 'no day',
-    );
-    return 'In the last 90 days: hot flashes logged on $_temp0, night sweats on $_temp1.';
-  }
+      'None of the signs to follow was logged in the last 90 days. You can tick them in your journal.';
 
   @override
   String changeSaid(String changes) {
@@ -1769,4 +1750,218 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get changeFooter =>
       'Many things can move a cycle. Only a health professional can say what a change means.';
+
+  @override
+  String get setupPrivacyTitle => 'Your data stays here';
+
+  @override
+  String get setupPrivacyHint =>
+      'What sets this app apart, before any question.';
+
+  @override
+  String get privacyNoAccount =>
+      'No account, no e-mail address, no password to create.';
+
+  @override
+  String get privacyOnPhone =>
+      'What you log is stored on this phone, encrypted. The app sends nothing over the network.';
+
+  @override
+  String get privacyBackup =>
+      'A backup is an encrypted file that you keep where you choose.';
+
+  @override
+  String get privacyNoAds => 'No advertising, no tracking, no subscription.';
+
+  @override
+  String setupGreeting(String name) {
+    return 'Welcome, $name.';
+  }
+
+  @override
+  String get setupWishesTitle => 'Tell me more about what you want';
+
+  @override
+  String get setupWishesHint =>
+      'Several answers are possible. Each one decides what the app puts forward.';
+
+  @override
+  String get wishKnowWhen => 'Know when my period is coming';
+
+  @override
+  String get wishKnowUsualRanges =>
+      'See how my cycle compares with the usual ranges';
+
+  @override
+  String get wishFertileWindow => 'Know my estimated fertile window';
+
+  @override
+  String get wishAfterContraception =>
+      'Understand my cycle after stopping contraception';
+
+  @override
+  String get wishWhatComesBack => 'See what comes back with each cycle';
+
+  @override
+  String get setupUsualTitle => 'Your periods, usually';
+
+  @override
+  String get setupUsualHint =>
+      'It sets what the app starts from. You log the real days afterwards.';
+
+  @override
+  String get setupUsualFlow => 'Flow';
+
+  @override
+  String get setupUsualPain => 'Pain';
+
+  @override
+  String get setupContraceptionTitle => 'Do you use contraception?';
+
+  @override
+  String get setupContraceptionHint =>
+      'With a hormonal contraception, bleeding does not follow a natural cycle: the app then hides the ovulation estimate. It gives no advice on contraception.';
+
+  @override
+  String get contraceptionNone => 'No';
+
+  @override
+  String get contraceptionHormonal =>
+      'Yes, hormonal (pill, implant, hormonal IUD, ring, patch)';
+
+  @override
+  String get contraceptionNonHormonal =>
+      'Yes, without hormones (copper IUD, condoms, other)';
+
+  @override
+  String get setupSignsTitle => 'Do you have any of these signs these days?';
+
+  @override
+  String get setupSignsHint =>
+      'Several answers are possible. You will be able to tick them day by day in your journal.';
+
+  @override
+  String get symptomVaginalDryness => 'Vaginal dryness';
+
+  @override
+  String get symptomJointPain => 'Joint pain';
+
+  @override
+  String get symptomBrainFog => 'Trouble concentrating';
+
+  @override
+  String get symptomPalpitations => 'Palpitations';
+
+  @override
+  String get setupEarlierTitle => 'And the periods before?';
+
+  @override
+  String get setupEarlierHint =>
+      'Touch the first day of up to three earlier periods, if you remember them. The estimate then starts from your own cycle.';
+
+  @override
+  String get setupTrackedTitle => 'What do you want to follow day by day?';
+
+  @override
+  String get setupTrackedHint =>
+      'Your journal starts with what you choose. The rest stays within reach.';
+
+  @override
+  String get trackedPain => 'Pain';
+
+  @override
+  String get trackedMood => 'Mood';
+
+  @override
+  String get trackedSleep => 'Sleep';
+
+  @override
+  String get trackedLibido => 'Libido';
+
+  @override
+  String get trackedSymptoms => 'Symptoms';
+
+  @override
+  String get recapTitle => 'What I set up for you';
+
+  @override
+  String recapCycleOwn(int days) {
+    return 'Your estimate starts from your own dates: a cycle of $days days.';
+  }
+
+  @override
+  String recapCycleDeclared(int days) {
+    return 'Your estimate starts from what you said: a cycle of $days days.';
+  }
+
+  @override
+  String recapCycleAge(int days) {
+    return 'Your estimate starts from the published average for your age: $days days.';
+  }
+
+  @override
+  String recapCycleDefault(int days) {
+    return 'Your estimate starts from a common cycle of $days days.';
+  }
+
+  @override
+  String recapRange(int days) {
+    return 'A range of $days days on each side, which narrows as your dates come in.';
+  }
+
+  @override
+  String get recapNoDate =>
+      'No estimate yet: it starts the day you log a period.';
+
+  @override
+  String get recapFertilityOn =>
+      'The estimated fertile window is shown. An estimate: neither contraception nor a diagnosis.';
+
+  @override
+  String get recapFertilityHormonal =>
+      'The ovulation estimate is hidden: it means nothing with a hormonal contraception.';
+
+  @override
+  String get recapFertilityOff =>
+      'The estimated fertile window is hidden. You can turn it on in the settings.';
+
+  @override
+  String recapJournal(String items) {
+    return 'Your journal starts with: $items.';
+  }
+
+  @override
+  String get recapChanges =>
+      'The review follows what changes from one cycle to the next.';
+
+  @override
+  String get recapRemindersOn => 'Reminders are on.';
+
+  @override
+  String get recapRemindersOff =>
+      'Reminders are off. You can turn them on in the settings.';
+
+  @override
+  String get recapLockOn => 'The app is locked when it opens.';
+
+  @override
+  String changeSignsList(String signs) {
+    return 'In the last 90 days: $signs.';
+  }
+
+  @override
+  String changeSignDays(String sign, int days) {
+    String _temp0 = intl.Intl.pluralLogic(
+      days,
+      locale: localeName,
+      other: '$days days',
+      one: '1 day',
+    );
+    return '$sign ($_temp0)';
+  }
+
+  @override
+  String changeStartSigns(String signs) {
+    return 'Signs you named when you set the app up: $signs.';
+  }
 }

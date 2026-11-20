@@ -2,7 +2,9 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:fycle/data/file_gateway.dart';
 import 'package:fycle/domain/calendar_day.dart';
 import 'package:fycle/domain/flow_intensity.dart';
+import 'package:fycle/domain/pain_level.dart';
 import 'package:fycle/domain/start_profile.dart';
+import 'package:fycle/domain/symptom.dart';
 import 'package:material_ui/material_ui.dart';
 
 import '../data/fakes.dart';
@@ -16,12 +18,7 @@ void main() {
   Future<void> tap(WidgetTester tester, Key key) =>
       tapVisible(tester, find.byKey(key));
 
-  /// Passes [count] questions without answering.
-  Future<void> pass(WidgetTester tester, int count) async {
-    for (var i = 0; i < count; i++) {
-      await tap(tester, skip);
-    }
-  }
+  Future<void> to(WidgetTester tester, String title) => setupTo(tester, title);
 
   testWidgets('first launch welcomes, and shows the notice', (tester) async {
     final harness = Harness(tester);
@@ -48,6 +45,8 @@ void main() {
       findsOneWidget,
     );
     await tap(tester, next);
+    expect(find.text('Tes données restent ici'), findsOneWidget);
+    await tap(tester, next);
     expect(find.text('Quel est ton prénom ?'), findsOneWidget);
   });
 
@@ -58,12 +57,15 @@ void main() {
     await harness.pumpApp();
 
     await tap(tester, next);
+    expect(find.text('Your data stays here'), findsOneWidget);
+    await tap(tester, next);
     await tester.enterText(find.byKey(const ValueKey('first-name')), 'Lina');
     await tap(tester, next);
 
     // A year is an answer only once the wheel was turned: ten years back
     // from the one in the middle.
     expect(find.text('What year were you born?'), findsOneWidget);
+    expect(find.text('Welcome, Lina.'), findsOneWidget);
     expect(tester.widget<FilledButton>(find.byKey(next)).onPressed, isNull);
     await tester.drag(
       find.byKey(const ValueKey('birth-year-wheel')),
@@ -73,6 +75,8 @@ void main() {
     await tap(tester, next);
 
     await tap(tester, const ValueKey('goal-trackPeriods'));
+    await tap(tester, next);
+    await tap(tester, const ValueKey('wish-knowWhen'));
     await tap(tester, next);
 
     // One answer leads straight to the next question.
@@ -89,8 +93,15 @@ void main() {
     expect(find.text('4 days'), findsOneWidget);
     await tap(tester, next);
 
+    await tap(tester, const ValueKey('usual-flow-heavy'));
+    await tap(tester, const ValueKey('usual-pain-moderate'));
+    await tap(tester, next);
+    await tap(tester, const ValueKey('contraception-none'));
+
     // At 40, the question about recent changes is asked.
     await tap(tester, const ValueKey('change-lessRegular'));
+    await tap(tester, next);
+    await tap(tester, const ValueKey('sign-hotFlashes'));
     await tap(tester, next);
 
     await tap(tester, const ValueKey('pick-2026-03-01'));
@@ -104,17 +115,45 @@ void main() {
     expect(await harness.read((store) => store.database.readDays()), isEmpty);
     await tap(tester, next);
 
+    // An earlier period, 28 days before: the estimate is hers already.
+    expect(find.text('And the periods before?'), findsOneWidget);
+    await tap(tester, const ValueKey('pick-2026-02-01'));
+    expect(
+      find.text('Next period expected between Mar 25 and Apr 2'),
+      findsOneWidget,
+    );
+    await tap(tester, next);
+    await tap(tester, const ValueKey('tracked-sleep'));
+    await tap(tester, const ValueKey('tracked-libido'));
+    await tap(tester, next);
+
     expect(find.text('Your reminders'), findsOneWidget);
     await tap(tester, next);
     expect(find.text('For your eyes only'), findsOneWidget);
     await tap(tester, next);
     expect(find.text('All set, Lina'), findsOneWidget);
+    expect(find.text('What I set up for you'), findsOneWidget);
+    expect(
+      find.text(
+        'Your estimate starts from your own dates: a cycle of 28 days.',
+      ),
+      findsOneWidget,
+    );
+    expect(
+      find.text('Your journal starts with: Sleep, Libido.'),
+      findsOneWidget,
+    );
+    expect(find.text('Reminders are on.'), findsOneWidget);
     await tap(tester, finish);
 
     expect(
-      find.text('Period expected between Mar 25 and Apr 4'),
+      find.text('Period expected between Mar 25 and Apr 2'),
       findsOneWidget,
     );
+    // The home offers in one tap what she said she follows.
+    expect(find.byKey(const ValueKey('quick-sleep-good')), findsOneWidget);
+    expect(find.byKey(const ValueKey('quick-libido-high')), findsOneWidget);
+    expect(find.byKey(const ValueKey('quick-pain-mild')), findsNothing);
     final stored = await harness.read((store) {
       final database = store.database;
       return (
@@ -130,7 +169,11 @@ void main() {
         database.reminderSettings,
       );
     });
-    expect(stored.$1, {CalendarDay(2026, 3, 1): FlowIntensity.medium});
+    // First days only, with the flow she calls usual.
+    expect(stored.$1, {
+      CalendarDay(2026, 2, 1): FlowIntensity.heavy,
+      CalendarDay(2026, 3, 1): FlowIntensity.heavy,
+    });
     expect(stored.$2, 'Lina');
     expect(stored.$3, 1986);
     expect(stored.$4, {Goal.trackPeriods});
@@ -143,6 +186,23 @@ void main() {
     expect(stored.$10.periodEnabled, isTrue);
     expect(stored.$10.dailyEnabled, isTrue);
     expect(harness.reminders.permissionRequests, 1);
+    final more = await harness.read((store) {
+      final database = store.database;
+      return (
+        database.wishes,
+        database.contraception,
+        database.tracked,
+        database.usualFlow,
+        database.usualPain,
+        database.startSigns,
+      );
+    });
+    expect(more.$1, {Wish.knowWhen});
+    expect(more.$2, Contraception.none);
+    expect(more.$3, {Tracked.sleep, Tracked.libido});
+    expect(more.$4, FlowIntensity.heavy);
+    expect(more.$5, PainLevel.moderate);
+    expect(more.$6, {Symptom.hotFlashes});
   });
 
   testWidgets('cycles she calls irregular start from a wider range', (
@@ -151,10 +211,9 @@ void main() {
     final harness = Harness(tester);
     await harness.pumpApp();
 
-    await tap(tester, next);
-    await pass(tester, 3);
+    await to(tester, 'Are your periods regular?');
     await tap(tester, const ValueKey('regularity-irregular'));
-    await pass(tester, 1);
+    await to(tester, 'When did your last period start?');
     await tap(tester, ValueKey('pick-${harness.today}'));
 
     // 20 March + 28 days, 10 days on each side.
@@ -170,10 +229,12 @@ void main() {
     final harness = Harness(tester);
     await harness.pumpApp();
 
-    await tap(tester, next);
-    await pass(tester, 3);
+    await to(tester, 'Are your periods regular?');
     await tap(tester, const ValueKey('regularity-noPeriods'));
 
+    expect(find.text('Do you use contraception?'), findsOneWidget);
+    await to(tester, 'What do you want to follow day by day?');
+    await tap(tester, next);
     expect(find.text('Your reminders'), findsOneWidget);
   });
 
@@ -183,11 +244,11 @@ void main() {
     final harness = Harness(tester);
     await harness.pumpApp();
 
-    await tap(tester, next);
-    await pass(tester, 2);
+    await to(tester, 'What brings you here?');
     await tap(tester, const ValueKey('goal-perimenopause'));
+    // Passing a question forgets its answer: answers are confirmed.
     await tap(tester, next);
-    await pass(tester, 2);
+    await to(tester, 'Have you noticed changes in your periods lately?');
 
     expect(
       find.text('Have you noticed changes in your periods lately?'),
@@ -197,14 +258,29 @@ void main() {
     await tap(tester, const ValueKey('change-heavierFlow'));
     await tap(tester, const ValueKey('change-nothing'));
     await tap(tester, next);
-    await pass(tester, 3);
+    expect(
+      find.text('Do you have any of these signs these days?'),
+      findsOneWidget,
+    );
+    await tap(tester, const ValueKey('sign-nightSweats'));
+    await tap(tester, next);
+    await to(tester, 'All set');
+    expect(
+      find.text('The review follows what changes from one cycle to the next.'),
+      findsOneWidget,
+    );
     await tap(tester, finish);
 
     final stored = await harness.read(
-      (store) => (store.database.goals, store.database.recentChanges),
+      (store) => (
+        store.database.goals,
+        store.database.recentChanges,
+        store.database.startSigns,
+      ),
     );
     expect(stored.$1, {Goal.perimenopause});
     expect(stored.$2, {RecentChange.nothing});
+    expect(stored.$3, {Symptom.nightSweats});
   });
 
   testWidgets('without that goal and before 40, it is not asked', (
@@ -213,8 +289,8 @@ void main() {
     final harness = Harness(tester);
     await harness.pumpApp();
 
-    await tap(tester, next);
-    await pass(tester, 5);
+    await to(tester, 'Do you use contraception?');
+    await tap(tester, skip);
 
     expect(find.text('When did your last period start?'), findsOneWidget);
   });
@@ -225,8 +301,7 @@ void main() {
     final harness = Harness(tester);
     await harness.pumpApp();
 
-    await tap(tester, next);
-    await pass(tester, 2);
+    await to(tester, 'What brings you here?');
     expect(find.byKey(const ValueKey('goal-conceive-warning')), findsNothing);
     await tap(tester, const ValueKey('goal-conceive'));
     expect(
@@ -234,7 +309,7 @@ void main() {
       findsOneWidget,
     );
     await tap(tester, next);
-    await pass(tester, 5);
+    await to(tester, 'All set');
     await tap(tester, finish);
 
     expect(
@@ -249,8 +324,11 @@ void main() {
     final harness = Harness(tester);
     await harness.pumpApp();
 
-    await tap(tester, next);
-    await pass(tester, 8);
+    await to(tester, 'All set');
+    expect(
+      find.text('Reminders are off. You can turn them on in the settings.'),
+      findsOneWidget,
+    );
     await tap(tester, finish);
     // The next launch does not decide for her either.
     await harness.pumpApp();
@@ -269,8 +347,7 @@ void main() {
     final harness = Harness(tester);
     await harness.pumpApp();
 
-    await tap(tester, next);
-    await pass(tester, 6);
+    await to(tester, 'Your reminders');
     await tap(tester, const ValueKey('setup-daily-reminder'));
     await tap(tester, const ValueKey('setup-days-before-3'));
     await tap(tester, next);
@@ -289,8 +366,7 @@ void main() {
     final harness = Harness(tester)..reminders.allow = false;
     await harness.pumpApp();
 
-    await tap(tester, next);
-    await pass(tester, 6);
+    await to(tester, 'Your reminders');
     await tap(tester, next);
 
     expect(find.text('Notifications are turned off'), findsOneWidget);
@@ -307,8 +383,7 @@ void main() {
     final harness = Harness(tester);
     await harness.pumpApp();
 
-    await tap(tester, next);
-    await pass(tester, 7);
+    await to(tester, 'For your eyes only');
     await tap(tester, const ValueKey('setup-lock'));
 
     expect(harness.deviceAuth.prompts, hasLength(1));
@@ -322,7 +397,7 @@ void main() {
     final harness = Harness(tester);
     await harness.pumpApp();
 
-    await tap(tester, next);
+    await to(tester, 'What is your first name?');
     await tester.enterText(find.byKey(const ValueKey('first-name')), 'Lina');
     await tap(tester, next);
     await tap(tester, const ValueKey('onboarding-back'));
@@ -336,13 +411,13 @@ void main() {
     final harness = Harness(tester);
     await harness.pumpApp();
 
-    await tap(tester, next);
-    await pass(tester, 4);
+    await to(tester, 'Your usual lengths');
     await tap(tester, const ValueKey('period-length-plus'));
     await tap(tester, next);
+    await to(tester, 'When did your last period start?');
     await tap(tester, ValueKey('pick-${harness.today}'));
     await tap(tester, next);
-    await pass(tester, 2);
+    await to(tester, 'All set');
     await tap(tester, finish);
 
     expect(
@@ -363,7 +438,12 @@ void main() {
     await tap(tester, skip);
     await tap(tester, const ValueKey('goal-conceive'));
     await tap(tester, next);
+    await to(tester, 'Are your periods regular?');
     await tap(tester, const ValueKey('regularity-irregular'));
+    await to(tester, 'Do you use contraception?');
+    await tap(tester, const ValueKey('contraception-hormonal'));
+    await to(tester, 'What do you want to follow day by day?');
+    await tap(tester, const ValueKey('tracked-mood'));
     // The last question: the button saves.
     await tapVisible(tester, find.text('Save'));
 
@@ -384,6 +464,12 @@ void main() {
     expect(stored.$4, isNull);
     // Nothing she logged is touched.
     expect(stored.$5, greaterThan(0));
+    // A hormonal contraception hides the ovulation estimate, whatever
+    // the goal.
+    expect(
+      await harness.read((store) => store.database.fertilityEstimateEnabled),
+      isFalse,
+    );
   });
 
   testWidgets('the app can be entered without the setup, once and for all', (
