@@ -41,7 +41,21 @@ class FollowCard extends StatelessWidget {
     final follows = model.tracked.isEmpty
         ? const {Tracked.pain, Tracked.mood}
         : model.tracked;
+    final fertility = model.profile == Profile.conceiving
+        ? model.fertilityEstimate
+        : null;
     final tiles = [
+      if (fertility != null)
+        _Tile(
+          name: 'fertile',
+          icon: Icons.egg_outlined,
+          label: l10n.kpiFertile,
+          value: l10n.kpiFertileRange(
+            shortDate(l10n, fertility.windowStart),
+            shortDate(l10n, fertility.windowEnd),
+          ),
+          caption: l10n.kpiFertileCaption,
+        ),
       _Tile(
         name: 'week',
         icon: Icons.edit_calendar_outlined,

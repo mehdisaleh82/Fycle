@@ -5,6 +5,7 @@ import '../domain/calendar_day.dart';
 import '../domain/day_entry.dart';
 import '../domain/flow_intensity.dart';
 import '../domain/libido_level.dart';
+import '../domain/life_stage.dart';
 import '../domain/logging_streak.dart';
 import '../domain/mood.dart';
 import '../domain/pain_level.dart';
@@ -67,7 +68,9 @@ class TodayCard extends StatelessWidget {
       title: l10n.todayEntryTitle,
       children: [
         _Group(
-          title: l10n.todayCardTitle,
+          title: model.profile == Profile.pregnant
+              ? l10n.todayBleedingTitle
+              : l10n.todayCardTitle,
           children: [
             for (final flow in FlowIntensity.values)
               ChoiceChip(

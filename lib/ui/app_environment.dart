@@ -1,3 +1,4 @@
+import '../data/auto_backup.dart';
 import '../data/device_auth.dart';
 import '../data/file_gateway.dart';
 import '../data/local_store.dart';
@@ -18,6 +19,8 @@ final class AppEnvironment {
     required this.widgets,
     required this.now,
     this.build = '',
+    this.autoBackup = const DocumentsAutoBackupGateway(),
+    this.backupPasswords = const SecureBackupPasswordStore(),
   });
 
   /// The real thing: encrypted database, system file dialogs, today's date.
@@ -29,6 +32,8 @@ final class AppEnvironment {
       deviceAuth = const SystemDeviceAuth(),
       widgets = const SystemWidgetGateway(),
       now = DateTime.now,
+      autoBackup = const DocumentsAutoBackupGateway(),
+      backupPasswords = const SecureBackupPasswordStore(),
       build = const String.fromEnvironment('FYCLE_BUILD');
 
   /// Opens the local store. May throw when the store cannot be read.
@@ -47,6 +52,11 @@ final class AppEnvironment {
 
   /// The home-screen widget of the phone.
   final WidgetGateway widgets;
+
+  /// Where the automatic backup is written, and where its password is
+  /// kept.
+  final AutoBackupGateway autoBackup;
+  final BackupPasswordStore backupPasswords;
 
   /// The current date and time, as the phone shows them.
   final DateTime Function() now;

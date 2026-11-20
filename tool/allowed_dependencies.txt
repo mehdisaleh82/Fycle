@@ -14,6 +14,7 @@ flutter_secure_storage  # database key in the Keychain / Keystore
 local_auth              # flutter.dev, Face ID / fingerprint / phone passcode
 material_ui             # flutter.dev, Material widgets
 path_provider           # flutter.dev, private folder of the app
+pdf                     # pure Dart, writes the report for the doctor on the phone, no network
 sqlite3                 # encrypted local database (SQLite3 Multiple Ciphers)
 timezone                # date type required by flutter_local_notifications
 
@@ -23,8 +24,11 @@ flutter_test            # SDK, tests
 
 # Transitive, pulled in by the packages above
 android_file_picker     # file_picker on Android, no permission requested
+archive                 # pure Dart, compression used by pdf
 args
 async
+barcode                 # pure Dart, required by pdf, unused
+bidi                    # pure Dart, text direction, required by pdf
 boolean_selector
 characters
 clock
@@ -55,6 +59,7 @@ flutter_secure_storage_windows
 flutter_web_plugins     # SDK
 glob
 hooks                   # dart.dev, build hook of sqlite3
+image                   # pure Dart, pictures in a PDF, required by pdf, unused
 http                    # required by timezone for its web loader; never imported (guardrail)
 http_parser             # required by http
 jni                     # dart.dev, required by path_provider_android
@@ -77,6 +82,7 @@ native_toolchain_c      # dart.dev, build hook of sqlite3
 objective_c             # dart.dev, required by path_provider_foundation
 package_config
 path
+path_parsing            # flutter.dev, pure Dart, required by pdf
 path_provider_android
 path_provider_foundation
 path_provider_linux
@@ -85,8 +91,10 @@ path_provider_windows
 petitparser             # required by xml
 platform
 plugin_platform_interface
+posix                   # dart.dev, required by archive, file calls only
 process
 pub_semver
+qr                      # pure Dart, required by pdf, unused
 record_use
 sky_engine              # SDK
 source_span

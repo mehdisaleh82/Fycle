@@ -79,9 +79,6 @@ class AppLocalizationsFr extends AppLocalizations {
   String get onboardingStart => 'Commencer';
 
   @override
-  String get onboardingSkip => 'Not yet: I\'ll log it the day it starts';
-
-  @override
   String get onboardingRestore => 'J\'ai un fichier de sauvegarde';
 
   @override
@@ -2560,4 +2557,101 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get partnerLeave => 'Ne plus suivre';
+
+  @override
+  String get pdfSave => 'Enregistrer en PDF';
+
+  @override
+  String get pdfSaved => 'Rapport enregistré.';
+
+  @override
+  String get pdfAveragesTitle => 'Moyennes';
+
+  @override
+  String get pdfNoCycle => 'Aucun cycle complet noté pour l\'instant.';
+
+  @override
+  String pdfBasis(int cycles) {
+    String _temp0 = intl.Intl.pluralLogic(
+      cycles,
+      locale: localeName,
+      other: 'Sur les $cycles derniers cycles complets.',
+      one: 'Sur le dernier cycle complet.',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String pdfMeanCycle(String days) {
+    return 'Durée moyenne du cycle : $days';
+  }
+
+  @override
+  String pdfCycleRange(int min, int max) {
+    return 'Cycle le plus court : $min jours. Le plus long : $max jours.';
+  }
+
+  @override
+  String pdfMeanPeriod(String days) {
+    return 'Durée moyenne des règles : $days';
+  }
+
+  @override
+  String get pdfCyclesTitle => 'Cycles';
+
+  @override
+  String pdfCycleLine(String from, String to, int length, int period) {
+    return 'Du $from au $to : cycle de $length jours, règles de $period jours';
+  }
+
+  @override
+  String get pdfFooter =>
+      'Produit sur le téléphone à partir de ce que l\'utilisatrice a noté elle-même. Une liste de dates et de décomptes : pas un diagnostic.';
+
+  @override
+  String get autoBackupTitle => 'Sauvegarde automatique';
+
+  @override
+  String get autoBackupSubtitle =>
+      'Une fois par jour, un fichier chiffré est mis à jour dans le dossier de l\'appli, que tu vois dans l\'app Fichiers. Rien n\'est envoyé nulle part.';
+
+  @override
+  String get autoBackupPasswordTitle =>
+      'Mot de passe de la sauvegarde automatique';
+
+  @override
+  String get autoBackupPasswordBody =>
+      'Tu en auras besoin pour restaurer la sauvegarde. Il n\'existe aucun moyen de le retrouver.';
+
+  @override
+  String get todayBleedingTitle => 'Saignement aujourd\'hui';
+
+  @override
+  String get kpiFertile => 'Fenêtre de fertilité estimée';
+
+  @override
+  String kpiFertileRange(String from, String to) {
+    return '$from – $to';
+  }
+
+  @override
+  String get kpiFertileCaption => 'une estimation, pas une certitude';
+
+  @override
+  String get learnTitle => 'Ton cycle, en quelques mots';
+
+  @override
+  String get learnCycle =>
+      'Un cycle va du premier jour de tes règles au premier jour des suivantes.';
+
+  @override
+  String get learnLength =>
+      'Sa durée change d\'une femme à l\'autre, et d\'un cycle à l\'autre : le plus souvent entre 24 et 38 jours.';
+
+  @override
+  String get learnFirstYears =>
+      'Les premières années de règles, des cycles irréguliers sont fréquents.';
+
+  @override
+  String get learnLogging => 'Plus tu notes, plus l\'estimation te ressemble.';
 }

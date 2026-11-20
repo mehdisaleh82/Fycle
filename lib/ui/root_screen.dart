@@ -13,6 +13,7 @@ import '../domain/start_profile.dart';
 import '../l10n/app_localizations.dart';
 import 'app_environment.dart';
 import 'app_lock.dart';
+import 'auto_backup_flow.dart';
 import 'backup_flows.dart';
 import 'cycle_model.dart';
 import 'dialogs.dart';
@@ -109,6 +110,10 @@ class _RootScreenState extends State<RootScreen> with WidgetsBindingObserver {
     if (model == null || !mounted) {
       return;
     }
+    // So does the backup of the day, when it is turned on.
+    unawaited(
+      writeAutoBackupIfDue(model: model, environment: widget.environment),
+    );
     // The widget follows the same moments as the reminders.
     _widgets.sync(model: model, today: widget.environment.today());
     _reminders.sync(

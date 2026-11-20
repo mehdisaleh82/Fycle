@@ -4,6 +4,7 @@ import '../data/appearance.dart';
 import '../domain/reminders.dart';
 import '../l10n/app_localizations.dart';
 import 'app_environment.dart';
+import 'auto_backup_flow.dart';
 import 'backup_flows.dart';
 import 'birth_year_field.dart';
 import 'cycle_length_field.dart';
@@ -404,6 +405,19 @@ class SettingsScreen extends StatelessWidget {
                       model: model,
                       files: files,
                       today: environment.today(),
+                    ),
+                  ),
+                  SwitchListTile(
+                    key: const ValueKey('auto-backup'),
+                    secondary: const Icon(Icons.autorenew),
+                    title: Text(l10n.autoBackupTitle),
+                    subtitle: Text(l10n.autoBackupSubtitle),
+                    value: model.store.database.autoBackupEnabled,
+                    onChanged: (on) => setAutoBackup(
+                      context,
+                      model: model,
+                      environment: environment,
+                      enabled: on,
                     ),
                   ),
                   ListTile(

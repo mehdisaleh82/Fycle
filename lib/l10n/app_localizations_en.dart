@@ -76,9 +76,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get onboardingStart => 'Start';
 
   @override
-  String get onboardingSkip => 'Not yet: I\'ll log it the day it starts';
-
-  @override
   String get onboardingRestore => 'I have a backup file';
 
   @override
@@ -2533,4 +2530,101 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get partnerLeave => 'Stop following';
+
+  @override
+  String get pdfSave => 'Save as PDF';
+
+  @override
+  String get pdfSaved => 'Report saved.';
+
+  @override
+  String get pdfAveragesTitle => 'Averages';
+
+  @override
+  String get pdfNoCycle => 'No complete cycle logged yet.';
+
+  @override
+  String pdfBasis(int cycles) {
+    String _temp0 = intl.Intl.pluralLogic(
+      cycles,
+      locale: localeName,
+      other: 'Over the last $cycles complete cycles.',
+      one: 'Over the last complete cycle.',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String pdfMeanCycle(String days) {
+    return 'Mean cycle length: $days';
+  }
+
+  @override
+  String pdfCycleRange(int min, int max) {
+    return 'Shortest cycle: $min days. Longest: $max days.';
+  }
+
+  @override
+  String pdfMeanPeriod(String days) {
+    return 'Mean period length: $days';
+  }
+
+  @override
+  String get pdfCyclesTitle => 'Cycles';
+
+  @override
+  String pdfCycleLine(String from, String to, int length, int period) {
+    return '$from to $to: cycle of $length days, period of $period days';
+  }
+
+  @override
+  String get pdfFooter =>
+      'Made on the phone from what the user logged herself. A list of dates and counts: not a diagnosis.';
+
+  @override
+  String get autoBackupTitle => 'Automatic backup';
+
+  @override
+  String get autoBackupSubtitle =>
+      'Once a day, an encrypted file is brought up to date in the folder of the app, which you see in the Files app. Nothing is sent anywhere.';
+
+  @override
+  String get autoBackupPasswordTitle => 'Password of the automatic backup';
+
+  @override
+  String get autoBackupPasswordBody =>
+      'You will need it to restore the backup. There is no way to find it again.';
+
+  @override
+  String get todayBleedingTitle => 'Bleeding today';
+
+  @override
+  String get kpiFertile => 'Estimated fertile window';
+
+  @override
+  String kpiFertileRange(String from, String to) {
+    return '$from – $to';
+  }
+
+  @override
+  String get kpiFertileCaption => 'an estimate, not a certainty';
+
+  @override
+  String get learnTitle => 'Your cycle, in a few words';
+
+  @override
+  String get learnCycle =>
+      'A cycle goes from the first day of your period to the first day of the next one.';
+
+  @override
+  String get learnLength =>
+      'Its length differs from one woman to another, and from one cycle to the next: most often between 24 and 38 days.';
+
+  @override
+  String get learnFirstYears =>
+      'In the first years of having periods, irregular cycles are common.';
+
+  @override
+  String get learnLogging =>
+      'The more you log, the more the estimate looks like you.';
 }

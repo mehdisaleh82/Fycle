@@ -142,6 +142,10 @@ class TodayTab extends StatelessWidget {
                 today: today,
                 onOpenDay: () => onOpenDay(today),
               ),
+              if (model.profile == Profile.discovering) ...[
+                gap,
+                const LearnCard(),
+              ],
               gap,
               FollowCard(model: model, today: today),
               if (summary != null) ...[

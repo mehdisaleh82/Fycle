@@ -224,12 +224,6 @@ abstract class AppLocalizations {
   /// **'Start'**
   String get onboardingStart;
 
-  /// Button of the first-launch screen: enters the app without giving the date of the last period.
-  ///
-  /// In en, this message translates to:
-  /// **'Not yet: I\'ll log it the day it starts'**
-  String get onboardingSkip;
-
   /// No description provided for @onboardingRestore.
   ///
   /// In en, this message translates to:
@@ -3901,6 +3895,150 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Stop following'**
   String get partnerLeave;
+
+  /// No description provided for @pdfSave.
+  ///
+  /// In en, this message translates to:
+  /// **'Save as PDF'**
+  String get pdfSave;
+
+  /// No description provided for @pdfSaved.
+  ///
+  /// In en, this message translates to:
+  /// **'Report saved.'**
+  String get pdfSaved;
+
+  /// No description provided for @pdfAveragesTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Averages'**
+  String get pdfAveragesTitle;
+
+  /// No description provided for @pdfNoCycle.
+  ///
+  /// In en, this message translates to:
+  /// **'No complete cycle logged yet.'**
+  String get pdfNoCycle;
+
+  /// No description provided for @pdfBasis.
+  ///
+  /// In en, this message translates to:
+  /// **'{cycles, plural, =1{Over the last complete cycle.} other{Over the last {cycles} complete cycles.}}'**
+  String pdfBasis(int cycles);
+
+  /// No description provided for @pdfMeanCycle.
+  ///
+  /// In en, this message translates to:
+  /// **'Mean cycle length: {days}'**
+  String pdfMeanCycle(String days);
+
+  /// No description provided for @pdfCycleRange.
+  ///
+  /// In en, this message translates to:
+  /// **'Shortest cycle: {min} days. Longest: {max} days.'**
+  String pdfCycleRange(int min, int max);
+
+  /// No description provided for @pdfMeanPeriod.
+  ///
+  /// In en, this message translates to:
+  /// **'Mean period length: {days}'**
+  String pdfMeanPeriod(String days);
+
+  /// No description provided for @pdfCyclesTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Cycles'**
+  String get pdfCyclesTitle;
+
+  /// No description provided for @pdfCycleLine.
+  ///
+  /// In en, this message translates to:
+  /// **'{from} to {to}: cycle of {length} days, period of {period} days'**
+  String pdfCycleLine(String from, String to, int length, int period);
+
+  /// No description provided for @pdfFooter.
+  ///
+  /// In en, this message translates to:
+  /// **'Made on the phone from what the user logged herself. A list of dates and counts: not a diagnosis.'**
+  String get pdfFooter;
+
+  /// No description provided for @autoBackupTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Automatic backup'**
+  String get autoBackupTitle;
+
+  /// No description provided for @autoBackupSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Once a day, an encrypted file is brought up to date in the folder of the app, which you see in the Files app. Nothing is sent anywhere.'**
+  String get autoBackupSubtitle;
+
+  /// No description provided for @autoBackupPasswordTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Password of the automatic backup'**
+  String get autoBackupPasswordTitle;
+
+  /// No description provided for @autoBackupPasswordBody.
+  ///
+  /// In en, this message translates to:
+  /// **'You will need it to restore the backup. There is no way to find it again.'**
+  String get autoBackupPasswordBody;
+
+  /// No description provided for @todayBleedingTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Bleeding today'**
+  String get todayBleedingTitle;
+
+  /// No description provided for @kpiFertile.
+  ///
+  /// In en, this message translates to:
+  /// **'Estimated fertile window'**
+  String get kpiFertile;
+
+  /// No description provided for @kpiFertileRange.
+  ///
+  /// In en, this message translates to:
+  /// **'{from} – {to}'**
+  String kpiFertileRange(String from, String to);
+
+  /// No description provided for @kpiFertileCaption.
+  ///
+  /// In en, this message translates to:
+  /// **'an estimate, not a certainty'**
+  String get kpiFertileCaption;
+
+  /// No description provided for @learnTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Your cycle, in a few words'**
+  String get learnTitle;
+
+  /// No description provided for @learnCycle.
+  ///
+  /// In en, this message translates to:
+  /// **'A cycle goes from the first day of your period to the first day of the next one.'**
+  String get learnCycle;
+
+  /// No description provided for @learnLength.
+  ///
+  /// In en, this message translates to:
+  /// **'Its length differs from one woman to another, and from one cycle to the next: most often between 24 and 38 days.'**
+  String get learnLength;
+
+  /// No description provided for @learnFirstYears.
+  ///
+  /// In en, this message translates to:
+  /// **'In the first years of having periods, irregular cycles are common.'**
+  String get learnFirstYears;
+
+  /// No description provided for @learnLogging.
+  ///
+  /// In en, this message translates to:
+  /// **'The more you log, the more the estimate looks like you.'**
+  String get learnLogging;
 }
 
 class _AppLocalizationsDelegate

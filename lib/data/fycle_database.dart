@@ -105,6 +105,8 @@ final class FycleDatabase {
   static const String _startSigns = 'start_signs';
   static const String _profile = 'profile';
   static const String _partnerView = 'partner_view';
+  static const String _autoBackup = 'auto_backup_enabled';
+  static const String _autoBackupDay = 'auto_backup_day';
   static const String _pregnancyStart = 'pregnancy_start';
   static const String _deliveryDate = 'delivery_date';
 
@@ -336,6 +338,19 @@ final class FycleDatabase {
   String? get partnerView => _deviceSetting(_partnerView);
 
   set partnerView(String? json) => _writeDeviceSetting(_partnerView, json);
+
+  /// Whether a backup is written by itself once a day, and the last day
+  /// it was. Not part of an export.
+  bool get autoBackupEnabled => _deviceSetting(_autoBackup) == _on;
+
+  set autoBackupEnabled(bool enabled) =>
+      _writeDeviceSetting(_autoBackup, enabled ? _on : null);
+
+  CalendarDay? get autoBackupDay =>
+      CalendarDay.tryParse(_deviceSetting(_autoBackupDay) ?? '');
+
+  set autoBackupDay(CalendarDay? day) =>
+      _writeDeviceSetting(_autoBackupDay, day?.toString());
 
   /// Where she is in her life, as she said. Not part of an export.
   Profile? get profile => _byName(Profile.values, _deviceSetting(_profile));

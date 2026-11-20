@@ -2,6 +2,7 @@ import 'dart:io';
 import 'dart:typed_data';
 
 import 'package:flutter_test/flutter_test.dart';
+import 'package:fycle/data/auto_backup.dart';
 import 'package:fycle/data/device_auth.dart';
 import 'package:fycle/data/file_gateway.dart';
 import 'package:fycle/data/local_store.dart';
@@ -45,6 +46,29 @@ final class FakeFiles implements FileGateway {
 
   @override
   Future<PickedFile?> pick() async => nextPick;
+}
+
+/// Stands in for the folder the automatic backup is written to.
+final class FakeAutoBackup implements AutoBackupGateway {
+  /// Every backup written so far, oldest first.
+  final List<Uint8List> written = [];
+
+  @override
+  Future<void> write(Uint8List bytes) async => written.add(bytes);
+}
+
+/// Stands in for the Keychain entry of the backup password.
+final class FakeBackupPasswords implements BackupPasswordStore {
+  String? password;
+
+  @override
+  Future<String?> read() async => password;
+
+  @override
+  Future<void> write(String value) async => password = value;
+
+  @override
+  Future<void> delete() async => password = null;
 }
 
 /// Stands in for the home-screen widget of the phone.
@@ -146,6 +170,8 @@ final class Harness {
   String build = '';
 
   final FakeReminders reminders = FakeReminders();
+  final FakeAutoBackup autoBackup = FakeAutoBackup();
+  final FakeBackupPasswords backupPasswords = FakeBackupPasswords();
   final FakeWidgets widgets = FakeWidgets();
   final FakeDeviceAuth deviceAuth = FakeDeviceAuth();
 
@@ -223,6 +249,8 @@ final class Harness {
           deviceAuth: deviceAuth,
           now: () => now,
           build: build,
+          autoBackup: autoBackup,
+          backupPasswords: backupPasswords,
         ),
       ),
     );

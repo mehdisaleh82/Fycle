@@ -15,6 +15,7 @@ import 'clinical_card.dart';
 import 'comparison_card.dart';
 import 'cycle_model.dart';
 import 'disclaimer_card.dart';
+import 'doctor_pdf.dart';
 import 'fertility_card.dart';
 import 'home_cards.dart';
 import 'labels.dart';
@@ -501,12 +502,51 @@ class DoctorReportScreen extends StatelessWidget {
   final CycleModel model;
   final AppEnvironment environment;
 
+  /// Makes the PDF on the phone and hands it to the file dialog of the
+  /// system: she keeps it where she wants.
+  Future<void> _savePdf(BuildContext context) async {
+    final l10n = AppLocalizations.of(context);
+    final messenger = ScaffoldMessenger.of(context);
+    final today = environment.today();
+    var saved = false;
+    try {
+      final bytes = await buildDoctorPdf(
+        l10n,
+        today: today,
+        cycles: model.cycles,
+        days: model.days,
+        followsChanges: model.followsCycleChanges,
+        age: model.age,
+      );
+      saved = await environment.files.save(
+        fileName: 'fycle-report-$today.pdf',
+        bytes: bytes,
+      );
+    } on Exception {
+      messenger.showSnackBar(SnackBar(content: Text(l10n.errorGeneric)));
+      return;
+    }
+    if (saved) {
+      messenger.showSnackBar(SnackBar(content: Text(l10n.pdfSaved)));
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
     final theme = Theme.of(context);
     return Scaffold(
-      appBar: AppBar(title: Text(l10n.doctorReportTitle)),
+      appBar: AppBar(
+        title: Text(l10n.doctorReportTitle),
+        actions: [
+          IconButton(
+            key: const ValueKey('doctor-pdf'),
+            tooltip: l10n.pdfSave,
+            icon: const Icon(Icons.picture_as_pdf_outlined),
+            onPressed: () => _savePdf(context),
+          ),
+        ],
+      ),
       body: SafeArea(
         child: ListenableBuilder(
           listenable: model,

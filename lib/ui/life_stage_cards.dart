@@ -279,3 +279,61 @@ class _StageCard extends StatelessWidget {
     );
   }
 }
+
+/// For the one who discovers her cycle: a few plain facts, in her words.
+/// What a cycle is and how much it varies; nothing about what hers should
+/// be.
+class LearnCard extends StatelessWidget {
+  const LearnCard({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
+    final theme = Theme.of(context);
+    return Card(
+      key: const ValueKey('learn-card'),
+      child: Padding(
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Semantics(
+              header: true,
+              child: Text(l10n.learnTitle, style: theme.textTheme.titleMedium),
+            ),
+            for (final fact in [
+              l10n.learnCycle,
+              l10n.learnLength,
+              l10n.learnFirstYears,
+              l10n.learnLogging,
+            ]) ...[
+              const SizedBox(height: 10),
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  ExcludeSemantics(
+                    child: Padding(
+                      padding: const EdgeInsets.only(top: 6),
+                      child: Container(
+                        width: 6,
+                        height: 6,
+                        decoration: BoxDecoration(
+                          color: theme.colorScheme.primary,
+                          shape: BoxShape.circle,
+                        ),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(width: 10),
+                  Expanded(
+                    child: Text(fact, style: theme.textTheme.bodyMedium),
+                  ),
+                ],
+              ),
+            ],
+          ],
+        ),
+      ),
+    );
+  }
+}
