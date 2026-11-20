@@ -151,6 +151,13 @@ void main() {
       scrollable: find.byType(Scrollable).last,
     );
     expect(key('open-kiosk-intimacy'), findsNothing);
+    // Nor the outside pages about sex.
+    await tester.scrollUntilVisible(
+      key('links-fertility'),
+      300,
+      scrollable: find.byType(Scrollable).last,
+    );
+    expect(key('links-sexuality'), findsNothing);
   });
 
   testWidgets('nothing about sex is listed once she turned it off', (

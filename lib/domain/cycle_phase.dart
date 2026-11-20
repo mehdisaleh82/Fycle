@@ -24,8 +24,7 @@ enum CyclePhase {
   /// After the middle, more than a few days before the next period.
   secondPart,
 
-  /// The last days before the estimated period, and the days it is due or
-  /// late.
+  /// The last days before the estimated period, and the days it is due.
   beforePeriod,
 }
 
@@ -36,8 +35,10 @@ enum CyclePhase {
 const int daysBeforePeriod = 5;
 
 /// The phase of [today], or null when nothing can be said: no estimate, a
-/// pregnancy, periods not back after a birth, or a hormonal contraception,
-/// with which bleeding does not follow the hormones of a natural cycle.
+/// period that is late (the cycle is not following the estimate, whatever
+/// the reason), a pregnancy, periods not back after a birth, or a hormonal
+/// contraception, with which bleeding does not follow the hormones of a
+/// natural cycle.
 CyclePhase? cyclePhaseOn(
   CalendarDay today, {
   required CycleStatus status,
@@ -50,23 +51,28 @@ CyclePhase? cyclePhaseOn(
     return null;
   }
   switch (status) {
-    case NoEstimate() || EstimateOutdated():
+    case NoEstimate() || EstimateOutdated() || PeriodLate():
       return null;
     case PeriodOngoing():
       return CyclePhase.period;
-    case PeriodDue() || PeriodLate():
+    case PeriodDue():
       return CyclePhase.beforePeriod;
     case PeriodExpected(:final prediction, :final daysUntil):
+      // The estimated middle first: with a wide range for the next
+      // period, it can reach into the days counted back from that range,
+      // and the card must not contradict the ring.
+      if (fertility != null &&
+          !today.isBefore(fertility.windowStart) &&
+          !today.isAfter(fertility.latestOvulation)) {
+        return CyclePhase.midCycle;
+      }
       if (daysUntil <= daysBeforePeriod) {
         return CyclePhase.beforePeriod;
       }
       if (fertility != null) {
-        if (today.isBefore(fertility.windowStart)) {
-          return CyclePhase.afterPeriod;
-        }
-        return today.isAfter(fertility.latestOvulation)
-            ? CyclePhase.secondPart
-            : CyclePhase.midCycle;
+        return today.isBefore(fertility.windowStart)
+            ? CyclePhase.afterPeriod
+            : CyclePhase.secondPart;
       }
       // No ovulation estimate (turned off, or too few cycles): the middle
       // is not named, only the two halves.

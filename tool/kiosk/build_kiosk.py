@@ -3,7 +3,8 @@
 Usage: python3 tool/kiosk/build_kiosk.py <output folder>
 
 Reads the public feeds of a few media, keeps what is recent, on topic and
-light in tone, and writes plain pages: no script, no cookie, no counter.
+light in tone, and writes plain pages: no script, no cookie and no counter
+of ours. Pictures are loaded from the publishers, who see the visit.
 The app only hands the address of a page to the browser of the phone; it
 never reads the kiosk itself (CLAUDE.md, rule 1). The sorting is automatic
 and nobody reads the articles: the pages say so. See docs/DECISIONS.md,
@@ -70,12 +71,13 @@ FEEDS = {
     ],
 }
 
-# Words that file an item under a topic. Checked in this order.
+# Words that file an item under a topic. Intimacy, last here, is checked
+# first (see topic_of); the others in this order.
 WORDS = {
     'fr': [
         ('perimenopause', r'ménopaus|bouffées? de chaleur'),
         ('fertility', r'fertilité|\bpma\b|\bfiv\b|tomber enceinte|désir d.enfant|projet bébé|essai bébé'),
-        ('pregnancy', r'grossesse|enceinte|accouch|post-partum|postpartum|allaitement|jeune maman|jeunes? mères?|nouveau-né'),
+        ('pregnancy', r'grossesse|enceinte(?!s? (bluetooth|connectée|sans fil|nomade))|accouch|post-partum|postpartum|allaitement|jeune maman|jeunes? mères?|nouveau-né'),
         ('cycle', r'\b(ses|mes|tes|des|les|premières|pendant les|avoir ses) règles\b(?! (de|du|d.|pour|sur|à)\b)|menstru|cycle féminin|syndrome prémenstruel|\bspm\b'),
         (INTIMACY, r'\bsexe\b|\bsexo\b|sexualité|sexuel|orgasme|\bdésir\b|libido|plaisir féminin|clitoris|masturb|sextoy|sex-toy|faire l.amour|\bjouir\b|jouissance|fantasme|au lit\b|érotique|charnel|coquin'),
     ],
@@ -92,8 +94,8 @@ WORDS = {
 # words is left out, whatever the rest says. Contraception is left out as
 # well: the app gives no advice on it (CLAUDE.md, rule 7).
 NOT_LIGHT = {
-    'fr': r'viol\b|violé|violeur|agress|violen|féminicide|meurtr|\btué|\bmort\b|\bmorte\b|décès|décéd|suicid|cancer|tumeur|procès|tribunal|condamn|plainte|accusé|inceste|pédo|harcèlement|\bdeuil|fausses? couches?|drame|tragédie|guerre|attentat|maladie grave|\bist\b|\bvih\b|sida|infection|scandale|prison|police|proxén|prostitu|\bporno|mineur|enfants? victimes?|contracepti|pilule|stérilet|\bivg\b|avortement|appli de suivi|application de suivi|travailleu|risque|danger|alerte|inqui[eé]t|interdi|pesticide|toxique|\bcrise|pénurie|carence|parkinson|endométriose|douleur|souffr|\bpeur|honte|tabou|précarité|arnaque|rupture|divorce|tromp|infid|déteste|mal-être',
-    'en': r'\brape|rapist|assault|abus|violen|murder|kill|\bdead\b|\bdeath|\bdied\b|\bdies\b|suicid|cancer|tumou?r|\btrial\b|court\b|convict|sentenc|lawsuit|accus|incest|paedo|pedo|harass|grief|griev|miscarriage|stillb|tragedy|\bwar\b|attack|\bsti\b|\bstis\b|\bhiv\b|infection|scandal|prison|police|traffick|\bporn|underage|\bminors?\b|contracepti|\bpills?\b|\biud\b|abortion|period.track|tracking app|\bshop\b|\bdeals?\b|\bbest \d+|black friday|\bsale\b|\bbanned|shocking|denial|closure|crisis|\brisk|\bwarn|\bfear|toxic|chemical|\blaws?\b|\bban\b|despair|problematic|epidemic|\bcope\b|endometriosis|\bpain|suffer|shame|poverty|scam|divorce|cheat|affair|brief letters|– review|podcast|sex work|onlyfans',
+    'fr': r'viols?\b|violé|violeur|agress|violen|féminicide|meurtr|\btué|\bmorts?\b|\bmortes?\b|\bmourir|\bmeurt|décès|décéd|suicid|cancer|tumeur|procès|tribunal|condamn|plainte|accusé|inceste|pédo|harcèlement|\bdeuil|fausses? couches?|drame|tragédie|guerre|attentat|maladie grave|\bist\b|\bvih\b|sida|infection|scandale|prison|police|proxén|prostitu|\bporno|mineur|\bados?\b|adolescen|collégien|lycéen|\benfants?\b|enfants? victimes?|contracepti|pilule|stérilet|\bivg\b|avortement|appli de suivi|application de suivi|travailleu|risque|danger|alerte|inqui[eé]t|interdi|pesticide|toxique|\bcrise|pénurie|carence|parkinson|endométriose|douleur|souffr|\bpeur|honte|tabou|précarité|arnaque|rupture|divorce|tromp|infid|déteste|mal-être',
+    'en': r'\brape|rapist|assault|abus|violen|murder|\bkill|\bdead\b|\bdeath|\bdied\b|\bdies\b|\bdying\b|suicid|cancer|tumou?r|\btrial\b|court\b|convict|sentenc|lawsuit|accus|incest|\bpaedo|\bpedo|groom|\bteen|\bchild|\bkids?\b|schoolgirl|harass|grief|griev|miscarriage|stillb|tragedy|\bwar\b|attack|\bsti\b|\bstis\b|\bhiv\b|infection|scandal|prison|police|traffick|\bporn|underage|\bminors?\b|contracepti|\bpills?\b|\biud\b|abortion|period.track|tracking app|\bshop\b|\bdeals?\b|\bbest \d+|black friday|\bsale\b|\bbanned|shocking|denial|closure|crisis|\brisk|\bwarn|\bfear|toxic|chemical|(?<!in-)\blaws?\b|\bban\b|despair|problematic|epidemic|\bcope\b|endometriosis|\bpain|suffer|shame|poverty|scam|divorce|cheat|affair|brief letters|– review|podcast|sex work(?!s\b)|onlyfans',
 }
 
 # Someone speaking for herself.
@@ -105,11 +107,13 @@ TESTIMONY = {
 TEXTS = {
     'fr': {
         'title': 'Le kiosque',
+        'date': '%d/%m/%Y',
+        'day': '%d/%m',
         'lead': "Des articles récents, choisis chaque jour dans la presse.",
         'updated': 'Mis à jour le %s',
         'testimony': 'Témoignage',
         'empty': "Rien de neuf aujourd'hui. Reviens demain.",
-        'note': "Sélection automatique : personne n'a relu ces articles. Les titres et les images appartiennent à leurs éditeurs. Rien ici n'est un avis médical. En ouvrant un article, tu quittes cette page : le site verra ta visite.",
+        'note': "Sélection automatique : personne n'a relu ces articles. Les titres et les images appartiennent à leurs éditeurs. Rien ici n'est un avis médical. Les images sont servies par les sites des journaux, qui voient donc ta visite dès l'ouverture de cette page, comme en ouvrant un article.",
         'topics': {
             'cycle': 'Cycle et règles',
             'perimenopause': 'Périménopause',
@@ -120,11 +124,13 @@ TEXTS = {
     },
     'en': {
         'title': 'The newsstand',
+        'date': '%Y-%m-%d',
+        'day': '%m-%d',
         'lead': 'Recent articles, picked from the press every day.',
         'updated': 'Updated on %s',
         'testimony': 'First person',
         'empty': 'Nothing new today. Come back tomorrow.',
-        'note': 'Picked automatically: nobody has read these articles. Titles and pictures belong to their publishers. Nothing here is medical advice. Opening an article takes you away from this page: the site will see your visit.',
+        'note': 'Picked automatically: nobody has read these articles. Titles and pictures belong to their publishers. Nothing here is medical advice. Pictures are served by the sites of the publishers, which therefore see your visit as soon as this page opens, as they do when you open an article.',
         'topics': {
             'cycle': 'Cycle and periods',
             'perimenopause': 'Perimenopause',
@@ -226,7 +232,11 @@ def topic_of(language, item, default):
     if re.search(NOT_LIGHT[language], text):
         return None
     title = item['title'].lower()
-    for topic, words in WORDS[language]:
+    # Anything about sex goes to the page about intimacy and nowhere else:
+    # the general page is open to all, minors included.
+    if default == INTIMACY:
+        return INTIMACY
+    for topic, words in [WORDS[language][-1]] + WORDS[language][:-1]:
         if re.search(words, title):
             return topic
     # A feed about everything is judged on its titles alone: a word in
@@ -313,7 +323,7 @@ def page(language, topics, shelves, now):
         '<h1>%s</h1>' % html.escape(texts['title']),
         '<p class="lead">%s</p>' % html.escape(texts['lead']),
         '<p class="date">%s</p>' % html.escape(
-            texts['updated'] % now.strftime('%d/%m/%Y')),
+            texts['updated'] % now.strftime(texts['date'])),
     ]
     shown = 0
     for topic in topics:
@@ -336,7 +346,7 @@ def page(language, topics, shelves, now):
                 out.append('<b>%s</b>' % html.escape(texts['testimony']))
             out.append('<span>%s · %s</span>' % (
                 html.escape(item['source']),
-                item['date'].strftime('%d/%m')))
+                item['date'].strftime(texts['day'])))
             out.append('<strong>%s</strong>' % html.escape(item['title']))
             out.append('</div></a></li>')
         out.append('</ul>')

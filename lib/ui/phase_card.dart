@@ -182,7 +182,7 @@ class _PhaseCardState extends State<PhaseCard> {
                     [
                       for (final sign in usual.take(3))
                         signLabel(l10n, sign.sign),
-                    ].join(', '),
+                    ].join(l10n.listSeparator),
                   ),
                   key: const ValueKey('phase-yours'),
                   style: theme.textTheme.bodyMedium,

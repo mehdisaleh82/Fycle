@@ -440,10 +440,12 @@ class GuidesScreen extends StatelessWidget {
             const SizedBox(height: 12),
             KioskCard(intimacy: topics.contains(GuideTopic.intimacy)),
             for (final topic in ReadingTopic.values)
-              // Nothing about sex for the one who turned it off.
-              if ((model.sexLifeVisible ||
-                      (topic != ReadingTopic.sexuality &&
-                          topic != ReadingTopic.contraception)) &&
+              // Nothing about sex for the one who turned it off, nor for
+              // a minor.
+              if ((topic == ReadingTopic.sexuality
+                      ? topics.contains(GuideTopic.intimacy)
+                      : model.sexLifeVisible ||
+                            topic != ReadingTopic.contraception) &&
                   readingLinks(l10n, topic).isNotEmpty) ...[
                 const SizedBox(height: 16),
                 Semantics(
@@ -652,7 +654,7 @@ class IntimacyCarousel extends StatelessWidget {
               itemBuilder: (context, index) {
                 final guide = guides[index];
                 return SizedBox(
-                  width: 150,
+                  width: 200,
                   child: Material(
                     color: theme.colorScheme.surfaceContainerHigh,
                     borderRadius: BorderRadius.circular(16),

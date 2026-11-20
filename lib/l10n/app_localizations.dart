@@ -4553,7 +4553,7 @@ abstract class AppLocalizations {
   /// No description provided for @guidePeriSexBody.
   ///
   /// In en, this message translates to:
-  /// **'No desire, or desire but it chafes? Desire plays hide and seek, and it says nothing about your couple, or about you.\n\nA lower sex drive is one of the possible symptoms of perimenopause.\n\nThe vagina may feel dry, burning, irritated or itchy, which can make sex painful. Urinary infections, or signs that feel like one, may also come more often.\n\nThese symptoms can go on after menopause. Solutions exist: a pharmacist or a doctor can suggest some, in private.\n\nA pregnancy is still possible during perimenopause.'**
+  /// **'No desire, or desire but it chafes? Desire plays hide and seek, and it says nothing about your relationship, or about you.\n\nA lower sex drive is one of the possible symptoms of perimenopause.\n\nThe vagina may feel dry, burning, irritated or itchy, which can make sex painful. Urinary infections, or signs that feel like one, may also come more often.\n\nThese symptoms can go on after menopause. Solutions exist: a pharmacist or a doctor can suggest some, in private.\n\nA pregnancy is still possible during perimenopause.'**
   String get guidePeriSexBody;
 
   /// No description provided for @guidePeriSexSeek.
@@ -4847,7 +4847,7 @@ abstract class AppLocalizations {
   /// No description provided for @guideIntAnalKeep.
   ///
   /// In en, this message translates to:
-  /// **'Never from the anus to the vagina without changing the condom or washing what went in. A condom protects from infections; with one, no oil-based lube.'**
+  /// **'Never from the anus to the vagina without changing the condom or washing what went in. A condom lowers the risk of infections; with one, no oil-based lube.'**
   String get guideIntAnalKeep;
 
   /// No description provided for @guideIntLubeTitle.
@@ -4985,7 +4985,7 @@ abstract class AppLocalizations {
   /// No description provided for @guideIntAfterBabyBody.
   ///
   /// In en, this message translates to:
-  /// **'Between broken nights, a body that has changed and a baby attached to you, desire has good reasons to keep you waiting.\n\nThere is no date. Some start again after a few weeks, others after several months. The right time is when you want to and it does not hurt.\n\nThe body often makes less lubrication, especially while breastfeeding: lube becomes essential. Start with touching, and keep control of the pace.\n\nAnd the couple? Say where you are, even if it is \"not now\". Tenderness with nothing required after it bridges the gap.'**
+  /// **'Between broken nights, a body that has changed and a baby attached to you, desire has good reasons to keep you waiting.\n\nThere is no date. Some start again after a few weeks, others after several months. The right time is when you want to and it does not hurt.\n\nThe body often makes less lubrication, especially while breastfeeding: lube becomes essential. Start with touching, and keep control of the pace.\n\nAnd the two of you? Say where you are, even if it is \"not now\". Tenderness with nothing required after it bridges the gap.'**
   String get guideIntAfterBabyBody;
 
   /// No description provided for @guideIntAfterBabyKeep.
@@ -5003,7 +5003,7 @@ abstract class AppLocalizations {
   /// No description provided for @guideIntMidlifeBody.
   ///
   /// In en, this message translates to:
-  /// **'No desire, or desire but it chafes? In perimenopause, desire plays hide and seek and the body makes less lubrication. It says nothing about your couple, or about you.\n\nWhat changes: it often takes more time, more touching, and lube without a second thought. What does not: your ability to feel pleasure.\n\nMany women describe freer sex at this age: you know what you like, you dare to say it, you no longer pretend.\n\nBroken nights and hot flushes do not help desire. Looking after them is also looking after your sex life.'**
+  /// **'No desire, or desire but it chafes? In perimenopause, desire plays hide and seek and the body makes less lubrication. It says nothing about your relationship, or about you.\n\nWhat changes: it often takes more time, more touching, and lube without a second thought. What does not: your ability to feel pleasure.\n\nMany women describe freer sex at this age: you know what you like, you dare to say it, you no longer pretend.\n\nBroken nights and hot flushes do not help desire. Looking after them is also looking after your sex life.'**
   String get guideIntMidlifeBody;
 
   /// No description provided for @guideIntMidlifeKeep.
@@ -5021,7 +5021,7 @@ abstract class AppLocalizations {
   /// No description provided for @guideIntOnScheduleBody.
   ///
   /// In en, this message translates to:
-  /// **'At first it was exciting. Three months later it is \"tonight, we have to\". Desire on demand: nobody likes that.\n\nIt is very common, and it says nothing about your couple. Pressure cuts desire, for you as for the other.\n\nWhat lightens it: not staking everything on one evening, keeping moments with nothing at stake, and now and then putting the calendar away.\n\nTell the other one: \"I want you, not only a baby\". It changes the mood.'**
+  /// **'At first it was exciting. Three months later it is \"tonight, we have to\". Desire on demand: nobody likes that.\n\nIt is very common, and it says nothing about your relationship. Pressure cuts desire, for you as for the other.\n\nWhat lightens it: not staking everything on one evening, keeping moments with nothing at stake, and now and then putting the calendar away.\n\nTell the other one: \"I want you, not only a baby\". It changes the mood.'**
   String get guideIntOnScheduleBody;
 
   /// No description provided for @guideIntOnScheduleKeep.
@@ -5183,7 +5183,7 @@ abstract class AppLocalizations {
   /// No description provided for @phasePeriodTip1.
   ///
   /// In en, this message translates to:
-  /// **'Warmth on the belly, a hot-water bottle or a bath: it eases many women.'**
+  /// **'Warmth on the belly, a hot-water bottle or a bath: it helps many women.'**
   String get phasePeriodTip1;
 
   /// No description provided for @phasePeriodTip2.
@@ -5291,7 +5291,7 @@ abstract class AppLocalizations {
   /// No description provided for @phaseSecondHormones.
   ///
   /// In en, this message translates to:
-  /// **'After ovulation, progesterone takes over and prepares the lining of the uterus. Oestrogen stays moderate.'**
+  /// **'When ovulation has taken place, progesterone takes over and prepares the lining of the uterus. Oestrogen stays moderate.'**
   String get phaseSecondHormones;
 
   /// No description provided for @phaseSecondMood.
@@ -5303,7 +5303,7 @@ abstract class AppLocalizations {
   /// No description provided for @phaseSecondBody.
   ///
   /// In en, this message translates to:
-  /// **'Body temperature is slightly higher. Tender breasts, more appetite or lighter sleep are common.'**
+  /// **'Body temperature is often slightly higher. Tender breasts, more appetite or lighter sleep are common.'**
   String get phaseSecondBody;
 
   /// No description provided for @phaseSecondTip1.
@@ -5477,7 +5477,7 @@ abstract class AppLocalizations {
   /// No description provided for @devicesNothing.
   ///
   /// In en, this message translates to:
-  /// **'No measurement over the last weeks. A watch or a sensor has to record them first.'**
+  /// **'No measurement found over the last weeks. Either no watch or sensor recorded any, or reading was not allowed: you can allow it in the settings of the phone, under Health.'**
   String get devicesNothing;
 
   /// No description provided for @devicesRecentTitle.

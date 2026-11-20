@@ -2923,7 +2923,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get guidePeriSexBody =>
-      'No desire, or desire but it chafes? Desire plays hide and seek, and it says nothing about your couple, or about you.\n\nA lower sex drive is one of the possible symptoms of perimenopause.\n\nThe vagina may feel dry, burning, irritated or itchy, which can make sex painful. Urinary infections, or signs that feel like one, may also come more often.\n\nThese symptoms can go on after menopause. Solutions exist: a pharmacist or a doctor can suggest some, in private.\n\nA pregnancy is still possible during perimenopause.';
+      'No desire, or desire but it chafes? Desire plays hide and seek, and it says nothing about your relationship, or about you.\n\nA lower sex drive is one of the possible symptoms of perimenopause.\n\nThe vagina may feel dry, burning, irritated or itchy, which can make sex painful. Urinary infections, or signs that feel like one, may also come more often.\n\nThese symptoms can go on after menopause. Solutions exist: a pharmacist or a doctor can suggest some, in private.\n\nA pregnancy is still possible during perimenopause.';
 
   @override
   String get guidePeriSexSeek =>
@@ -3105,7 +3105,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get guideIntAnalKeep =>
-      'Never from the anus to the vagina without changing the condom or washing what went in. A condom protects from infections; with one, no oil-based lube.';
+      'Never from the anus to the vagina without changing the condom or washing what went in. A condom lowers the risk of infections; with one, no oil-based lube.';
 
   @override
   String get guideIntLubeTitle => 'Lube: the best friend nobody dares to buy';
@@ -3191,7 +3191,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get guideIntAfterBabyBody =>
-      'Between broken nights, a body that has changed and a baby attached to you, desire has good reasons to keep you waiting.\n\nThere is no date. Some start again after a few weeks, others after several months. The right time is when you want to and it does not hurt.\n\nThe body often makes less lubrication, especially while breastfeeding: lube becomes essential. Start with touching, and keep control of the pace.\n\nAnd the couple? Say where you are, even if it is \"not now\". Tenderness with nothing required after it bridges the gap.';
+      'Between broken nights, a body that has changed and a baby attached to you, desire has good reasons to keep you waiting.\n\nThere is no date. Some start again after a few weeks, others after several months. The right time is when you want to and it does not hurt.\n\nThe body often makes less lubrication, especially while breastfeeding: lube becomes essential. Start with touching, and keep control of the pace.\n\nAnd the two of you? Say where you are, even if it is \"not now\". Tenderness with nothing required after it bridges the gap.';
 
   @override
   String get guideIntAfterBabyKeep =>
@@ -3202,7 +3202,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get guideIntMidlifeBody =>
-      'No desire, or desire but it chafes? In perimenopause, desire plays hide and seek and the body makes less lubrication. It says nothing about your couple, or about you.\n\nWhat changes: it often takes more time, more touching, and lube without a second thought. What does not: your ability to feel pleasure.\n\nMany women describe freer sex at this age: you know what you like, you dare to say it, you no longer pretend.\n\nBroken nights and hot flushes do not help desire. Looking after them is also looking after your sex life.';
+      'No desire, or desire but it chafes? In perimenopause, desire plays hide and seek and the body makes less lubrication. It says nothing about your relationship, or about you.\n\nWhat changes: it often takes more time, more touching, and lube without a second thought. What does not: your ability to feel pleasure.\n\nMany women describe freer sex at this age: you know what you like, you dare to say it, you no longer pretend.\n\nBroken nights and hot flushes do not help desire. Looking after them is also looking after your sex life.';
 
   @override
   String get guideIntMidlifeKeep =>
@@ -3214,7 +3214,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get guideIntOnScheduleBody =>
-      'At first it was exciting. Three months later it is \"tonight, we have to\". Desire on demand: nobody likes that.\n\nIt is very common, and it says nothing about your couple. Pressure cuts desire, for you as for the other.\n\nWhat lightens it: not staking everything on one evening, keeping moments with nothing at stake, and now and then putting the calendar away.\n\nTell the other one: \"I want you, not only a baby\". It changes the mood.';
+      'At first it was exciting. Three months later it is \"tonight, we have to\". Desire on demand: nobody likes that.\n\nIt is very common, and it says nothing about your relationship. Pressure cuts desire, for you as for the other.\n\nWhat lightens it: not staking everything on one evening, keeping moments with nothing at stake, and now and then putting the calendar away.\n\nTell the other one: \"I want you, not only a baby\". It changes the mood.';
 
   @override
   String get guideIntOnScheduleKeep =>
@@ -3311,7 +3311,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get phasePeriodTip1 =>
-      'Warmth on the belly, a hot-water bottle or a bath: it eases many women.';
+      'Warmth on the belly, a hot-water bottle or a bath: it helps many women.';
 
   @override
   String get phasePeriodTip2 =>
@@ -3380,7 +3380,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get phaseSecondHormones =>
-      'After ovulation, progesterone takes over and prepares the lining of the uterus. Oestrogen stays moderate.';
+      'When ovulation has taken place, progesterone takes over and prepares the lining of the uterus. Oestrogen stays moderate.';
 
   @override
   String get phaseSecondMood =>
@@ -3388,7 +3388,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get phaseSecondBody =>
-      'Body temperature is slightly higher. Tender breasts, more appetite or lighter sleep are common.';
+      'Body temperature is often slightly higher. Tender breasts, more appetite or lighter sleep are common.';
 
   @override
   String get phaseSecondTip1 =>
@@ -3497,7 +3497,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get devicesNothing =>
-      'No measurement over the last weeks. A watch or a sensor has to record them first.';
+      'No measurement found over the last weeks. Either no watch or sensor recorded any, or reading was not allowed: you can allow it in the settings of the phone, under Health.';
 
   @override
   String devicesRecentTitle(int days) {

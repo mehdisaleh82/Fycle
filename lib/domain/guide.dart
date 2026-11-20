@@ -98,7 +98,9 @@ bool showsIntimacy({
     return false;
   }
   if (age != null) {
-    return age >= intimacyFromAge;
+    // Her age is known from her year of birth alone: the year she turns
+    // eighteen, she may still be seventeen. One more year makes it sure.
+    return age > intimacyFromAge;
   }
   return profile != Profile.discovering;
 }

@@ -818,6 +818,13 @@ Retour de la testeuse sur la compilation n° 9, rapporté par l'utilisateur : po
     - **Non vérifié.** La lecture réelle ne peut être essayée que sur un iPhone avec une montre : les tests remplacent le téléphone par un faux. La façon dont la montre range ses nuits (par stades de sommeil) est prise en compte de mémoire de la documentation du paquet ; à confirmer au premier essai.
     - **Règle 10.** Android (Health Connect) reste à faire avant toute publication, comme pour l'import des règles : même paquet, mais des autorisations à déclarer et à essayer sur un vrai téléphone.
     - Le texte de la demande d'autorisation d'iOS cite désormais ces mesures.
+174. **Corrections après relecture du code du 20 novembre 2026** (modifie les décisions 168, 169, 170 et 173).
+    - **Intimité : à partir de 19 ans d'âge calculé** (modifie 168). L'appli ne connaît que l'année de naissance : l'année de ses 18 ans, elle peut en avoir 17. La rubrique, le carrousel, le kiosque Intimité et le partage du désir demandent donc un âge calculé strictement supérieur à 18.
+    - **Les liens « Sexualité » suivent la même barrière** (modifie 166 et 168) : ils n'étaient cachés que si « Vie sexuelle » était coupé ; ils le sont aussi pour une mineure et pour le profil « je découvre » sans âge.
+    - **Kiosque** (modifie 169). Tout ce qui parle de sexe va sur la page Intimité et nulle part ailleurs : les mots de l'intimité sont testés en premier, et un flux consacré au sexe ne range jamais rien sur la page générale, ouverte à toutes. Les titres qui parlent d'enfants ou d'adolescents sont écartés de toutes les pages. La mention de bas de page dit désormais que les images sont servies par les sites des journaux, qui voient donc la visite dès l'ouverture de la page.
+    - **« Ton cycle aujourd'hui »** (modifie 170). Règles en retard : la carte ne dit plus rien (le cycle ne suit plus l'estimation, quelle qu'en soit la raison ; « tes règles arrivent bientôt » serait faux, voire blessant). Le milieu estimé passe avant « avant tes règles » quand la fourchette est large, pour ne pas contredire l'anneau. Les textes de la deuxième partie ne posent plus l'ovulation comme un fait.
+    - **Mesures de la montre** (modifie 173). Une nuit est rattachée au jour du réveil (le sommeil commencé après 18 h compte pour le lendemain) ; deux appareils qui enregistrent la même nuit ne sont plus additionnés (`sleepMinutesOf`) ; chaque type est lu à part, pour qu'un type inconnu du système (température au poignet avant iOS 16) ne fasse pas échouer le reste. iOS ne dit pas si la lecture a été refusée : le message « aucune mesure » couvre les deux cas.
+    - **Texte.** « Le préservatif réduit le risque d'infections » au lieu de « protège ».
 
 ## Questions ouvertes
 

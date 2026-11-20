@@ -3090,7 +3090,7 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get guideIntNoOrgasmBody =>
-      'Tu fais semblant, ou tu attends que ça vienne en te demandant ce qui cloche. Divulgâchage : rien, probablement.\n\nBeaucoup de femmes jouissent rarement, ou jamais, par la pénétration seule. Ce n\'est pas un défaut de fabrication : c\'est l\'anatomie.\n\nLes freins les plus courants ne sont pas dans le corps : la pression d\'y arriver, la fatigue, la liste de courses qui défile, un partenaire pressé, l\'habitude de passer après.\n\nPar où commencer : seule, sans enjeu, pour repérer ce qui te fait de l\'effet. Puis le montrer ou le dire. Et rayer l\'orgasme de la liste des choses à réussir : il vient plus volontiers quand on ne l\'attend pas à la porte.';
+      'Tu fais semblant, ou tu attends que ça vienne en te demandant ce qui cloche. Réponse : rien, probablement.\n\nBeaucoup de femmes jouissent rarement, ou jamais, par la pénétration seule. Ce n\'est pas un défaut de fabrication : c\'est l\'anatomie.\n\nLes freins les plus courants ne sont pas dans le corps : la pression d\'y arriver, la fatigue, la liste de courses qui défile, un partenaire pressé, l\'habitude de passer après.\n\nPar où commencer : seule, sans enjeu, pour repérer ce qui te fait de l\'effet. Puis le montrer ou le dire. Et rayer l\'orgasme de la liste des choses à réussir : il vient plus volontiers quand on ne l\'attend pas à la porte.';
 
   @override
   String get guideIntNoOrgasmKeep =>
@@ -3130,7 +3130,7 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get guideIntAnalKeep =>
-      'Jamais de l\'anus au vagin sans changer de préservatif ou laver ce qui est entré. Le préservatif protège des infections ; avec lui, pas de lubrifiant gras.';
+      'Jamais de l\'anus au vagin sans changer de préservatif ou laver ce qui est entré. Le préservatif réduit le risque d\'infections ; avec lui, pas de lubrifiant gras.';
 
   @override
   String get guideIntLubeTitle =>
@@ -3218,7 +3218,7 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get guideIntAfterBabyBody =>
-      'Entre les nuits en pointillé, le corps qui a changé et un bébé accroché à toi, le désir a de bonnes raisons de se faire attendre.\n\nIl n\'y a pas de date. Certaines reprennent au bout de quelques semaines, d\'autres de plusieurs mois. La bonne, c\'est quand tu en as envie et que ça ne fait pas mal.\n\nLe corps lubrifie souvent moins, surtout en allaitant : le lubrifiant devient indispensable. Commence par des caresses, et garde la main sur le rythme.\n\nEt le couple ? Dis où tu en es, même si c\'est « pas maintenant ». La tendresse sans suite obligée fait le pont.';
+      'Entre les nuits en pointillé, le corps qui a changé et un bébé accroché à toi, le désir a de bonnes raisons de se faire attendre.\n\nIl n\'y a pas de date. Certaines reprennent au bout de quelques semaines, d\'autres de plusieurs mois. Le bon moment, c\'est quand tu en as envie et que ça ne fait pas mal.\n\nLe corps lubrifie souvent moins, surtout en allaitant : le lubrifiant devient indispensable. Commence par des caresses, et garde la main sur le rythme.\n\nEt le couple ? Dis où tu en es, même si c\'est « pas maintenant ». La tendresse sans suite obligée fait le pont.';
 
   @override
   String get guideIntAfterBabyKeep =>
@@ -3331,7 +3331,7 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get phasePeriodMood =>
-      'L\'énergie est souvent plus basse les premiers jours, puis remonte au fil des jours.';
+      'L\'énergie est souvent plus basse les premiers jours, puis elle remonte.';
 
   @override
   String get phasePeriodBody =>
@@ -3408,7 +3408,7 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get phaseSecondHormones =>
-      'Après l\'ovulation, la progestérone prend le relais et prépare la muqueuse de l\'utérus. Les œstrogènes restent modérés.';
+      'Quand l\'ovulation a eu lieu, la progestérone prend le relais et prépare la muqueuse de l\'utérus. Les œstrogènes restent modérés.';
 
   @override
   String get phaseSecondMood =>
@@ -3416,7 +3416,7 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get phaseSecondBody =>
-      'La température du corps est un peu plus haute. Seins sensibles, plus d\'appétit ou sommeil plus léger sont fréquents.';
+      'La température du corps est souvent un peu plus haute. Seins sensibles, plus d\'appétit ou sommeil plus léger sont fréquents.';
 
   @override
   String get phaseSecondTip1 =>
@@ -3424,11 +3424,11 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get phaseSecondTip2 =>
-      'Te coucher à heure régulière aide quand le sommeil devient plus léger.';
+      'Te coucher à heures régulières aide quand le sommeil devient plus léger.';
 
   @override
   String get phaseSecondTip3 =>
-      'Un bon moment pour finir ce qui est en cours plutôt que d\'en lancer.';
+      'Un bon moment pour finir ce qui est en cours plutôt que de lancer du nouveau.';
 
   @override
   String get phaseBeforeName => 'Avant tes règles';
@@ -3526,7 +3526,7 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get devicesNothing =>
-      'Aucune mesure ces dernières semaines. Il faut d\'abord qu\'une montre ou un capteur les enregistre.';
+      'Aucune mesure trouvée ces dernières semaines. Soit aucune montre ni aucun capteur n\'en a enregistré, soit la lecture n\'a pas été autorisée : tu peux l\'autoriser dans les réglages du téléphone, rubrique Santé.';
 
   @override
   String devicesRecentTitle(int days) {

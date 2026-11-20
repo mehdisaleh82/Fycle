@@ -77,4 +77,25 @@ void main() {
     expect(averages.last.value, 36.4);
     expect(recentDeviceAverages(today, const []), isEmpty);
   });
+
+  test('a night counts for the day she wakes up on', () {
+    expect(nightOf(DateTime(2026, 3, 19, 22, 30)), CalendarDay(2026, 3, 20));
+    expect(nightOf(DateTime(2026, 3, 20, 2)), CalendarDay(2026, 3, 20));
+    // A nap in the afternoon stays on its day.
+    expect(nightOf(DateTime(2026, 3, 20, 14)), CalendarDay(2026, 3, 20));
+  });
+
+  test('two sources recording the same night are not added up', () {
+    final watch = [
+      (from: DateTime(2026, 3, 19, 23), to: DateTime(2026, 3, 20, 3)),
+      (from: DateTime(2026, 3, 20, 3), to: DateTime(2026, 3, 20, 7)),
+    ];
+    expect(sleepMinutesOf(watch), 480);
+    final ring = (
+      from: DateTime(2026, 3, 19, 23, 30),
+      to: DateTime(2026, 3, 20, 7, 15),
+    );
+    expect(sleepMinutesOf([...watch, ring]), 495);
+    expect(sleepMinutesOf(const []), 0);
+  });
 }

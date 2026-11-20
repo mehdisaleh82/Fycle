@@ -68,6 +68,33 @@ class KioskTest(unittest.TestCase):
         links = [item['link'] for item in self.shelves('cycle')['cycle']]
         self.assertEqual(links, ['https://example.org/f'])
 
+    def test_anything_about_sex_stays_on_its_own_page(self):
+        def item(title):
+            return {'title': title, 'link': 'https://example.org/x',
+                    'summary': '', 'picture': None, 'date': NOW}
+        # A word of another topic in the title does not move it.
+        self.assertEqual(
+            kiosk.topic_of('en', item('Sex on your period: nine tips'), None),
+            kiosk.INTIMACY)
+        self.assertEqual(
+            kiosk.topic_of('en', item('Pregnancy and the best positions'),
+                           kiosk.INTIMACY),
+            kiosk.INTIMACY)
+        self.assertEqual(
+            kiosk.topic_of('fr', item("Faire l'amour pendant ses règles"),
+                           None),
+            kiosk.INTIMACY)
+        # Nothing about the young on any page.
+        self.assertIsNone(
+            kiosk.topic_of('fr', item('Sexualité des ados : le guide'), None))
+        self.assertIsNone(
+            kiosk.topic_of('fr', item('Viols : la sexualité en question'),
+                           kiosk.INTIMACY))
+        # A loudspeaker is not a pregnancy.
+        self.assertIsNone(
+            kiosk.topic_of('fr', item('Les meilleures enceintes bluetooth'),
+                           None))
+
     def test_no_more_than_a_few_items_of_one_source(self):
         items = [{
             'title': 'Sex, part %d' % index,

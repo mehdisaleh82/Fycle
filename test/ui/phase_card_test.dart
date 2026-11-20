@@ -32,15 +32,17 @@ void main() {
   testWidgets('the phase of the day, a tip, and the rest one tap away', (
     tester,
   ) async {
-    // 20 March: day 21, the period estimated in 5 to 11 days.
+    // 20 March: day 21, the period estimated in 5 to 11 days. With three
+    // periods only, the estimated middle is wide and still reaches today:
+    // the card says what the ring shows.
     final harness = Harness(tester);
     await harness.seed(days: threePeriods());
     await harness.pumpApp();
 
     await show(tester, 'phase-more');
-    expect(textOf(tester, 'phase-name'), 'Before your period · estimate');
+    expect(textOf(tester, 'phase-name'), 'Middle of your cycle · estimate');
     final l10n = lookupAppLocalizations(const Locale('en'));
-    final text = phaseText(l10n, CyclePhase.beforePeriod);
+    final text = phaseText(l10n, CyclePhase.midCycle);
     expect(text.tips, contains(textOf(tester, 'phase-tip')));
     // Closed at first: the home stays short.
     expect(key('phase-hormones'), findsNothing);

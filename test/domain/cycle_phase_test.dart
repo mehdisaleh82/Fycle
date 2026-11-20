@@ -65,7 +65,7 @@ void main() {
     expect(phase(CalendarDay(2026, 3, 21)), CyclePhase.secondPart);
   });
 
-  test('the last days before the estimate, and once it is due or late', () {
+  test('the last days before the estimate, and once it is due', () {
     expect(phase(CalendarDay(2026, 3, 22)), CyclePhase.beforePeriod);
     expect(phase(CalendarDay(2026, 3, 26)), CyclePhase.beforePeriod);
     expect(
@@ -75,11 +75,34 @@ void main() {
       ),
       CyclePhase.beforePeriod,
     );
+  });
+
+  test('a late period: nothing is said, the cycle left the estimate', () {
     expect(
       phase(
         CalendarDay(2026, 4, 3),
         status: PeriodLate(prediction: prediction, daysLate: 3),
       ),
+      isNull,
+    );
+  });
+
+  test('the estimated middle wins over the days before a wide range', () {
+    // A range so wide that five days before its start is still inside
+    // the estimated fertile window.
+    final wide = FertilityEstimate(
+      earliestOvulation: CalendarDay(2026, 3, 12),
+      latestOvulation: CalendarDay(2026, 3, 23),
+      windowStart: CalendarDay(2026, 3, 8),
+      windowEnd: CalendarDay(2026, 3, 24),
+      confidence: PredictionConfidence.low,
+    );
+    expect(
+      phase(CalendarDay(2026, 3, 22), estimate: wide),
+      CyclePhase.midCycle,
+    );
+    expect(
+      phase(CalendarDay(2026, 3, 24), estimate: wide),
       CyclePhase.beforePeriod,
     );
   });

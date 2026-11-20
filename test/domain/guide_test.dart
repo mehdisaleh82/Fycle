@@ -84,6 +84,9 @@ void main() {
       expect(shown(), isTrue);
       expect(shown(age: 34), isTrue);
       expect(shown(age: 16), isFalse);
+      // The year she turns eighteen, she may still be seventeen.
+      expect(shown(age: 18), isFalse);
+      expect(shown(age: 19), isTrue);
       expect(shown(visible: false, age: 34), isFalse);
       // Discovering her cycle without an age: she may well be a minor.
       expect(shown(profile: Profile.discovering), isFalse);

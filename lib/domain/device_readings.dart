@@ -149,3 +149,28 @@ List<HalvesComparison> compareCycleHalves({
   }
   return result;
 }
+
+/// The day a stretch of sleep counts for: the day she wakes up on. Sleep
+/// that starts in the evening belongs to the next day.
+CalendarDay nightOf(DateTime start) => CalendarDay.fromDateTime(
+  start.hour >= 18 ? start.add(const Duration(hours: 12)) : start,
+);
+
+/// Minutes asleep over [stretches], each counted once: two sources that
+/// recorded the same night overlap, and the overlap is not added twice.
+int sleepMinutesOf(Iterable<({DateTime from, DateTime to})> stretches) {
+  final sorted = [
+    for (final stretch in stretches)
+      if (stretch.to.isAfter(stretch.from)) stretch,
+  ]..sort((a, b) => a.from.compareTo(b.from));
+  var seconds = 0;
+  DateTime? end;
+  for (final stretch in sorted) {
+    final from = end != null && stretch.from.isBefore(end) ? end : stretch.from;
+    if (stretch.to.isAfter(from)) {
+      seconds += stretch.to.difference(from).inSeconds;
+      end = stretch.to;
+    }
+  }
+  return (seconds / 60).round();
+}
