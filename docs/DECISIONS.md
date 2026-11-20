@@ -825,6 +825,10 @@ Retour de la testeuse sur la compilation n° 9, rapporté par l'utilisateur : po
     - **« Ton cycle aujourd'hui »** (modifie 170). Règles en retard : la carte ne dit plus rien (le cycle ne suit plus l'estimation, quelle qu'en soit la raison ; « tes règles arrivent bientôt » serait faux, voire blessant). Le milieu estimé passe avant « avant tes règles » quand la fourchette est large, pour ne pas contredire l'anneau. Les textes de la deuxième partie ne posent plus l'ovulation comme un fait.
     - **Mesures de la montre** (modifie 173). Une nuit est rattachée au jour du réveil (le sommeil commencé après 18 h compte pour le lendemain) ; deux appareils qui enregistrent la même nuit ne sont plus additionnés (`sleepMinutesOf`) ; chaque type est lu à part, pour qu'un type inconnu du système (température au poignet avant iOS 16) ne fasse pas échouer le reste. iOS ne dit pas si la lecture a été refusée : le message « aucune mesure » couvre les deux cas.
     - **Texte.** « Le préservatif réduit le risque d'infections » au lieu de « protège ».
+175. **Le kiosque vit dans un dépôt public à part** (20 novembre 2026, modifie 169).
+    - **Pourquoi.** GitHub Pages n'est pas offert pour un dépôt privé sans abonnement. Plutôt que de payer ou d'ouvrir le code de l'appli, le script du kiosque, ses tests et son flux quotidien sont déplacés dans le dépôt public `fycle-kiosk` ; `tool/kiosk/` et `.github/workflows/kiosk.yml` sont retirés de ce dépôt-ci.
+    - **Ce qui ne change pas.** L'appli ne lit toujours rien : elle remet une adresse au navigateur du téléphone (`lib/domain/kiosk.dart`), désormais sous `https://mehdisaleh82.github.io/fycle-kiosk/`.
+    - **Ce que le dépôt public montre.** La liste des journaux suivis et le script de tri. Aucune donnée, rien de l'appli. Ses commits portent l'adresse « noreply » de GitHub, pas une adresse personnelle.
 
 ## Questions ouvertes
 

@@ -1,10 +1,11 @@
 /// The kiosk: a small web site of recent articles from the press, rebuilt
-/// every day outside the app (`tool/kiosk/`). The app never reads it: it
-/// only hands one of these addresses to the browser of the phone
-/// (CLAUDE.md, rule 1). See docs/DECISIONS.md, decision 169.
+/// every day outside the app, in a repository of its own. The app never
+/// reads it: it only hands one of these addresses to the browser of the
+/// phone (CLAUDE.md, rule 1). See docs/DECISIONS.md, decisions 169 and
+/// 175.
 library;
 
-const String _kioskRoot = 'https://mehdisaleh82.github.io/Fycle/';
+const String _kioskRoot = 'https://mehdisaleh82.github.io/fycle-kiosk/';
 
 /// The languages the kiosk is written in. The others get English.
 const Set<String> kioskLanguages = {'en', 'fr'};
