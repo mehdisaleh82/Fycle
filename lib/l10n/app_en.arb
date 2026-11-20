@@ -850,7 +850,7 @@
   "@pdfCycleLine": {"placeholders": {"from": {"type": "String"}, "to": {"type": "String"}, "length": {"type": "int"}, "period": {"type": "int"}}},
   "pdfFooter": "Made on the phone from what the user logged herself. A list of dates and counts: not a diagnosis.",
   "autoBackupTitle": "Automatic backup",
-  "autoBackupSubtitle": "Once a day, a file protected by your password is brought up to date in the Files app. Nothing is sent.",
+  "autoBackupSubtitle": "Once a day, a file protected by your password is brought up to date in the Files app. Nothing is sent. The file is removed if you delete the app: keep a copy elsewhere too.",
   "autoBackupPasswordTitle": "Password of the automatic backup",
   "autoBackupPasswordBody": "You will need it to restore the backup. There is no way to find it again.",
   "todayBleedingTitle": "Bleeding today",
@@ -1142,5 +1142,9 @@
   "@devicesAverageOf": {"placeholders": {"measure": {"type": "String"}, "days": {"type": "int"}}},
   "devicesHalvesLine": "First half: {first} · Second half: {second}",
   "@devicesHalvesLine": {"placeholders": {"first": {"type": "String"}, "second": {"type": "String"}}},
-  "devicesNote": "Averages of your own measurements, cut in the middle of each cycle by dates. They confirm neither an ovulation nor a pregnancy, and replace no medical advice."
+  "devicesNote": "Averages of your own measurements, cut in the middle of each cycle by dates. They confirm neither an ovulation nor a pregnancy, and replace no medical advice.",
+  "openFailedTitle": "Fycle could not open",
+  "@openFailedTitle": {"description": "Title of the screen shown when the local store could not be opened for a reason other than a missing key."},
+  "openFailedBody": "Something on the phone did not answer. Your data has not been touched. Try again; if it keeps happening, restart the phone.",
+  "openFailedRetry": "Try again"
 }

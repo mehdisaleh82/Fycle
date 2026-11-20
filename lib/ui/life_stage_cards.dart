@@ -15,7 +15,9 @@ Future<CalendarDay?> pickPastDay(
   CalendarDay? current,
 }) async {
   final last = DateTime(today.year, today.month, today.day);
-  final first = last.subtract(Duration(days: daysBack));
+  // Days of the calendar, not 24-hour steps: a clock change in between
+  // must not move the limit.
+  final first = DateTime(today.year, today.month, today.day - daysBack);
   var initial = current == null
       ? last
       : DateTime(current.year, current.month, current.day);

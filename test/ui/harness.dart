@@ -55,8 +55,14 @@ final class FakeAutoBackup implements AutoBackupGateway {
   /// Every backup written so far, oldest first.
   final List<Uint8List> written = [];
 
+  /// How many times the file was removed.
+  int deleted = 0;
+
   @override
   Future<void> write(Uint8List bytes) async => written.add(bytes);
+
+  @override
+  Future<void> delete() async => deleted++;
 }
 
 /// Stands in for the Keychain entry of the backup password.

@@ -16,6 +16,10 @@ const String autoBackupFileName = 'Fycle-backup.$backupFileExtension';
 abstract interface class AutoBackupGateway {
   /// Replaces the backup file with [bytes].
   Future<void> write(Uint8List bytes);
+
+  /// Removes the backup file, if there is one: "delete everything" leaves
+  /// no copy behind on the phone.
+  Future<void> delete();
 }
 
 /// The documents folder of the app: shown in the Files app on iOS, under
@@ -32,6 +36,18 @@ final class DocumentsAutoBackupGateway implements AutoBackupGateway {
     final temporary = File('$path$autoBackupFileName.tmp');
     await temporary.writeAsBytes(bytes, flush: true);
     await temporary.rename('$path$autoBackupFileName');
+  }
+
+  @override
+  Future<void> delete() async {
+    final directory = await getApplicationDocumentsDirectory();
+    final path = '${directory.path}${Platform.pathSeparator}';
+    for (final name in const [autoBackupFileName, '$autoBackupFileName.tmp']) {
+      final file = File('$path$name');
+      if (file.existsSync()) {
+        await file.delete();
+      }
+    }
   }
 }
 

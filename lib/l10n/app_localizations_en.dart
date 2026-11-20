@@ -2538,7 +2538,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get autoBackupSubtitle =>
-      'Once a day, a file protected by your password is brought up to date in the Files app. Nothing is sent.';
+      'Once a day, a file protected by your password is brought up to date in the Files app. Nothing is sent. The file is removed if you delete the app: keep a copy elsewhere too.';
 
   @override
   String get autoBackupPasswordTitle => 'Password of the automatic backup';
@@ -3550,4 +3550,14 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get devicesNote =>
       'Averages of your own measurements, cut in the middle of each cycle by dates. They confirm neither an ovulation nor a pregnancy, and replace no medical advice.';
+
+  @override
+  String get openFailedTitle => 'Fycle could not open';
+
+  @override
+  String get openFailedBody =>
+      'Something on the phone did not answer. Your data has not been touched. Try again; if it keeps happening, restart the phone.';
+
+  @override
+  String get openFailedRetry => 'Try again';
 }

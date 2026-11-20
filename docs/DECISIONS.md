@@ -835,6 +835,15 @@ Retour de la testeuse sur la compilation n° 9, rapporté par l'utilisateur : po
     - **Dans l'appli.** `kioskAddress` reçoit la région réglée sur le téléphone (`PlatformDispatcher.locale.countryCode`) ; l'appli ne garde aucun pays. L'adresse ouverte porte donc la langue et cette région, rien d'autre : ce que tout site web reçoit déjà du navigateur. La liste des pays (`kioskCountries`) est tenue à la main, identique à celle du kiosque (`countries_of`), chacune vérifiée par un test.
     - **Tri.** Les mots sur les mineurs n'écartent plus un article de la page générale (un bébé y est le sujet), mais écartent toujours tout article qui parle aussi de sexe, sur toutes les pages. Une même dépêche reprise par plusieurs journaux n'est montrée qu'une fois.
     - **Limite connue.** Aujourd'hui, la Suisse n'a aucun article et le Canada aucun sur la page générale : leurs médias publient peu sur ces sujets dans leurs flux.
+177. **Corrections après relecture du cœur de l'appli** (20 novembre 2026, modifie 154).
+    - **« Tout supprimer » supprime aussi la sauvegarde automatique et son mot de passe** : c'était une copie complète des données, restée sur le téléphone (`AutoBackupGateway.delete`).
+    - **La sauvegarde automatique disparaît avec l'appli** (elle est dans le dossier de l'appli) : le texte du réglage le dit et conseille une copie ailleurs. Un dossier choisi par l'utilisatrice reste à faire.
+    - **Ouverture impossible pour une autre raison qu'une clé absente** (trousseau qui ne répond pas, disque plein) : un écran « réessayer », qui ne propose jamais d'effacer. Avant, une page vide.
+    - **Après une naissance sans date** : la carte qui demande la date s'affiche, au lieu d'une estimation tirée des cycles d'avant la grossesse.
+    - **Modifier ses réponses ne vide plus** les durées, le flux et la douleur habituels quand le profil du moment n'a pas de règles.
+    - **Rappels** : un échec, quel qu'il soit, n'arrête plus la file ; la synchronisation suivante réécrit tout, même pour tout couper.
+    - **Année de naissance** : toucher la roue vaut choix (l'année du milieu peut être la sienne). **Choix d'un jour passé** : la limite est comptée en jours du calendrier, pas en heures.
+    - **Non traité, à mesurer sur iPhone** : la note enregistrée à chaque frappe, l'import Santé qui recharge à chaque jour, le séparateur du CSV pour un tableur français.
 
 ## Questions ouvertes
 

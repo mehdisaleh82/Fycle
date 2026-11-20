@@ -24,7 +24,7 @@ import 'partner_screens.dart';
 import 'reminder_sync.dart';
 import 'widget_sync.dart';
 
-enum _Phase { opening, unreadable, ready }
+enum _Phase { opening, unreadable, failed, ready }
 
 /// Opens the local store, then shows the right screen: the first-launch
 /// screen until it is passed, the home screen afterwards, or an
@@ -168,7 +168,19 @@ class _RootScreenState extends State<RootScreen> with WidgetsBindingObserver {
       _showUnreadable();
     } on DatabaseUnreadableException {
       _showUnreadable();
+    } on Object {
+      // Anything else (the secure store not answering, a full disk): her
+      // data may be perfectly fine. Never offer to erase here: say so, and
+      // let her try again.
+      if (mounted) {
+        setState(() => _phase = _Phase.failed);
+      }
     }
+  }
+
+  Future<void> _retryOpening() async {
+    setState(() => _phase = _Phase.opening);
+    await _open();
   }
 
   void _showUnreadable() {
@@ -195,6 +207,14 @@ class _RootScreenState extends State<RootScreen> with WidgetsBindingObserver {
       await model.store.deleteEverything();
     } else {
       await widget.environment.wipeStore();
+    }
+    // The automatic backup is a full copy of her data, on this phone: it
+    // goes too, with its password. A failure here must not stop the rest.
+    try {
+      await widget.environment.autoBackup.delete();
+      await widget.environment.backupPasswords.delete();
+    } on Exception {
+      // Nothing more can be done: the data itself is already gone.
     }
     await _open();
   }
@@ -453,6 +473,40 @@ class _RootScreenState extends State<RootScreen> with WidgetsBindingObserver {
       return _UnreadableScreen(
         onStartFresh: () => _startOver(thenRestore: false),
         onRestore: () => _startOver(thenRestore: true),
+      );
+    }
+    if (_phase == _Phase.failed) {
+      return Scaffold(
+        appBar: AppBar(title: Text(l10n.appTitle)),
+        body: SafeArea(
+          child: SingleChildScrollView(
+            padding: const EdgeInsets.all(24),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                Semantics(
+                  header: true,
+                  child: Text(
+                    l10n.openFailedTitle,
+                    key: const ValueKey('open-failed'),
+                    style: Theme.of(context).textTheme.headlineSmall,
+                  ),
+                ),
+                const SizedBox(height: 16),
+                Text(
+                  l10n.openFailedBody,
+                  style: Theme.of(context).textTheme.bodyLarge,
+                ),
+                const SizedBox(height: 32),
+                FilledButton(
+                  key: const ValueKey('open-retry'),
+                  onPressed: _retryOpening,
+                  child: Text(l10n.openFailedRetry),
+                ),
+              ],
+            ),
+          ),
+        ),
       );
     }
     if (_phase == _Phase.opening || model == null) {

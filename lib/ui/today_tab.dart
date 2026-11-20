@@ -120,7 +120,7 @@ class TodayTab extends StatelessWidget {
               if (model.profile == Profile.pregnant)
                 PregnancyCard(model: model, today: today)
               else if (model.profile == Profile.postpartum &&
-                  model.prediction == null)
+                  (model.prediction == null || model.deliveryDate == null))
                 PostpartumCard(model: model, today: today)
               else
                 PredictionCard(

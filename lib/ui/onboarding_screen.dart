@@ -417,14 +417,24 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
       birthYear: _birthYear,
       goals: _goals,
       regularity: _regularity,
-      usualCycleLength: periods ? _cycleLength : null,
-      usualPeriodLength: periods ? _periodLength : null,
+      // Not asked while she has no periods: when she edits her answers,
+      // what she said before is kept for the day they are back.
+      usualCycleLength: periods
+          ? _cycleLength
+          : (widget.editing ? model.usualCycleLength : null),
+      usualPeriodLength: periods
+          ? _periodLength
+          : (widget.editing ? model.usualPeriodLength : null),
       recentChanges: follows ? _changes : const {},
       wishes: _wishes,
       contraception: _contraception,
       tracked: _tracked,
-      usualFlow: periods ? _usualFlow : null,
-      usualPain: periods ? _usualPain : null,
+      usualFlow: periods
+          ? _usualFlow
+          : (widget.editing ? model.usualFlow : null),
+      usualPain: periods
+          ? _usualPain
+          : (widget.editing ? model.usualPain : null),
       startSigns: follows ? _signs : const {},
       beforePeriod: periods ? _before : const {},
     );
@@ -1746,52 +1756,58 @@ class _YearWheelState extends State<_YearWheel> {
             '${(_year - 1).clamp(widget.firstYear, widget.lastYear)}',
         onIncrease: () => _move(1),
         onDecrease: () => _move(-1),
+        onTap: widget.onChanged,
         child: ExcludeSemantics(
-          child: SizedBox(
-            height: 260,
-            child: Stack(
-              alignment: Alignment.center,
-              children: [
-                // The band the chosen year sits in.
-                Container(
-                  height: 56,
-                  decoration: BoxDecoration(
-                    color: scheme.primaryContainer,
-                    borderRadius: BorderRadius.circular(16),
+          // Touching the wheel is choosing: the year in the middle may be
+          // hers, and she must not have to turn away and back.
+          child: Listener(
+            onPointerDown: (_) => widget.onChanged(),
+            child: SizedBox(
+              height: 260,
+              child: Stack(
+                alignment: Alignment.center,
+                children: [
+                  // The band the chosen year sits in.
+                  Container(
+                    height: 56,
+                    decoration: BoxDecoration(
+                      color: scheme.primaryContainer,
+                      borderRadius: BorderRadius.circular(16),
+                    ),
                   ),
-                ),
-                ListWheelScrollView.useDelegate(
-                  controller: widget.controller,
-                  itemExtent: 56,
-                  diameterRatio: 1.6,
-                  physics: const FixedExtentScrollPhysics(),
-                  onSelectedItemChanged: (index) {
-                    HapticFeedback.selectionClick();
-                    setState(() => _year = widget.firstYear + index);
-                    widget.onChanged();
-                  },
-                  childDelegate: ListWheelChildBuilderDelegate(
-                    childCount: widget.lastYear - widget.firstYear + 1,
-                    builder: (context, index) {
-                      final year = widget.firstYear + index;
-                      final chosen = year == _year;
-                      return Center(
-                        child: Text(
-                          '$year',
-                          style: theme.textTheme.headlineSmall?.copyWith(
-                            fontWeight: chosen
-                                ? FontWeight.w700
-                                : FontWeight.w400,
-                            color: chosen
-                                ? scheme.onPrimaryContainer
-                                : scheme.onSurfaceVariant,
-                          ),
-                        ),
-                      );
+                  ListWheelScrollView.useDelegate(
+                    controller: widget.controller,
+                    itemExtent: 56,
+                    diameterRatio: 1.6,
+                    physics: const FixedExtentScrollPhysics(),
+                    onSelectedItemChanged: (index) {
+                      HapticFeedback.selectionClick();
+                      setState(() => _year = widget.firstYear + index);
+                      widget.onChanged();
                     },
+                    childDelegate: ListWheelChildBuilderDelegate(
+                      childCount: widget.lastYear - widget.firstYear + 1,
+                      builder: (context, index) {
+                        final year = widget.firstYear + index;
+                        final chosen = year == _year;
+                        return Center(
+                          child: Text(
+                            '$year',
+                            style: theme.textTheme.headlineSmall?.copyWith(
+                              fontWeight: chosen
+                                  ? FontWeight.w700
+                                  : FontWeight.w400,
+                              color: chosen
+                                  ? scheme.onPrimaryContainer
+                                  : scheme.onSurfaceVariant,
+                            ),
+                          ),
+                        );
+                      },
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
         ),

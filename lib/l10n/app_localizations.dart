@@ -3941,7 +3941,7 @@ abstract class AppLocalizations {
   /// No description provided for @autoBackupSubtitle.
   ///
   /// In en, this message translates to:
-  /// **'Once a day, a file protected by your password is brought up to date in the Files app. Nothing is sent.'**
+  /// **'Once a day, a file protected by your password is brought up to date in the Files app. Nothing is sent. The file is removed if you delete the app: keep a copy elsewhere too.'**
   String get autoBackupSubtitle;
 
   /// No description provided for @autoBackupPasswordTitle.
@@ -5545,6 +5545,24 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Averages of your own measurements, cut in the middle of each cycle by dates. They confirm neither an ovulation nor a pregnancy, and replace no medical advice.'**
   String get devicesNote;
+
+  /// Title of the screen shown when the local store could not be opened for a reason other than a missing key.
+  ///
+  /// In en, this message translates to:
+  /// **'Fycle could not open'**
+  String get openFailedTitle;
+
+  /// No description provided for @openFailedBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Something on the phone did not answer. Your data has not been touched. Try again; if it keeps happening, restart the phone.'**
+  String get openFailedBody;
+
+  /// No description provided for @openFailedRetry.
+  ///
+  /// In en, this message translates to:
+  /// **'Try again'**
+  String get openFailedRetry;
 }
 
 class _AppLocalizationsDelegate

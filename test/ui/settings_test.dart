@@ -202,6 +202,8 @@ void main() {
     ) async {
       final harness = await openSettings(tester);
       final oldKey = harness.keyStore.key;
+      // An automatic backup was on: a full copy of her data on the phone.
+      harness.backupPasswords.password = 'made-up password';
       await tapVisible(tester, find.text('Delete everything'));
       await tester.pumpAndSettle();
       await tester.tap(find.widgetWithText(FilledButton, 'Delete everything'));
@@ -209,6 +211,9 @@ void main() {
 
       expect(find.text('Welcome to Fycle'), findsOneWidget);
       expect(harness.keyStore.key, isNot(oldKey));
+      // The backup file and its password went with the rest.
+      expect(harness.autoBackup.deleted, 1);
+      expect(harness.backupPasswords.password, isNull);
       final stored = await harness.read(
         (store) => (store.database.readDays(), store.database.usualCycleLength),
       );

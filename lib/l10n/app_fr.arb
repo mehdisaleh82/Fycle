@@ -651,7 +651,7 @@
   "pdfCycleLine": "Du {from} au {to} : cycle de {length} jours, règles de {period} jours",
   "pdfFooter": "Produit sur le téléphone à partir de ce que l'utilisatrice a noté elle-même. Une liste de dates et de décomptes : pas un diagnostic.",
   "autoBackupTitle": "Sauvegarde automatique",
-  "autoBackupSubtitle": "Une fois par jour, un fichier protégé par ton mot de passe est mis à jour dans l'app Fichiers. Rien n'est envoyé.",
+  "autoBackupSubtitle": "Une fois par jour, un fichier protégé par ton mot de passe est mis à jour dans l'app Fichiers. Rien n'est envoyé. Le fichier disparaît si tu supprimes l'appli : garde aussi une copie ailleurs.",
   "autoBackupPasswordTitle": "Mot de passe de la sauvegarde automatique",
   "autoBackupPasswordBody": "Tu en auras besoin pour restaurer la sauvegarde. Il n'existe aucun moyen de le retrouver.",
   "todayBleedingTitle": "Saignement aujourd'hui",
@@ -918,5 +918,8 @@
   "devicesTemperatureValue": "{degrees} °C",
   "devicesAverageOf": "{days, plural, =1{{measure}, 1 jour mesuré} other{{measure}, moyenne de {days} jours}}",
   "devicesHalvesLine": "Première moitié : {first} · Deuxième moitié : {second}",
-  "devicesNote": "Des moyennes de tes propres mesures, coupées au milieu de chaque cycle d'après les dates. Elles ne confirment ni une ovulation ni une grossesse, et ne remplacent aucun avis médical."
+  "devicesNote": "Des moyennes de tes propres mesures, coupées au milieu de chaque cycle d'après les dates. Elles ne confirment ni une ovulation ni une grossesse, et ne remplacent aucun avis médical.",
+  "openFailedTitle": "Fycle n'a pas pu s'ouvrir",
+  "openFailedBody": "Quelque chose sur le téléphone n'a pas répondu. Tes données n'ont pas été touchées. Réessaie ; si cela se reproduit, redémarre le téléphone.",
+  "openFailedRetry": "Réessayer"
 }

@@ -69,7 +69,7 @@ class ReminderSync {
           },
         ),
     ];
-    if (_last == null && !settings.anyEnabled) {
+    if (_last == null && !settings.anyEnabled && !_failed) {
       // Reminders were never turned on: the phone is left alone.
       return;
     }
@@ -83,15 +83,22 @@ class ReminderSync {
   void clear(AppLocalizations l10n) =>
       _replace(const [], l10n.notificationChannelName);
 
+  /// Whether the last change did not reach the phone: what is scheduled
+  /// there is unknown, so the next sync writes again, even to turn all off.
+  bool _failed = false;
+
   void _replace(List<ScheduledReminder> reminders, String channelName) {
     _last = reminders;
+    _failed = false;
     _queue = _queue.then((_) async {
       try {
         await _gateway.replaceAll(reminders, channelName: channelName);
-      } on Exception {
+      } on Object {
         // A reminder that could not be scheduled must never get in the way
-        // of the app. It is tried again at the next change.
+        // of the app, whatever went wrong: the queue goes on. It is tried
+        // again at the next change.
         _last = null;
+        _failed = true;
       }
     });
   }

@@ -2559,7 +2559,7 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get autoBackupSubtitle =>
-      'Une fois par jour, un fichier protégé par ton mot de passe est mis à jour dans l\'app Fichiers. Rien n\'est envoyé.';
+      'Une fois par jour, un fichier protégé par ton mot de passe est mis à jour dans l\'app Fichiers. Rien n\'est envoyé. Le fichier disparaît si tu supprimes l\'appli : garde aussi une copie ailleurs.';
 
   @override
   String get autoBackupPasswordTitle =>
@@ -3579,4 +3579,14 @@ class AppLocalizationsFr extends AppLocalizations {
   @override
   String get devicesNote =>
       'Des moyennes de tes propres mesures, coupées au milieu de chaque cycle d\'après les dates. Elles ne confirment ni une ovulation ni une grossesse, et ne remplacent aucun avis médical.';
+
+  @override
+  String get openFailedTitle => 'Fycle n\'a pas pu s\'ouvrir';
+
+  @override
+  String get openFailedBody =>
+      'Quelque chose sur le téléphone n\'a pas répondu. Tes données n\'ont pas été touchées. Réessaie ; si cela se reproduit, redémarre le téléphone.';
+
+  @override
+  String get openFailedRetry => 'Réessayer';
 }

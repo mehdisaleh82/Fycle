@@ -176,6 +176,20 @@ void main() {
       expect(find.byType(PredictionCard), findsNothing);
     });
 
+    testWidgets('without a date of birth, the card asks for it', (
+      tester,
+    ) async {
+      // Cycles from before the pregnancy would give an estimate: it is not
+      // shown, and she is asked for the date instead.
+      final harness = Harness(tester);
+      await harness.seed(days: threePeriods(), profile: Profile.postpartum);
+      await harness.pumpApp();
+
+      expect(key('postpartum-card'), findsOneWidget);
+      expect(key('postpartum-date'), findsOneWidget);
+      expect(find.byType(PredictionCard), findsNothing);
+    });
+
     testWidgets('the estimate starts again from the first period, wide', (
       tester,
     ) async {
