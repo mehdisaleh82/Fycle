@@ -220,7 +220,7 @@ class _DaySheetState extends State<_DaySheet> {
                     for (final symptom in Symptom.values)
                       // The signs of a changing cycle are offered to those
                       // who follow it, and kept wherever they were ticked.
-                      if (!changeSigns.contains(symptom) ||
+                      if (!followerOnlySigns.contains(symptom) ||
                           widget.model.followsCycleChanges ||
                           _entry.symptoms.contains(symptom))
                         FilterChip(

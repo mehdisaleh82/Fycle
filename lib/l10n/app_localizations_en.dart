@@ -1602,11 +1602,11 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get setupChangesTitle =>
-      'Have you noticed changes in your periods lately?';
+      'Have your periods changed in the last few months?';
 
   @override
   String get setupChangesHint =>
-      'Several answers are possible. If a change worries you, talk to a health professional about it.';
+      'Tick what has changed. If a change worries you, talk to a doctor or a midwife about it.';
 
   @override
   String get changeHeavier => 'My flow is heavier';
@@ -1628,7 +1628,7 @@ class AppLocalizationsEn extends AppLocalizations {
       'Touch the day. An approximate date is enough: you can correct it later.';
 
   @override
-  String get setupRemindersTitle => 'Your reminders';
+  String get setupRemindersTitle => 'Do you want reminders?';
 
   @override
   String get setupLockTitle => 'For your eyes only';
@@ -1753,26 +1753,23 @@ class AppLocalizationsEn extends AppLocalizations {
       'Many things can move a cycle. Only a health professional can say what a change means.';
 
   @override
-  String get setupPrivacyTitle => 'Your data stays here';
+  String get setupPrivacyTitle => 'Your data never leaves your phone';
 
   @override
   String get setupPrivacyHint =>
-      'What sets this app apart, before any question.';
+      'What you log here is nobody\'s business but yours.';
 
   @override
-  String get privacyNoAccount =>
-      'No account, no e-mail address, no password to create.';
+  String get privacyNoAccount => 'No account to create.';
 
   @override
-  String get privacyOnPhone =>
-      'What you log is stored on this phone, encrypted. The app sends nothing over the network.';
+  String get privacyOnPhone => 'Everything is stored on your phone, encrypted.';
 
   @override
-  String get privacyBackup =>
-      'A backup is an encrypted file that you keep where you choose.';
+  String get privacyBackup => 'Nothing is sent over the Internet.';
 
   @override
-  String get privacyNoAds => 'No advertising, no tracking, no subscription.';
+  String get privacyNoAds => 'No advertising, no subscription.';
 
   @override
   String setupGreeting(String name) {
@@ -1804,11 +1801,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String get wishWhatComesBack => 'See what comes back with each cycle';
 
   @override
-  String get setupUsualTitle => 'Your periods, usually';
+  String get setupUsualTitle => 'What are your periods usually like?';
 
   @override
-  String get setupUsualHint =>
-      'It sets what the app starts from. You log the real days afterwards.';
+  String get setupUsualHint => 'Choose what fits you best.';
 
   @override
   String get setupUsualFlow => 'Flow';
@@ -1835,11 +1831,11 @@ class AppLocalizationsEn extends AppLocalizations {
       'Yes, without hormones (copper IUD, condoms, other)';
 
   @override
-  String get setupSignsTitle => 'Do you have any of these signs these days?';
+  String get setupSignsTitle => 'Do you have these signs these days?';
 
   @override
   String get setupSignsHint =>
-      'Several answers are possible. You will be able to tick them day by day in your journal.';
+      'Tick the ones you have. You will then be able to log them each day in your journal.';
 
   @override
   String get symptomVaginalDryness => 'Vaginal dryness';
@@ -1861,11 +1857,11 @@ class AppLocalizationsEn extends AppLocalizations {
       'Touch the first day of up to three earlier periods, if you remember them. The estimate then starts from your own cycle.';
 
   @override
-  String get setupTrackedTitle => 'What do you want to follow day by day?';
+  String get setupTrackedTitle => 'What do you want to log each day?';
 
   @override
   String get setupTrackedHint =>
-      'Your journal starts with what you choose. The rest stays within reach.';
+      'Tick what matters to you. These sections will come first in your journal.';
 
   @override
   String get trackedPain => 'Pain';
@@ -1970,9 +1966,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get followTitle => 'Your tracking';
 
   @override
-  String get followJournal => 'Journal';
-
-  @override
   String followRow(String name, int days) {
     String _temp0 = intl.Intl.pluralLogic(
       days,
@@ -2009,34 +2002,10 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String followCycleTitle(int day) {
-    return 'This cycle, day $day';
-  }
-
-  @override
-  String get figureDaysLogged => 'Days logged';
-
-  @override
-  String figureOutOf(int count, int total) {
-    return '$count of $total';
-  }
-
-  @override
   String get figureGoodNights => 'Good nights';
 
   @override
   String get figurePainDays => 'Days with pain';
-
-  @override
-  String get figureMood => 'Most frequent mood';
-
-  @override
-  String get figureLibido => 'Most frequent libido';
-
-  @override
-  String figurePrevious(String value) {
-    return 'Previous cycle, at the same point: $value';
-  }
 
   @override
   String get reliabilityTitle => 'Reliability of the estimate';
@@ -2086,4 +2055,100 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get setupNotGiven => 'Not given';
+
+  @override
+  String get changeMoreRegular => 'My periods are more regular';
+
+  @override
+  String get changeLonger => 'My periods last longer';
+
+  @override
+  String get changeShorter => 'My periods are shorter';
+
+  @override
+  String get changeMorePainful => 'My periods are more painful';
+
+  @override
+  String get changeLessPainful => 'My periods are less painful';
+
+  @override
+  String get changeSaidMoreRegular => 'more regular periods';
+
+  @override
+  String get changeSaidLonger => 'longer periods';
+
+  @override
+  String get changeSaidShorter => 'shorter periods';
+
+  @override
+  String get changeSaidMorePainful => 'more painful periods';
+
+  @override
+  String get changeSaidLessPainful => 'less painful periods';
+
+  @override
+  String get symptomMigraine => 'Migraine';
+
+  @override
+  String get symptomMoodSwings => 'Mood swings';
+
+  @override
+  String get setupRemindersHint =>
+      'Discreet: they never mention your period. Everything happens on your phone.';
+
+  @override
+  String get setupPeriodReminder => 'Tell me before my period';
+
+  @override
+  String get setupPeriodReminderHint => 'A few days before the estimated date.';
+
+  @override
+  String get setupDailyReminder => 'Remind me to log my day';
+
+  @override
+  String get setupDailyReminderHint =>
+      'Once a day, only if you logged nothing.';
+
+  @override
+  String get cycleFirstHalf => 'You are in the first half of your cycle.';
+
+  @override
+  String get cycleSecondHalf => 'You are in the second half of your cycle.';
+
+  @override
+  String get legendToday => 'Today';
+
+  @override
+  String get kpiWeek => 'Last 7 days';
+
+  @override
+  String get kpiWeekCaption => 'days logged';
+
+  @override
+  String get kpiCycle => 'This cycle';
+
+  @override
+  String kpiCycleCaption(int days) {
+    return 'days logged out of $days';
+  }
+
+  @override
+  String get kpiThisCycle => 'this cycle';
+
+  @override
+  String kpiPrevious(String value) {
+    return 'previous cycle: $value';
+  }
+
+  @override
+  String get kpiMostFrequent => 'most frequent this cycle';
+
+  @override
+  String get weekTitle => 'Your last 7 days';
+
+  @override
+  String get weekIntro => 'A full dot: logged that day.';
+
+  @override
+  String get weekAnyNote => 'The day';
 }

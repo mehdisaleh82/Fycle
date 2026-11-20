@@ -68,6 +68,8 @@ String symptomLabel(AppLocalizations l10n, Symptom symptom) =>
       Symptom.jointPain => l10n.symptomJointPain,
       Symptom.brainFog => l10n.symptomBrainFog,
       Symptom.palpitations => l10n.symptomPalpitations,
+      Symptom.migraine => l10n.symptomMigraine,
+      Symptom.moodSwings => l10n.symptomMoodSwings,
     };
 
 /// The name of a sign listed in the trends: a symptom as it is, any other
@@ -128,6 +130,21 @@ CsvLabels csvLabels(AppLocalizations l10n) => CsvLabels(
 );
 
 DateTime _dateTime(CalendarDay day) => DateTime(day.year, day.month, day.day);
+
+/// A recent change, as she says it of herself.
+String recentChangeLabel(AppLocalizations l10n, RecentChange change) =>
+    switch (change) {
+      RecentChange.heavierFlow => l10n.changeHeavier,
+      RecentChange.lighterFlow => l10n.changeLighter,
+      RecentChange.lessRegular => l10n.changeLessRegular,
+      RecentChange.moreRegular => l10n.changeMoreRegular,
+      RecentChange.longerPeriods => l10n.changeLonger,
+      RecentChange.shorterPeriods => l10n.changeShorter,
+      RecentChange.morePainful => l10n.changeMorePainful,
+      RecentChange.lessPainful => l10n.changeLessPainful,
+      RecentChange.lengthChanged => l10n.changeLength,
+      RecentChange.nothing => l10n.changeNothing,
+    };
 
 String trackedLabel(AppLocalizations l10n, Tracked tracked) =>
     switch (tracked) {

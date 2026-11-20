@@ -19,4 +19,6 @@ enum Symptom {
   jointPain,
   brainFog,
   palpitations,
+  migraine,
+  moodSwings,
 }

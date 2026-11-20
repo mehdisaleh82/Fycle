@@ -2531,13 +2531,13 @@ abstract class AppLocalizations {
   /// No description provided for @setupChangesTitle.
   ///
   /// In en, this message translates to:
-  /// **'Have you noticed changes in your periods lately?'**
+  /// **'Have your periods changed in the last few months?'**
   String get setupChangesTitle;
 
   /// No description provided for @setupChangesHint.
   ///
   /// In en, this message translates to:
-  /// **'Several answers are possible. If a change worries you, talk to a health professional about it.'**
+  /// **'Tick what has changed. If a change worries you, talk to a doctor or a midwife about it.'**
   String get setupChangesHint;
 
   /// No description provided for @changeHeavier.
@@ -2579,7 +2579,7 @@ abstract class AppLocalizations {
   /// No description provided for @setupRemindersTitle.
   ///
   /// In en, this message translates to:
-  /// **'Your reminders'**
+  /// **'Do you want reminders?'**
   String get setupRemindersTitle;
 
   /// No description provided for @setupLockTitle.
@@ -2741,37 +2741,37 @@ abstract class AppLocalizations {
   /// No description provided for @setupPrivacyTitle.
   ///
   /// In en, this message translates to:
-  /// **'Your data stays here'**
+  /// **'Your data never leaves your phone'**
   String get setupPrivacyTitle;
 
   /// No description provided for @setupPrivacyHint.
   ///
   /// In en, this message translates to:
-  /// **'What sets this app apart, before any question.'**
+  /// **'What you log here is nobody\'s business but yours.'**
   String get setupPrivacyHint;
 
   /// No description provided for @privacyNoAccount.
   ///
   /// In en, this message translates to:
-  /// **'No account, no e-mail address, no password to create.'**
+  /// **'No account to create.'**
   String get privacyNoAccount;
 
   /// No description provided for @privacyOnPhone.
   ///
   /// In en, this message translates to:
-  /// **'What you log is stored on this phone, encrypted. The app sends nothing over the network.'**
+  /// **'Everything is stored on your phone, encrypted.'**
   String get privacyOnPhone;
 
   /// No description provided for @privacyBackup.
   ///
   /// In en, this message translates to:
-  /// **'A backup is an encrypted file that you keep where you choose.'**
+  /// **'Nothing is sent over the Internet.'**
   String get privacyBackup;
 
   /// No description provided for @privacyNoAds.
   ///
   /// In en, this message translates to:
-  /// **'No advertising, no tracking, no subscription.'**
+  /// **'No advertising, no subscription.'**
   String get privacyNoAds;
 
   /// No description provided for @setupGreeting.
@@ -2825,13 +2825,13 @@ abstract class AppLocalizations {
   /// No description provided for @setupUsualTitle.
   ///
   /// In en, this message translates to:
-  /// **'Your periods, usually'**
+  /// **'What are your periods usually like?'**
   String get setupUsualTitle;
 
   /// No description provided for @setupUsualHint.
   ///
   /// In en, this message translates to:
-  /// **'It sets what the app starts from. You log the real days afterwards.'**
+  /// **'Choose what fits you best.'**
   String get setupUsualHint;
 
   /// No description provided for @setupUsualFlow.
@@ -2879,13 +2879,13 @@ abstract class AppLocalizations {
   /// No description provided for @setupSignsTitle.
   ///
   /// In en, this message translates to:
-  /// **'Do you have any of these signs these days?'**
+  /// **'Do you have these signs these days?'**
   String get setupSignsTitle;
 
   /// No description provided for @setupSignsHint.
   ///
   /// In en, this message translates to:
-  /// **'Several answers are possible. You will be able to tick them day by day in your journal.'**
+  /// **'Tick the ones you have. You will then be able to log them each day in your journal.'**
   String get setupSignsHint;
 
   /// No description provided for @symptomVaginalDryness.
@@ -2927,13 +2927,13 @@ abstract class AppLocalizations {
   /// No description provided for @setupTrackedTitle.
   ///
   /// In en, this message translates to:
-  /// **'What do you want to follow day by day?'**
+  /// **'What do you want to log each day?'**
   String get setupTrackedTitle;
 
   /// No description provided for @setupTrackedHint.
   ///
   /// In en, this message translates to:
-  /// **'Your journal starts with what you choose. The rest stays within reach.'**
+  /// **'Tick what matters to you. These sections will come first in your journal.'**
   String get setupTrackedHint;
 
   /// No description provided for @trackedPain.
@@ -3080,12 +3080,6 @@ abstract class AppLocalizations {
   /// **'Your tracking'**
   String get followTitle;
 
-  /// No description provided for @followJournal.
-  ///
-  /// In en, this message translates to:
-  /// **'Journal'**
-  String get followJournal;
-
   /// No description provided for @followRow.
   ///
   /// In en, this message translates to:
@@ -3104,24 +3098,6 @@ abstract class AppLocalizations {
   /// **'{days, plural, =0{This month: no day logged out of {total}} =1{This month: 1 day logged out of {total}} other{This month: {days} days logged out of {total}}}'**
   String followMonth(int days, int total);
 
-  /// No description provided for @followCycleTitle.
-  ///
-  /// In en, this message translates to:
-  /// **'This cycle, day {day}'**
-  String followCycleTitle(int day);
-
-  /// No description provided for @figureDaysLogged.
-  ///
-  /// In en, this message translates to:
-  /// **'Days logged'**
-  String get figureDaysLogged;
-
-  /// No description provided for @figureOutOf.
-  ///
-  /// In en, this message translates to:
-  /// **'{count} of {total}'**
-  String figureOutOf(int count, int total);
-
   /// No description provided for @figureGoodNights.
   ///
   /// In en, this message translates to:
@@ -3133,24 +3109,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Days with pain'**
   String get figurePainDays;
-
-  /// No description provided for @figureMood.
-  ///
-  /// In en, this message translates to:
-  /// **'Most frequent mood'**
-  String get figureMood;
-
-  /// No description provided for @figureLibido.
-  ///
-  /// In en, this message translates to:
-  /// **'Most frequent libido'**
-  String get figureLibido;
-
-  /// No description provided for @figurePrevious.
-  ///
-  /// In en, this message translates to:
-  /// **'Previous cycle, at the same point: {value}'**
-  String figurePrevious(String value);
 
   /// No description provided for @reliabilityTitle.
   ///
@@ -3211,6 +3169,186 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Not given'**
   String get setupNotGiven;
+
+  /// No description provided for @changeMoreRegular.
+  ///
+  /// In en, this message translates to:
+  /// **'My periods are more regular'**
+  String get changeMoreRegular;
+
+  /// No description provided for @changeLonger.
+  ///
+  /// In en, this message translates to:
+  /// **'My periods last longer'**
+  String get changeLonger;
+
+  /// No description provided for @changeShorter.
+  ///
+  /// In en, this message translates to:
+  /// **'My periods are shorter'**
+  String get changeShorter;
+
+  /// No description provided for @changeMorePainful.
+  ///
+  /// In en, this message translates to:
+  /// **'My periods are more painful'**
+  String get changeMorePainful;
+
+  /// No description provided for @changeLessPainful.
+  ///
+  /// In en, this message translates to:
+  /// **'My periods are less painful'**
+  String get changeLessPainful;
+
+  /// No description provided for @changeSaidMoreRegular.
+  ///
+  /// In en, this message translates to:
+  /// **'more regular periods'**
+  String get changeSaidMoreRegular;
+
+  /// No description provided for @changeSaidLonger.
+  ///
+  /// In en, this message translates to:
+  /// **'longer periods'**
+  String get changeSaidLonger;
+
+  /// No description provided for @changeSaidShorter.
+  ///
+  /// In en, this message translates to:
+  /// **'shorter periods'**
+  String get changeSaidShorter;
+
+  /// No description provided for @changeSaidMorePainful.
+  ///
+  /// In en, this message translates to:
+  /// **'more painful periods'**
+  String get changeSaidMorePainful;
+
+  /// No description provided for @changeSaidLessPainful.
+  ///
+  /// In en, this message translates to:
+  /// **'less painful periods'**
+  String get changeSaidLessPainful;
+
+  /// No description provided for @symptomMigraine.
+  ///
+  /// In en, this message translates to:
+  /// **'Migraine'**
+  String get symptomMigraine;
+
+  /// No description provided for @symptomMoodSwings.
+  ///
+  /// In en, this message translates to:
+  /// **'Mood swings'**
+  String get symptomMoodSwings;
+
+  /// No description provided for @setupRemindersHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Discreet: they never mention your period. Everything happens on your phone.'**
+  String get setupRemindersHint;
+
+  /// No description provided for @setupPeriodReminder.
+  ///
+  /// In en, this message translates to:
+  /// **'Tell me before my period'**
+  String get setupPeriodReminder;
+
+  /// No description provided for @setupPeriodReminderHint.
+  ///
+  /// In en, this message translates to:
+  /// **'A few days before the estimated date.'**
+  String get setupPeriodReminderHint;
+
+  /// No description provided for @setupDailyReminder.
+  ///
+  /// In en, this message translates to:
+  /// **'Remind me to log my day'**
+  String get setupDailyReminder;
+
+  /// No description provided for @setupDailyReminderHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Once a day, only if you logged nothing.'**
+  String get setupDailyReminderHint;
+
+  /// No description provided for @cycleFirstHalf.
+  ///
+  /// In en, this message translates to:
+  /// **'You are in the first half of your cycle.'**
+  String get cycleFirstHalf;
+
+  /// No description provided for @cycleSecondHalf.
+  ///
+  /// In en, this message translates to:
+  /// **'You are in the second half of your cycle.'**
+  String get cycleSecondHalf;
+
+  /// No description provided for @legendToday.
+  ///
+  /// In en, this message translates to:
+  /// **'Today'**
+  String get legendToday;
+
+  /// No description provided for @kpiWeek.
+  ///
+  /// In en, this message translates to:
+  /// **'Last 7 days'**
+  String get kpiWeek;
+
+  /// No description provided for @kpiWeekCaption.
+  ///
+  /// In en, this message translates to:
+  /// **'days logged'**
+  String get kpiWeekCaption;
+
+  /// No description provided for @kpiCycle.
+  ///
+  /// In en, this message translates to:
+  /// **'This cycle'**
+  String get kpiCycle;
+
+  /// No description provided for @kpiCycleCaption.
+  ///
+  /// In en, this message translates to:
+  /// **'days logged out of {days}'**
+  String kpiCycleCaption(int days);
+
+  /// No description provided for @kpiThisCycle.
+  ///
+  /// In en, this message translates to:
+  /// **'this cycle'**
+  String get kpiThisCycle;
+
+  /// No description provided for @kpiPrevious.
+  ///
+  /// In en, this message translates to:
+  /// **'previous cycle: {value}'**
+  String kpiPrevious(String value);
+
+  /// No description provided for @kpiMostFrequent.
+  ///
+  /// In en, this message translates to:
+  /// **'most frequent this cycle'**
+  String get kpiMostFrequent;
+
+  /// No description provided for @weekTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Your last 7 days'**
+  String get weekTitle;
+
+  /// No description provided for @weekIntro.
+  ///
+  /// In en, this message translates to:
+  /// **'A full dot: logged that day.'**
+  String get weekIntro;
+
+  /// No description provided for @weekAnyNote.
+  ///
+  /// In en, this message translates to:
+  /// **'The day'**
+  String get weekAnyNote;
 }
 
 class _AppLocalizationsDelegate

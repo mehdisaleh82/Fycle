@@ -165,7 +165,14 @@ class _PredictionCardState extends State<PredictionCard> {
         estimated = true;
       case PeriodExpected(:final prediction, :final daysUntil):
         title = _countdown(l10n, daysUntil);
-        lines.add(_range(l10n, prediction));
+        // Where she is, in plain words, before the dates.
+        lines
+          ..add(
+            (overview.dayOfCycle ?? 1) * 2 <= overview.cycleLength
+                ? l10n.cycleFirstHalf
+                : l10n.cycleSecondHalf,
+          )
+          ..add(_range(l10n, prediction));
         estimated = true;
       case PeriodDue(:final prediction):
         title = l10n.countdownDue;
@@ -366,6 +373,22 @@ class _PredictionCardState extends State<PredictionCard> {
       );
     }
 
+    if (day != null) {
+      // Under the ring, outside what answers to the finger: what its
+      // colours stand for.
+      ring = Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          ring,
+          const SizedBox(height: 10),
+          _RingLegend(
+            expected: expectedFrom != null,
+            fertile: widget.fertileFromDay != null,
+          ),
+        ],
+      );
+    }
+
     final labelStyle = theme.textTheme.labelLarge?.copyWith(color: onCard);
     final titleStyle = theme.textTheme.headlineSmall?.copyWith(color: onCard);
     final bodyStyle = theme.textTheme.bodyMedium?.copyWith(color: onCard);
@@ -545,4 +568,54 @@ class _RingBandRecognizer extends EagerGestureRecognizer {
   bool isPointerAllowed(PointerDownEvent event) =>
       CycleRing.isOnBand(event.localPosition, ringSize) &&
       super.isPointerAllowed(event);
+}
+
+/// What the colours of the ring stand for, in a line under it.
+class _RingLegend extends StatelessWidget {
+  const _RingLegend({required this.expected, required this.fertile});
+
+  /// Whether the ring shows days of an expected period, and of an estimated
+  /// fertile window.
+  final bool expected;
+  final bool fertile;
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
+    final theme = Theme.of(context);
+    final accent = AccentColors.of(context);
+    Widget item(Color color, String label) => Row(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Container(
+          width: 10,
+          height: 10,
+          decoration: BoxDecoration(color: color, shape: BoxShape.circle),
+        ),
+        const SizedBox(width: 5),
+        Flexible(
+          child: Text(
+            label,
+            style: theme.textTheme.bodySmall?.copyWith(color: accent.onCard),
+          ),
+        ),
+      ],
+    );
+    // The same words are read from the ring itself.
+    return ExcludeSemantics(
+      child: Wrap(
+        key: const ValueKey('ring-legend'),
+        alignment: WrapAlignment.center,
+        spacing: 14,
+        runSpacing: 4,
+        children: [
+          item(PeriodColors.of(context).fill, l10n.legendPeriod),
+          if (expected) item(accent.mark, l10n.legendExpected),
+          if (fertile)
+            item(accent.onCard.withValues(alpha: 0.4), l10n.legendFertile),
+          item(accent.onCard, l10n.legendToday),
+        ],
+      ),
+    );
+  }
 }

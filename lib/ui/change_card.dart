@@ -41,12 +41,17 @@ class ChangeCard extends StatelessWidget {
     final interval = change.longestInterval;
     final sinceLast = change.daysSinceLastPeriod;
     final said = [
-      for (final value in RecentChange.values)
+      for (final value in [...offeredChanges, RecentChange.lengthChanged])
         if (value != RecentChange.nothing && saidAtSetup.contains(value))
           switch (value) {
             RecentChange.heavierFlow => l10n.changeSaidHeavier,
             RecentChange.lighterFlow => l10n.changeSaidLighter,
             RecentChange.lessRegular => l10n.changeSaidLessRegular,
+            RecentChange.moreRegular => l10n.changeSaidMoreRegular,
+            RecentChange.longerPeriods => l10n.changeSaidLonger,
+            RecentChange.shorterPeriods => l10n.changeSaidShorter,
+            RecentChange.morePainful => l10n.changeSaidMorePainful,
+            RecentChange.lessPainful => l10n.changeSaidLessPainful,
             RecentChange.lengthChanged => l10n.changeSaidLength,
             RecentChange.nothing => '',
           },

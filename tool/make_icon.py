@@ -1,8 +1,8 @@
 """Draws the app icon and writes every size iOS and Android ask for.
 
 The icon is the mark of the launch animation (lib/ui/launch_animation.dart):
-the cycle ring on a night-blue ground, the days of the period in rose, and
-the mark of the day in gold. Decision 140.
+the cycle ring on a plum ground, pale pink, the days of the period in rose,
+and the mark of the day in beige. Decisions 140 and 147.
 
 Run from the root of the project, with Pillow installed:
 
@@ -16,10 +16,10 @@ import os
 
 from PIL import Image, ImageDraw
 
-NIGHT = (0x1B, 0x2A, 0x4A)
-RING = (0xF6, 0xE6, 0xC2)
-PERIOD = (0xB0, 0x4E, 0x64)
-DOT = (0xE3, 0xB4, 0x5C)
+NIGHT = (0x73, 0x43, 0x5A)
+RING = (0xF2, 0xD5, 0xDC)
+PERIOD = (0xC6, 0x7F, 0x87)
+DOT = (0xD6, 0xBC, 0xA5)
 
 # Share of the ring drawn in the colour of the period, and where the mark
 # of the day sits: as in the launch animation, to a hair.

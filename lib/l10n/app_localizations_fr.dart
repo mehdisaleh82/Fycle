@@ -1621,17 +1621,17 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get setupChangesTitle =>
-      'As-tu remarqué des changements dans tes règles récemment ?';
+      'Tes règles ont-elles changé ces derniers mois ?';
 
   @override
   String get setupChangesHint =>
-      'Plusieurs réponses possibles. Si un changement t\'inquiète, parles-en à un professionnel de santé.';
+      'Coche ce qui a changé. Si un changement t\'inquiète, parles-en à un médecin ou à une sage-femme.';
 
   @override
   String get changeHeavier => 'Mon flux est plus abondant';
 
   @override
-  String get changeLighter => 'Mon flux est plus léger';
+  String get changeLighter => 'Mon flux est moins abondant';
 
   @override
   String get changeLessRegular => 'Mes règles sont moins régulières';
@@ -1647,7 +1647,7 @@ class AppLocalizationsFr extends AppLocalizations {
       'Touche le jour. Une date approximative suffit : tu pourras la corriger plus tard.';
 
   @override
-  String get setupRemindersTitle => 'Tes rappels';
+  String get setupRemindersTitle => 'Veux-tu des rappels ?';
 
   @override
   String get setupLockTitle => 'Rien que pour toi';
@@ -1755,7 +1755,7 @@ class AppLocalizationsFr extends AppLocalizations {
   String get changeSaidHeavier => 'flux plus abondant';
 
   @override
-  String get changeSaidLighter => 'flux plus léger';
+  String get changeSaidLighter => 'flux moins abondant';
 
   @override
   String get changeSaidLessRegular => 'règles moins régulières';
@@ -1772,26 +1772,23 @@ class AppLocalizationsFr extends AppLocalizations {
       'Beaucoup de choses peuvent faire bouger un cycle. Seul un professionnel de santé peut dire ce qu\'un changement signifie.';
 
   @override
-  String get setupPrivacyTitle => 'Tes données restent ici';
+  String get setupPrivacyTitle =>
+      'Tes données ne quittent jamais ton téléphone';
 
   @override
-  String get setupPrivacyHint =>
-      'Ce qui distingue cette appli, avant toute question.';
+  String get setupPrivacyHint => 'Ce que tu notes ici ne regarde que toi.';
 
   @override
-  String get privacyNoAccount =>
-      'Aucun compte, aucune adresse e-mail, aucun mot de passe à créer.';
+  String get privacyNoAccount => 'Aucun compte à créer.';
 
   @override
-  String get privacyOnPhone =>
-      'Ce que tu notes est rangé sur ce téléphone, chiffré. L\'appli n\'envoie rien sur le réseau.';
+  String get privacyOnPhone => 'Tout est rangé sur ton téléphone, chiffré.';
 
   @override
-  String get privacyBackup =>
-      'Une sauvegarde est un fichier chiffré que tu ranges où tu veux.';
+  String get privacyBackup => 'Rien n\'est envoyé sur Internet.';
 
   @override
-  String get privacyNoAds => 'Ni publicité, ni suivi, ni abonnement.';
+  String get privacyNoAds => 'Ni publicité, ni abonnement.';
 
   @override
   String setupGreeting(String name) {
@@ -1823,11 +1820,10 @@ class AppLocalizationsFr extends AppLocalizations {
   String get wishWhatComesBack => 'Voir ce qui revient à chaque cycle';
 
   @override
-  String get setupUsualTitle => 'Tes règles, d\'habitude';
+  String get setupUsualTitle => 'Comment sont tes règles d\'habitude ?';
 
   @override
-  String get setupUsualHint =>
-      'Pour partir de ce qui te ressemble. Ensuite, tu noteras chaque jour ce qu\'il en est vraiment.';
+  String get setupUsualHint => 'Choisis ce qui te ressemble le plus.';
 
   @override
   String get setupUsualFlow => 'Abondance';
@@ -1854,11 +1850,11 @@ class AppLocalizationsFr extends AppLocalizations {
       'Oui, sans hormones (stérilet au cuivre, préservatifs, autre)';
 
   @override
-  String get setupSignsTitle => 'As-tu certains de ces signes en ce moment ?';
+  String get setupSignsTitle => 'As-tu ces signes en ce moment ?';
 
   @override
   String get setupSignsHint =>
-      'Plusieurs réponses possibles. Tu pourras les cocher jour après jour dans ton journal.';
+      'Coche ceux que tu as. Tu pourras ensuite les noter chaque jour dans ton journal.';
 
   @override
   String get symptomVaginalDryness => 'Sécheresse vaginale';
@@ -1880,11 +1876,11 @@ class AppLocalizationsFr extends AppLocalizations {
       'Touche le premier jour de tes règles précédentes, trois au plus, si tu t\'en souviens. L\'estimation part alors de ton propre cycle.';
 
   @override
-  String get setupTrackedTitle => 'Que veux-tu suivre au quotidien ?';
+  String get setupTrackedTitle => 'Que veux-tu noter chaque jour ?';
 
   @override
   String get setupTrackedHint =>
-      'Ton journal commencera par ce que tu choisis. Les autres rubriques restent disponibles juste en dessous.';
+      'Coche ce qui compte pour toi. Ces rubriques s\'afficheront en premier dans ton journal.';
 
   @override
   String get trackedPain => 'Douleur';
@@ -1989,9 +1985,6 @@ class AppLocalizationsFr extends AppLocalizations {
   String get followTitle => 'Ton suivi';
 
   @override
-  String get followJournal => 'Journal';
-
-  @override
   String followRow(String name, int days) {
     String _temp0 = intl.Intl.pluralLogic(
       days,
@@ -2028,34 +2021,10 @@ class AppLocalizationsFr extends AppLocalizations {
   }
 
   @override
-  String followCycleTitle(int day) {
-    return 'Ce cycle, jour $day';
-  }
-
-  @override
-  String get figureDaysLogged => 'Jours notés';
-
-  @override
-  String figureOutOf(int count, int total) {
-    return '$count sur $total';
-  }
-
-  @override
   String get figureGoodNights => 'Bonnes nuits';
 
   @override
   String get figurePainDays => 'Jours de douleur';
-
-  @override
-  String get figureMood => 'Humeur la plus fréquente';
-
-  @override
-  String get figureLibido => 'Libido la plus fréquente';
-
-  @override
-  String figurePrevious(String value) {
-    return 'Cycle précédent, au même point : $value';
-  }
 
   @override
   String get reliabilityTitle => 'Fiabilité de l\'estimation';
@@ -2107,4 +2076,100 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get setupNotGiven => 'Pas indiqué';
+
+  @override
+  String get changeMoreRegular => 'Mes règles sont plus régulières';
+
+  @override
+  String get changeLonger => 'Mes règles durent plus longtemps';
+
+  @override
+  String get changeShorter => 'Mes règles durent moins longtemps';
+
+  @override
+  String get changeMorePainful => 'Mes règles sont plus douloureuses';
+
+  @override
+  String get changeLessPainful => 'Mes règles sont moins douloureuses';
+
+  @override
+  String get changeSaidMoreRegular => 'règles plus régulières';
+
+  @override
+  String get changeSaidLonger => 'règles plus longues';
+
+  @override
+  String get changeSaidShorter => 'règles plus courtes';
+
+  @override
+  String get changeSaidMorePainful => 'règles plus douloureuses';
+
+  @override
+  String get changeSaidLessPainful => 'règles moins douloureuses';
+
+  @override
+  String get symptomMigraine => 'Migraine';
+
+  @override
+  String get symptomMoodSwings => 'Sautes d\'humeur';
+
+  @override
+  String get setupRemindersHint =>
+      'Discrets : ils ne parlent jamais de tes règles. Tout se passe sur ton téléphone.';
+
+  @override
+  String get setupPeriodReminder => 'Me prévenir avant mes règles';
+
+  @override
+  String get setupPeriodReminderHint => 'Quelques jours avant la date estimée.';
+
+  @override
+  String get setupDailyReminder => 'Me rappeler de noter ma journée';
+
+  @override
+  String get setupDailyReminderHint =>
+      'Une fois par jour, seulement si tu n\'as rien noté.';
+
+  @override
+  String get cycleFirstHalf => 'Tu es dans la première moitié de ton cycle.';
+
+  @override
+  String get cycleSecondHalf => 'Tu es dans la seconde moitié de ton cycle.';
+
+  @override
+  String get legendToday => 'Aujourd\'hui';
+
+  @override
+  String get kpiWeek => '7 derniers jours';
+
+  @override
+  String get kpiWeekCaption => 'jours notés';
+
+  @override
+  String get kpiCycle => 'Ce cycle';
+
+  @override
+  String kpiCycleCaption(int days) {
+    return 'jours notés sur $days';
+  }
+
+  @override
+  String get kpiThisCycle => 'ce cycle';
+
+  @override
+  String kpiPrevious(String value) {
+    return 'cycle précédent : $value';
+  }
+
+  @override
+  String get kpiMostFrequent => 'la plus fréquente ce cycle';
+
+  @override
+  String get weekTitle => 'Tes 7 derniers jours';
+
+  @override
+  String get weekIntro => 'Un point plein : c\'est noté ce jour-là.';
+
+  @override
+  String get weekAnyNote => 'La journée';
 }

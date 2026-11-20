@@ -45,7 +45,10 @@ void main() {
       findsOneWidget,
     );
     await tap(tester, next);
-    expect(find.text('Tes données restent ici'), findsOneWidget);
+    expect(
+      find.text('Tes données ne quittent jamais ton téléphone'),
+      findsOneWidget,
+    );
     await tap(tester, next);
     expect(find.text('Quel est ton prénom ?'), findsOneWidget);
   });
@@ -57,7 +60,7 @@ void main() {
     await harness.pumpApp();
 
     await tap(tester, next);
-    expect(find.text('Your data stays here'), findsOneWidget);
+    expect(find.text('Your data never leaves your phone'), findsOneWidget);
     await tap(tester, next);
     await tester.enterText(find.byKey(const ValueKey('first-name')), 'Lina');
     await tap(tester, next);
@@ -130,7 +133,7 @@ void main() {
     await tap(tester, const ValueKey('tracked-libido'));
     await tap(tester, next);
 
-    expect(find.text('Your reminders'), findsOneWidget);
+    expect(find.text('Do you want reminders?'), findsOneWidget);
     await tap(tester, next);
     expect(find.text('For your eyes only'), findsOneWidget);
     await tap(tester, next);
@@ -236,9 +239,9 @@ void main() {
     await tap(tester, const ValueKey('regularity-noPeriods'));
 
     expect(find.text('Do you use contraception?'), findsOneWidget);
-    await to(tester, 'What do you want to follow day by day?');
+    await to(tester, 'What do you want to log each day?');
     await tap(tester, next);
-    expect(find.text('Your reminders'), findsOneWidget);
+    expect(find.text('Do you want reminders?'), findsOneWidget);
   });
 
   testWidgets('the perimenopause brings the question about changes', (
@@ -251,20 +254,17 @@ void main() {
     await tap(tester, const ValueKey('goal-perimenopause'));
     // Passing a question forgets its answer: answers are confirmed.
     await tap(tester, next);
-    await to(tester, 'Have you noticed changes in your periods lately?');
+    await to(tester, 'Have your periods changed in the last few months?');
 
     expect(
-      find.text('Have you noticed changes in your periods lately?'),
+      find.text('Have your periods changed in the last few months?'),
       findsOneWidget,
     );
     // "Nothing" and a change do not go together.
     await tap(tester, const ValueKey('change-heavierFlow'));
     await tap(tester, const ValueKey('change-nothing'));
     await tap(tester, next);
-    expect(
-      find.text('Do you have any of these signs these days?'),
-      findsOneWidget,
-    );
+    expect(find.text('Do you have these signs these days?'), findsOneWidget);
     await tap(tester, const ValueKey('sign-nightSweats'));
     await tap(tester, next);
     await to(tester, 'All set');
@@ -418,7 +418,7 @@ void main() {
     final harness = Harness(tester);
     await harness.pumpApp();
 
-    await to(tester, 'Your reminders');
+    await to(tester, 'Do you want reminders?');
     await tap(tester, const ValueKey('setup-daily-reminder'));
     await tap(tester, const ValueKey('setup-days-before-3'));
     await tap(tester, next);
@@ -437,7 +437,7 @@ void main() {
     final harness = Harness(tester)..reminders.allow = false;
     await harness.pumpApp();
 
-    await to(tester, 'Your reminders');
+    await to(tester, 'Do you want reminders?');
     await tap(tester, next);
 
     expect(find.text('Notifications are turned off'), findsOneWidget);
@@ -513,7 +513,7 @@ void main() {
     await tap(tester, const ValueKey('regularity-irregular'));
     await to(tester, 'Do you use contraception?');
     await tap(tester, const ValueKey('contraception-hormonal'));
-    await to(tester, 'What do you want to follow day by day?');
+    await to(tester, 'What do you want to log each day?');
     await tap(tester, const ValueKey('tracked-mood'));
     // The last question: the button saves.
     await tapVisible(tester, find.text('Save'));

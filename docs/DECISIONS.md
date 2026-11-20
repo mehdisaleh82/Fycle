@@ -636,6 +636,19 @@ Retour de la testeuse sur la compilation n° 9, rapporté par l'utilisateur : po
     - Règle (`showsFertilityFor`) : affichée si elle veut concevoir, ou si elle a coché « Connaître ma fenêtre de fertilité estimée ». Jamais sous contraception hormonale. Celle qui a répondu sans la demander ne la voit pas. Seule celle qui n'a répondu à rien garde l'affichage par défaut.
     - Les installations déjà faites sont réalignées une fois sur les réponses données, au premier lancement de cette version (`fertility_from_answers`). Ensuite l'interrupteur des réglages lui appartient : l'appli n'y retouche que si elle change ses réponses sur ses objectifs, ses souhaits ou sa contraception.
     - Chaque utilisatrice a donc son propre affichage, selon ses réponses et son interrupteur.
+147. **Nouvelle palette : prune, rose, rose pâle, beige, taupe** (choix de l'utilisateur du 20 novembre 2026, sur une palette de cinq couleurs). Remplace le bleu nuit et l'ambre des décisions 77 et 82, y compris leur règle « ni rose ».
+    - Prune `#73435A` : en-têtes, boutons, tout ce qui est sélectionné. Rose `#C67F87` : jours de règles (un ton plus foncé, `#A9505F`, là où un chiffre blanc est écrit dessus). Rose pâle `#F2D5DC` : fonds doux, carte de l'estimation. Beige `#D6BCA5` et taupe `#B08F82` : traits, et ce qui est estimé.
+    - Aucun texte n'est écrit dans les trois couleurs claires : il est prune, ou dans un ton plus sombre de la même teinte, pour rester lisible. Le thème sombre décline la même palette.
+    - **Sélections sans équivoque** : une réponse choisie dans le parcours est remplie en prune avec son texte en blanc, au lieu d'un fond pâle avec un filet.
+    - L'icône, l'animation de lancement et l'écran de lancement natif prennent les mêmes couleurs (`tool/make_icon.py`).
+    - La typographie ne change pas : police du système.
+148. **Retours de la première utilisatrice, 20 novembre 2026.**
+    - Textes du parcours réécrits pour dire quoi faire en une phrase : durées, « Comment sont tes règles d'habitude ? », signes, « Que veux-tu noter chaque jour ? », rappels. L'écran de confidentialité devient un argument : « Tes données ne quittent jamais ton téléphone ».
+    - Changements récents : un « moins » pour chaque « plus » (flux, durée, douleur, régularité). Deux contraires ne se cochent pas ensemble. L'ancien « la durée a changé » n'est plus proposé mais reste lu s'il a été donné.
+    - Signes ajoutés : migraine et sautes d'humeur (proposés à toutes dans le journal), et la liste du parcours reprend aussi insomnie et fatigue.
+    - Accueil : une légende sous l'anneau dit ce que ses couleurs représentent, et une phrase dit si elle est dans la première ou la seconde moitié de son cycle.
+    - « Ton suivi » devient quelques tuiles à lire d'un coup d'œil, à la manière d'une appli de santé : une grande valeur, ce qu'elle compte, et le cycle précédent. Les tuiles sont celles de ce qu'elle a choisi de suivre : chaque utilisatrice a les siennes. Le détail jour par jour (les 7 derniers jours, le mois) passe dans l'onglet Journal. Corrige la décision 145.
+    - **Pas fait** : le mode grossesse, qui est une autre appli dans l'appli (estimation, rappels et bilan à suspendre, repères propres à la grossesse à faire relire par un professionnel de santé). À cadrer à part.
 
 ## Questions ouvertes
 

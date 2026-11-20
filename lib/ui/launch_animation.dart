@@ -3,11 +3,11 @@ import 'dart:math' as math;
 import 'package:material_ui/material_ui.dart';
 
 /// The colours of the launch: the same in light and in dark, as a signature.
-const Color launchNight = Color(0xFF1B2A4A);
+const Color launchNight = Color(0xFF73435A);
 const Color _night = launchNight;
-const Color _ringColor = Color(0xFFF6E6C2);
-const Color _periodColor = Color(0xFFB04E64);
-const Color _dotColor = Color(0xFFE3B45C);
+const Color _ringColor = Color(0xFFF2D5DC);
+const Color _periodColor = Color(0xFFC67F87);
+const Color _dotColor = Color(0xFFD6BCA5);
 
 /// The signature of the app, played once each time it is launched: the
 /// cycle ring draws itself, its mark settles, and the ring opens onto the

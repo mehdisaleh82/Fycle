@@ -35,9 +35,43 @@ enum RecentChange {
   heavierFlow,
   lighterFlow,
   lessRegular,
+
+  /// Offered by an earlier version: kept so that an answer already given
+  /// still reads. [longerPeriods] and [shorterPeriods] replace it.
   lengthChanged,
   nothing,
+  moreRegular,
+  longerPeriods,
+  shorterPeriods,
+  morePainful,
+  lessPainful,
 }
+
+/// The changes offered, each next to its opposite, "nothing" last.
+const List<RecentChange> offeredChanges = [
+  RecentChange.heavierFlow,
+  RecentChange.lighterFlow,
+  RecentChange.longerPeriods,
+  RecentChange.shorterPeriods,
+  RecentChange.morePainful,
+  RecentChange.lessPainful,
+  RecentChange.lessRegular,
+  RecentChange.moreRegular,
+  RecentChange.nothing,
+];
+
+/// The change that cannot hold together with [change], if any.
+RecentChange? oppositeOf(RecentChange change) => switch (change) {
+  RecentChange.heavierFlow => RecentChange.lighterFlow,
+  RecentChange.lighterFlow => RecentChange.heavierFlow,
+  RecentChange.longerPeriods => RecentChange.shorterPeriods,
+  RecentChange.shorterPeriods => RecentChange.longerPeriods,
+  RecentChange.morePainful => RecentChange.lessPainful,
+  RecentChange.lessPainful => RecentChange.morePainful,
+  RecentChange.lessRegular => RecentChange.moreRegular,
+  RecentChange.moreRegular => RecentChange.lessRegular,
+  RecentChange.lengthChanged || RecentChange.nothing => null,
+};
 
 /// A usual period length is accepted within this range, in days.
 const int minPeriodLength = 1;

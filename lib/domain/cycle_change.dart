@@ -34,16 +34,31 @@ const int longIntervalDays = 60;
 /// The signs asked about are counted over this many days.
 const int signWindowDays = 90;
 
-/// The signs offered to those who follow a changing cycle, in the order
-/// they are shown.
+/// The signs asked about when the app is set up and counted in the review,
+/// for those who follow a changing cycle, in the order they are shown.
 const List<Symptom> changeSigns = [
+  Symptom.hotFlashes,
+  Symptom.nightSweats,
+  Symptom.insomnia,
+  Symptom.fatigue,
+  Symptom.moodSwings,
+  Symptom.migraine,
+  Symptom.vaginalDryness,
+  Symptom.jointPain,
+  Symptom.brainFog,
+  Symptom.palpitations,
+];
+
+/// Among them, the ones the journal offers only to those who follow a
+/// changing cycle. The others are offered to everyone.
+const Set<Symptom> followerOnlySigns = {
   Symptom.hotFlashes,
   Symptom.nightSweats,
   Symptom.vaginalDryness,
   Symptom.jointPain,
   Symptom.brainFog,
   Symptom.palpitations,
-];
+};
 
 final class CycleChange {
   const CycleChange({

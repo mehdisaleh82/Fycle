@@ -8,6 +8,7 @@ import '../domain/monthly_history.dart';
 import '../l10n/app_localizations.dart';
 import 'app_environment.dart';
 import 'cycle_model.dart';
+import 'follow_card.dart';
 import 'home_cards.dart';
 import 'labels.dart';
 import 'month_calendar.dart';
@@ -98,6 +99,9 @@ class JournalTab extends StatelessWidget {
                 icon: const Icon(Icons.edit_outlined),
                 label: Text(l10n.journalWriteToday),
               ),
+              const SizedBox(height: 16),
+              // The detail behind the figures of the home.
+              WeekCard(model: model, today: today),
               const SizedBox(height: 16),
               _MonthsCard(
                 months: monthlyHistory(days: model.days, today: today),

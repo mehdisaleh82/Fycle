@@ -716,27 +716,26 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              for (final (change, label) in [
-                (RecentChange.heavierFlow, l10n.changeHeavier),
-                (RecentChange.lighterFlow, l10n.changeLighter),
-                (RecentChange.lessRegular, l10n.changeLessRegular),
-                (RecentChange.lengthChanged, l10n.changeLength),
-                (RecentChange.nothing, l10n.changeNothing),
-              ])
+              for (final change in offeredChanges)
                 _Choice(
                   key: ValueKey('change-${change.name}'),
-                  label: label,
+                  label: recentChangeLabel(l10n, change),
                   selected: _changes.contains(change),
                   several: true,
                   onTap: () => setState(() {
-                    // "Nothing" and a change do not go together.
+                    if (_changes.remove(change)) {
+                      return;
+                    }
+                    // "Nothing" goes with no change, and a change does not
+                    // go with its opposite.
                     if (change == RecentChange.nothing) {
-                      _changes = _changes.contains(change) ? {} : {change};
+                      _changes = {change};
                     } else {
-                      _changes.remove(RecentChange.nothing);
-                      if (!_changes.remove(change)) {
-                        _changes.add(change);
-                      }
+                      _changes
+                        ..remove(RecentChange.nothing)
+                        ..remove(RecentChange.lengthChanged)
+                        ..remove(oppositeOf(change))
+                        ..add(change);
                     }
                   }),
                 ),
@@ -787,15 +786,15 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
             TimeOfDay(hour: time.hour, minute: time.minute).format(context);
         return _Question(
           title: l10n.setupRemindersTitle,
-          hint: l10n.reminderDiscreetNote,
+          hint: l10n.setupRemindersHint,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               SwitchListTile(
                 key: const ValueKey('setup-period-reminder'),
                 contentPadding: EdgeInsets.zero,
-                title: Text(l10n.reminderPeriodTitle),
-                subtitle: Text(l10n.reminderPeriodSubtitle),
+                title: Text(l10n.setupPeriodReminder),
+                subtitle: Text(l10n.setupPeriodReminderHint),
                 value: reminders.periodEnabled,
                 onChanged: (on) => setState(
                   () => _reminders = reminders.copyWith(periodEnabled: on),
@@ -835,8 +834,8 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
               SwitchListTile(
                 key: const ValueKey('setup-daily-reminder'),
                 contentPadding: EdgeInsets.zero,
-                title: Text(l10n.reminderDailyTitle),
-                subtitle: Text(l10n.reminderDailySubtitle),
+                title: Text(l10n.setupDailyReminder),
+                subtitle: Text(l10n.setupDailyReminderHint),
                 value: reminders.dailyEnabled,
                 onChanged: (on) => setState(
                   () => _reminders = reminders.copyWith(dailyEnabled: on),
@@ -889,7 +888,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
               for (final (icon, text) in [
                 (Icons.person_off_outlined, l10n.privacyNoAccount),
                 (Icons.phonelink_lock, l10n.privacyOnPhone),
-                (Icons.save_alt, l10n.privacyBackup),
+                (Icons.wifi_off, l10n.privacyBackup),
                 (Icons.block, l10n.privacyNoAds),
               ])
                 _Line(icon: icon, text: text),
@@ -1311,7 +1310,8 @@ class _Choice extends StatelessWidget {
         checked: several ? selected : null,
         selected: several ? null : selected,
         child: Material(
-          color: selected ? scheme.primaryContainer : scheme.surface,
+          // A chosen answer is filled in full: it cannot be missed.
+          color: selected ? scheme.primary : scheme.surface,
           shape: shape,
           clipBehavior: Clip.antiAlias,
           child: InkWell(
@@ -1325,9 +1325,7 @@ class _Choice extends StatelessWidget {
                     if (icon != null) ...[
                       Icon(
                         icon,
-                        color: selected
-                            ? scheme.onPrimaryContainer
-                            : scheme.primary,
+                        color: selected ? scheme.onPrimary : scheme.primary,
                       ),
                       const SizedBox(width: 14),
                     ],
@@ -1335,9 +1333,7 @@ class _Choice extends StatelessWidget {
                       child: Text(
                         label,
                         style: theme.textTheme.titleMedium?.copyWith(
-                          color: selected
-                              ? scheme.onPrimaryContainer
-                              : scheme.onSurface,
+                          color: selected ? scheme.onPrimary : scheme.onSurface,
                         ),
                       ),
                     ),
@@ -1348,7 +1344,7 @@ class _Choice extends StatelessWidget {
                           : (several
                                 ? Icons.add_circle_outline
                                 : Icons.radio_button_unchecked),
-                      color: selected ? scheme.primary : scheme.outline,
+                      color: selected ? scheme.onPrimary : scheme.outline,
                     ),
                   ],
                 ),
