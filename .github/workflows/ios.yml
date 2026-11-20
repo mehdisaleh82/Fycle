@@ -53,6 +53,22 @@ jobs:
             echo "::warning::Signing secrets are missing: the app was compiled but not sent to TestFlight."
           fi
 
+      # Every build makes Xcode ask Apple for a new development certificate,
+      # and the account only holds a few: they are given back before each
+      # build. Distribution certificates and builds already in TestFlight
+      # are not touched. Never fails the build (decision 167).
+      - name: Revoke the development certificates of earlier builds
+        if: steps.secrets.outputs.present == 'true'
+        continue-on-error: true
+        env:
+          ASC_KEY_ID: ${{ secrets.ASC_KEY_ID }}
+          ASC_ISSUER_ID: ${{ secrets.ASC_ISSUER_ID }}
+          ASC_KEY_P8: ${{ secrets.ASC_KEY_P8 }}
+        run: |
+          umask 077
+          printf '%s\n' "$ASC_KEY_P8" > "$RUNNER_TEMP/AuthKey.p8"
+          ASC_KEY_PATH="$RUNNER_TEMP/AuthKey.p8" ruby tool/ci/revoke_development_certificates.rb
+
       # Without the secrets, the app is only compiled, unsigned: enough to
       # know that it builds.
       - name: Build the app without signing
