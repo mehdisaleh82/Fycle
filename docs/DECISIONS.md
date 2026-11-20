@@ -573,7 +573,12 @@ Retour de la testeuse sur la compilation n° 9, rapporté par l'utilisateur : po
     - Jouée au lancement seulement, pas au retour depuis l'arrière-plan. Elle passe par-dessus tout, verrou compris, pendant que l'appli se prépare dessous : elle n'ajoute pas d'attente à l'ouverture de la base.
     - Pas jouée quand le téléphone demande de réduire les animations. Cachée au lecteur d'écran, qui va droit à l'appli.
     - Mêmes couleurs en clair et en sombre. L'écran de lancement natif d'iOS prend le même bleu nuit, pour qu'il n'y ait pas d'éclair blanc avant l'animation.
-    - À faire : l'icône de l'appli est encore celle par défaut de Flutter. À dessiner à partir du même anneau, sur décision de l'utilisateur.
+    - L'icône de l'appli reprend ce signe (décision 140).
+140. **Icône de l'appli** (accord de l'utilisateur du 20 novembre 2026). Remplace l'icône par défaut de Flutter.
+    - Le signe de l'animation de lancement (décision 139) : sur fond bleu nuit, l'anneau crème, les jours de règles en rose, le point doré du jour. L'anneau s'arrête sous le point, pour laisser un souffle avant le début des règles. Ni lettre ni nom : l'icône ne dit pas « règles » à qui regarde l'écran par-dessus l'épaule.
+    - Dessinée par un script, `tool/make_icon.py` (Python et Pillow, sur le poste seulement : rien de cela n'entre dans l'appli, aucune dépendance ajoutée). Il écrit toutes les tailles demandées par iOS, sans transparence, et celles d'Android. Pour changer l'icône : modifier le script et le relancer, jamais retoucher une image à la main.
+    - Android (règle 10) : même icône, plus une icône adaptative (`mipmap-anydpi-v26/ic_launcher.xml`), le signe seul tenant dans la zone qu'aucune forme de lanceur ne coupe. Non vérifiée sur un appareil : Android ne se compile pas encore ici.
+    - La question ouverte « Nom et icône neutres » reste entière : une icône alternative au choix n'est pas faite.
 
 ## Questions ouvertes
 
