@@ -100,7 +100,7 @@ plugin_platform_interface
 posix                   # dart.dev, required by archive, file calls only
 process
 pub_semver
-qr                      # pure Dart, required by pdf, unused
+qr                      # pure Dart, draws the code a partner scans, no network
 record_use
 sky_engine              # SDK
 source_span

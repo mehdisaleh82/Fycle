@@ -3653,26 +3653,20 @@ abstract class AppLocalizations {
   /// No description provided for @partnerShareTitle.
   ///
   /// In en, this message translates to:
-  /// **'Share with my partner'**
+  /// **'Invite my partner'**
   String get partnerShareTitle;
 
   /// No description provided for @partnerShareSubtitle.
   ///
   /// In en, this message translates to:
-  /// **'A protected file that you send yourself. No server.'**
+  /// **'A code to scan. No server.'**
   String get partnerShareSubtitle;
 
   /// No description provided for @partnerShareIntro.
   ///
   /// In en, this message translates to:
-  /// **'You create a file protected by a password and send it to your partner the way you like. With the same app, they see where you are in your cycle.'**
+  /// **'A file protected by a password, which you send the way you like.'**
   String get partnerShareIntro;
-
-  /// No description provided for @partnerShareWhat.
-  ///
-  /// In en, this message translates to:
-  /// **'The file holds the first day of your cycle and the estimate of your next period. Nothing of what you log day by day. It does not update itself: make a new one whenever you want.'**
-  String get partnerShareWhat;
 
   /// No description provided for @partnerShareName.
   ///
@@ -3809,19 +3803,19 @@ abstract class AppLocalizations {
   /// No description provided for @partnerOutdatedBody.
   ///
   /// In en, this message translates to:
-  /// **'The estimate of this file is over. Ask her for a new one.'**
+  /// **'Ask her to show a new code.'**
   String get partnerOutdatedBody;
 
   /// No description provided for @partnerUnknownTitle.
   ///
   /// In en, this message translates to:
-  /// **'No estimate in this file'**
+  /// **'No estimate yet'**
   String get partnerUnknownTitle;
 
   /// No description provided for @partnerUnknownBody.
   ///
   /// In en, this message translates to:
-  /// **'She had not logged a period yet when she made it. Ask her for a new one later.'**
+  /// **'She had not logged a period yet. Scan her code again later.'**
   String get partnerUnknownBody;
 
   /// No description provided for @partnerPregnant.
@@ -3857,13 +3851,13 @@ abstract class AppLocalizations {
   /// No description provided for @partnerMadeOn.
   ///
   /// In en, this message translates to:
-  /// **'File made on {date}. It does not update itself: ask her for a new one from time to time.'**
+  /// **'Shared on {date}. Scan her code again now and then.'**
   String partnerMadeOn(String date);
 
   /// No description provided for @partnerReplace.
   ///
   /// In en, this message translates to:
-  /// **'Open a newer file'**
+  /// **'Open a file'**
   String get partnerReplace;
 
   /// No description provided for @partnerLeave.
@@ -4099,6 +4093,54 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'{days, plural, =0{always the same length} =1{1 day apart} other{{days} days apart}}'**
   String kpiRegularityGap(int days);
+
+  /// No description provided for @partnerInviteScan.
+  ///
+  /// In en, this message translates to:
+  /// **'Scan with the phone camera'**
+  String get partnerInviteScan;
+
+  /// No description provided for @partnerInviteWhat.
+  ///
+  /// In en, this message translates to:
+  /// **'Dates and estimates only. Fycle must be on their phone.'**
+  String get partnerInviteWhat;
+
+  /// No description provided for @partnerInviteFile.
+  ///
+  /// In en, this message translates to:
+  /// **'Send a file instead'**
+  String get partnerInviteFile;
+
+  /// No description provided for @partnerQrLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Code to scan'**
+  String get partnerQrLabel;
+
+  /// No description provided for @partnerLinkErrorTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Unreadable code'**
+  String get partnerLinkErrorTitle;
+
+  /// No description provided for @partnerLinkErrorBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Ask her to show a new code.'**
+  String get partnerLinkErrorBody;
+
+  /// No description provided for @partnerLinkBusyTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'This phone already follows a cycle'**
+  String get partnerLinkBusyTitle;
+
+  /// No description provided for @partnerLinkBusyBody.
+  ///
+  /// In en, this message translates to:
+  /// **'The partner view opens on a phone where Fycle is not set up yet.'**
+  String get partnerLinkBusyBody;
 }
 
 class _AppLocalizationsDelegate

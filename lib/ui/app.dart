@@ -36,7 +36,7 @@ class FycleApp extends StatefulWidget {
   State<FycleApp> createState() => _FycleAppState();
 }
 
-class _FycleAppState extends State<FycleApp> {
+class _FycleAppState extends State<FycleApp> with WidgetsBindingObserver {
   late final AppLock _lock = AppLock(widget.environment.deviceAuth);
 
   /// Light until the store is open and says otherwise.
@@ -54,8 +54,28 @@ class _FycleAppState extends State<FycleApp> {
     Appearance.system => ThemeMode.system,
   };
 
+  /// The last link the phone opened the app with: the code a partner
+  /// scanned.
+  final ValueNotifier<String?> _link = ValueNotifier(null);
+
+  @override
+  void initState() {
+    super.initState();
+    // Before the navigator registers itself: links are for this app to
+    // read, not routes to push.
+    WidgetsBinding.instance.addObserver(this);
+  }
+
+  @override
+  Future<bool> didPushRouteInformation(RouteInformation information) async {
+    _link.value = information.uri.toString();
+    return true;
+  }
+
   @override
   void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    _link.dispose();
     _lock.dispose();
     super.dispose();
   }
@@ -91,6 +111,7 @@ class _FycleAppState extends State<FycleApp> {
       home: RootScreen(
         environment: widget.environment,
         lock: _lock,
+        link: _link,
         onAppearance: _setAppearance,
       ),
     );

@@ -13,6 +13,7 @@ final class PartnerSnapshot {
     this.profile,
     this.cycleStart,
     this.periodLength = 0,
+    this.cycleLength,
     this.earliestNext,
     this.latestNext,
     this.fertileFrom,
@@ -31,6 +32,10 @@ final class PartnerSnapshot {
   /// First day of the cycle going on, and how long her period lasts.
   final CalendarDay? cycleStart;
   final int periodLength;
+
+  /// Her estimated cycle length, so that the periods after the next one
+  /// can still be estimated for a while without a new picture.
+  final int? cycleLength;
 
   /// The range in which her next period is estimated.
   final CalendarDay? earliestNext;
@@ -54,6 +59,7 @@ final class PartnerSnapshot {
     'profile': ?profile?.name,
     'cycleStart': ?cycleStart?.toString(),
     'periodLength': periodLength,
+    'cycleLength': ?cycleLength,
     'earliestNext': ?earliestNext?.toString(),
     'latestNext': ?latestNext?.toString(),
     'fertileFrom': ?fertileFrom?.toString(),
@@ -83,6 +89,7 @@ final class PartnerSnapshot {
     }
     final name = json['name'];
     final length = json['periodLength'];
+    final cycle = json['cycleLength'];
     Profile? profile;
     for (final value in Profile.values) {
       if (value.name == json['profile']) {
@@ -95,6 +102,7 @@ final class PartnerSnapshot {
       profile: profile,
       cycleStart: day('cycleStart'),
       periodLength: length is int && length > 0 && length < 30 ? length : 0,
+      cycleLength: cycle is int && cycle >= 15 && cycle <= 90 ? cycle : null,
       earliestNext: day('earliestNext'),
       latestNext: day('latestNext'),
       fertileFrom: day('fertileFrom'),
@@ -129,6 +137,8 @@ final class PartnerStatus {
     this.dayOfCycle,
     this.daysUntilEarliest,
     this.daysUntilLatest,
+    this.earliest,
+    this.latest,
     this.inFertileWindow = false,
   });
 
@@ -139,12 +149,22 @@ final class PartnerStatus {
   final int? daysUntilEarliest;
   final int? daysUntilLatest;
 
+  /// The range these days are counted to: the one she shared, or a later
+  /// one worked out from it.
+  final CalendarDay? earliest;
+  final CalendarDay? latest;
+
   /// Whether today is inside the estimated fertile window she shared.
   final bool inFertileWindow;
 }
 
-/// Reads [snapshot] on [today]. An estimate made on one day stays one: past
-/// its range, nothing more is said.
+/// How many periods after the next one are still estimated from one
+/// picture. Each one further is a day wider on each side.
+const int partnerCyclesAhead = 2;
+
+/// Reads [snapshot] on [today]. An estimate made on one day stays one:
+/// past its range, the following periods are estimated a little wider,
+/// [partnerCyclesAhead] times, then nothing more is said.
 PartnerStatus partnerStatusOn(CalendarDay today, PartnerSnapshot snapshot) {
   if (snapshot.profile == Profile.pregnant) {
     return const PartnerStatus(moment: PartnerMoment.pregnant);
@@ -164,6 +184,25 @@ PartnerStatus partnerStatusOn(CalendarDay today, PartnerSnapshot snapshot) {
   final fertile =
       from != null && to != null && !today.isBefore(from) && !today.isAfter(to);
   if (latest != null && today.isAfter(latest)) {
+    final length = snapshot.cycleLength;
+    if (earliest != null && length != null) {
+      for (var ahead = 1; ahead <= partnerCyclesAhead; ahead++) {
+        final from = earliest.addDays(ahead * length - ahead);
+        final to = latest.addDays(ahead * length + ahead);
+        if (!today.isAfter(to)) {
+          // Which day of her cycle it is cannot be known any more.
+          return PartnerStatus(
+            moment: today.isBefore(from)
+                ? PartnerMoment.beforePeriod
+                : PartnerMoment.periodExpected,
+            daysUntilEarliest: from.daysSince(today),
+            daysUntilLatest: to.daysSince(today),
+            earliest: from,
+            latest: to,
+          );
+        }
+      }
+    }
     return const PartnerStatus(moment: PartnerMoment.outdated);
   }
   if (day <= snapshot.periodLength) {
@@ -179,6 +218,8 @@ PartnerStatus partnerStatusOn(CalendarDay today, PartnerSnapshot snapshot) {
     dayOfCycle: day,
     daysUntilEarliest: earliest.daysSince(today),
     daysUntilLatest: latest.daysSince(today),
+    earliest: earliest,
+    latest: latest,
     inFertileWindow: fertile,
   );
 }

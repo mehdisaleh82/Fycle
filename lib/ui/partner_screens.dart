@@ -1,10 +1,12 @@
 import 'dart:convert';
 
 import 'package:material_ui/material_ui.dart';
+import 'package:qr/qr.dart';
 
 import '../data/backup_codec.dart';
 import '../domain/calendar_day.dart';
 import '../domain/life_stage.dart';
+import '../domain/partner_link.dart';
 import '../domain/partner_snapshot.dart';
 import '../l10n/app_localizations.dart';
 import 'app_environment.dart';
@@ -29,6 +31,7 @@ PartnerSnapshot partnerSnapshotOf(
     profile: model.profile,
     cycleStart: cycles.isEmpty ? null : cycles.last.start,
     periodLength: cycles.isEmpty ? 0 : cycles.last.periodLength,
+    cycleLength: prediction?.estimatedCycleLength,
     earliestNext: prediction?.earliestStart,
     latestNext: prediction?.latestStart,
     fertileFrom: fertility?.windowStart,
@@ -42,8 +45,10 @@ PartnerSnapshot partnerSnapshotOf(
   );
 }
 
-/// Her side: choose what to share, protect it with a password, and save the
-/// file. She sends it herself, the way she likes; the app sends nothing.
+/// Her side: a card with a code her partner scans with the camera of the
+/// phone, which opens the app on what she shares. From her screen to that
+/// camera: the app sends nothing. A protected file stays possible, for a
+/// partner who is far away.
 class PartnerShareScreen extends StatefulWidget {
   const PartnerShareScreen({
     super.key,
@@ -66,6 +71,9 @@ class _PartnerShareScreenState extends State<PartnerShareScreen> {
   String? _passwordError;
   String? _repeatError;
   bool _busy = false;
+
+  /// Whether the way by file is unfolded.
+  bool _byFile = false;
 
   @override
   void dispose() {
@@ -129,7 +137,17 @@ class _PartnerShareScreenState extends State<PartnerShareScreen> {
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
     final theme = Theme.of(context);
+    final accent = AccentColors.of(context);
     final model = widget.model;
+    final name = _shareName ? model.firstName : null;
+    final link = partnerLinkOf(
+      partnerSnapshotOf(
+        model,
+        widget.environment.today(),
+        shareName: _shareName,
+        shareFertility: _shareFertility,
+      ),
+    );
     return Scaffold(
       appBar: AppBar(title: Text(l10n.partnerShareTitle)),
       body: SafeArea(
@@ -138,15 +156,50 @@ class _PartnerShareScreenState extends State<PartnerShareScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              Text(l10n.partnerShareIntro, style: theme.textTheme.bodyLarge),
-              const SizedBox(height: 8),
+              Card(
+                key: const ValueKey('partner-invite'),
+                color: accent.card,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(28),
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.all(20),
+                  child: Column(
+                    children: [
+                      if (name != null) ...[
+                        Text(
+                          name,
+                          textAlign: TextAlign.center,
+                          style: theme.textTheme.headlineSmall?.copyWith(
+                            color: accent.onCard,
+                          ),
+                        ),
+                        const SizedBox(height: 12),
+                      ],
+                      ConstrainedBox(
+                        constraints: const BoxConstraints(maxWidth: 300),
+                        child: PartnerCode(link: link),
+                      ),
+                      const SizedBox(height: 14),
+                      Text(
+                        l10n.partnerInviteScan,
+                        textAlign: TextAlign.center,
+                        style: theme.textTheme.titleMedium?.copyWith(
+                          color: accent.onCard,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              const SizedBox(height: 12),
               Text(
-                l10n.partnerShareWhat,
+                l10n.partnerInviteWhat,
                 style: theme.textTheme.bodyMedium?.copyWith(
                   color: theme.colorScheme.onSurfaceVariant,
                 ),
               ),
-              const SizedBox(height: 12),
+              const SizedBox(height: 4),
               if (model.firstName != null)
                 SwitchListTile(
                   key: const ValueKey('partner-share-name'),
@@ -164,34 +217,112 @@ class _PartnerShareScreenState extends State<PartnerShareScreen> {
                   value: _shareFertility,
                   onChanged: (on) => setState(() => _shareFertility = on),
                 ),
-              const SizedBox(height: 12),
-              PasswordField(
-                controller: _password,
-                label: l10n.partnerPassword,
-                errorText: _passwordError,
-                enabled: !_busy,
-              ),
-              const SizedBox(height: 12),
-              PasswordField(
-                controller: _repeat,
-                label: l10n.passwordRepeatLabel,
-                errorText: _repeatError,
-                enabled: !_busy,
-                onSubmitted: _create,
-              ),
-              const SizedBox(height: 20),
-              FilledButton.icon(
-                key: const ValueKey('partner-create'),
-                onPressed: _busy ? null : _create,
-                icon: const Icon(Icons.ios_share),
-                label: Text(l10n.partnerCreate),
-              ),
+              if (!_byFile)
+                Align(
+                  alignment: AlignmentDirectional.centerStart,
+                  child: TextButton(
+                    key: const ValueKey('partner-file'),
+                    onPressed: () => setState(() => _byFile = true),
+                    child: Text(l10n.partnerInviteFile),
+                  ),
+                )
+              else ...[
+                const SizedBox(height: 12),
+                Text(l10n.partnerShareIntro, style: theme.textTheme.bodyMedium),
+                const SizedBox(height: 12),
+                PasswordField(
+                  controller: _password,
+                  label: l10n.partnerPassword,
+                  errorText: _passwordError,
+                  enabled: !_busy,
+                ),
+                const SizedBox(height: 12),
+                PasswordField(
+                  controller: _repeat,
+                  label: l10n.passwordRepeatLabel,
+                  errorText: _repeatError,
+                  enabled: !_busy,
+                  onSubmitted: _create,
+                ),
+                const SizedBox(height: 20),
+                FilledButton.icon(
+                  key: const ValueKey('partner-create'),
+                  onPressed: _busy ? null : _create,
+                  icon: const Icon(Icons.ios_share),
+                  label: Text(l10n.partnerCreate),
+                ),
+              ],
             ],
           ),
         ),
       ),
     );
   }
+}
+
+/// The code a partner scans: dark squares on white whatever the theme, with
+/// the quiet margin a camera needs around it.
+class PartnerCode extends StatelessWidget {
+  const PartnerCode({super.key, required this.link});
+
+  final String link;
+
+  @override
+  Widget build(BuildContext context) {
+    final image = QrImage(
+      QrCode.fromData(data: link, errorCorrectLevel: QrErrorCorrectLevel.M),
+    );
+    return Semantics(
+      key: const ValueKey('partner-qr'),
+      image: true,
+      label: AppLocalizations.of(context).partnerQrLabel,
+      child: AspectRatio(
+        aspectRatio: 1,
+        child: DecoratedBox(
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(20),
+          ),
+          child: CustomPaint(painter: _CodePainter(image)),
+        ),
+      ),
+    );
+  }
+}
+
+class _CodePainter extends CustomPainter {
+  _CodePainter(this.image);
+
+  final QrImage image;
+
+  /// Empty squares kept around the code.
+  static const int _quiet = 4;
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final count = image.moduleCount;
+    final side = size.shortestSide / (count + 2 * _quiet);
+    final paint = Paint()..color = const Color(0xFF2B1A24);
+    for (var row = 0; row < count; row++) {
+      for (var column = 0; column < count; column++) {
+        if (image.isDark(row, column)) {
+          // A hair wider than a square, so that no seam shows between two.
+          canvas.drawRect(
+            Rect.fromLTWH(
+              (column + _quiet) * side,
+              (row + _quiet) * side,
+              side + 0.5,
+              side + 0.5,
+            ),
+            paint,
+          );
+        }
+      }
+    }
+  }
+
+  @override
+  bool shouldRepaint(_CodePainter old) => old.image != image;
 }
 
 /// Asks for the password of a partner file. Returns null if cancelled.
@@ -253,8 +384,8 @@ class PartnerScreen extends StatelessWidget {
     final onCard = accent.onCard;
     final status = partnerStatusOn(today, snapshot);
     final name = snapshot.name;
-    final earliest = snapshot.earliestNext;
-    final latest = snapshot.latestNext;
+    final earliest = status.earliest ?? snapshot.earliestNext;
+    final latest = status.latest ?? snapshot.latestNext;
     final range = earliest == null || latest == null
         ? null
         : l10n.partnerRange(shortDate(l10n, earliest), shortDate(l10n, latest));

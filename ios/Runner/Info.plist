@@ -35,6 +35,17 @@
 	<string>Fycle reads the period days you already logged in Health to copy them into your journal. Nothing leaves your phone.</string>
 	<key>NSHealthUpdateUsageDescription</key>
 	<string>Fycle writes nothing to Health.</string>
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleURLName</key>
+			<string>app.fycle.partner</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>fycle</string>
+			</array>
+		</dict>
+	</array>
 	<key>LSSupportsOpeningDocumentsInPlace</key>
 	<true/>
 	<key>UIFileSharingEnabled</key>

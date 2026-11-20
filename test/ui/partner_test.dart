@@ -1,11 +1,14 @@
 import 'dart:convert';
 
+import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fycle/data/file_gateway.dart';
 import 'package:fycle/domain/calendar_day.dart';
 import 'package:fycle/domain/day_entry.dart';
 import 'package:fycle/domain/life_stage.dart';
+import 'package:fycle/domain/partner_link.dart';
 import 'package:fycle/domain/partner_snapshot.dart';
+import 'package:fycle/ui/partner_screens.dart';
 import 'package:material_ui/material_ui.dart';
 
 import '../data/fakes.dart';
@@ -81,6 +84,109 @@ void main() {
     });
   });
 
+  /// What the phone does when its camera reads a code of the app.
+  Future<void> scan(WidgetTester tester, String link) async {
+    await tester.binding.defaultBinaryMessenger.handlePlatformMessage(
+      'flutter/navigation',
+      const JSONMethodCodec().encodeMethodCall(
+        MethodCall('pushRouteInformation', {'location': link}),
+      ),
+      (_) {},
+    );
+    await tester.pumpAndSettle();
+  }
+
+  final lina = PartnerSnapshot(
+    madeOn: CalendarDay(2026, 3, 18),
+    name: 'Lina',
+    profile: Profile.tracking,
+    cycleStart: CalendarDay(2026, 2, 28),
+    periodLength: 4,
+    cycleLength: 28,
+    earliestNext: CalendarDay(2026, 3, 25),
+    latestNext: CalendarDay(2026, 3, 31),
+  );
+
+  testWidgets('she shows a code that holds what she chooses to share', (
+    tester,
+  ) async {
+    final harness = Harness(tester);
+    await harness.seed(days: threePeriods());
+    await harness.pumpApp();
+
+    await tapVisible(tester, find.byIcon(Icons.settings_outlined));
+    await tap(tester, 'partner-share');
+    final link = tester.widget<PartnerCode>(find.byType(PartnerCode)).link;
+    final snapshot = partnerFromLink(link)!;
+    expect(snapshot.cycleStart, CalendarDay(2026, 2, 28));
+    expect(snapshot.earliestNext, CalendarDay(2026, 3, 25));
+    expect(snapshot.cycleLength, 28);
+    // The fertile window is not shared unless she says so.
+    expect(snapshot.fertileFrom, isNull);
+    // No password is asked for a code.
+    expect(find.byType(TextField), findsNothing);
+    expect(harness.files.saved, isEmpty);
+  });
+
+  testWidgets('a partner scans the code and sees where she is', (tester) async {
+    final harness = Harness(tester);
+    await harness.pumpApp();
+    expect(find.text('Welcome to Fycle'), findsOneWidget);
+
+    await scan(tester, partnerLinkOf(lina));
+
+    expect(find.text("Lina's cycle"), findsOneWidget);
+    expect(find.text('Period in 5 to 11 days'), findsOneWidget);
+
+    // The view is still there at the next launch.
+    await harness.pumpApp();
+    expect(find.text("Lina's cycle"), findsOneWidget);
+  });
+
+  testWidgets('a code scanned again replaces the one before', (tester) async {
+    final harness = Harness(tester);
+    await harness.pumpApp();
+    await scan(tester, partnerLinkOf(lina));
+    await scan(
+      tester,
+      partnerLinkOf(
+        PartnerSnapshot(
+          madeOn: CalendarDay(2026, 3, 20),
+          name: 'Lina',
+          profile: Profile.tracking,
+          cycleStart: CalendarDay(2026, 3, 19),
+          periodLength: 4,
+        ),
+      ),
+    );
+    expect(find.text('Her period is going on'), findsOneWidget);
+  });
+
+  testWidgets('a code that is not one opens nothing', (tester) async {
+    final harness = Harness(tester);
+    await harness.pumpApp();
+
+    await scan(tester, 'fycle://p/not-a-code');
+
+    expect(find.text('Unreadable code'), findsOneWidget);
+    await tapVisible(tester, find.text('OK'));
+    expect(find.text('Welcome to Fycle'), findsOneWidget);
+  });
+
+  testWidgets('a phone that follows a cycle of its own keeps it', (
+    tester,
+  ) async {
+    final harness = Harness(tester);
+    await harness.seed(days: threePeriods());
+    await harness.pumpApp();
+
+    await scan(tester, partnerLinkOf(lina));
+
+    expect(find.text('This phone already follows a cycle'), findsOneWidget);
+    await tapVisible(tester, find.text('OK'));
+    expect(find.text("Lina's cycle"), findsNothing);
+  });
+
   testWidgets('she makes a file with what she chooses to share', (
     tester,
   ) async {
@@ -95,6 +201,7 @@ void main() {
       tester.widget<SwitchListTile>(key('partner-share-fertility')).value,
       isFalse,
     );
+    await tap(tester, 'partner-file');
     final fields = find.byType(TextField);
     await tester.enterText(fields.at(0), password);
     await tester.enterText(fields.at(1), password);

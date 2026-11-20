@@ -8,6 +8,7 @@ import '../data/backup_codec.dart';
 import '../data/file_gateway.dart';
 import '../data/fycle_database.dart';
 import '../data/local_store.dart';
+import '../domain/partner_link.dart';
 import '../domain/partner_snapshot.dart';
 import '../domain/start_profile.dart';
 import '../l10n/app_localizations.dart';
@@ -35,10 +36,15 @@ class RootScreen extends StatefulWidget {
     required this.environment,
     required this.lock,
     required this.onAppearance,
+    this.link,
   });
 
   final AppEnvironment environment;
   final AppLock lock;
+
+  /// The link the phone opened the app with, when a partner scanned her
+  /// code. Emptied once read.
+  final ValueNotifier<String?>? link;
 
   /// Called with the appearance stored on this phone, once the store is
   /// open and after every change.
@@ -64,6 +70,7 @@ class _RootScreenState extends State<RootScreen> with WidgetsBindingObserver {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addObserver(this);
+    widget.link?.addListener(_onLink);
     widget.lock.onTurnedOff = () => _model?.setAppLockEnabled(false);
     _open();
   }
@@ -71,6 +78,7 @@ class _RootScreenState extends State<RootScreen> with WidgetsBindingObserver {
   @override
   void dispose() {
     WidgetsBinding.instance.removeObserver(this);
+    widget.link?.removeListener(_onLink);
     widget.lock.onTurnedOff = null;
     _closeModel();
     super.dispose();
@@ -141,6 +149,8 @@ class _RootScreenState extends State<RootScreen> with WidgetsBindingObserver {
         _partner = _readPartner(model);
         _phase = _Phase.ready;
       });
+      // A code scanned while the store was opening.
+      unawaited(_onLink());
       _syncReminders();
       if (_onboarded) {
         _alignFertilityWithAnswers(model);
@@ -261,6 +271,41 @@ class _RootScreenState extends State<RootScreen> with WidgetsBindingObserver {
       return;
     }
     model.store.database.partnerView = text;
+    setState(() => _partner = snapshot);
+  }
+
+  /// A partner scanned her code: the phone opened the app with a link that
+  /// holds what she shares. Kept on this phone; nothing is sent anywhere.
+  Future<void> _onLink() async {
+    final link = widget.link?.value;
+    final model = _model;
+    if (link == null || model == null || !mounted) {
+      // Not open yet: read once the store is.
+      return;
+    }
+    widget.link?.value = null;
+    final l10n = AppLocalizations.of(context);
+    final snapshot = partnerFromLink(link);
+    if (snapshot == null) {
+      await showNotice(
+        context,
+        title: l10n.partnerLinkErrorTitle,
+        body: l10n.partnerLinkErrorBody,
+      );
+      return;
+    }
+    if (_onboarded) {
+      // This phone follows a cycle of its own: one or the other.
+      await showNotice(
+        context,
+        title: l10n.partnerLinkBusyTitle,
+        body: l10n.partnerLinkBusyBody,
+      );
+      return;
+    }
+    model.store.database.partnerView = jsonEncode(snapshot.toJson());
+    // Whatever was open over the setup goes away.
+    Navigator.of(context).popUntil((route) => route.isFirst);
     setState(() => _partner = snapshot);
   }
 

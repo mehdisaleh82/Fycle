@@ -79,6 +79,23 @@ void main() {
     );
   });
 
+  test('both phones hand the links of the app to the app', () {
+    // The code a partner scans is a link of the app: without this, the
+    // camera of the phone does not offer to open it (decision 159).
+    final plist = File('ios/Runner/Info.plist')
+        .readAsStringSync()
+        .replaceAll(RegExp(r'\s'), '');
+    expect(
+      plist,
+      contains(
+        '<key>CFBundleURLSchemes</key><array><string>fycle</string></array>',
+      ),
+    );
+    final manifest = File('android/app/src/main/AndroidManifest.xml')
+        .readAsStringSync();
+    expect(manifest, contains('android:scheme="fycle"'));
+  });
+
   test('iOS declares no remote notification', () {
     // Reminders are scheduled on the phone. Nothing is pushed by a server.
     final plist = File('ios/Runner/Info.plist').readAsStringSync();

@@ -2341,19 +2341,14 @@ class AppLocalizationsEn extends AppLocalizations {
       'A count of what you ticked, to show a doctor. Nothing is said of causes or treatments.';
 
   @override
-  String get partnerShareTitle => 'Share with my partner';
+  String get partnerShareTitle => 'Invite my partner';
 
   @override
-  String get partnerShareSubtitle =>
-      'A protected file that you send yourself. No server.';
+  String get partnerShareSubtitle => 'A code to scan. No server.';
 
   @override
   String get partnerShareIntro =>
-      'You create a file protected by a password and send it to your partner the way you like. With the same app, they see where you are in your cycle.';
-
-  @override
-  String get partnerShareWhat =>
-      'The file holds the first day of your cycle and the estimate of your next period. Nothing of what you log day by day. It does not update itself: make a new one whenever you want.';
+      'A file protected by a password, which you send the way you like.';
 
   @override
   String get partnerShareName => 'Give my first name';
@@ -2442,15 +2437,14 @@ class AppLocalizationsEn extends AppLocalizations {
   String get partnerOutdatedTitle => 'These dates are behind';
 
   @override
-  String get partnerOutdatedBody =>
-      'The estimate of this file is over. Ask her for a new one.';
+  String get partnerOutdatedBody => 'Ask her to show a new code.';
 
   @override
-  String get partnerUnknownTitle => 'No estimate in this file';
+  String get partnerUnknownTitle => 'No estimate yet';
 
   @override
   String get partnerUnknownBody =>
-      'She had not logged a period yet when she made it. Ask her for a new one later.';
+      'She had not logged a period yet. Scan her code again later.';
 
   @override
   String get partnerPregnant => 'She is pregnant';
@@ -2480,11 +2474,11 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String partnerMadeOn(String date) {
-    return 'File made on $date. It does not update itself: ask her for a new one from time to time.';
+    return 'Shared on $date. Scan her code again now and then.';
   }
 
   @override
-  String get partnerReplace => 'Open a newer file';
+  String get partnerReplace => 'Open a file';
 
   @override
   String get partnerLeave => 'Stop following';
@@ -2648,4 +2642,30 @@ class AppLocalizationsEn extends AppLocalizations {
     );
     return '$_temp0';
   }
+
+  @override
+  String get partnerInviteScan => 'Scan with the phone camera';
+
+  @override
+  String get partnerInviteWhat =>
+      'Dates and estimates only. Fycle must be on their phone.';
+
+  @override
+  String get partnerInviteFile => 'Send a file instead';
+
+  @override
+  String get partnerQrLabel => 'Code to scan';
+
+  @override
+  String get partnerLinkErrorTitle => 'Unreadable code';
+
+  @override
+  String get partnerLinkErrorBody => 'Ask her to show a new code.';
+
+  @override
+  String get partnerLinkBusyTitle => 'This phone already follows a cycle';
+
+  @override
+  String get partnerLinkBusyBody =>
+      'The partner view opens on a phone where Fycle is not set up yet.';
 }
