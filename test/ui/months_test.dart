@@ -75,13 +75,23 @@ void main() {
     expect(within('month-2026-1', 'Rien de saisi'), findsOneWidget);
   });
 
-  testWidgets('first launch says that it all rests on what is logged', (
+  testWidgets('the setup ends on what it all rests on: what is logged', (
     tester,
   ) async {
     final harness = Harness(tester);
     await harness.pumpApp(locale: 'fr');
+    await tapVisible(tester, find.byKey(const ValueKey('onboarding-next')));
+    for (var i = 0; i < 8; i++) {
+      await tapVisible(
+        tester,
+        find.byKey(const ValueKey('onboarding-step-skip')),
+      );
+    }
     expect(
-      find.text('Tout se joue dans ce que tu notes, mois après mois.'),
+      find.text(
+        "Note tes règles le jour où elles commencent : l'estimation "
+        "s'affine à chaque cycle.",
+      ),
       findsOneWidget,
     );
   });

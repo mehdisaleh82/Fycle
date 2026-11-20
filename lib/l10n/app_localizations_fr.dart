@@ -72,13 +72,6 @@ class AppLocalizationsFr extends AppLocalizations {
       'Quand tes dernières règles ont-elles commencé ?';
 
   @override
-  String get onboardingLastPeriodHint =>
-      'Une date approximative suffit. Tu pourras la corriger plus tard.';
-
-  @override
-  String get onboardingChooseDate => 'Choisir une date';
-
-  @override
   String get onboardingCycleLengthQuestion =>
       'Combien de temps dure ton cycle d\'habitude ?';
 
@@ -86,13 +79,7 @@ class AppLocalizationsFr extends AppLocalizations {
   String get onboardingStart => 'Commencer';
 
   @override
-  String get onboardingToday => 'Aujourd\'hui';
-
-  @override
-  String get onboardingYesterday => 'Hier';
-
-  @override
-  String get onboardingSkip => 'Pas encore : je le noterai le jour venu';
+  String get onboardingSkip => 'Not yet: I\'ll log it the day it starts';
 
   @override
   String get onboardingRestore => 'J\'ai un fichier de sauvegarde';
@@ -1408,10 +1395,6 @@ class AppLocalizationsFr extends AppLocalizations {
   }
 
   @override
-  String get onboardingMonths =>
-      'Tout se joue dans ce que tu notes, mois après mois.';
-
-  @override
   String get ringCountdownCaption => 'Jours restants';
 
   @override
@@ -1518,4 +1501,191 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get remindersAskLater => 'Plus tard';
+
+  @override
+  String get setupWelcomeBody =>
+      'Quelques questions pour partir de toi, pas d\'une moyenne. Chacune peut être passée.';
+
+  @override
+  String get setupBegin => 'C\'est parti';
+
+  @override
+  String get setupSkipAll => 'Passer la configuration';
+
+  @override
+  String get setupSkip => 'Passer';
+
+  @override
+  String get setupNext => 'Continuer';
+
+  @override
+  String get setupBack => 'Retour';
+
+  @override
+  String setupProgress(int step, int total) {
+    return 'Étape $step sur $total';
+  }
+
+  @override
+  String get setupNameTitle => 'Quel est ton prénom ?';
+
+  @override
+  String get setupNameHint =>
+      'Il reste sur ce téléphone. Tu peux laisser vide.';
+
+  @override
+  String get setupNameLabel => 'Prénom';
+
+  @override
+  String get setupBirthTitle => 'En quelle année es-tu née ?';
+
+  @override
+  String get setupBirthHint =>
+      'La durée d\'un cycle change avec l\'âge : la première estimation part de là.';
+
+  @override
+  String get setupGoalsTitle => 'Qu\'est-ce qui t\'amène ?';
+
+  @override
+  String get setupGoalsHint => 'Plusieurs réponses possibles.';
+
+  @override
+  String get goalTrackPeriods => 'Suivre mes règles';
+
+  @override
+  String get goalUnderstandBody => 'Mieux comprendre mon corps';
+
+  @override
+  String get goalConceive => 'Concevoir un enfant';
+
+  @override
+  String get goalPerimenopause => 'Suivre une périménopause';
+
+  @override
+  String get setupRegularTitle => 'Tes règles sont-elles régulières ?';
+
+  @override
+  String get setupRegularHint =>
+      'C\'est-à-dire que le nombre de jours entre deux règles reste à peu près le même.';
+
+  @override
+  String get regularYes => 'Oui';
+
+  @override
+  String get regularNo => 'Non';
+
+  @override
+  String get regularUnknown => 'Je ne sais pas';
+
+  @override
+  String get regularNoPeriods => 'Je n\'ai pas de règles';
+
+  @override
+  String get setupLengthsTitle => 'Tes durées habituelles';
+
+  @override
+  String get setupLengthsHint =>
+      'Si tu les connais. Sinon laisse : tes propres dates le diront.';
+
+  @override
+  String get setupCycleLength => 'Ton cycle';
+
+  @override
+  String get setupCycleLengthHelper =>
+      'Du premier jour des règles au premier jour des suivantes.';
+
+  @override
+  String get setupPeriodLength => 'Tes règles';
+
+  @override
+  String get setupPeriodLengthHelper =>
+      'Le nombre de jours que durent tes règles.';
+
+  @override
+  String setupDays(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count jours',
+      one: '1 jour',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get setupFewer => 'Un jour de moins';
+
+  @override
+  String get setupMore => 'Un jour de plus';
+
+  @override
+  String get setupChangesTitle =>
+      'As-tu remarqué des changements dans tes règles récemment ?';
+
+  @override
+  String get setupChangesHint =>
+      'Plusieurs réponses possibles. Si un changement t\'inquiète, parles-en à un professionnel de santé.';
+
+  @override
+  String get changeHeavier => 'Mon flux est plus abondant';
+
+  @override
+  String get changeLighter => 'Mon flux est plus léger';
+
+  @override
+  String get changeLessRegular => 'Mes règles sont moins régulières';
+
+  @override
+  String get changeLength => 'La durée de mes règles a changé';
+
+  @override
+  String get changeNothing => 'Rien n\'a changé';
+
+  @override
+  String get setupLastHint =>
+      'Touche le jour. Une date approximative suffit : tu pourras la corriger plus tard.';
+
+  @override
+  String get setupRemindersTitle => 'Tes rappels';
+
+  @override
+  String get setupLockTitle => 'Rien que pour toi';
+
+  @override
+  String get setupLockHint =>
+      'Personne n\'ouvre l\'appli sans toi. Tu peux changer cela à tout moment dans les réglages.';
+
+  @override
+  String get setupReadyTitle => 'Tout est prêt';
+
+  @override
+  String setupReadyTitleName(String name) {
+    return 'Tout est prêt, $name';
+  }
+
+  @override
+  String get setupReadyBody =>
+      'Note tes règles le jour où elles commencent : l\'estimation s\'affine à chaque cycle.';
+
+  @override
+  String get settingsAnswers => 'Mes réponses';
+
+  @override
+  String get settingsAnswersSubtitle =>
+      'Prénom, objectifs, régularité, durées habituelles.';
+
+  @override
+  String periodEndDeclaredDays(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Encore $count jours environ, d\'après ce que tu as indiqué',
+      one: 'Encore 1 jour environ, d\'après ce que tu as indiqué',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get periodEndDeclaredToday =>
+      'Sans doute le dernier jour, d\'après ce que tu as indiqué';
 }

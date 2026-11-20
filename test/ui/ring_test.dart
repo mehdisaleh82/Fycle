@@ -96,8 +96,7 @@ void main() {
   testWidgets('from the first day after the first launch', (tester) async {
     final harness = Harness(tester);
     await harness.pumpApp();
-    await tapVisible(tester, find.byKey(const ValueKey('last-period-today')));
-    await tapVisible(tester, find.text('Start'));
+    await finishSetup(tester, lastPeriod: harness.today);
     expect(middle(tester), ['Day', '1']);
 
     await tapVisible(tester, _ring);
@@ -334,8 +333,7 @@ void main() {
   testWidgets('and says nothing of it before two past periods', (tester) async {
     final harness = Harness(tester);
     await harness.pumpApp();
-    await tapVisible(tester, find.byKey(const ValueKey('last-period-today')));
-    await tapVisible(tester, find.text('Start'));
+    await finishSetup(tester, lastPeriod: harness.today);
     expect(find.textContaining('past periods'), findsNothing);
   });
 

@@ -1,0 +1,49 @@
+/// What she says of herself when the app is set up, before her own dates
+/// take over. Every answer is optional.
+library;
+
+/// Why she uses the app. Several may hold at once.
+enum Goal { trackPeriods, understandBody, conceive, perimenopause }
+
+/// Whether the number of days between her periods stays about the same.
+///
+/// FIGO (Munro, Critchley, Fraser, 2018) calls cycles regular when the
+/// shortest and the longest differ by no more than 7 to 9 days, depending
+/// on age. Here it is her own word for it, not a measure.
+enum CycleRegularity { regular, irregular, unknown, noPeriods }
+
+/// A change she noticed in her periods lately.
+enum RecentChange {
+  heavierFlow,
+  lighterFlow,
+  lessRegular,
+  lengthChanged,
+  nothing,
+}
+
+/// A usual period length is accepted within this range, in days.
+const int minPeriodLength = 1;
+const int maxPeriodLength = 14;
+
+/// From this age on, the question about recent changes is asked even when
+/// she did not name the perimenopause among her goals. An assumption of the
+/// app, set early on purpose: the question costs one tap to pass.
+const int recentChangesFromAge = 40;
+
+/// Whether the setup asks about recent changes in her periods.
+bool asksAboutRecentChanges({required Set<Goal> goals, int? age}) =>
+    goals.contains(Goal.perimenopause) ||
+    (age != null && age >= recentChangesFromAge);
+
+/// Whether the estimate of the fertile window is shown from the start.
+/// Without an answer, it is. With answers, only if one of them is about
+/// conceiving or about understanding her body: someone who only wants the
+/// dates of her periods gets a plainer home.
+bool showsFertilityFor(Set<Goal> goals) =>
+    goals.isEmpty ||
+    goals.contains(Goal.conceive) ||
+    goals.contains(Goal.understandBody);
+
+/// Whether the setup asks for dates and lengths of periods at all.
+bool hasPeriods(CycleRegularity? regularity) =>
+    regularity != CycleRegularity.noPeriods;

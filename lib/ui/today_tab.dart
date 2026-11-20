@@ -45,12 +45,19 @@ class TodayTab extends StatelessWidget {
     final estimate = periodEndEstimate(
       dayOfPeriod: status.dayOfPeriod,
       cycles: model.cycles,
+      declaredPeriodLength: model.usualPeriodLength,
     );
     if (estimate == null) {
       return null;
     }
     final from = estimate.earliestDaysLeft;
     final to = estimate.latestDaysLeft;
+    if (estimate.periodsUsed == 0) {
+      // From what she said, not from what she logged.
+      return to == 0
+          ? l10n.periodEndDeclaredToday
+          : l10n.periodEndDeclaredDays(to);
+    }
     if (to == 0) {
       return l10n.periodEndToday;
     }

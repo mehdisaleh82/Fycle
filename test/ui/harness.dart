@@ -253,12 +253,54 @@ Future<void> tapVisible(WidgetTester tester, Finder finder) async {
   await tester.pumpAndSettle();
 }
 
+/// Goes through the setup of the first launch without answering, except for
+/// the first day of the last period when [lastPeriod] is given. Reminders
+/// are left as proposed: both on.
+Future<void> finishSetup(WidgetTester tester, {CalendarDay? lastPeriod}) async {
+  const next = ValueKey('onboarding-next');
+  const finish = ValueKey('onboarding-finish');
+  await tapVisible(tester, find.byKey(next));
+  for (var i = 0; i < 12 && find.byKey(finish).evaluate().isEmpty; i++) {
+    final pick = find.byKey(ValueKey('pick-$lastPeriod'));
+    if (pick.evaluate().isNotEmpty) {
+      await tapVisible(tester, pick);
+      await tapVisible(tester, find.byKey(next));
+    } else if (find
+        .byKey(const ValueKey('setup-period-reminder'))
+        .evaluate()
+        .isNotEmpty) {
+      await tapVisible(tester, find.byKey(next));
+    } else {
+      await tapVisible(
+        tester,
+        find.byKey(const ValueKey('onboarding-step-skip')),
+      );
+    }
+  }
+  await tapVisible(tester, find.byKey(finish));
+}
+
 /// From the first launch, goes through every screen and opens every dialog.
 /// A layout that overflows makes the test fail.
 Future<void> walkEveryScreen(WidgetTester tester, Harness harness) async {
-  await tapVisible(tester, find.byIcon(Icons.calendar_today));
-  await tapVisible(tester, find.byType(TextButton).last);
-  await tapVisible(tester, find.byType(FilledButton));
+  // The setup, screen by screen, with the last period today.
+  const next = ValueKey('onboarding-next');
+  const finish = ValueKey('onboarding-finish');
+  await tapVisible(tester, find.byKey(next));
+  for (var i = 0; i < 12 && find.byKey(finish).evaluate().isEmpty; i++) {
+    final today = find.byKey(ValueKey('pick-${harness.today}'));
+    if (today.evaluate().isNotEmpty) {
+      await tapVisible(tester, today);
+    }
+    // The year of birth cannot be confirmed before the wheel was turned.
+    final blocked =
+        tester.widget<FilledButton>(find.byKey(next)).onPressed == null;
+    await tapVisible(
+      tester,
+      find.byKey(blocked ? const ValueKey('onboarding-step-skip') : next),
+    );
+  }
+  await tapVisible(tester, find.byKey(finish));
 
   // Home, then the entry of the day.
   expect(find.byKey(const ValueKey('log-today')), findsOneWidget);

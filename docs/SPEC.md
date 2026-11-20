@@ -35,6 +35,8 @@ Après le retour de la testeuse, l'appli a été épurée (décisions 120 à 126
 
 Puis l'anneau est devenu le centre de l'appli (décisions 134 à 136) : il se parcourt au doigt, jour par jour ; l'accueil tient en deux cartes et le bilan en trois, le reste à un appui ; le moteur distingue la moyenne publiée pour son âge de la durée qu'elle déclare, et estime la fin des règles en cours à partir de ses règles passées.
 
+Le premier lancement est devenu un parcours d'une dizaine d'écrans (décision 141) : prénom, année de naissance, objectifs, régularité, durées, dernières règles, rappels, verrouillage. Les réponses règlent la première estimation et ce que l'appli affiche. Étape suivante : le suivi de la périménopause.
+
 Suite prévue (décision 89) : migraines (D), puis F à L.
 
 ## Objectifs

@@ -1,7 +1,6 @@
 import 'package:material_ui/material_ui.dart';
 
 import '../data/appearance.dart';
-import '../data/device_auth.dart';
 import '../domain/reminders.dart';
 import '../l10n/app_localizations.dart';
 import 'app_environment.dart';
@@ -11,6 +10,7 @@ import 'cycle_length_field.dart';
 import 'cycle_model.dart';
 import 'dialogs.dart';
 import 'disclaimer_card.dart';
+import 'onboarding_screen.dart';
 
 /// Settings: the usual cycle length, the reminders, the app lock, the
 /// appearance, and
@@ -127,34 +127,24 @@ class SettingsScreen extends StatelessWidget {
     }
   }
 
-  /// Turning the lock on or off asks who is holding the phone first: a
-  /// lock that cannot be opened is never turned on, and a passer-by cannot
-  /// turn it off.
-  Future<void> _setAppLock(BuildContext context, bool enabled) async {
-    final l10n = AppLocalizations.of(context);
-    final auth = environment.deviceAuth;
-    var outcome = AuthOutcome.unavailable;
-    if (await auth.isAvailable()) {
-      outcome = await auth.authenticate(l10n.lockReason);
-    }
-    switch (outcome) {
-      case AuthOutcome.success:
-        model.setAppLockEnabled(enabled);
-      case AuthOutcome.failed:
-        break;
-      case AuthOutcome.unavailable:
-        if (!enabled) {
-          // Nothing can check any more: the lock protects nothing.
-          model.setAppLockEnabled(false);
-        } else if (context.mounted) {
-          await showNotice(
-            context,
-            title: l10n.lockUnavailableTitle,
-            body: l10n.lockUnavailableBody,
-          );
-        }
-    }
-  }
+  Future<void> _setAppLock(BuildContext context, bool enabled) => changeAppLock(
+    context,
+    model: model,
+    auth: environment.deviceAuth,
+    enabled: enabled,
+  );
+
+  /// The questions of the setup again, with what she answered.
+  void _editAnswers(BuildContext context) => Navigator.of(context).push(
+    MaterialPageRoute<void>(
+      builder: (context) => OnboardingScreen(
+        model: model,
+        environment: environment,
+        editing: true,
+        onDone: () => Navigator.of(context).pop(),
+      ),
+    ),
+  );
 
   /// Turning the estimate on first shows what it is not.
   Future<void> _setFertilityEstimate(BuildContext context, bool enabled) async {
@@ -223,6 +213,14 @@ class SettingsScreen extends StatelessWidget {
               _SectionTitle(l10n.settingsCycleSection),
               _Group(
                 children: [
+                  ListTile(
+                    key: const ValueKey('edit-answers'),
+                    leading: const Icon(Icons.person_outline),
+                    title: Text(l10n.settingsAnswers),
+                    subtitle: Text(l10n.settingsAnswersSubtitle),
+                    trailing: const Icon(Icons.chevron_right),
+                    onTap: () => _editAnswers(context),
+                  ),
                   ListTile(
                     leading: const Icon(Icons.loop),
                     title: Text(l10n.settingsCycleLength),

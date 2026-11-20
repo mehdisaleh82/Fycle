@@ -18,10 +18,6 @@ import 'widget_sync.dart';
 
 enum _Phase { opening, unreadable, ready }
 
-/// Name under which the phone remembers that reminders were turned on by
-/// default once.
-const String _reminderDefault = 'reminders_default';
-
 /// Opens the local store, then shows the right screen: the first-launch
 /// screen until it is passed, the home screen afterwards, or an
 /// explanation when the stored data can no longer be read. It also keeps the
@@ -215,10 +211,10 @@ class _RootScreenState extends State<RootScreen> with WidgetsBindingObserver {
   /// before. A refusal leaves them off, without a word: the home tab offers
   /// them again once. Whatever the user chooses afterwards is kept.
   Future<void> _applyReminderDefault(CycleModel model) async {
-    if (model.suggestionDismissed(_reminderDefault)) {
+    if (model.suggestionDismissed(reminderDefaultSuggestion)) {
       return;
     }
-    model.dismissSuggestion(_reminderDefault);
+    model.dismissSuggestion(reminderDefaultSuggestion);
     final current = model.reminderSettings;
     if (current.periodEnabled || current.dailyEnabled) {
       // She already chose.
@@ -324,7 +320,7 @@ class _RootScreenState extends State<RootScreen> with WidgetsBindingObserver {
     if (!_onboarded) {
       return OnboardingScreen(
         model: model,
-        today: widget.environment.today,
+        environment: widget.environment,
         onDone: () {
           model.completeOnboarding();
           setState(() => _onboarded = true);

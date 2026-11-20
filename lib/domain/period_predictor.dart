@@ -39,6 +39,18 @@ final class PeriodPredictor {
   /// gave herself: she knows her cycle better than an average does.
   static const int declaredMarginDays = 5;
 
+  /// Margin on each side while she says her cycles are irregular and too
+  /// few of them are known to measure it. FIGO (2018) calls cycles
+  /// irregular when the shortest and the longest differ by more than 7 to
+  /// 9 days: by how much, only her own dates will tell, so the range starts
+  /// as wide as the app allows.
+  static const int irregularMarginDays = maxMarginDays;
+
+  /// While she says her cycles are irregular, the range never gets
+  /// narrower than this on each side before three cycles are known: half
+  /// of the 9 days of the FIGO threshold, rounded up.
+  static const int irregularMinMarginDays = 5;
+
   /// The range never reaches further than this on each side.
   static const int maxMarginDays = 10;
 
@@ -54,6 +66,9 @@ final class PeriodPredictor {
   /// her own cycles come in; it never narrows the range, since it says
   /// nothing of her.
   ///
+  /// [irregular] is her own word for her cycles: the range then starts
+  /// wide, and narrows only as her own dates show how much they vary.
+  ///
   /// Returns null when [periodStarts] is empty: there is nothing to count
   /// from. Throws an [ArgumentError] if [usualCycleLength] is outside
   /// [minCycleLength]..[maxCycleLength].
@@ -61,6 +76,7 @@ final class PeriodPredictor {
     required Iterable<CalendarDay> periodStarts,
     int? usualCycleLength,
     int? referenceCycleLength,
+    bool irregular = false,
   }) {
     if (usualCycleLength != null &&
         (usualCycleLength < minCycleLength ||
@@ -90,7 +106,9 @@ final class PeriodPredictor {
       return _prediction(
         lastStart: lastStart,
         cycleLength: startingLength ?? defaultCycleLength,
-        margin: usualCycleLength != null
+        margin: irregular
+            ? irregularMarginDays
+            : usualCycleLength != null
             ? declaredMarginDays
             : populationMarginDays,
         confidence: PredictionConfidence.low,
@@ -129,7 +147,7 @@ final class PeriodPredictor {
     final spreadMargin = (spreadFactor * spread - 1e-9).ceil();
     final margin = math.min(
       maxMarginDays,
-      math.max(_minMargin(cycles.length), spreadMargin),
+      math.max(_minMargin(cycles.length, irregular), spreadMargin),
     );
 
     return _prediction(
@@ -190,9 +208,10 @@ final class PeriodPredictor {
 
   /// Narrowest margin allowed for a given number of cycles: few cycles, wide
   /// range.
-  int _minMargin(int cycleCount) {
+  int _minMargin(int cycleCount, bool irregular) {
     if (cycleCount >= 6) return 1;
     if (cycleCount >= 3) return 2;
+    if (irregular) return irregularMinMarginDays;
     if (cycleCount == 2) return 3;
     return 4;
   }

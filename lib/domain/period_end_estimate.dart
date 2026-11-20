@@ -20,7 +20,8 @@ final class PeriodEndEstimate {
   /// Days left after today if it is as long as her longest recent one.
   final int latestDaysLeft;
 
-  /// Number of past periods the estimate is based on.
+  /// Number of past periods the estimate is based on. Zero when it rests
+  /// on the usual length she gave herself.
   final int periodsUsed;
 
   @override
@@ -36,15 +37,19 @@ const int minPeriodsForEndEstimate = 2;
 /// (1 on the first day). [cycles] is the whole history, oldest first, the
 /// current cycle last.
 ///
-/// Returns null while fewer than [minPeriodsForEndEstimate] past periods are
-/// known, and when this period already lasts longer than all of them: there
-/// is then nothing to go by.
+/// While fewer than [minPeriodsForEndEstimate] past periods are known, the
+/// usual length she gave, [declaredPeriodLength], stands in if there is
+/// one: a single figure then, not a range.
+///
+/// Returns null when there is nothing to go by, and when this period
+/// already lasts longer than what is known.
 PeriodEndEstimate? periodEndEstimate({
   required int dayOfPeriod,
   required List<LoggedCycle> cycles,
+  int? declaredPeriodLength,
   int maxPeriods = PeriodPredictor.maxCyclesConsidered,
 }) {
-  if (cycles.length < 2 || dayOfPeriod < 1) {
+  if (cycles.isEmpty || dayOfPeriod < 1) {
     return null;
   }
   final past = [
@@ -55,7 +60,15 @@ PeriodEndEstimate? periodEndEstimate({
       ? past.sublist(past.length - maxPeriods)
       : past;
   if (recent.length < minPeriodsForEndEstimate) {
-    return null;
+    if (declaredPeriodLength == null || dayOfPeriod > declaredPeriodLength) {
+      return null;
+    }
+    final left = declaredPeriodLength - dayOfPeriod;
+    return PeriodEndEstimate(
+      earliestDaysLeft: left,
+      latestDaysLeft: left,
+      periodsUsed: 0,
+    );
   }
   final shortest = recent.reduce(math.min);
   final longest = recent.reduce(math.max);

@@ -11,6 +11,7 @@ import '../domain/pain_level.dart';
 import '../domain/period_predictor.dart';
 import '../domain/reminders.dart';
 import '../domain/sleep_quality.dart';
+import '../domain/start_profile.dart';
 import '../domain/symptom.dart';
 import 'appearance.dart';
 import 'database_key_store.dart';
@@ -89,6 +90,11 @@ final class FycleDatabase {
 
   static const String _usualCycleLength = 'usual_cycle_length';
   static const String _birthYear = 'birth_year';
+  static const String _usualPeriodLength = 'usual_period_length';
+  static const String _regularity = 'cycle_regularity';
+  static const String _firstName = 'first_name';
+  static const String _goals = 'goals';
+  static const String _recentChanges = 'recent_changes';
 
   static const String _periodReminder = 'reminder_period_enabled';
   static const String _periodReminderDays = 'reminder_period_days_before';
@@ -220,6 +226,46 @@ final class FycleDatabase {
     return rows.isEmpty ? null : int.tryParse(rows.single['value'] as String);
   }
 
+  /// Usual period length in days, if the user gave it. Part of an export.
+  int? get usualPeriodLength {
+    final days = int.tryParse(_setting(_usualPeriodLength) ?? '');
+    return days == null || days < minPeriodLength || days > maxPeriodLength
+        ? null
+        : days;
+  }
+
+  set usualPeriodLength(int? days) =>
+      _transaction(() => _writePeriodLength(days));
+
+  /// Whether she calls her cycles regular, if she said. Part of an export.
+  CycleRegularity? get regularity =>
+      _byName(CycleRegularity.values, _setting(_regularity));
+
+  set regularity(CycleRegularity? value) =>
+      _transaction(() => _writeSetting(_regularity, value?.name));
+
+  /// The first name she gave, to be greeted by. Stays on this phone: not
+  /// part of an export.
+  String? get firstName => _deviceSetting(_firstName);
+
+  set firstName(String? name) {
+    final trimmed = name?.trim() ?? '';
+    _writeDeviceSetting(_firstName, trimmed.isEmpty ? null : trimmed);
+  }
+
+  /// Why she uses the app. Not part of an export.
+  Set<Goal> get goals => _names(Goal.values, _deviceSetting(_goals));
+
+  set goals(Set<Goal> goals) => _writeDeviceSetting(_goals, _joined(goals));
+
+  /// The changes she noticed in her periods when the app was set up. Not
+  /// part of an export.
+  Set<RecentChange> get recentChanges =>
+      _names(RecentChange.values, _deviceSetting(_recentChanges));
+
+  set recentChanges(Set<RecentChange> changes) =>
+      _writeDeviceSetting(_recentChanges, _joined(changes));
+
   /// Stores the year of birth, or forgets it if [year] is null.
   set birthYear(int? year) => _transaction(() => _writeBirthYear(year));
 
@@ -326,6 +372,8 @@ final class FycleDatabase {
   FycleData readAll() => FycleData(
     usualCycleLength: usualCycleLength,
     birthYear: birthYear,
+    usualPeriodLength: usualPeriodLength,
+    regularity: regularity,
     days: readDays(),
   );
 
@@ -338,6 +386,8 @@ final class FycleDatabase {
       _db.execute('DELETE FROM setting');
       _writeLength(data.usualCycleLength);
       _writeBirthYear(data.birthYear);
+      _writePeriodLength(data.usualPeriodLength);
+      _writeSetting(_regularity, data.regularity?.name);
       data.days.forEach(_writeDay);
     });
   }
@@ -347,6 +397,43 @@ final class FycleDatabase {
 
   static const String _on = '1';
   static const String _off = '0';
+
+  String? _setting(String name) {
+    final rows = _db.select('SELECT value FROM setting WHERE name = ?', [name]);
+    return rows.isEmpty ? null : rows.single['value'] as String;
+  }
+
+  void _writeSetting(String name, String? value) {
+    if (value == null) {
+      _db.execute('DELETE FROM setting WHERE name = ?', [name]);
+      return;
+    }
+    _db.execute('INSERT OR REPLACE INTO setting (name, value) VALUES (?, ?)', [
+      name,
+      value,
+    ]);
+  }
+
+  void _writePeriodLength(int? days) {
+    if (days != null && (days < minPeriodLength || days > maxPeriodLength)) {
+      throw ArgumentError.value(
+        days,
+        'usualPeriodLength',
+        'Must be between $minPeriodLength and $maxPeriodLength days',
+      );
+    }
+    _writeSetting(_usualPeriodLength, days == null ? null : '$days');
+  }
+
+  /// The values of [values] named in [stored], names separated by commas.
+  /// A name written by a newer version of the app is ignored.
+  static Set<T> _names<T extends Enum>(List<T> values, String? stored) => {
+    for (final name in (stored ?? '').split(',')) ?_byName(values, name),
+  };
+
+  static String? _joined(Set<Enum> values) => values.isEmpty
+      ? null
+      : ([for (final value in values) value.name]..sort()).join(',');
 
   String? _deviceSetting(String name) {
     final rows = _db.select('SELECT value FROM device_setting WHERE name = ?', [

@@ -212,18 +212,6 @@ abstract class AppLocalizations {
   /// **'When did your last period start?'**
   String get onboardingLastPeriodQuestion;
 
-  /// No description provided for @onboardingLastPeriodHint.
-  ///
-  /// In en, this message translates to:
-  /// **'An approximate date is fine. You can correct it later.'**
-  String get onboardingLastPeriodHint;
-
-  /// No description provided for @onboardingChooseDate.
-  ///
-  /// In en, this message translates to:
-  /// **'Choose a date'**
-  String get onboardingChooseDate;
-
   /// No description provided for @onboardingCycleLengthQuestion.
   ///
   /// In en, this message translates to:
@@ -235,18 +223,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Start'**
   String get onboardingStart;
-
-  /// No description provided for @onboardingToday.
-  ///
-  /// In en, this message translates to:
-  /// **'Today'**
-  String get onboardingToday;
-
-  /// No description provided for @onboardingYesterday.
-  ///
-  /// In en, this message translates to:
-  /// **'Yesterday'**
-  String get onboardingYesterday;
 
   /// Button of the first-launch screen: enters the app without giving the date of the last period.
   ///
@@ -2192,12 +2168,6 @@ abstract class AppLocalizations {
   /// **'{days, plural, =1{1 period day} other{{days} period days}}'**
   String monthPeriod(int days);
 
-  /// No description provided for @onboardingMonths.
-  ///
-  /// In en, this message translates to:
-  /// **'Everything rests on what you log, month after month.'**
-  String get onboardingMonths;
-
   /// No description provided for @ringCountdownCaption.
   ///
   /// In en, this message translates to:
@@ -2359,6 +2329,312 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Later'**
   String get remindersAskLater;
+
+  /// No description provided for @setupWelcomeBody.
+  ///
+  /// In en, this message translates to:
+  /// **'A few questions to start from you, not from an average. Each one can be skipped.'**
+  String get setupWelcomeBody;
+
+  /// No description provided for @setupBegin.
+  ///
+  /// In en, this message translates to:
+  /// **'Let\'s go'**
+  String get setupBegin;
+
+  /// No description provided for @setupSkipAll.
+  ///
+  /// In en, this message translates to:
+  /// **'Skip the setup'**
+  String get setupSkipAll;
+
+  /// No description provided for @setupSkip.
+  ///
+  /// In en, this message translates to:
+  /// **'Skip'**
+  String get setupSkip;
+
+  /// No description provided for @setupNext.
+  ///
+  /// In en, this message translates to:
+  /// **'Continue'**
+  String get setupNext;
+
+  /// No description provided for @setupBack.
+  ///
+  /// In en, this message translates to:
+  /// **'Back'**
+  String get setupBack;
+
+  /// No description provided for @setupProgress.
+  ///
+  /// In en, this message translates to:
+  /// **'Step {step} of {total}'**
+  String setupProgress(int step, int total);
+
+  /// No description provided for @setupNameTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'What is your first name?'**
+  String get setupNameTitle;
+
+  /// No description provided for @setupNameHint.
+  ///
+  /// In en, this message translates to:
+  /// **'It stays on this phone. You can leave it empty.'**
+  String get setupNameHint;
+
+  /// No description provided for @setupNameLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'First name'**
+  String get setupNameLabel;
+
+  /// No description provided for @setupBirthTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'What year were you born?'**
+  String get setupBirthTitle;
+
+  /// No description provided for @setupBirthHint.
+  ///
+  /// In en, this message translates to:
+  /// **'The length of a cycle changes with age: the first estimate starts from there.'**
+  String get setupBirthHint;
+
+  /// No description provided for @setupGoalsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'What brings you here?'**
+  String get setupGoalsTitle;
+
+  /// No description provided for @setupGoalsHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Several answers are possible.'**
+  String get setupGoalsHint;
+
+  /// No description provided for @goalTrackPeriods.
+  ///
+  /// In en, this message translates to:
+  /// **'Track my periods'**
+  String get goalTrackPeriods;
+
+  /// No description provided for @goalUnderstandBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Understand my body better'**
+  String get goalUnderstandBody;
+
+  /// No description provided for @goalConceive.
+  ///
+  /// In en, this message translates to:
+  /// **'Conceive a child'**
+  String get goalConceive;
+
+  /// No description provided for @goalPerimenopause.
+  ///
+  /// In en, this message translates to:
+  /// **'Follow a perimenopause'**
+  String get goalPerimenopause;
+
+  /// No description provided for @setupRegularTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Are your periods regular?'**
+  String get setupRegularTitle;
+
+  /// No description provided for @setupRegularHint.
+  ///
+  /// In en, this message translates to:
+  /// **'That is, the number of days between two periods stays about the same.'**
+  String get setupRegularHint;
+
+  /// No description provided for @regularYes.
+  ///
+  /// In en, this message translates to:
+  /// **'Yes'**
+  String get regularYes;
+
+  /// No description provided for @regularNo.
+  ///
+  /// In en, this message translates to:
+  /// **'No'**
+  String get regularNo;
+
+  /// No description provided for @regularUnknown.
+  ///
+  /// In en, this message translates to:
+  /// **'I don\'t know'**
+  String get regularUnknown;
+
+  /// No description provided for @regularNoPeriods.
+  ///
+  /// In en, this message translates to:
+  /// **'I don\'t have periods'**
+  String get regularNoPeriods;
+
+  /// No description provided for @setupLengthsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Your usual lengths'**
+  String get setupLengthsTitle;
+
+  /// No description provided for @setupLengthsHint.
+  ///
+  /// In en, this message translates to:
+  /// **'If you know them. Otherwise leave them: your own dates will tell.'**
+  String get setupLengthsHint;
+
+  /// No description provided for @setupCycleLength.
+  ///
+  /// In en, this message translates to:
+  /// **'Your cycle'**
+  String get setupCycleLength;
+
+  /// No description provided for @setupCycleLengthHelper.
+  ///
+  /// In en, this message translates to:
+  /// **'From the first day of one period to the first day of the next.'**
+  String get setupCycleLengthHelper;
+
+  /// No description provided for @setupPeriodLength.
+  ///
+  /// In en, this message translates to:
+  /// **'Your period'**
+  String get setupPeriodLength;
+
+  /// No description provided for @setupPeriodLengthHelper.
+  ///
+  /// In en, this message translates to:
+  /// **'The number of days your period lasts.'**
+  String get setupPeriodLengthHelper;
+
+  /// No description provided for @setupDays.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 day} other{{count} days}}'**
+  String setupDays(int count);
+
+  /// No description provided for @setupFewer.
+  ///
+  /// In en, this message translates to:
+  /// **'One day fewer'**
+  String get setupFewer;
+
+  /// No description provided for @setupMore.
+  ///
+  /// In en, this message translates to:
+  /// **'One day more'**
+  String get setupMore;
+
+  /// No description provided for @setupChangesTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Have you noticed changes in your periods lately?'**
+  String get setupChangesTitle;
+
+  /// No description provided for @setupChangesHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Several answers are possible. If a change worries you, talk to a health professional about it.'**
+  String get setupChangesHint;
+
+  /// No description provided for @changeHeavier.
+  ///
+  /// In en, this message translates to:
+  /// **'My flow is heavier'**
+  String get changeHeavier;
+
+  /// No description provided for @changeLighter.
+  ///
+  /// In en, this message translates to:
+  /// **'My flow is lighter'**
+  String get changeLighter;
+
+  /// No description provided for @changeLessRegular.
+  ///
+  /// In en, this message translates to:
+  /// **'My periods are less regular'**
+  String get changeLessRegular;
+
+  /// No description provided for @changeLength.
+  ///
+  /// In en, this message translates to:
+  /// **'The length of my periods has changed'**
+  String get changeLength;
+
+  /// No description provided for @changeNothing.
+  ///
+  /// In en, this message translates to:
+  /// **'Nothing has changed'**
+  String get changeNothing;
+
+  /// No description provided for @setupLastHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Touch the day. An approximate date is enough: you can correct it later.'**
+  String get setupLastHint;
+
+  /// No description provided for @setupRemindersTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Your reminders'**
+  String get setupRemindersTitle;
+
+  /// No description provided for @setupLockTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'For your eyes only'**
+  String get setupLockTitle;
+
+  /// No description provided for @setupLockHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Nobody opens the app without you. You can change this at any time in the settings.'**
+  String get setupLockHint;
+
+  /// No description provided for @setupReadyTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'All set'**
+  String get setupReadyTitle;
+
+  /// No description provided for @setupReadyTitleName.
+  ///
+  /// In en, this message translates to:
+  /// **'All set, {name}'**
+  String setupReadyTitleName(String name);
+
+  /// No description provided for @setupReadyBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Log your period the day it starts: the estimate gets closer with each cycle.'**
+  String get setupReadyBody;
+
+  /// No description provided for @settingsAnswers.
+  ///
+  /// In en, this message translates to:
+  /// **'My answers'**
+  String get settingsAnswers;
+
+  /// No description provided for @settingsAnswersSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'First name, goals, regularity, usual lengths.'**
+  String get settingsAnswersSubtitle;
+
+  /// No description provided for @periodEndDeclaredDays.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{About 1 more day, going by what you said} other{About {count} more days, going by what you said}}'**
+  String periodEndDeclaredDays(int count);
+
+  /// No description provided for @periodEndDeclaredToday.
+  ///
+  /// In en, this message translates to:
+  /// **'Probably the last day, going by what you said'**
+  String get periodEndDeclaredToday;
 }
 
 class _AppLocalizationsDelegate

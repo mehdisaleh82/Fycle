@@ -12,6 +12,7 @@ import '../domain/mood.dart';
 import '../domain/pain_level.dart';
 import '../domain/period_predictor.dart';
 import '../domain/sleep_quality.dart';
+import '../domain/start_profile.dart';
 import '../domain/symptom.dart';
 import 'fycle_data.dart';
 
@@ -221,6 +222,8 @@ final class BackupCodec {
   ///   "content": 1,
   ///   "usualCycleLength": 28,
   ///   "birthYear": 1990,
+  ///   "usualPeriodLength": 5,
+  ///   "regularity": "regular",
   ///   "days": [
   ///     {
   ///       "day": "2026-03-05",
@@ -242,6 +245,8 @@ final class BackupCodec {
     'content': _contentVersion,
     'usualCycleLength': ?data.usualCycleLength,
     'birthYear': ?data.birthYear,
+    'usualPeriodLength': ?data.usualPeriodLength,
+    'regularity': ?data.regularity?.name,
     'days': [
       for (final entry in data.days)
         {
@@ -285,6 +290,13 @@ final class BackupCodec {
       throw const FormatException('Invalid year of birth');
     }
 
+    // Added later: an unexpected value is ignored rather than fatal.
+    final periodLength = json['usualPeriodLength'];
+    final validPeriodLength =
+        periodLength is int &&
+        periodLength >= minPeriodLength &&
+        periodLength <= maxPeriodLength;
+
     final days = json['days'];
     if (days is! List<Object?>) {
       throw const FormatException('No days');
@@ -325,6 +337,8 @@ final class BackupCodec {
     return FycleData(
       usualCycleLength: length as int?,
       birthYear: birthYear as int?,
+      usualPeriodLength: validPeriodLength ? periodLength : null,
+      regularity: _byName(CycleRegularity.values, json['regularity']),
       days: sorted,
     );
   }

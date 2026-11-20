@@ -12,6 +12,7 @@ import '../domain/period_predictor.dart';
 import '../domain/period_starts.dart';
 import '../domain/reference_cycle.dart';
 import '../domain/reminders.dart';
+import '../domain/start_profile.dart';
 
 /// What the screens show, read from the local store and recomputed after
 /// every change: the flow log, the days with any entry, the prediction, and
@@ -39,6 +40,11 @@ class CycleModel extends ChangeNotifier {
   PeriodPrediction? _prediction;
   int? _usualCycleLength;
   int? _birthYear;
+  int? _usualPeriodLength;
+  CycleRegularity? _regularity;
+  String? _firstName;
+  Set<Goal> _goals = const {};
+  Set<RecentChange> _recentChanges = const {};
   ReminderSettings _reminderSettings = ReminderSettings();
   bool _appLockEnabled = false;
   Appearance _appearance = Appearance.light;
@@ -81,6 +87,21 @@ class CycleModel extends ChangeNotifier {
 
   /// Year of birth given by the user, if any.
   int? get birthYear => _birthYear;
+
+  /// Usual period length she gave, if any.
+  int? get usualPeriodLength => _usualPeriodLength;
+
+  /// Whether she calls her cycles regular, if she said.
+  CycleRegularity? get regularity => _regularity;
+
+  /// The first name she gave, if any.
+  String? get firstName => _firstName;
+
+  /// Why she uses the app. Empty when she did not say.
+  Set<Goal> get goals => _goals;
+
+  /// The changes she noticed in her periods when the app was set up.
+  Set<RecentChange> get recentChanges => _recentChanges;
 
   /// Her age this year, or null when the year of birth is unknown.
   int? get age {
@@ -128,6 +149,27 @@ class CycleModel extends ChangeNotifier {
   /// prediction.
   void setBirthYear(int? year) {
     store.database.birthYear = year;
+    reload();
+  }
+
+  /// Stores what she said of herself when the app was set up, in one go.
+  void setStartProfile({
+    required String? firstName,
+    required int? birthYear,
+    required Set<Goal> goals,
+    required CycleRegularity? regularity,
+    required int? usualCycleLength,
+    required int? usualPeriodLength,
+    required Set<RecentChange> recentChanges,
+  }) {
+    final database = store.database;
+    database.firstName = firstName;
+    database.birthYear = birthYear;
+    database.goals = goals;
+    database.regularity = regularity;
+    database.usualCycleLength = usualCycleLength;
+    database.usualPeriodLength = usualPeriodLength;
+    database.recentChanges = recentChanges;
     reload();
   }
 
@@ -193,6 +235,11 @@ class CycleModel extends ChangeNotifier {
     _dismissedSummaryStart = database.dismissedSummaryStart;
     _usualCycleLength = database.usualCycleLength;
     _birthYear = database.birthYear;
+    _usualPeriodLength = database.usualPeriodLength;
+    _regularity = database.regularity;
+    _firstName = database.firstName;
+    _goals = database.goals;
+    _recentChanges = database.recentChanges;
     _reminderSettings = database.reminderSettings;
     _appLockEnabled = database.appLockEnabled;
     _appearance = database.appearance;
@@ -202,6 +249,7 @@ class CycleModel extends ChangeNotifier {
       usualCycleLength: _usualCycleLength,
       // Without a declared length, the reference for her age stands in.
       referenceCycleLength: age == null ? null : referenceCycleLength,
+      irregular: _regularity == CycleRegularity.irregular,
     );
     _fertilityEstimateEnabled = database.fertilityEstimateEnabled;
     _widgetEnabled = database.widgetEnabled;

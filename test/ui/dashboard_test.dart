@@ -272,8 +272,7 @@ void main() {
     testWidgets('gives figures from the very first date', (tester) async {
       final harness = Harness(tester);
       await harness.pumpApp();
-      await tapVisible(tester, find.byKey(const ValueKey('last-period-today')));
-      await tapVisible(tester, find.text('Start'));
+      await finishSetup(tester, lastPeriod: harness.today);
       await openReview(tester);
 
       expect(within('figure-cycle', '28 days'), findsOneWidget);
@@ -406,8 +405,7 @@ void main() {
     ) async {
       final harness = Harness(tester);
       await harness.pumpApp();
-      await tapVisible(tester, find.byKey(const ValueKey('last-period-today')));
-      await tapVisible(tester, find.text('Start'));
+      await finishSetup(tester, lastPeriod: harness.today);
 
       expect(harness.reminders.permissionRequests, 1);
       final settings = await harness.read(
@@ -424,8 +422,7 @@ void main() {
       final harness = Harness(tester);
       harness.reminders.allow = false;
       await harness.pumpApp();
-      await tapVisible(tester, find.byKey(const ValueKey('last-period-today')));
-      await tapVisible(tester, find.text('Start'));
+      await finishSetup(tester, lastPeriod: harness.today);
 
       final settings = await harness.read(
         (store) => store.database.reminderSettings,

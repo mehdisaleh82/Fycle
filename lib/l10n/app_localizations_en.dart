@@ -70,23 +70,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String get onboardingLastPeriodQuestion => 'When did your last period start?';
 
   @override
-  String get onboardingLastPeriodHint =>
-      'An approximate date is fine. You can correct it later.';
-
-  @override
-  String get onboardingChooseDate => 'Choose a date';
-
-  @override
   String get onboardingCycleLengthQuestion => 'How long is your cycle usually?';
 
   @override
   String get onboardingStart => 'Start';
-
-  @override
-  String get onboardingToday => 'Today';
-
-  @override
-  String get onboardingYesterday => 'Yesterday';
 
   @override
   String get onboardingSkip => 'Not yet: I\'ll log it the day it starts';
@@ -1392,10 +1379,6 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String get onboardingMonths =>
-      'Everything rests on what you log, month after month.';
-
-  @override
   String get ringCountdownCaption => 'Days left';
 
   @override
@@ -1501,4 +1484,189 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get remindersAskLater => 'Later';
+
+  @override
+  String get setupWelcomeBody =>
+      'A few questions to start from you, not from an average. Each one can be skipped.';
+
+  @override
+  String get setupBegin => 'Let\'s go';
+
+  @override
+  String get setupSkipAll => 'Skip the setup';
+
+  @override
+  String get setupSkip => 'Skip';
+
+  @override
+  String get setupNext => 'Continue';
+
+  @override
+  String get setupBack => 'Back';
+
+  @override
+  String setupProgress(int step, int total) {
+    return 'Step $step of $total';
+  }
+
+  @override
+  String get setupNameTitle => 'What is your first name?';
+
+  @override
+  String get setupNameHint => 'It stays on this phone. You can leave it empty.';
+
+  @override
+  String get setupNameLabel => 'First name';
+
+  @override
+  String get setupBirthTitle => 'What year were you born?';
+
+  @override
+  String get setupBirthHint =>
+      'The length of a cycle changes with age: the first estimate starts from there.';
+
+  @override
+  String get setupGoalsTitle => 'What brings you here?';
+
+  @override
+  String get setupGoalsHint => 'Several answers are possible.';
+
+  @override
+  String get goalTrackPeriods => 'Track my periods';
+
+  @override
+  String get goalUnderstandBody => 'Understand my body better';
+
+  @override
+  String get goalConceive => 'Conceive a child';
+
+  @override
+  String get goalPerimenopause => 'Follow a perimenopause';
+
+  @override
+  String get setupRegularTitle => 'Are your periods regular?';
+
+  @override
+  String get setupRegularHint =>
+      'That is, the number of days between two periods stays about the same.';
+
+  @override
+  String get regularYes => 'Yes';
+
+  @override
+  String get regularNo => 'No';
+
+  @override
+  String get regularUnknown => 'I don\'t know';
+
+  @override
+  String get regularNoPeriods => 'I don\'t have periods';
+
+  @override
+  String get setupLengthsTitle => 'Your usual lengths';
+
+  @override
+  String get setupLengthsHint =>
+      'If you know them. Otherwise leave them: your own dates will tell.';
+
+  @override
+  String get setupCycleLength => 'Your cycle';
+
+  @override
+  String get setupCycleLengthHelper =>
+      'From the first day of one period to the first day of the next.';
+
+  @override
+  String get setupPeriodLength => 'Your period';
+
+  @override
+  String get setupPeriodLengthHelper => 'The number of days your period lasts.';
+
+  @override
+  String setupDays(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count days',
+      one: '1 day',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get setupFewer => 'One day fewer';
+
+  @override
+  String get setupMore => 'One day more';
+
+  @override
+  String get setupChangesTitle =>
+      'Have you noticed changes in your periods lately?';
+
+  @override
+  String get setupChangesHint =>
+      'Several answers are possible. If a change worries you, talk to a health professional about it.';
+
+  @override
+  String get changeHeavier => 'My flow is heavier';
+
+  @override
+  String get changeLighter => 'My flow is lighter';
+
+  @override
+  String get changeLessRegular => 'My periods are less regular';
+
+  @override
+  String get changeLength => 'The length of my periods has changed';
+
+  @override
+  String get changeNothing => 'Nothing has changed';
+
+  @override
+  String get setupLastHint =>
+      'Touch the day. An approximate date is enough: you can correct it later.';
+
+  @override
+  String get setupRemindersTitle => 'Your reminders';
+
+  @override
+  String get setupLockTitle => 'For your eyes only';
+
+  @override
+  String get setupLockHint =>
+      'Nobody opens the app without you. You can change this at any time in the settings.';
+
+  @override
+  String get setupReadyTitle => 'All set';
+
+  @override
+  String setupReadyTitleName(String name) {
+    return 'All set, $name';
+  }
+
+  @override
+  String get setupReadyBody =>
+      'Log your period the day it starts: the estimate gets closer with each cycle.';
+
+  @override
+  String get settingsAnswers => 'My answers';
+
+  @override
+  String get settingsAnswersSubtitle =>
+      'First name, goals, regularity, usual lengths.';
+
+  @override
+  String periodEndDeclaredDays(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'About $count more days, going by what you said',
+      one: 'About 1 more day, going by what you said',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get periodEndDeclaredToday =>
+      'Probably the last day, going by what you said';
 }
