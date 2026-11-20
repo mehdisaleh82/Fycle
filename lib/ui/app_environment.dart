@@ -1,6 +1,7 @@
 import '../data/auto_backup.dart';
 import '../data/device_auth.dart';
 import '../data/file_gateway.dart';
+import '../data/health_gateway.dart';
 import '../data/local_store.dart';
 import '../data/reminder_gateway.dart';
 import '../data/widget_gateway.dart';
@@ -21,6 +22,7 @@ final class AppEnvironment {
     this.build = '',
     this.autoBackup = const DocumentsAutoBackupGateway(),
     this.backupPasswords = const SecureBackupPasswordStore(),
+    this.health = const SystemHealthGateway(),
   });
 
   /// The real thing: encrypted database, system file dialogs, today's date.
@@ -34,6 +36,7 @@ final class AppEnvironment {
       now = DateTime.now,
       autoBackup = const DocumentsAutoBackupGateway(),
       backupPasswords = const SecureBackupPasswordStore(),
+      health = const SystemHealthGateway(),
       build = const String.fromEnvironment('FYCLE_BUILD');
 
   /// Opens the local store. May throw when the store cannot be read.
@@ -57,6 +60,9 @@ final class AppEnvironment {
   /// kept.
   final AutoBackupGateway autoBackup;
   final BackupPasswordStore backupPasswords;
+
+  /// The health data of the phone, read on the phone.
+  final HealthGateway health;
 
   /// The current date and time, as the phone shows them.
   final DateTime Function() now;

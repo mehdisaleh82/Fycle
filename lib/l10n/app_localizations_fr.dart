@@ -2654,4 +2654,28 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get learnLogging => 'Plus tu notes, plus l\'estimation te ressemble.';
+
+  @override
+  String get healthImportTitle => 'Importer depuis Apple Santé';
+
+  @override
+  String get healthImportSubtitle =>
+      'Copie les jours de règles que tu y as déjà notés. Lu sur ce téléphone ; rien n\'est envoyé.';
+
+  @override
+  String get healthImportUnavailable =>
+      'Aucun jour de règles n\'a pu être lu. Tu peux l\'autoriser dans l\'app Santé, rubrique Partage, ou noter tes règles ici.';
+
+  @override
+  String healthImportDone(int days) {
+    String _temp0 = intl.Intl.pluralLogic(
+      days,
+      locale: localeName,
+      other: '$days jours de règles copiés dans ton journal.',
+      one: '1 jour de règles copié dans ton journal.',
+      zero:
+          'Rien de nouveau : les jours trouvés étaient déjà dans ton journal.',
+    );
+    return '$_temp0';
+  }
 }

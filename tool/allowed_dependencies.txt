@@ -7,6 +7,7 @@ cryptography            # dint.dev, pure Dart, encrypts the export file
 file_picker             # system dialogs to save an export and pick an import
 flutter                 # SDK
 flutter_localizations   # SDK, English and French
+health                  # reads period days from Apple Health on the phone, no network
 home_widget             # hands a few values to the home-screen widget, no network
 intl                    # dart.dev, dates and plurals for localization
 flutter_local_notifications  # reminders scheduled on the phone, no server
@@ -30,6 +31,7 @@ async
 barcode                 # pure Dart, required by pdf, unused
 bidi                    # pure Dart, text direction, required by pdf
 boolean_selector
+carp_serializable       # required by health, JSON helpers, no network
 characters
 clock
 code_assets             # dart.dev, build hook of sqlite3
@@ -38,6 +40,8 @@ cross_file              # flutter.dev, file handle used by file_picker
 crypto                  # dart.dev, hashes
 cupertino_ui            # flutter.dev, required by material_ui
 dbus                    # file_picker on Linux only: local IPC, not on phones
+device_info_plus        # required by health, reads a local identifier of the device, sends nothing
+device_info_plus_platform_interface
 fake_async
 ffi                     # dart.dev
 ffi_leak_tracker
@@ -46,6 +50,7 @@ file_picker_darwin      # file_picker on iOS and macOS
 file_picker_linux
 file_picker_platform_interface
 file_picker_web         # unused on mobile
+fixnum                  # dart.dev, required by uuid
 flutter_local_notifications_linux
 flutter_local_notifications_platform_interface
 flutter_local_notifications_web  # unused on mobile
@@ -65,6 +70,7 @@ http_parser             # required by http
 jni                     # dart.dev, required by path_provider_android
 jni_flutter
 jni_util
+json_annotation         # dart.dev, required by health
 leak_tracker
 leak_tracker_flutter_testing
 leak_tracker_testing
@@ -104,10 +110,12 @@ string_scanner
 term_glyph
 test_api
 typed_data
+uuid                    # required by health, random identifiers, no network
 vector_math
 vm_service
 web                     # dart.dev, browser bindings, unused on mobile
 win32
+win32_registry          # required by device_info_plus on Windows only
 windows_file_picker
 xdg_directories
 xml                     # required by dbus

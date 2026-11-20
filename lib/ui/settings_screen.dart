@@ -136,6 +136,42 @@ class SettingsScreen extends StatelessWidget {
     enabled: enabled,
   );
 
+  /// Copies into the journal the days of period the phone already knows.
+  /// A day she logged herself is never touched.
+  Future<void> _importFromHealth(BuildContext context) async {
+    final l10n = AppLocalizations.of(context);
+    final days = await environment.health.readPeriodDays(
+      now: environment.now(),
+    );
+    if (!context.mounted) {
+      return;
+    }
+    if (days == null) {
+      await showNotice(
+        context,
+        title: l10n.healthImportTitle,
+        body: l10n.healthImportUnavailable,
+      );
+      return;
+    }
+    var added = 0;
+    for (final MapEntry(key: day, value: flow) in days.entries) {
+      final entry = model.entryFor(day);
+      if (entry.flow == null) {
+        model.saveDay(entry.withFlow(flow));
+        added++;
+      }
+    }
+    if (!context.mounted) {
+      return;
+    }
+    await showNotice(
+      context,
+      title: l10n.healthImportTitle,
+      body: l10n.healthImportDone(added),
+    );
+  }
+
   /// The questions of the setup again, with what she answered.
   void _editAnswers(BuildContext context) => Navigator.of(context).push(
     MaterialPageRoute<void>(
@@ -419,6 +455,13 @@ class SettingsScreen extends StatelessWidget {
                       environment: environment,
                       enabled: on,
                     ),
+                  ),
+                  ListTile(
+                    key: const ValueKey('health-import'),
+                    leading: const Icon(Icons.monitor_heart_outlined),
+                    title: Text(l10n.healthImportTitle),
+                    subtitle: Text(l10n.healthImportSubtitle),
+                    onTap: () => _importFromHealth(context),
                   ),
                   ListTile(
                     leading: const Icon(Icons.restore),

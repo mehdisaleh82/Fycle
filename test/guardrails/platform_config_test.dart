@@ -59,10 +59,14 @@ void main() {
     ]) {
       final entitlements = File(path).readAsStringSync();
       expect(entitlements, contains('group.app.fycle'), reason: path);
+      // The widget asks for the App Group only. The app also asks to read
+      // Health, and nothing else.
+      final health = entitlements.contains('com.apple.developer.healthkit');
+      expect(health, path.contains('Runner'), reason: path);
       expect(
         RegExp('<key>').allMatches(entitlements),
-        hasLength(1),
-        reason: '$path asks for the App Group only',
+        hasLength(health ? 2 : 1),
+        reason: '$path asks for nothing more',
       );
     }
     final manifest = File('ios/FycleWidget/PrivacyInfo.xcprivacy')

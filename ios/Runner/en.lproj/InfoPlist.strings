@@ -1,2 +1,6 @@
 /* Shown by iOS the first time the app asks for Face ID. */
 "NSFaceIDUsageDescription" = "Fycle uses Face ID to unlock the app when you turn its lock on.";
+
+/* Shown by iOS when the app asks to read period days from Health. */
+"NSHealthShareUsageDescription" = "Fycle reads the period days you already logged in Health to copy them into your journal. Nothing leaves your phone.";
+"NSHealthUpdateUsageDescription" = "Fycle writes nothing to Health.";

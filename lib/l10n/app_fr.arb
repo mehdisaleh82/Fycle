@@ -667,5 +667,9 @@
   "learnCycle": "Un cycle va du premier jour de tes règles au premier jour des suivantes.",
   "learnLength": "Sa durée change d'une femme à l'autre, et d'un cycle à l'autre : le plus souvent entre 24 et 38 jours.",
   "learnFirstYears": "Les premières années de règles, des cycles irréguliers sont fréquents.",
-  "learnLogging": "Plus tu notes, plus l'estimation te ressemble."
+  "learnLogging": "Plus tu notes, plus l'estimation te ressemble.",
+  "healthImportTitle": "Importer depuis Apple Santé",
+  "healthImportSubtitle": "Copie les jours de règles que tu y as déjà notés. Lu sur ce téléphone ; rien n'est envoyé.",
+  "healthImportUnavailable": "Aucun jour de règles n'a pu être lu. Tu peux l'autoriser dans l'app Santé, rubrique Partage, ou noter tes règles ici.",
+  "healthImportDone": "{days, plural, =0{Rien de nouveau : les jours trouvés étaient déjà dans ton journal.} =1{1 jour de règles copié dans ton journal.} other{{days} jours de règles copiés dans ton journal.}}"
 }

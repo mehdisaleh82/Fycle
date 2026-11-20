@@ -5,6 +5,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:fycle/data/auto_backup.dart';
 import 'package:fycle/data/device_auth.dart';
 import 'package:fycle/data/file_gateway.dart';
+import 'package:fycle/data/health_gateway.dart';
 import 'package:fycle/data/local_store.dart';
 import 'package:fycle/data/reminder_gateway.dart';
 import 'package:fycle/data/widget_gateway.dart';
@@ -69,6 +70,17 @@ final class FakeBackupPasswords implements BackupPasswordStore {
 
   @override
   Future<void> delete() async => password = null;
+}
+
+/// Stands in for the health data of the phone.
+final class FakeHealth implements HealthGateway {
+  /// What the phone knows; null when she does not allow reading it.
+  Map<CalendarDay, FlowIntensity>? days;
+
+  @override
+  Future<Map<CalendarDay, FlowIntensity>?> readPeriodDays({
+    required DateTime now,
+  }) async => days;
 }
 
 /// Stands in for the home-screen widget of the phone.
@@ -171,6 +183,7 @@ final class Harness {
 
   final FakeReminders reminders = FakeReminders();
   final FakeAutoBackup autoBackup = FakeAutoBackup();
+  final FakeHealth health = FakeHealth();
   final FakeBackupPasswords backupPasswords = FakeBackupPasswords();
   final FakeWidgets widgets = FakeWidgets();
   final FakeDeviceAuth deviceAuth = FakeDeviceAuth();
@@ -250,6 +263,7 @@ final class Harness {
           now: () => now,
           build: build,
           autoBackup: autoBackup,
+          health: health,
           backupPasswords: backupPasswords,
         ),
       ),

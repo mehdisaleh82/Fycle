@@ -867,5 +867,10 @@
   "learnCycle": "A cycle goes from the first day of your period to the first day of the next one.",
   "learnLength": "Its length differs from one woman to another, and from one cycle to the next: most often between 24 and 38 days.",
   "learnFirstYears": "In the first years of having periods, irregular cycles are common.",
-  "learnLogging": "The more you log, the more the estimate looks like you."
+  "learnLogging": "The more you log, the more the estimate looks like you.",
+  "healthImportTitle": "Import from Apple Health",
+  "healthImportSubtitle": "Copies the period days you already logged there. Read on this phone; nothing is sent.",
+  "healthImportUnavailable": "No period days could be read. You can allow it in the Health app, under Sharing, or log your periods here.",
+  "healthImportDone": "{days, plural, =0{Nothing new: the days found were already in your journal.} =1{1 day of period copied into your journal.} other{{days} days of period copied into your journal.}}",
+  "@healthImportDone": {"placeholders": {"days": {"type": "int"}}}
 }

@@ -4039,6 +4039,30 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'The more you log, the more the estimate looks like you.'**
   String get learnLogging;
+
+  /// No description provided for @healthImportTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Import from Apple Health'**
+  String get healthImportTitle;
+
+  /// No description provided for @healthImportSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Copies the period days you already logged there. Read on this phone; nothing is sent.'**
+  String get healthImportSubtitle;
+
+  /// No description provided for @healthImportUnavailable.
+  ///
+  /// In en, this message translates to:
+  /// **'No period days could be read. You can allow it in the Health app, under Sharing, or log your periods here.'**
+  String get healthImportUnavailable;
+
+  /// No description provided for @healthImportDone.
+  ///
+  /// In en, this message translates to:
+  /// **'{days, plural, =0{Nothing new: the days found were already in your journal.} =1{1 day of period copied into your journal.} other{{days} days of period copied into your journal.}}'**
+  String healthImportDone(int days);
 }
 
 class _AppLocalizationsDelegate

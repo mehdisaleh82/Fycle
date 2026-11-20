@@ -2627,4 +2627,27 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get learnLogging =>
       'The more you log, the more the estimate looks like you.';
+
+  @override
+  String get healthImportTitle => 'Import from Apple Health';
+
+  @override
+  String get healthImportSubtitle =>
+      'Copies the period days you already logged there. Read on this phone; nothing is sent.';
+
+  @override
+  String get healthImportUnavailable =>
+      'No period days could be read. You can allow it in the Health app, under Sharing, or log your periods here.';
+
+  @override
+  String healthImportDone(int days) {
+    String _temp0 = intl.Intl.pluralLogic(
+      days,
+      locale: localeName,
+      other: '$days days of period copied into your journal.',
+      one: '1 day of period copied into your journal.',
+      zero: 'Nothing new: the days found were already in your journal.',
+    );
+    return '$_temp0';
+  }
 }
