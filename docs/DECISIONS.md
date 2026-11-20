@@ -683,6 +683,7 @@ Retour de la testeuse sur la compilation n° 9, rapporté par l'utilisateur : po
     - Droits demandés à iOS : le groupe d'applis partagé avec le widget, et la lecture de Santé. Un test vérifie qu'il n'y en a pas d'autre.
     - Android : Health Connect n'est pas fait (règle 10, parité avant publication).
     - Ni le widget ni la lecture de Santé n'ont pu être compilés ou essayés sur le poste : la première compilation dans le cloud dira si la signature passe. C'est pourquoi `main` reçoit une compilation sans eux, et cette branche une compilation à part.
+    - **Signature vue passer le 20 novembre 2026 (compilation 30), la branche `native` est fusionnée dans `main`.** Trois choses ont été nécessaires, à refaire sur un autre compte développeur : enregistrer un iPhone dans Devices (sans appareil, Apple ne crée aucun profil) ; signer pendant l'archivage et non après ; créer à la main le groupe `group.app.fycle` et l'attacher aux App IDs `app.fycle` et `app.fycle.FycleWidget`. Le réglage `REGISTER_APP_GROUPS` seul n'a pas suffi. Le widget et la lecture de Santé restent à essayer sur un vrai téléphone.
     - Au passage : la phrase de Face ID affichée par iOS en français vouvoyait ; elle tutoie maintenant, comme toute l'appli.
 
 ## Questions ouvertes
