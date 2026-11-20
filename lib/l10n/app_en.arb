@@ -562,11 +562,11 @@
   "regularNo": "No",
   "regularUnknown": "I don't know",
   "regularNoPeriods": "I don't have periods",
-  "setupLengthsTitle": "Your usual lengths",
-  "setupLengthsHint": "If you know them. Otherwise leave them: your own dates will tell.",
-  "setupCycleLength": "Your cycle",
-  "setupCycleLengthHelper": "From the first day of one period to the first day of the next.",
-  "setupPeriodLength": "Your period",
+  "setupLengthsTitle": "How many days do your cycle and your period last?",
+  "setupLengthsHint": "Give a number of days, even a rough one, with the − and + buttons. If you don't know, tap \"Skip\": the app will work it out from what you log.",
+  "setupCycleLength": "Length of your cycle",
+  "setupCycleLengthHelper": "From the first day of your period to the first day of the next one.",
+  "setupPeriodLength": "Length of your period",
   "setupPeriodLengthHelper": "The number of days your period lasts.",
   "setupDays": "{count, plural, =1{1 day} other{{count} days}}",
   "@setupDays": {"placeholders": {"count": {"type": "int"}}},
@@ -709,5 +709,6 @@
   "reliabilityToHigh": "{cycles, plural, =1{1 more logged cycle before it can reach high.} other{{cycles} more logged cycles before it can reach high.}}",
   "@reliabilityToHigh": {"placeholders": {"cycles": {"type": "int"}}},
   "reliabilityHeldByVariation": "Your cycles differ from one another: it will rise if they come closer. Nothing to do with how you log.",
-  "reliabilityAtTop": "The highest level: it holds as long as your cycles stay alike."
+  "reliabilityAtTop": "The highest level: it holds as long as your cycles stay alike.",
+  "setupNotGiven": "Not given"
 }

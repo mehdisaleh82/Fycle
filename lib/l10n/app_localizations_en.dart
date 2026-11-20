@@ -1563,21 +1563,22 @@ class AppLocalizationsEn extends AppLocalizations {
   String get regularNoPeriods => 'I don\'t have periods';
 
   @override
-  String get setupLengthsTitle => 'Your usual lengths';
+  String get setupLengthsTitle =>
+      'How many days do your cycle and your period last?';
 
   @override
   String get setupLengthsHint =>
-      'If you know them. Otherwise leave them: your own dates will tell.';
+      'Give a number of days, even a rough one, with the − and + buttons. If you don\'t know, tap \"Skip\": the app will work it out from what you log.';
 
   @override
-  String get setupCycleLength => 'Your cycle';
+  String get setupCycleLength => 'Length of your cycle';
 
   @override
   String get setupCycleLengthHelper =>
-      'From the first day of one period to the first day of the next.';
+      'From the first day of your period to the first day of the next one.';
 
   @override
-  String get setupPeriodLength => 'Your period';
+  String get setupPeriodLength => 'Length of your period';
 
   @override
   String get setupPeriodLengthHelper => 'The number of days your period lasts.';
@@ -2082,4 +2083,7 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get reliabilityAtTop =>
       'The highest level: it holds as long as your cycles stay alike.';
+
+  @override
+  String get setupNotGiven => 'Not given';
 }

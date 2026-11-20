@@ -2477,31 +2477,31 @@ abstract class AppLocalizations {
   /// No description provided for @setupLengthsTitle.
   ///
   /// In en, this message translates to:
-  /// **'Your usual lengths'**
+  /// **'How many days do your cycle and your period last?'**
   String get setupLengthsTitle;
 
   /// No description provided for @setupLengthsHint.
   ///
   /// In en, this message translates to:
-  /// **'If you know them. Otherwise leave them: your own dates will tell.'**
+  /// **'Give a number of days, even a rough one, with the − and + buttons. If you don\'t know, tap \"Skip\": the app will work it out from what you log.'**
   String get setupLengthsHint;
 
   /// No description provided for @setupCycleLength.
   ///
   /// In en, this message translates to:
-  /// **'Your cycle'**
+  /// **'Length of your cycle'**
   String get setupCycleLength;
 
   /// No description provided for @setupCycleLengthHelper.
   ///
   /// In en, this message translates to:
-  /// **'From the first day of one period to the first day of the next.'**
+  /// **'From the first day of your period to the first day of the next one.'**
   String get setupCycleLengthHelper;
 
   /// No description provided for @setupPeriodLength.
   ///
   /// In en, this message translates to:
-  /// **'Your period'**
+  /// **'Length of your period'**
   String get setupPeriodLength;
 
   /// No description provided for @setupPeriodLengthHelper.
@@ -3205,6 +3205,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'The highest level: it holds as long as your cycles stay alike.'**
   String get reliabilityAtTop;
+
+  /// No description provided for @setupNotGiven.
+  ///
+  /// In en, this message translates to:
+  /// **'Not given'**
+  String get setupNotGiven;
 }
 
 class _AppLocalizationsDelegate

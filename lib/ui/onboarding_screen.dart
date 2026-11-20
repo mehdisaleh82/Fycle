@@ -376,6 +376,9 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
     if (fertilityAnswered && fertilityChanged) {
       model.setFertilityEstimateEnabled(_showsFertility);
     }
+    if (!model.suggestionDismissed(fertilityFromAnswers)) {
+      model.dismissSuggestion(fertilityFromAnswers);
+    }
     final day = _lastPeriod;
     if (day != null && periods && !widget.editing) {
       // Only first days are asked. Each is stored as one day of the flow
@@ -1520,7 +1523,7 @@ class _LengthStepper extends StatelessWidget {
                 ),
                 Expanded(
                   child: Text(
-                    value == null ? l10n.regularUnknown : l10n.setupDays(value),
+                    value == null ? l10n.setupNotGiven : l10n.setupDays(value),
                     key: ValueKey('$name-value'),
                     textAlign: TextAlign.center,
                     style: theme.textTheme.titleLarge,

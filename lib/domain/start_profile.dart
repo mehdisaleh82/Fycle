@@ -59,12 +59,26 @@ bool asksAboutRecentChanges({required Set<Goal> goals, int? age}) =>
 bool followsCycleChanges({required Set<Goal> goals, int? age}) =>
     asksAboutRecentChanges(goals: goals, age: age);
 
-/// Whether the estimate of the fertile window is shown from the start.
+/// Name under which the phone remembers that the estimate of the fertile
+/// window was set from her answers once.
+const String fertilityFromAnswers = 'fertility_from_answers';
+
+/// Whether she said anything the estimate of the fertile window depends
+/// on.
+bool answeredAboutFertility(
+  Set<Goal> goals, {
+  Set<Wish> wishes = const {},
+  Contraception? contraception,
+}) => goals.isNotEmpty || wishes.isNotEmpty || contraception != null;
+
+/// Whether the estimate of the fertile window is shown, going by what she
+/// answered.
 ///
-/// Never with a hormonal contraception. Otherwise, without any answer, it
-/// is; with answers, only if one of them is about conceiving, about her
-/// fertile window or about understanding her body: someone who only wants
-/// the dates of her periods gets a plainer home.
+/// It is shown to the one who asks for it: she wants to conceive, or she
+/// named her fertile window among what she wants to know. Never with a
+/// hormonal contraception. Someone who answered and asked for neither does
+/// not see it; only someone who answered nothing at all keeps it, as the
+/// app shows it by default.
 bool showsFertilityFor(
   Set<Goal> goals, {
   Set<Wish> wishes = const {},
@@ -76,9 +90,7 @@ bool showsFertilityFor(
   if (goals.isEmpty && wishes.isEmpty) {
     return true;
   }
-  return goals.contains(Goal.conceive) ||
-      goals.contains(Goal.understandBody) ||
-      wishes.contains(Wish.fertileWindow);
+  return goals.contains(Goal.conceive) || wishes.contains(Wish.fertileWindow);
 }
 
 /// Whether the setup asks for dates and lengths of periods at all.

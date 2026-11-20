@@ -81,8 +81,11 @@ void main() {
 
     // One answer leads straight to the next question.
     await tap(tester, const ValueKey('regularity-regular'));
-    expect(find.text('Your usual lengths'), findsOneWidget);
-    expect(find.text("I don't know"), findsNWidgets(2));
+    expect(
+      find.text('How many days do your cycle and your period last?'),
+      findsOneWidget,
+    );
+    expect(find.text('Not given'), findsNWidgets(2));
     // The cycle starts from the reference for her age: 28 days at 40.
     await tap(tester, const ValueKey('cycle-length-plus'));
     expect(find.text('28 days'), findsOneWidget);
@@ -318,6 +321,74 @@ void main() {
     );
   });
 
+  testWidgets('wanting to understand her body does not show it', (
+    tester,
+  ) async {
+    final harness = Harness(tester);
+    await harness.pumpApp();
+
+    await to(tester, 'What brings you here?');
+    await tap(tester, const ValueKey('goal-understandBody'));
+    await tap(tester, next);
+    await to(tester, 'All set');
+    expect(
+      find.text(
+        'The estimated fertile window is hidden. You can turn it on in the '
+        'settings.',
+      ),
+      findsOneWidget,
+    );
+    await tap(tester, finish);
+
+    expect(
+      await harness.read((store) => store.database.fertilityEstimateEnabled),
+      isFalse,
+    );
+  });
+
+  testWidgets('an app set up before is aligned with her answers, once', (
+    tester,
+  ) async {
+    final harness = Harness(tester);
+    await harness.seed(
+      days: periodFrom(CalendarDay(2026, 3, 1)),
+      goals: {Goal.trackPeriods, Goal.understandBody},
+    );
+    // The estimate is on, as an earlier version left it.
+    expect(
+      await harness.read((store) => store.database.fertilityEstimateEnabled),
+      isTrue,
+    );
+    await harness.pumpApp();
+    expect(
+      await harness.read((store) => store.database.fertilityEstimateEnabled),
+      isFalse,
+    );
+
+    // What she turns on by hand afterwards stays on.
+    await harness.read(
+      (store) => store.database.fertilityEstimateEnabled = true,
+    );
+    await harness.pumpApp();
+    expect(
+      await harness.read((store) => store.database.fertilityEstimateEnabled),
+      isTrue,
+    );
+  });
+
+  testWidgets('without any answer, nothing is changed at launch', (
+    tester,
+  ) async {
+    final harness = Harness(tester);
+    await harness.seed(days: periodFrom(CalendarDay(2026, 3, 1)));
+    await harness.pumpApp();
+
+    expect(
+      await harness.read((store) => store.database.fertilityEstimateEnabled),
+      isTrue,
+    );
+  });
+
   testWidgets('reminders she passes stay off, and are not turned on behind', (
     tester,
   ) async {
@@ -411,7 +482,7 @@ void main() {
     final harness = Harness(tester);
     await harness.pumpApp();
 
-    await to(tester, 'Your usual lengths');
+    await to(tester, 'How many days do your cycle and your period last?');
     await tap(tester, const ValueKey('period-length-plus'));
     await tap(tester, next);
     await to(tester, 'When did your last period start?');

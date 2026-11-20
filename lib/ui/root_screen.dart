@@ -5,6 +5,7 @@ import 'package:material_ui/material_ui.dart';
 import '../data/appearance.dart';
 import '../data/fycle_database.dart';
 import '../data/local_store.dart';
+import '../domain/start_profile.dart';
 import '../l10n/app_localizations.dart';
 import 'app_environment.dart';
 import 'app_lock.dart';
@@ -128,6 +129,7 @@ class _RootScreenState extends State<RootScreen> with WidgetsBindingObserver {
       });
       _syncReminders();
       if (_onboarded) {
+        _alignFertilityWithAnswers(model);
         // An app set up before reminders were on by default, then the
         // question asked again after each update.
         unawaited(
@@ -210,6 +212,30 @@ class _RootScreenState extends State<RootScreen> with WidgetsBindingObserver {
   /// launch, or at the first opening after an update for an app set up
   /// before. A refusal leaves them off, without a word: the home tab offers
   /// them again once. Whatever the user chooses afterwards is kept.
+  /// An app set up with an earlier version showed the estimate of the
+  /// fertile window to anyone who wanted to understand her body, asked or
+  /// not. Once, it is set again from what she answered (decision 146);
+  /// what she changes by hand afterwards is hers.
+  void _alignFertilityWithAnswers(CycleModel model) {
+    if (model.suggestionDismissed(fertilityFromAnswers)) {
+      return;
+    }
+    model.dismissSuggestion(fertilityFromAnswers);
+    if (answeredAboutFertility(
+      model.goals,
+      wishes: model.wishes,
+      contraception: model.contraception,
+    )) {
+      model.setFertilityEstimateEnabled(
+        showsFertilityFor(
+          model.goals,
+          wishes: model.wishes,
+          contraception: model.contraception,
+        ),
+      );
+    }
+  }
+
   Future<void> _applyReminderDefault(CycleModel model) async {
     if (model.suggestionDismissed(reminderDefaultSuggestion)) {
       return;

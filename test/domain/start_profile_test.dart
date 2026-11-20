@@ -18,12 +18,13 @@ void main() {
       );
     });
 
-    test('the fertile window is shown unless she only wants her dates', () {
+    test('the fertile window is shown to the one who asks for it', () {
       expect(showsFertilityFor({}), isTrue);
       expect(showsFertilityFor({Goal.trackPeriods}), isFalse);
       expect(showsFertilityFor({Goal.perimenopause}), isFalse);
       expect(showsFertilityFor({Goal.trackPeriods, Goal.conceive}), isTrue);
-      expect(showsFertilityFor({Goal.understandBody}), isTrue);
+      // Wanting to understand her body is not asking for it.
+      expect(showsFertilityFor({Goal.understandBody}), isFalse);
       // Asking for it by name is enough.
       expect(
         showsFertilityFor({Goal.trackPeriods}, wishes: {Wish.fertileWindow}),

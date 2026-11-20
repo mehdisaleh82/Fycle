@@ -1581,25 +1581,26 @@ class AppLocalizationsFr extends AppLocalizations {
   String get regularNoPeriods => 'Je n\'ai pas de règles';
 
   @override
-  String get setupLengthsTitle => 'Tes durées habituelles';
+  String get setupLengthsTitle =>
+      'Combien de jours durent ton cycle et tes règles ?';
 
   @override
   String get setupLengthsHint =>
-      'Si tu les connais. Sinon laisse : tes propres dates le diront.';
+      'Indique un nombre de jours, même approximatif, avec les boutons − et +. Si tu ne sais pas, touche « Passer » : l\'appli le calculera à partir de ce que tu notes.';
 
   @override
-  String get setupCycleLength => 'Ton cycle';
+  String get setupCycleLength => 'Durée de ton cycle';
 
   @override
   String get setupCycleLengthHelper =>
-      'Du premier jour des règles au premier jour des suivantes.';
+      'Du premier jour de tes règles au premier jour des règles suivantes.';
 
   @override
-  String get setupPeriodLength => 'Tes règles';
+  String get setupPeriodLength => 'Durée de tes règles';
 
   @override
   String get setupPeriodLengthHelper =>
-      'Le nombre de jours que durent tes règles.';
+      'Le nombre de jours où tu as tes règles.';
 
   @override
   String setupDays(int count) {
@@ -1826,7 +1827,7 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get setupUsualHint =>
-      'Cela règle le point de départ. Tu notes ensuite les vrais jours.';
+      'Pour partir de ce qui te ressemble. Ensuite, tu noteras chaque jour ce qu\'il en est vraiment.';
 
   @override
   String get setupUsualFlow => 'Abondance';
@@ -1883,7 +1884,7 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get setupTrackedHint =>
-      'Ton journal commence par ce que tu choisis. Le reste reste à portée.';
+      'Ton journal commencera par ce que tu choisis. Les autres rubriques restent disponibles juste en dessous.';
 
   @override
   String get trackedPain => 'Douleur';
@@ -2103,4 +2104,7 @@ class AppLocalizationsFr extends AppLocalizations {
   @override
   String get reliabilityAtTop =>
       'Le niveau le plus élevé : il tient tant que tes cycles se ressemblent.';
+
+  @override
+  String get setupNotGiven => 'Pas indiqué';
 }

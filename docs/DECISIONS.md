@@ -631,6 +631,11 @@ Retour de la testeuse sur la compilation n° 9, rapporté par l'utilisateur : po
     - Le cycle en cours en chiffres : jours notés, bonnes nuits, jours de douleur, humeur et libido les plus fréquentes, chacun à côté du cycle précédent pris au même nombre de jours (`lib/domain/daily_figures.dart`). Humeur et libido n'apparaissent que si elles ont été notées.
     - La fiabilité de l'estimation sur trois crans, avec ce qui la ferait monter : le nombre de cycles encore à noter, tiré des règles du moteur (`PeriodPredictor.cyclesForMediumConfidence`, `cyclesForHighConfidence`). Quand ce ne sont pas les cycles qui manquent mais ses cycles qui varient, la carte le dit, et dit que cela ne tient pas à sa façon de noter : aucune promesse fausse.
     - Règle 13 : ni points, ni badge, ni félicitations, ni reproche. Un test vérifie l'absence de ces mots. La série de saisie reste dans la carte du journal du jour.
+146. **La fenêtre de fertilité n'est affichée qu'à celle qui la demande** (retour du premier essai, 20 novembre 2026 : elle s'affichait chez une utilisatrice qui ne l'avait pas demandée). Corrige les décisions 141 et 143.
+    - Cause : « Mieux comprendre mon corps » suffisait à l'afficher. Ce n'est pas la demander.
+    - Règle (`showsFertilityFor`) : affichée si elle veut concevoir, ou si elle a coché « Connaître ma fenêtre de fertilité estimée ». Jamais sous contraception hormonale. Celle qui a répondu sans la demander ne la voit pas. Seule celle qui n'a répondu à rien garde l'affichage par défaut.
+    - Les installations déjà faites sont réalignées une fois sur les réponses données, au premier lancement de cette version (`fertility_from_answers`). Ensuite l'interrupteur des réglages lui appartient : l'appli n'y retouche que si elle change ses réponses sur ses objectifs, ses souhaits ou sa contraception.
+    - Chaque utilisatrice a donc son propre affichage, selon ses réponses et son interrupteur.
 
 ## Questions ouvertes
 
