@@ -4399,6 +4399,294 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Log sex and see when your desire is usually higher.'**
   String get sexLifeSubtitle;
+
+  /// No description provided for @guidesTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Guides'**
+  String get guidesTitle;
+
+  /// No description provided for @guidesIntro.
+  ///
+  /// In en, this message translates to:
+  /// **'Short pages of general information, written from public health sources. They replace no appointment.'**
+  String get guidesIntro;
+
+  /// No description provided for @guideTopicPerimenopause.
+  ///
+  /// In en, this message translates to:
+  /// **'Perimenopause'**
+  String get guideTopicPerimenopause;
+
+  /// No description provided for @guideTopicPregnancy.
+  ///
+  /// In en, this message translates to:
+  /// **'Pregnancy'**
+  String get guideTopicPregnancy;
+
+  /// No description provided for @guideFeaturedTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'For you'**
+  String get guideFeaturedTitle;
+
+  /// No description provided for @guideRead.
+  ///
+  /// In en, this message translates to:
+  /// **'Read'**
+  String get guideRead;
+
+  /// No description provided for @guideAll.
+  ///
+  /// In en, this message translates to:
+  /// **'All guides'**
+  String get guideAll;
+
+  /// No description provided for @guideSeekTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'When to seek advice'**
+  String get guideSeekTitle;
+
+  /// No description provided for @guidePendingReview.
+  ///
+  /// In en, this message translates to:
+  /// **'Text awaiting review by a health professional.'**
+  String get guidePendingReview;
+
+  /// No description provided for @guideNote.
+  ///
+  /// In en, this message translates to:
+  /// **'General information, not advice about you.'**
+  String get guideNote;
+
+  /// No description provided for @guideSourcesPerimenopause.
+  ///
+  /// In en, this message translates to:
+  /// **'Written from the pages of the NHS (United Kingdom) on menopause and perimenopause and on bleeding after menopause, read on 20 November 2026.'**
+  String get guideSourcesPerimenopause;
+
+  /// No description provided for @guideSourcesPregnancy.
+  ///
+  /// In en, this message translates to:
+  /// **'Written from the pages of the NHS (United Kingdom) on pregnancy week by week, pregnancy care, the baby\'s movements, bleeding in pregnancy, pre-eclampsia and the body after the birth, read on 20 November 2026.'**
+  String get guideSourcesPregnancy;
+
+  /// No description provided for @guidePeriWhatTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Perimenopause: what it is'**
+  String get guidePeriWhatTitle;
+
+  /// No description provided for @guidePeriWhatBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Perimenopause is the time when periods become irregular, before they stop for good. It comes from a fall in hormone levels.\n\nMenopause is reached after 12 months without a period, when no hormonal contraception is used. It usually happens between 45 and 55, sometimes earlier.\n\nSymptoms usually last 7 to 9 years, sometimes longer, and change over time. They differ a lot from one person to the next: some are hardly affected, others a great deal.\n\nThere is no routine test: a doctor goes by age and symptoms.'**
+  String get guidePeriWhatBody;
+
+  /// No description provided for @guidePeriWhatSeek.
+  ///
+  /// In en, this message translates to:
+  /// **'Talk to a doctor if you think you have symptoms and want to know your options.'**
+  String get guidePeriWhatSeek;
+
+  /// No description provided for @guidePeriPeriodsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Periods that change'**
+  String get guidePeriPeriodsTitle;
+
+  /// No description provided for @guidePeriPeriodsBody.
+  ///
+  /// In en, this message translates to:
+  /// **'A change in periods is usually one of the first signs of perimenopause.\n\nThey may come more often or less often. Bleeding may become heavier or lighter.\n\nIn the end, periods stop altogether.\n\nHormonal contraception can change or stop periods, which makes it harder to tell where you are.\n\nLogging your periods here shows how the gap between them changes over the months.'**
+  String get guidePeriPeriodsBody;
+
+  /// No description provided for @guidePeriPeriodsSeek.
+  ///
+  /// In en, this message translates to:
+  /// **'See a doctor if your bleeding pattern has changed and you bleed more than before, or if you bleed after 12 months or more without a period.'**
+  String get guidePeriPeriodsSeek;
+
+  /// No description provided for @guidePeriFlushesTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Hot flushes and night sweats'**
+  String get guidePeriFlushesTitle;
+
+  /// No description provided for @guidePeriFlushesBody.
+  ///
+  /// In en, this message translates to:
+  /// **'A hot flush is a sudden feeling of heat, or of cold, in the face, neck and chest. It lasts a few minutes and can come with heavy sweating, a racing heart or dizziness.\n\nAt night, they are called night sweats and can disturb sleep.\n\nWhat the NHS lists as helping day to day: light clothing, a cool bedroom, a cool shower, a fan or a cold drink, less stress, regular exercise, and fewer triggers such as spicy food, caffeine, hot drinks, alcohol and smoking.\n\nTreatments exist: a doctor can go through them with you.'**
+  String get guidePeriFlushesBody;
+
+  /// No description provided for @guidePeriFlushesSeek.
+  ///
+  /// In en, this message translates to:
+  /// **'Talk to a doctor if you want to know your options, or if you have palpitations.'**
+  String get guidePeriFlushesSeek;
+
+  /// No description provided for @guidePeriSleepTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Sleep, mood and memory'**
+  String get guidePeriSleepTitle;
+
+  /// No description provided for @guidePeriSleepBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Trouble falling asleep or staying asleep is common, and often worse with night sweats.\n\nMood swings, low mood or anxiety may come too. So may trouble with memory or concentration, which feels worse after poor sleep.\n\nWhat the NHS lists as helping: regular sleep times, as much rest as you can, regular exercise, relaxing activities such as yoga or meditation, and talking with people going through the same thing.\n\nA talking therapy can help with low mood, anxiety and sleep. A doctor can also suggest treatments.'**
+  String get guidePeriSleepBody;
+
+  /// No description provided for @guidePeriSleepSeek.
+  ///
+  /// In en, this message translates to:
+  /// **'Talk to a doctor if you want to know your options. Getting advice early can limit the effects on your health, your relationships and your work.'**
+  String get guidePeriSleepSeek;
+
+  /// No description provided for @guidePeriSexTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Sex and dryness'**
+  String get guidePeriSexTitle;
+
+  /// No description provided for @guidePeriSexBody.
+  ///
+  /// In en, this message translates to:
+  /// **'A lower sex drive is one of the possible symptoms of perimenopause.\n\nThe vagina may feel dry, burning, irritated or itchy, which can make sex painful. Urinary infections, or signs that feel like one, may also come more often.\n\nThese symptoms can go on after menopause. Solutions exist: a pharmacist or a doctor can suggest some, in private.\n\nA pregnancy is still possible during perimenopause.'**
+  String get guidePeriSexBody;
+
+  /// No description provided for @guidePeriSexSeek.
+  ///
+  /// In en, this message translates to:
+  /// **'Talk to a pharmacist or a doctor to find what suits you. You can log dryness and pain during sex in your journal to show them.'**
+  String get guidePeriSexSeek;
+
+  /// No description provided for @guidePeriSeekTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'When to see a doctor'**
+  String get guidePeriSeekTitle;
+
+  /// No description provided for @guidePeriSeekBody.
+  ///
+  /// In en, this message translates to:
+  /// **'See a doctor, without urgency, if:\n\n• you think you have symptoms of perimenopause and want to know your options;\n\n• you have palpitations;\n\n• you still have periods, but the pattern has changed and you bleed more than before;\n\n• you have had no period for 12 months or more and you bleed, even once, even a little, even as pink or brown discharge.\n\nBleeding after menopause is usually not serious, but it always needs checking.'**
+  String get guidePeriSeekBody;
+
+  /// No description provided for @guidePeriSeekSeek.
+  ///
+  /// In en, this message translates to:
+  /// **'This page replaces no appointment: if in doubt, ask a health professional.'**
+  String get guidePeriSeekSeek;
+
+  /// No description provided for @guidePregFirstTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'First trimester'**
+  String get guidePregFirstTitle;
+
+  /// No description provided for @guidePregFirstBody.
+  ///
+  /// In en, this message translates to:
+  /// **'A pregnancy is counted from the first day of the last period. The first trimester runs up to week 12.\n\nA missed period is often one of the first signs. Others may come: nausea at any time of day, sore breasts, tiredness, needing to pee more often, cramps like period pains, bloating, a stronger sense of smell. Some feel nothing at all.\n\nA first appointment with a midwife or a doctor is usually held in these weeks: ask yours when.'**
+  String get guidePregFirstBody;
+
+  /// No description provided for @guidePregFirstSeek.
+  ///
+  /// In en, this message translates to:
+  /// **'Any bleeding during a pregnancy should be reported to a midwife or a doctor, even light.'**
+  String get guidePregFirstSeek;
+
+  /// No description provided for @guidePregSecondTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Second trimester'**
+  String get guidePregSecondTitle;
+
+  /// No description provided for @guidePregSecondBody.
+  ///
+  /// In en, this message translates to:
+  /// **'From week 13 to week 27. The hardest symptoms of the first weeks have usually eased.\n\nWhat may come: a bump that starts to show, gums that swell or bleed, nosebleeds, leg cramps, dizziness, headaches, swollen hands and feet.\n\nThe baby\'s movements are usually first felt between 16 and 24 weeks, often after 20 weeks for a first baby.'**
+  String get guidePregSecondBody;
+
+  /// No description provided for @guidePregSecondSeek.
+  ///
+  /// In en, this message translates to:
+  /// **'Tell your midwife if you have felt no movement by 24 weeks. A severe headache, vision problems or sudden swelling must be checked at once.'**
+  String get guidePregSecondSeek;
+
+  /// No description provided for @guidePregThirdTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Third trimester'**
+  String get guidePregThirdTitle;
+
+  /// No description provided for @guidePregThirdBody.
+  ///
+  /// In en, this message translates to:
+  /// **'From week 28 to the birth.\n\nWhat may come: heartburn, backache, cramps, trouble sleeping, feeling hot, swollen ankles and feet.\n\nThere is no set number of movements to count each day. What matters is your baby\'s usual pattern: you should feel movements right up to the birth, and during it.'**
+  String get guidePregThirdBody;
+
+  /// No description provided for @guidePregThirdSeek.
+  ///
+  /// In en, this message translates to:
+  /// **'Call your midwife or maternity unit at once, day or night, if your baby moves less than usual, if you no longer feel it move, or if its pattern changes. Do not wait until the next day.'**
+  String get guidePregThirdSeek;
+
+  /// No description provided for @guidePregUrgentTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Signs not to wait on'**
+  String get guidePregUrgentTitle;
+
+  /// No description provided for @guidePregUrgentBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Call the emergency services if you are bleeding and you also have: severe tummy pain, pain in the shoulder, nausea, feeling faint or dizzy, a loss of consciousness, or bleeding so heavy that it soaks a pad soon after you put it on.\n\nContact your maternity unit, midwife or doctor at once if:\n\n• you bleed, even lightly;\n\n• your baby moves less than usual, you no longer feel it move, or its pattern changes;\n\n• you have a severe headache that simple painkillers do not ease;\n\n• your vision is blurred or you see flashing lights;\n\n• you have pain just below the ribs;\n\n• your face, hands or feet swell suddenly;\n\n• you feel very unwell.'**
+  String get guidePregUrgentBody;
+
+  /// No description provided for @guidePregUrgentSeek.
+  ///
+  /// In en, this message translates to:
+  /// **'This list is not complete. If something worries you, call without waiting for your next appointment.'**
+  String get guidePregUrgentSeek;
+
+  /// No description provided for @guidePregCareTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'What the appointments are for'**
+  String get guidePregCareTitle;
+
+  /// No description provided for @guidePregCareBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Pregnancy care is there to keep you and your baby as healthy as possible. It is usually given by a midwife, and by a doctor when needed.\n\nAt a first, longer appointment, you are asked about your health, the date of your last period, earlier pregnancies and your daily life.\n\nAt most appointments: your blood pressure is taken, your urine is tested, and later your bump is measured to follow the baby\'s growth. Blood tests and ultrasound scans are offered at set times.\n\nHow many appointments and scans there are, and when, depends on the country and on your situation.'**
+  String get guidePregCareBody;
+
+  /// No description provided for @guidePregCareSeek.
+  ///
+  /// In en, this message translates to:
+  /// **'You can contact those who follow your pregnancy at any time if you are worried, without waiting for the next appointment.'**
+  String get guidePregCareSeek;
+
+  /// No description provided for @guidePregAfterTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'After the birth: bleeding and periods'**
+  String get guidePregAfterTitle;
+
+  /// No description provided for @guidePregAfterBody.
+  ///
+  /// In en, this message translates to:
+  /// **'After the birth, you bleed from the vagina: heavily at first, then less and less, turning brownish, for a few weeks. This bleeding is not a period.\n\nWhen periods come back differs for everyone. With bottle feeding, or mixed feeding, the first period can come as soon as 5 to 6 weeks after the birth. With full breastfeeding, nights included, periods may not come back until you breastfeed less.\n\nA pregnancy is possible from 3 weeks after the birth, even while breastfeeding and before periods are back.\n\nA check-up is usually held 6 to 8 weeks after the birth: a good time to talk about your body and your mood.'**
+  String get guidePregAfterBody;
+
+  /// No description provided for @guidePregAfterSeek.
+  ///
+  /// In en, this message translates to:
+  /// **'Tell a midwife or a doctor at once if you have: sudden or very heavy bleeding, large clots, a fever with a sore tummy, a headache with vision changes or vomiting, pain or swelling in one calf, chest pain or trouble breathing.'**
+  String get guidePregAfterSeek;
 }
 
 class _AppLocalizationsDelegate

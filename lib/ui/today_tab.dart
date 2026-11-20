@@ -16,6 +16,7 @@ import 'coming_signs_card.dart';
 import 'cycle_model.dart';
 import 'cycle_summary_card.dart';
 import 'follow_card.dart';
+import 'guides_screen.dart';
 import 'home_screen.dart';
 import 'insights_screen.dart';
 import 'labels.dart';
@@ -161,6 +162,7 @@ class TodayTab extends StatelessWidget {
                 onOpenYesterday: () => onOpenDay(today.addDays(-1)),
               ),
               AheadCard(model: model, today: today, status: status),
+              GuideCard(model: model, today: today),
               if (model.profile == Profile.discovering ||
                   (model.goals.contains(Goal.understandBody) &&
                       followsACycle(model.profile))) ...[

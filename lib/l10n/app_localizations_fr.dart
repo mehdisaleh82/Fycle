@@ -2856,4 +2856,177 @@ class AppLocalizationsFr extends AppLocalizations {
   @override
   String get sexLifeSubtitle =>
       'Noter les rapports et voir quand ton désir est souvent plus haut.';
+
+  @override
+  String get guidesTitle => 'Fiches';
+
+  @override
+  String get guidesIntro =>
+      'De courtes pages d\'information générale, rédigées à partir de sources de santé publique. Elles ne remplacent aucune consultation.';
+
+  @override
+  String get guideTopicPerimenopause => 'Périménopause';
+
+  @override
+  String get guideTopicPregnancy => 'Grossesse';
+
+  @override
+  String get guideFeaturedTitle => 'Pour toi';
+
+  @override
+  String get guideRead => 'Lire';
+
+  @override
+  String get guideAll => 'Toutes les fiches';
+
+  @override
+  String get guideSeekTitle => 'Quand consulter';
+
+  @override
+  String get guidePendingReview =>
+      'Texte en attente de relecture par un professionnel de santé.';
+
+  @override
+  String get guideNote => 'Une information générale, pas un avis sur toi.';
+
+  @override
+  String get guideSourcesPerimenopause =>
+      'Rédigé à partir des pages du NHS (Royaume-Uni) sur la ménopause et la périménopause et sur les saignements après la ménopause, lues le 20 novembre 2026.';
+
+  @override
+  String get guideSourcesPregnancy =>
+      'Rédigé à partir des pages du NHS (Royaume-Uni) sur la grossesse semaine par semaine, le suivi de grossesse, les mouvements du bébé, les saignements pendant la grossesse, la pré-éclampsie et le corps après la naissance, lues le 20 novembre 2026.';
+
+  @override
+  String get guidePeriWhatTitle => 'Périménopause : ce que c\'est';
+
+  @override
+  String get guidePeriWhatBody =>
+      'La périménopause est la période où les règles deviennent irrégulières, avant de s\'arrêter pour de bon. Elle vient d\'une baisse des hormones.\n\nLa ménopause est atteinte après 12 mois sans règles, sans contraception hormonale. Elle survient en général entre 45 et 55 ans, parfois plus tôt.\n\nLes symptômes durent en général 7 à 9 ans, parfois plus, et changent avec le temps. Ils sont très différents d\'une personne à l\'autre : certaines sont à peine gênées, d\'autres beaucoup.\n\nIl n\'existe pas de test de routine : un médecin se fonde sur l\'âge et les symptômes.';
+
+  @override
+  String get guidePeriWhatSeek =>
+      'Parles-en à un médecin si tu penses avoir des symptômes et que tu veux connaître tes options.';
+
+  @override
+  String get guidePeriPeriodsTitle => 'Des règles qui changent';
+
+  @override
+  String get guidePeriPeriodsBody =>
+      'Un changement des règles est en général l\'un des premiers signes de la périménopause.\n\nElles peuvent venir plus souvent ou moins souvent. Les saignements peuvent devenir plus abondants ou plus légers.\n\nÀ la fin, les règles s\'arrêtent complètement.\n\nUne contraception hormonale peut modifier ou arrêter les règles : il est alors plus difficile de savoir où tu en es.\n\nNoter tes règles ici montre comment l\'écart entre elles évolue au fil des mois.';
+
+  @override
+  String get guidePeriPeriodsSeek =>
+      'Consulte un médecin si tes saignements ont changé et sont plus abondants qu\'avant, ou si tu saignes après 12 mois ou plus sans règles.';
+
+  @override
+  String get guidePeriFlushesTitle => 'Bouffées de chaleur et sueurs nocturnes';
+
+  @override
+  String get guidePeriFlushesBody =>
+      'Une bouffée de chaleur est une sensation soudaine de chaleur, ou de froid, au visage, au cou et à la poitrine. Elle dure quelques minutes et peut s\'accompagner de fortes sueurs, de palpitations ou de vertiges.\n\nLa nuit, on parle de sueurs nocturnes : elles peuvent gêner le sommeil.\n\nCe que le NHS cite comme pouvant aider au quotidien : des vêtements légers, une chambre fraîche, une douche fraîche, un ventilateur ou une boisson froide, moins de stress, une activité physique régulière, et moins de déclencheurs comme les plats épicés, la caféine, les boissons chaudes, l\'alcool et le tabac.\n\nDes traitements existent : un médecin peut les passer en revue avec toi.';
+
+  @override
+  String get guidePeriFlushesSeek =>
+      'Parles-en à un médecin si tu veux connaître tes options, ou si tu as des palpitations.';
+
+  @override
+  String get guidePeriSleepTitle => 'Sommeil, humeur et mémoire';
+
+  @override
+  String get guidePeriSleepBody =>
+      'Avoir du mal à s\'endormir ou à rester endormie est fréquent, et souvent pire avec les sueurs nocturnes.\n\nDes sautes d\'humeur, une humeur basse ou de l\'anxiété peuvent s\'y ajouter, ainsi que des difficultés de mémoire ou de concentration, plus marquées après une mauvaise nuit.\n\nCe que le NHS cite comme pouvant aider : des horaires de sommeil réguliers, autant de repos que possible, une activité physique régulière, des activités relaxantes comme le yoga ou la méditation, et en parler avec des personnes qui vivent la même chose.\n\nUne thérapie par la parole peut aider pour l\'humeur, l\'anxiété et le sommeil. Un médecin peut aussi proposer des traitements.';
+
+  @override
+  String get guidePeriSleepSeek =>
+      'Parles-en à un médecin si tu veux connaître tes options. Demander conseil tôt peut limiter les effets sur ta santé, tes relations et ton travail.';
+
+  @override
+  String get guidePeriSexTitle => 'Sexualité et sécheresse';
+
+  @override
+  String get guidePeriSexBody =>
+      'Une baisse du désir fait partie des symptômes possibles de la périménopause.\n\nLe vagin peut être sec, brûler, être irrité ou démanger, ce qui peut rendre les rapports douloureux. Les infections urinaires, ou des signes qui y ressemblent, peuvent aussi être plus fréquents.\n\nCes symptômes peuvent durer après la ménopause. Des solutions existent : un pharmacien ou un médecin peut en proposer, en toute discrétion.\n\nUne grossesse reste possible pendant la périménopause.';
+
+  @override
+  String get guidePeriSexSeek =>
+      'Parles-en à un pharmacien ou à un médecin pour trouver ce qui te convient. Tu peux noter la sécheresse et la douleur pendant les rapports dans ton journal pour les leur montrer.';
+
+  @override
+  String get guidePeriSeekTitle => 'Quand consulter un médecin';
+
+  @override
+  String get guidePeriSeekBody =>
+      'Consulte un médecin, sans urgence, si :\n\n• tu penses avoir des symptômes de périménopause et tu veux connaître tes options ;\n\n• tu as des palpitations ;\n\n• tu as encore tes règles, mais elles ont changé et tu saignes plus qu\'avant ;\n\n• tu n\'as plus de règles depuis 12 mois ou plus et tu saignes, même une seule fois, même très peu, même sous forme de pertes roses ou brunes.\n\nUn saignement après la ménopause n\'est en général pas grave, mais il doit toujours être vérifié.';
+
+  @override
+  String get guidePeriSeekSeek =>
+      'Cette fiche ne remplace aucune consultation : dans le doute, demande à un professionnel de santé.';
+
+  @override
+  String get guidePregFirstTitle => 'Premier trimestre';
+
+  @override
+  String get guidePregFirstBody =>
+      'Une grossesse se compte à partir du premier jour des dernières règles. Le premier trimestre va jusqu\'à la semaine 12.\n\nUn retard de règles est souvent l\'un des premiers signes. D\'autres peuvent venir : nausées à tout moment de la journée, seins sensibles, fatigue, envie d\'uriner plus souvent, crampes comme pendant les règles, ballonnements, odorat plus fin. Certaines ne ressentent rien du tout.\n\nUn premier rendez-vous avec une sage-femme ou un médecin a en général lieu pendant ces semaines : demande quand.';
+
+  @override
+  String get guidePregFirstSeek =>
+      'Tout saignement pendant une grossesse doit être signalé à une sage-femme ou à un médecin, même léger.';
+
+  @override
+  String get guidePregSecondTitle => 'Deuxième trimestre';
+
+  @override
+  String get guidePregSecondBody =>
+      'De la semaine 13 à la semaine 27. Les symptômes les plus pénibles des premières semaines se sont en général calmés.\n\nCe qui peut venir : un ventre qui commence à se voir, des gencives qui gonflent ou saignent, des saignements de nez, des crampes dans les jambes, des vertiges, des maux de tête, des mains et des pieds gonflés.\n\nLes mouvements du bébé se sentent en général pour la première fois entre 16 et 24 semaines, souvent après 20 semaines pour un premier bébé.';
+
+  @override
+  String get guidePregSecondSeek =>
+      'Préviens ta sage-femme si tu n\'as senti aucun mouvement à 24 semaines. Un fort mal de tête, des troubles de la vue ou un gonflement soudain doivent être vérifiés sans attendre.';
+
+  @override
+  String get guidePregThirdTitle => 'Troisième trimestre';
+
+  @override
+  String get guidePregThirdBody =>
+      'De la semaine 28 à la naissance.\n\nCe qui peut venir : brûlures d\'estomac, mal de dos, crampes, sommeil difficile, sensation de chaleur, chevilles et pieds gonflés.\n\nIl n\'y a pas de nombre de mouvements à compter chaque jour. Ce qui compte, ce sont les habitudes de ton bébé : tu dois sentir des mouvements jusqu\'à la naissance, et pendant.';
+
+  @override
+  String get guidePregThirdSeek =>
+      'Appelle ta sage-femme ou ta maternité sans attendre, de jour comme de nuit, si ton bébé bouge moins que d\'habitude, si tu ne le sens plus bouger, ou si ses habitudes changent. N\'attends pas le lendemain.';
+
+  @override
+  String get guidePregUrgentTitle => 'Les signes qui ne doivent pas attendre';
+
+  @override
+  String get guidePregUrgentBody =>
+      'Appelle les secours si tu saignes et que tu as aussi : une forte douleur au ventre, une douleur à l\'épaule, des nausées, une sensation de malaise ou de vertige, une perte de connaissance, ou un saignement si abondant qu\'il traverse une protection peu après l\'avoir mise.\n\nContacte sans attendre ta maternité, ta sage-femme ou ton médecin si :\n\n• tu saignes, même légèrement ;\n\n• ton bébé bouge moins que d\'habitude, tu ne le sens plus bouger, ou ses habitudes changent ;\n\n• tu as un fort mal de tête que les antidouleurs courants ne calment pas ;\n\n• ta vue est trouble ou tu vois des éclairs lumineux ;\n\n• tu as une douleur juste sous les côtes ;\n\n• ton visage, tes mains ou tes pieds gonflent soudainement ;\n\n• tu te sens très mal.';
+
+  @override
+  String get guidePregUrgentSeek =>
+      'Cette liste n\'est pas complète. Si quelque chose t\'inquiète, appelle sans attendre ton prochain rendez-vous.';
+
+  @override
+  String get guidePregCareTitle => 'À quoi servent les rendez-vous';
+
+  @override
+  String get guidePregCareBody =>
+      'Le suivi de grossesse sert à garder ta santé et celle de ton bébé aussi bonnes que possible. Il est en général assuré par une sage-femme, et par un médecin si besoin.\n\nLors d\'un premier rendez-vous, plus long, on t\'interroge sur ta santé, la date de tes dernières règles, tes grossesses précédentes et ta vie quotidienne.\n\nÀ la plupart des rendez-vous : ta tension est prise, tes urines sont analysées, et plus tard ton ventre est mesuré pour suivre la croissance du bébé. Des prises de sang et des échographies sont proposées à des moments précis.\n\nLe nombre de rendez-vous et d\'échographies, et leur date, dépendent du pays et de ta situation.';
+
+  @override
+  String get guidePregCareSeek =>
+      'Tu peux contacter à tout moment celles et ceux qui suivent ta grossesse si tu es inquiète, sans attendre le prochain rendez-vous.';
+
+  @override
+  String get guidePregAfterTitle =>
+      'Après la naissance : saignements et règles';
+
+  @override
+  String get guidePregAfterBody =>
+      'Après la naissance, tu saignes par le vagin : beaucoup au début, puis de moins en moins, avec une couleur qui brunit, pendant quelques semaines. Ces saignements ne sont pas des règles.\n\nLe retour des règles est différent pour chacune. Avec le biberon, ou un allaitement mixte, les premières règles peuvent revenir dès 5 à 6 semaines après la naissance. Avec un allaitement complet, nuits comprises, elles peuvent ne revenir que lorsque tu allaites moins.\n\nUne grossesse est possible dès 3 semaines après la naissance, même en allaitant et avant le retour des règles.\n\nUne visite de contrôle a en général lieu 6 à 8 semaines après la naissance : un bon moment pour parler de ton corps et de ton moral.';
+
+  @override
+  String get guidePregAfterSeek =>
+      'Préviens sans attendre une sage-femme ou un médecin si tu as : un saignement soudain ou très abondant, de gros caillots, de la fièvre avec un ventre douloureux, un mal de tête avec des troubles de la vue ou des vomissements, une douleur ou un gonflement dans un mollet, une douleur dans la poitrine ou du mal à respirer.';
 }

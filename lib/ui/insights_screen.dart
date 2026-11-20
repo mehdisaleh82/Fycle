@@ -17,6 +17,7 @@ import 'cycle_model.dart';
 import 'disclaimer_card.dart';
 import 'doctor_pdf.dart';
 import 'fertility_card.dart';
+import 'guides_screen.dart';
 import 'home_cards.dart';
 import 'labels.dart';
 import 'migraine_card.dart';
@@ -142,6 +143,18 @@ class InsightsScreen extends StatelessWidget {
                 ),
                 icon: const Icon(Icons.expand_circle_down_outlined),
                 label: Text(l10n.reviewSeeDetail),
+              ),
+              const SizedBox(height: 8),
+              // General information, hers first.
+              OutlinedButton.icon(
+                key: const ValueKey('open-guides'),
+                onPressed: () => Navigator.of(context).push(
+                  MaterialPageRoute<void>(
+                    builder: (context) => GuidesScreen(model: model),
+                  ),
+                ),
+                icon: const Icon(Icons.article_outlined),
+                label: Text(l10n.guidesTitle),
               ),
               const SizedBox(height: 16),
               const DisclaimerCard(),
