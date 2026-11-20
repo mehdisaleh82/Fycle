@@ -27,7 +27,7 @@ Finder within(String key, String text) =>
 void main() {
   group('home tab', () {
     testWidgets(
-      'is kept to the ring, the journal of the day and her tracking',
+      'is kept to the ring, what comes back, the journal and her tracking',
       (tester) async {
         final harness = Harness(tester);
         await harness.seed(days: threePeriods());
@@ -42,7 +42,9 @@ void main() {
         expect(find.text('Period in 5 to 11 days'), findsOneWidget);
         expect(find.text('My journal today'), findsOneWidget);
         // Everything else is in the review.
-        expect(find.byType(Card), findsNWidgets(3));
+        expect(find.byType(Card), findsNWidgets(4));
+        // What comes before her period, between the ring and the journal.
+        expect(find.byKey(const ValueKey('coming-signs')), findsOneWidget);
         expect(find.byKey(const ValueKey('follow-card')), findsOneWidget);
         expect(find.byKey(const ValueKey('figure-cycle')), findsNothing);
         expect(find.byKey(const ValueKey('unlock-card')), findsNothing);

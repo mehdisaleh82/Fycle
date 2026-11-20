@@ -4,6 +4,7 @@ import 'package:material_ui/material_ui.dart';
 
 import '../data/device_auth.dart';
 import '../domain/calendar_day.dart';
+import '../domain/coming_signs.dart';
 import '../domain/cycle_change.dart';
 import '../domain/day_entry.dart';
 import '../domain/flow_intensity.dart';
@@ -73,6 +74,7 @@ enum _Step {
   regularity,
   lengths,
   usual,
+  before,
   contraception,
   changes,
   signs,
@@ -177,6 +179,9 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
   late FlowIntensity? _usualFlow = widget.model.usualFlow;
   late PainLevel? _usualPain = widget.model.usualPain;
   late Set<Symptom> _signs = {...widget.model.startSigns};
+
+  /// What she often has before her period.
+  late Set<Symptom> _before = {...widget.model.declaredBeforePeriod};
   CalendarDay? _lastPeriod;
 
   /// First days of earlier periods, three at most.
@@ -203,7 +208,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
       // Where she is decides what is asked next.
       _Step.goals,
       if (cycle) ...[_Step.wishes, _Step.regularity],
-      if (periods) ...[_Step.lengths, _Step.usual],
+      if (periods) ...[_Step.lengths, _Step.usual, _Step.before],
       if (_profile != Profile.pregnant) _Step.contraception,
       if (changes) ...[_Step.changes, _Step.signs],
       if (!widget.editing && !cycle) _Step.keyDate,
@@ -330,6 +335,8 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
         _contraception = null;
       case _Step.signs:
         _signs = {};
+      case _Step.before:
+        _before = {};
       case _Step.tracked:
         _tracked = {};
       case _Step.reminders:
@@ -418,6 +425,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
       usualFlow: periods ? _usualFlow : null,
       usualPain: periods ? _usualPain : null,
       startSigns: follows ? _signs : const {},
+      beforePeriod: periods ? _before : const {},
     );
     if (fertilityAnswered && fertilityChanged) {
       model.setFertilityEstimateEnabled(_showsFertility);
@@ -1210,6 +1218,24 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                     _contraception = value;
                     _advance();
                   },
+                ),
+            ],
+          ),
+        );
+      case _Step.before:
+        return _Question(
+          title: l10n.setupBeforeTitle,
+          hint: l10n.setupBeforeHint,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              for (final sign in signsAskedBeforePeriod)
+                _Choice(
+                  key: ValueKey('before-${sign.name}'),
+                  label: symptomLabel(l10n, sign),
+                  selected: _before.contains(sign),
+                  several: true,
+                  onTap: () => _toggle(_before, sign),
                 ),
             ],
           ),

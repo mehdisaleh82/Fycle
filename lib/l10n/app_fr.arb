@@ -684,5 +684,22 @@
   "partnerLinkErrorTitle": "Code illisible",
   "partnerLinkErrorBody": "Demande-lui d'afficher un nouveau code.",
   "partnerLinkBusyTitle": "Ce téléphone suit déjà un cycle",
-  "partnerLinkBusyBody": "La vue partenaire s'ouvre sur un téléphone où Fycle n'est pas encore configurée."
+  "partnerLinkBusyBody": "La vue partenaire s'ouvre sur un téléphone où Fycle n'est pas encore configurée.",
+  "comingTitleHers": "Ce qui revient chez toi",
+  "comingTitleCommon": "Avant les règles, en général",
+  "comingNow": "Ces jours-ci",
+  "comingIn": "{days, plural, =1{Dans 1 jour environ} other{Dans {days} jours environ}}",
+  "comingDaysBefore": "{days, plural, =1{la veille} other{{days} jours avant}}",
+  "comingDaysRange": "{from} à {to} jours avant",
+  "comingLoggedLine": "{when} · {count} cycles sur {total}",
+  "comingDeclared": "D'après ce que tu as dit",
+  "comingCommonBody": "Souvent rapporté : {signs}.",
+  "comingCommonHint": "Repère général. Note tes signes pour voir les tiens.",
+  "comingLogToday": "Aujourd'hui",
+  "comingLogTooltip": "Noter aujourd'hui : {sign}",
+  "setupBeforeTitle": "Avant tes règles, tu as souvent…",
+  "setupBeforeHint": "Coche ce que tu reconnais.",
+  "reminderSignsTitle": "Ce qui revient",
+  "reminderSignsSubtitle": "Une fois par cycle, avant tes signes habituels.",
+  "notificationSignsBody": "Un repère pour les jours qui viennent."
 }

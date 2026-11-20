@@ -9,6 +9,7 @@ import '../domain/period_end_estimate.dart';
 import '../domain/start_profile.dart';
 import '../l10n/app_localizations.dart';
 import 'app_environment.dart';
+import 'coming_signs_card.dart';
 import 'cycle_model.dart';
 import 'cycle_summary_card.dart';
 import 'follow_card.dart';
@@ -137,6 +138,7 @@ class TodayTab extends StatelessWidget {
                     model.entryFor(today).withFlow(FlowIntensity.medium),
                   ),
                 ),
+              ComingSignsCard(model: model, today: today, status: status),
               gap,
               TodayCard(
                 model: model,

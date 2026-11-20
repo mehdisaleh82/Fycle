@@ -342,6 +342,36 @@ class SettingsScreen extends StatelessWidget {
                       onTap: () => _pickDailyTime(context),
                     ),
                   SwitchListTile(
+                    key: const ValueKey('signs-reminder'),
+                    secondary: const Icon(Icons.auto_awesome_outlined),
+                    title: Text(l10n.reminderSignsTitle),
+                    subtitle: Text(l10n.reminderSignsSubtitle),
+                    value: reminders.signsEnabled,
+                    onChanged: (on) => _setReminders(
+                      context,
+                      reminders.copyWith(signsEnabled: on),
+                      turningOn: on,
+                    ),
+                  ),
+                  if (reminders.signsEnabled)
+                    ListTile(
+                      key: const ValueKey('signs-time'),
+                      leading: const SizedBox(width: 24),
+                      title: Text(l10n.reminderTime),
+                      subtitle: Text(timeText(reminders.signsTime)),
+                      onTap: () async {
+                        final time = await _pickTime(
+                          context,
+                          reminders.signsTime,
+                        );
+                        if (time != null) {
+                          model.setReminderSettings(
+                            model.reminderSettings.copyWith(signsTime: time),
+                          );
+                        }
+                      },
+                    ),
+                  SwitchListTile(
                     key: const ValueKey('contraception-reminder'),
                     secondary: const Icon(Icons.alarm),
                     title: Text(l10n.reminderContraceptionTitle),

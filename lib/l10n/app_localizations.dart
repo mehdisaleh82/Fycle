@@ -4141,6 +4141,108 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'The partner view opens on a phone where Fycle is not set up yet.'**
   String get partnerLinkBusyBody;
+
+  /// No description provided for @comingTitleHers.
+  ///
+  /// In en, this message translates to:
+  /// **'What comes back for you'**
+  String get comingTitleHers;
+
+  /// No description provided for @comingTitleCommon.
+  ///
+  /// In en, this message translates to:
+  /// **'Before a period, in general'**
+  String get comingTitleCommon;
+
+  /// No description provided for @comingNow.
+  ///
+  /// In en, this message translates to:
+  /// **'Around now'**
+  String get comingNow;
+
+  /// No description provided for @comingIn.
+  ///
+  /// In en, this message translates to:
+  /// **'{days, plural, =1{In about 1 day} other{In about {days} days}}'**
+  String comingIn(int days);
+
+  /// No description provided for @comingDaysBefore.
+  ///
+  /// In en, this message translates to:
+  /// **'{days, plural, =1{the day before} other{{days} days before}}'**
+  String comingDaysBefore(int days);
+
+  /// No description provided for @comingDaysRange.
+  ///
+  /// In en, this message translates to:
+  /// **'{from} to {to} days before'**
+  String comingDaysRange(int from, int to);
+
+  /// No description provided for @comingLoggedLine.
+  ///
+  /// In en, this message translates to:
+  /// **'{when} · {count} of {total} cycles'**
+  String comingLoggedLine(String when, int count, int total);
+
+  /// No description provided for @comingDeclared.
+  ///
+  /// In en, this message translates to:
+  /// **'From what you said'**
+  String get comingDeclared;
+
+  /// No description provided for @comingCommonBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Often reported: {signs}.'**
+  String comingCommonBody(String signs);
+
+  /// No description provided for @comingCommonHint.
+  ///
+  /// In en, this message translates to:
+  /// **'A general benchmark. Log your signs to see your own.'**
+  String get comingCommonHint;
+
+  /// No description provided for @comingLogToday.
+  ///
+  /// In en, this message translates to:
+  /// **'Today'**
+  String get comingLogToday;
+
+  /// No description provided for @comingLogTooltip.
+  ///
+  /// In en, this message translates to:
+  /// **'Log today: {sign}'**
+  String comingLogTooltip(String sign);
+
+  /// No description provided for @setupBeforeTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Before your period, you often get…'**
+  String get setupBeforeTitle;
+
+  /// No description provided for @setupBeforeHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Tick what you recognise.'**
+  String get setupBeforeHint;
+
+  /// No description provided for @reminderSignsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'What comes back'**
+  String get reminderSignsTitle;
+
+  /// No description provided for @reminderSignsSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Once a cycle, before your usual signs.'**
+  String get reminderSignsSubtitle;
+
+  /// No description provided for @notificationSignsBody.
+  ///
+  /// In en, this message translates to:
+  /// **'A note for the days ahead.'**
+  String get notificationSignsBody;
 }
 
 class _AppLocalizationsDelegate

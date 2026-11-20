@@ -103,6 +103,7 @@ final class FycleDatabase {
   static const String _usualFlow = 'usual_flow';
   static const String _usualPain = 'usual_pain';
   static const String _startSigns = 'start_signs';
+  static const String _signsBeforePeriod = 'signs_before_period';
   static const String _profile = 'profile';
   static const String _partnerView = 'partner_view';
   static const String _autoBackup = 'auto_backup_enabled';
@@ -118,6 +119,8 @@ final class FycleDatabase {
   static const String _contraceptionReminder = 'reminder_contraception_enabled';
   static const String _contraceptionReminderTime =
       'reminder_contraception_minutes';
+  static const String _signsReminder = 'reminder_signs_enabled';
+  static const String _signsReminderTime = 'reminder_signs_minutes';
   static const String _appLock = 'app_lock_enabled';
   static const String _appearance = 'appearance';
   static const String _onboardingDone = 'onboarding_done';
@@ -332,6 +335,14 @@ final class FycleDatabase {
   set startSigns(Set<Symptom> signs) =>
       _writeDeviceSetting(_startSigns, _joined(signs));
 
+  /// The signs she said she often has before her period, when the app
+  /// was set up. Not part of an export.
+  Set<Symptom> get signsBeforePeriod =>
+      _names(Symptom.values, _deviceSetting(_signsBeforePeriod));
+
+  set signsBeforePeriod(Set<Symptom> signs) =>
+      _writeDeviceSetting(_signsBeforePeriod, _joined(signs));
+
   /// What a partner shared with the holder of this phone, as the JSON text
   /// of the file once decrypted. Null when this phone is not used to
   /// follow someone else. Not part of an export.
@@ -398,6 +409,10 @@ final class FycleDatabase {
       contraceptionTime: ClockTime.tryFromMinutes(
         int.tryParse(_deviceSetting(_contraceptionReminderTime) ?? ''),
       ),
+      signsEnabled: _deviceSetting(_signsReminder) == _on,
+      signsTime: ClockTime.tryFromMinutes(
+        int.tryParse(_deviceSetting(_signsReminderTime) ?? ''),
+      ),
     );
   }
 
@@ -420,6 +435,11 @@ final class FycleDatabase {
     _writeDeviceSetting(
       _contraceptionReminderTime,
       '${settings.contraceptionTime.minutesSinceMidnight}',
+    );
+    _writeDeviceSetting(_signsReminder, settings.signsEnabled ? _on : null);
+    _writeDeviceSetting(
+      _signsReminderTime,
+      '${settings.signsTime.minutesSinceMidnight}',
     );
   });
 

@@ -2,6 +2,7 @@ import 'package:flutter/foundation.dart';
 
 import '../data/reminder_gateway.dart';
 import '../domain/calendar_day.dart';
+import '../domain/coming_signs.dart';
 import '../domain/reminders.dart';
 import '../l10n/app_localizations.dart';
 import 'cycle_model.dart';
@@ -25,12 +26,26 @@ class ReminderSync {
     required AppLocalizations l10n,
   }) {
     final settings = model.reminderSettings;
+    final prediction = model.prediction;
+    // Only her own signs are worth a reminder, never the common ones.
+    final signs = [
+      if (settings.signsEnabled && prediction != null)
+        for (final sign in signsBeforePeriod(
+          cycles: model.cycles,
+          days: model.days,
+          declared: model.declaredBeforePeriod,
+        ))
+          if (sign.source != SignSource.common) sign,
+    ];
     final planned = planReminders(
       settings: settings,
       today: CalendarDay.fromDateTime(now),
       now: ClockTime(now.hour, now.minute),
-      prediction: model.prediction,
+      prediction: prediction,
       loggedDays: model.loggedDays,
+      signsFrom: signs.isEmpty || prediction == null
+          ? null
+          : signsMayComeFrom(prediction, signs),
     );
     final reminders = [
       for (final reminder in planned)
@@ -50,6 +65,7 @@ class ReminderSync {
             ReminderKind.periodApproaching => l10n.notificationPeriodBody,
             ReminderKind.dailyEntry => l10n.notificationDailyBody,
             ReminderKind.contraception => l10n.notificationContraceptionBody,
+            ReminderKind.comingSigns => l10n.notificationSignsBody,
           },
         ),
     ];

@@ -2691,4 +2691,81 @@ class AppLocalizationsFr extends AppLocalizations {
   @override
   String get partnerLinkBusyBody =>
       'La vue partenaire s\'ouvre sur un téléphone où Fycle n\'est pas encore configurée.';
+
+  @override
+  String get comingTitleHers => 'Ce qui revient chez toi';
+
+  @override
+  String get comingTitleCommon => 'Avant les règles, en général';
+
+  @override
+  String get comingNow => 'Ces jours-ci';
+
+  @override
+  String comingIn(int days) {
+    String _temp0 = intl.Intl.pluralLogic(
+      days,
+      locale: localeName,
+      other: 'Dans $days jours environ',
+      one: 'Dans 1 jour environ',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String comingDaysBefore(int days) {
+    String _temp0 = intl.Intl.pluralLogic(
+      days,
+      locale: localeName,
+      other: '$days jours avant',
+      one: 'la veille',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String comingDaysRange(int from, int to) {
+    return '$from à $to jours avant';
+  }
+
+  @override
+  String comingLoggedLine(String when, int count, int total) {
+    return '$when · $count cycles sur $total';
+  }
+
+  @override
+  String get comingDeclared => 'D\'après ce que tu as dit';
+
+  @override
+  String comingCommonBody(String signs) {
+    return 'Souvent rapporté : $signs.';
+  }
+
+  @override
+  String get comingCommonHint =>
+      'Repère général. Note tes signes pour voir les tiens.';
+
+  @override
+  String get comingLogToday => 'Aujourd\'hui';
+
+  @override
+  String comingLogTooltip(String sign) {
+    return 'Noter aujourd\'hui : $sign';
+  }
+
+  @override
+  String get setupBeforeTitle => 'Avant tes règles, tu as souvent…';
+
+  @override
+  String get setupBeforeHint => 'Coche ce que tu reconnais.';
+
+  @override
+  String get reminderSignsTitle => 'Ce qui revient';
+
+  @override
+  String get reminderSignsSubtitle =>
+      'Une fois par cycle, avant tes signes habituels.';
+
+  @override
+  String get notificationSignsBody => 'Un repère pour les jours qui viennent.';
 }

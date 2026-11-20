@@ -49,9 +49,12 @@ final class ReminderSettings {
     ClockTime? dailyTime,
     this.contraceptionEnabled = false,
     ClockTime? contraceptionTime,
+    this.signsEnabled = false,
+    ClockTime? signsTime,
   }) : periodTime = periodTime ?? ClockTime(9, 0),
        dailyTime = dailyTime ?? ClockTime(20, 0),
-       contraceptionTime = contraceptionTime ?? ClockTime(8, 0) {
+       contraceptionTime = contraceptionTime ?? ClockTime(8, 0),
+       signsTime = signsTime ?? ClockTime(9, 0) {
     if (!periodDaysBeforeChoices.contains(periodDaysBefore)) {
       throw ArgumentError.value(periodDaysBefore, 'periodDaysBefore');
     }
@@ -79,7 +82,14 @@ final class ReminderSettings {
   final bool contraceptionEnabled;
   final ClockTime contraceptionTime;
 
-  bool get anyEnabled => periodEnabled || dailyEnabled || contraceptionEnabled;
+  /// Once a cycle, the day before the signs she usually has before her
+  /// period may come. Nothing is sent while the app knows no sign of
+  /// hers.
+  final bool signsEnabled;
+  final ClockTime signsTime;
+
+  bool get anyEnabled =>
+      periodEnabled || dailyEnabled || contraceptionEnabled || signsEnabled;
 
   ReminderSettings copyWith({
     bool? periodEnabled,
@@ -89,6 +99,8 @@ final class ReminderSettings {
     ClockTime? dailyTime,
     bool? contraceptionEnabled,
     ClockTime? contraceptionTime,
+    bool? signsEnabled,
+    ClockTime? signsTime,
   }) => ReminderSettings(
     periodEnabled: periodEnabled ?? this.periodEnabled,
     periodDaysBefore: periodDaysBefore ?? this.periodDaysBefore,
@@ -97,6 +109,8 @@ final class ReminderSettings {
     dailyTime: dailyTime ?? this.dailyTime,
     contraceptionEnabled: contraceptionEnabled ?? this.contraceptionEnabled,
     contraceptionTime: contraceptionTime ?? this.contraceptionTime,
+    signsEnabled: signsEnabled ?? this.signsEnabled,
+    signsTime: signsTime ?? this.signsTime,
   );
 
   @override
@@ -108,7 +122,9 @@ final class ReminderSettings {
       other.dailyEnabled == dailyEnabled &&
       other.dailyTime == dailyTime &&
       other.contraceptionEnabled == contraceptionEnabled &&
-      other.contraceptionTime == contraceptionTime;
+      other.contraceptionTime == contraceptionTime &&
+      other.signsEnabled == signsEnabled &&
+      other.signsTime == signsTime;
 
   @override
   int get hashCode => Object.hash(
@@ -119,10 +135,12 @@ final class ReminderSettings {
     dailyTime,
     contraceptionEnabled,
     contraceptionTime,
+    signsEnabled,
+    signsTime,
   );
 }
 
-enum ReminderKind { periodApproaching, dailyEntry, contraception }
+enum ReminderKind { periodApproaching, dailyEntry, contraception, comingSigns }
 
 /// One reminder to schedule: a calendar day and a time on the clock of the
 /// phone. Turning it into an actual instant is left to the caller.
@@ -162,12 +180,16 @@ const int dailyReminderHorizonDays = 14;
 /// Called again after every entry and every time the app comes to the front:
 /// the result replaces whatever was scheduled before. Nothing is ever planned
 /// in the past: a reminder whose moment has gone by is dropped, not sent late.
+///
+/// [signsFrom] is the first day on which the signs she usually has before
+/// her period may come, or null when the app knows none of hers.
 List<PlannedReminder> planReminders({
   required ReminderSettings settings,
   required CalendarDay today,
   required ClockTime now,
   PeriodPrediction? prediction,
   Set<CalendarDay> loggedDays = const {},
+  CalendarDay? signsFrom,
 }) {
   bool isFuture(CalendarDay day, ClockTime time) =>
       day.isAfter(today) || (day == today && time.compareTo(now) > 0);
@@ -215,6 +237,19 @@ List<PlannedReminder> planReminders({
           ),
         );
       }
+    }
+  }
+
+  if (settings.signsEnabled && signsFrom != null) {
+    final day = signsFrom.addDays(-1);
+    if (isFuture(day, settings.signsTime)) {
+      planned.add(
+        PlannedReminder(
+          kind: ReminderKind.comingSigns,
+          day: day,
+          time: settings.signsTime,
+        ),
+      );
     }
   }
 

@@ -2668,4 +2668,80 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get partnerLinkBusyBody =>
       'The partner view opens on a phone where Fycle is not set up yet.';
+
+  @override
+  String get comingTitleHers => 'What comes back for you';
+
+  @override
+  String get comingTitleCommon => 'Before a period, in general';
+
+  @override
+  String get comingNow => 'Around now';
+
+  @override
+  String comingIn(int days) {
+    String _temp0 = intl.Intl.pluralLogic(
+      days,
+      locale: localeName,
+      other: 'In about $days days',
+      one: 'In about 1 day',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String comingDaysBefore(int days) {
+    String _temp0 = intl.Intl.pluralLogic(
+      days,
+      locale: localeName,
+      other: '$days days before',
+      one: 'the day before',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String comingDaysRange(int from, int to) {
+    return '$from to $to days before';
+  }
+
+  @override
+  String comingLoggedLine(String when, int count, int total) {
+    return '$when · $count of $total cycles';
+  }
+
+  @override
+  String get comingDeclared => 'From what you said';
+
+  @override
+  String comingCommonBody(String signs) {
+    return 'Often reported: $signs.';
+  }
+
+  @override
+  String get comingCommonHint =>
+      'A general benchmark. Log your signs to see your own.';
+
+  @override
+  String get comingLogToday => 'Today';
+
+  @override
+  String comingLogTooltip(String sign) {
+    return 'Log today: $sign';
+  }
+
+  @override
+  String get setupBeforeTitle => 'Before your period, you often get…';
+
+  @override
+  String get setupBeforeHint => 'Tick what you recognise.';
+
+  @override
+  String get reminderSignsTitle => 'What comes back';
+
+  @override
+  String get reminderSignsSubtitle => 'Once a cycle, before your usual signs.';
+
+  @override
+  String get notificationSignsBody => 'A note for the days ahead.';
 }

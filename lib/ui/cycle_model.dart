@@ -55,6 +55,7 @@ class CycleModel extends ChangeNotifier {
   FlowIntensity? _usualFlow;
   PainLevel? _usualPain;
   Set<Symptom> _startSigns = const {};
+  Set<Symptom> _declaredBeforePeriod = const {};
   Profile? _profile;
   CalendarDay? _pregnancyStart;
   CalendarDay? _deliveryDate;
@@ -131,6 +132,9 @@ class CycleModel extends ChangeNotifier {
 
   /// The signs she said she had when the app was set up.
   Set<Symptom> get startSigns => _startSigns;
+
+  /// The signs she said she often has before her period.
+  Set<Symptom> get declaredBeforePeriod => _declaredBeforePeriod;
 
   /// Where she is in her life, as she said. Null when she did not say.
   Profile? get profile => _profile;
@@ -212,6 +216,7 @@ class CycleModel extends ChangeNotifier {
     required FlowIntensity? usualFlow,
     required PainLevel? usualPain,
     required Set<Symptom> startSigns,
+    required Set<Symptom> beforePeriod,
   }) {
     final database = store.database;
     database.firstName = firstName;
@@ -227,6 +232,7 @@ class CycleModel extends ChangeNotifier {
     database.usualFlow = usualFlow;
     database.usualPain = usualPain;
     database.startSigns = startSigns;
+    database.signsBeforePeriod = beforePeriod;
     reload();
   }
 
@@ -329,6 +335,7 @@ class CycleModel extends ChangeNotifier {
     _usualFlow = database.usualFlow;
     _usualPain = database.usualPain;
     _startSigns = database.startSigns;
+    _declaredBeforePeriod = database.signsBeforePeriod;
     _profile = database.profile;
     _pregnancyStart = database.pregnancyStart;
     _deliveryDate = database.deliveryDate;

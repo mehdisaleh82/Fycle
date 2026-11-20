@@ -91,6 +91,10 @@ void main() {
     await tap(tester, const ValueKey('usual-flow-heavy'));
     await tap(tester, const ValueKey('usual-pain-moderate'));
     await tap(tester, next);
+    expect(find.text('Before your period, you often get…'), findsOneWidget);
+    await tap(tester, const ValueKey('before-cravings'));
+    await tap(tester, const ValueKey('before-bloating'));
+    await tap(tester, next);
     await tap(tester, const ValueKey('contraception-none'));
 
     // At 40, the question about recent changes is asked.
@@ -192,6 +196,10 @@ void main() {
     expect(more.$4, FlowIntensity.heavy);
     expect(more.$5, PainLevel.moderate);
     expect(more.$6, {Symptom.hotFlashes});
+    expect(await harness.read((store) => store.database.signsBeforePeriod), {
+      Symptom.cravings,
+      Symptom.bloating,
+    });
   });
 
   testWidgets('cycles she calls irregular start from a wider range', (
