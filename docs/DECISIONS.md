@@ -844,6 +844,7 @@ Retour de la testeuse sur la compilation n° 9, rapporté par l'utilisateur : po
     - **Rappels** : un échec, quel qu'il soit, n'arrête plus la file ; la synchronisation suivante réécrit tout, même pour tout couper.
     - **Année de naissance** : toucher la roue vaut choix (l'année du milieu peut être la sienne). **Choix d'un jour passé** : la limite est comptée en jours du calendrier, pas en heures.
     - **Non traité, à mesurer sur iPhone** : la note enregistrée à chaque frappe, l'import Santé qui recharge à chaque jour, le séparateur du CSV pour un tableur français.
+178. **Fiches « Intimité » : plus d'encadré « À retenir »** (20 novembre 2026, modifie 168). Demandé par l'utilisateur. Les quinze fiches se terminent sur leur texte ; les quinze textes et le titre de l'encadré sont retirés des fichiers de langue. Les autres fiches gardent « Quand consulter ». Conséquence à connaître : les rappels de précaution que portaient ces encadrés (hygiène, protection contre les infections, quand en parler à un professionnel) ne figurent plus dans ces fiches.
 
 ## Questions ouvertes
 

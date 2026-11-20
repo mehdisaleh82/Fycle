@@ -109,8 +109,8 @@ String guideSources(AppLocalizations l10n, GuideTopic topic) => switch (topic) {
 };
 
 /// The title, the text (paragraphs separated by an empty line) and when to
-/// seek advice.
-({String title, String body, String seek}) guideText(
+/// seek advice; the guides about intimacy have no such closing box.
+({String title, String body, String? seek}) guideText(
   AppLocalizations l10n,
   Guide guide,
 ) => switch (guide) {
@@ -177,77 +177,77 @@ String guideSources(AppLocalizations l10n, GuideTopic topic) => switch (topic) {
   Guide.intimacyOrgasm => (
     title: l10n.guideIntOrgasmTitle,
     body: l10n.guideIntOrgasmBody,
-    seek: l10n.guideIntOrgasmKeep,
+    seek: null,
   ),
   Guide.intimacyNoOrgasm => (
     title: l10n.guideIntNoOrgasmTitle,
     body: l10n.guideIntNoOrgasmBody,
-    seek: l10n.guideIntNoOrgasmKeep,
+    seek: null,
   ),
   Guide.intimacySolo => (
     title: l10n.guideIntSoloTitle,
     body: l10n.guideIntSoloBody,
-    seek: l10n.guideIntSoloKeep,
+    seek: null,
   ),
   Guide.intimacyPeriodSex => (
     title: l10n.guideIntPeriodSexTitle,
     body: l10n.guideIntPeriodSexBody,
-    seek: l10n.guideIntPeriodSexKeep,
+    seek: null,
   ),
   Guide.intimacyAnal => (
     title: l10n.guideIntAnalTitle,
     body: l10n.guideIntAnalBody,
-    seek: l10n.guideIntAnalKeep,
+    seek: null,
   ),
   Guide.intimacyLube => (
     title: l10n.guideIntLubeTitle,
     body: l10n.guideIntLubeBody,
-    seek: l10n.guideIntLubeKeep,
+    seek: null,
   ),
   Guide.intimacyDesireCycle => (
     title: l10n.guideIntDesireCycleTitle,
     body: l10n.guideIntDesireCycleBody,
-    seek: l10n.guideIntDesireCycleKeep,
+    seek: null,
   ),
   Guide.intimacySquirting => (
     title: l10n.guideIntSquirtingTitle,
     body: l10n.guideIntSquirtingBody,
-    seek: l10n.guideIntSquirtingKeep,
+    seek: null,
   ),
   Guide.intimacyPain => (
     title: l10n.guideIntPainTitle,
     body: l10n.guideIntPainBody,
-    seek: l10n.guideIntPainKeep,
+    seek: null,
   ),
   Guide.intimacyTears => (
     title: l10n.guideIntTearsTitle,
     body: l10n.guideIntTearsBody,
-    seek: l10n.guideIntTearsKeep,
+    seek: null,
   ),
   Guide.intimacySayIt => (
     title: l10n.guideIntSayItTitle,
     body: l10n.guideIntSayItBody,
-    seek: l10n.guideIntSayItKeep,
+    seek: null,
   ),
   Guide.intimacyNoDesire => (
     title: l10n.guideIntNoDesireTitle,
     body: l10n.guideIntNoDesireBody,
-    seek: l10n.guideIntNoDesireKeep,
+    seek: null,
   ),
   Guide.intimacyAfterBaby => (
     title: l10n.guideIntAfterBabyTitle,
     body: l10n.guideIntAfterBabyBody,
-    seek: l10n.guideIntAfterBabyKeep,
+    seek: null,
   ),
   Guide.intimacyMidlife => (
     title: l10n.guideIntMidlifeTitle,
     body: l10n.guideIntMidlifeBody,
-    seek: l10n.guideIntMidlifeKeep,
+    seek: null,
   ),
   Guide.intimacyOnSchedule => (
     title: l10n.guideIntOnScheduleTitle,
     body: l10n.guideIntOnScheduleBody,
-    seek: l10n.guideIntOnScheduleKeep,
+    seek: null,
   ),
 };
 
@@ -538,14 +538,15 @@ class GuideScreen extends StatelessWidget {
                       : theme.textTheme.bodyLarge,
                 ),
               ],
-              const SizedBox(height: 16),
-              TitledCard(
-                key: const ValueKey('guide-seek'),
-                title: guide.topic == GuideTopic.intimacy
-                    ? l10n.guideKeepTitle
-                    : l10n.guideSeekTitle,
-                children: [Text(text.seek, style: theme.textTheme.bodyLarge)],
-              ),
+              // The guides about intimacy end on their text: no box.
+              if (text.seek case final seek?) ...[
+                const SizedBox(height: 16),
+                TitledCard(
+                  key: const ValueKey('guide-seek'),
+                  title: l10n.guideSeekTitle,
+                  children: [Text(seek, style: theme.textTheme.bodyLarge)],
+                ),
+              ],
               const SizedBox(height: 16),
               Text(l10n.guideNote, style: muted),
               const SizedBox(height: 8),

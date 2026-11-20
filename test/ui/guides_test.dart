@@ -100,7 +100,7 @@ void main() {
       textOf(tester, 'guide-title'),
       'Sex on your period: yes, and here is how',
     );
-    expect(find.text('Worth knowing'), findsOneWidget);
+    expect(key('guide-seek'), findsNothing);
     // Still said to be awaiting review.
     expect(key('guide-pending-review'), findsOneWidget);
   });
@@ -135,17 +135,19 @@ void main() {
         final text = guideText(l10n, guide);
         expect(text.title, isNotEmpty, reason: '$code ${guide.name}');
         expect(text.body.split('\n\n').length, greaterThan(2));
-        expect(text.seek, isNotEmpty);
+        // The guides about intimacy have no closing box.
+        final seek = text.seek ?? '';
+        expect(seek.isEmpty, guide.topic == GuideTopic.intimacy);
         // No treatment is named, no contraception advice is given.
         if (guide.topic != GuideTopic.intimacy) {
           for (final word in ['HRT', 'THS', 'pilule', ' pill', 'préservatif']) {
-            expect('${text.body} ${text.seek}', isNot(contains(word)));
+            expect('${text.body} $seek', isNot(contains(word)));
           }
         }
         if (code == 'fr') {
           expect(
             RegExp(r'(?<!rendez-)\b(vous|votre|vos)\b')
-                .hasMatch('${text.title} ${text.body} ${text.seek}'),
+                .hasMatch('${text.title} ${text.body} $seek'),
             isFalse,
             reason: guide.name,
           );

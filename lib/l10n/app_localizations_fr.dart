@@ -3082,19 +3082,11 @@ class AppLocalizationsFr extends AppLocalizations {
       'Feu d\'artifice pour certaines, vague tranquille pour d\'autres, grand absent pour beaucoup : l\'orgasme a mille visages, et aucun n\'est le bon.\n\nChez la plupart des femmes, tout part du clitoris. Ce qu\'on en voit n\'est que la pointe : il se prolonge à l\'intérieur, de part et d\'autre du vagin. Voilà pourquoi la pénétration seule suffit rarement, et pourquoi une main, une langue ou un jouet en plus changent tout.\n\nVaginal ou clitoridien ? Le débat est dépassé : c\'est le même organe, atteint par des chemins différents. Simultané, multiple, bruyant ? De jolis bonus, pas des objectifs.\n\nCe qui aide vraiment : du temps, de l\'excitation avant d\'y aller, la tête pas trop ailleurs, et quelqu\'un, toi comprise, qui sait où et comment.';
 
   @override
-  String get guideIntOrgasmKeep =>
-      'Pas d\'orgasme à chaque fois ne veut pas dire que c\'était raté. Le plaisir ne se mesure pas à la ligne d\'arrivée.';
-
-  @override
   String get guideIntNoOrgasmTitle => 'Je n\'arrive pas à jouir : et alors ?';
 
   @override
   String get guideIntNoOrgasmBody =>
       'Tu fais semblant, ou tu attends que ça vienne en te demandant ce qui cloche. Réponse : rien, probablement.\n\nBeaucoup de femmes jouissent rarement, ou jamais, par la pénétration seule. Ce n\'est pas un défaut de fabrication : c\'est l\'anatomie.\n\nLes freins les plus courants ne sont pas dans le corps : la pression d\'y arriver, la fatigue, la liste de courses qui défile, un partenaire pressé, l\'habitude de passer après.\n\nPar où commencer : seule, sans enjeu, pour repérer ce qui te fait de l\'effet. Puis le montrer ou le dire. Et rayer l\'orgasme de la liste des choses à réussir : il vient plus volontiers quand on ne l\'attend pas à la porte.';
-
-  @override
-  String get guideIntNoOrgasmKeep =>
-      'Si ça te pèse, ou si c\'était facile avant et plus du tout maintenant, une sexologue ou une sage-femme sait en parler sans gêne.';
 
   @override
   String get guideIntSoloTitle =>
@@ -3105,20 +3097,12 @@ class AppLocalizationsFr extends AppLocalizations {
       'On en parle peu, presque toutes le font. Se masturber n\'est ni un lot de consolation ni une infidélité : c\'est la façon la plus sûre de savoir ce que tu aimes.\n\nPas de bonne méthode. Les doigts, la paume, le jet de la douche, un coussin, un jouet : le clitoris aime la régularité plus que la force, et souvent le contour plus que le centre.\n\nVarie la pression, le rythme, la position. Ajoute du lubrifiant : ça change tout. Prends ton temps, ou pas : cinq minutes avant de dormir comptent aussi.\n\nPendant les règles ? Oui, et certaines disent que ça calme leurs crampes. En couple ? Oui aussi : l\'un n\'enlève rien à l\'autre.';
 
   @override
-  String get guideIntSoloKeep =>
-      'Mains propres, jouets lavés après usage, et un jouet à base évasée s\'il doit aller côté anus. Le reste ne regarde que toi.';
-
-  @override
   String get guideIntPeriodSexTitle =>
       'Faire l\'amour pendant les règles : oui, et voilà comment';
 
   @override
   String get guideIntPeriodSexBody =>
       'Rien ne l\'interdit, beaucoup en ont envie, et le désir monte parfois pile à ce moment-là. Reste la logistique.\n\nUne serviette foncée sur le lit, la douche à deux, une position où tu es allongée : le flux se fait oublier. Tampon et coupe se retirent avant une pénétration.\n\nLe sang fait glisser, l\'orgasme détend : certaines trouvent leurs règles plus légères à vivre après. D\'autres n\'ont envie de rien, et c\'est tout aussi valable.\n\nDis-le simplement : « j\'ai mes règles, ça te va ? » La plupart des partenaires s\'en fichent bien plus que tu ne le crois.';
-
-  @override
-  String get guideIntPeriodSexKeep =>
-      'Les règles ne protègent ni d\'une grossesse ni des infections.';
 
   @override
   String get guideIntAnalTitle =>
@@ -3129,10 +3113,6 @@ class AppLocalizationsFr extends AppLocalizations {
       'Curieuse, tentée, ou sollicitée sans être sûre d\'en avoir envie ? Première règle : ça ne se fait que si tu le veux, toi.\n\nL\'anus ne lubrifie pas et ne se détend pas sur commande. Donc : beaucoup de lubrifiant, beaucoup de temps, et on commence petit. Un doigt, un petit jouet à base évasée, bien avant quoi que ce soit d\'autre.\n\nRespire, et pousse légèrement au moment de l\'entrée : le muscle s\'ouvre. C\'est toi qui donnes le rythme. Une position où tu contrôles la profondeur aide beaucoup.\n\nÇa ne doit pas faire mal. Une gêne au début, oui. Une douleur : on arrête, on remet du lubrifiant, on reprend plus tard, ou jamais.\n\nCôté propreté, une douche suffit. Le reste fait partie du jeu, et tout le monde le sait.';
 
   @override
-  String get guideIntAnalKeep =>
-      'Jamais de l\'anus au vagin sans changer de préservatif ou laver ce qui est entré. Le préservatif réduit le risque d\'infections ; avec lui, pas de lubrifiant gras.';
-
-  @override
   String get guideIntLubeTitle =>
       'Lubrifiant : le meilleur ami qu\'on n\'ose pas acheter';
 
@@ -3141,19 +3121,11 @@ class AppLocalizationsFr extends AppLocalizations {
       'Ce n\'est pas un aveu de panne. C\'est ce qui transforme « ça va » en « encore ».\n\nÀ base d\'eau : passe-partout, compatible avec tout, sèche plus vite, on en remet. À base de silicone : glisse longtemps, parfait sous la douche et pour l\'anal, mais pas avec les jouets en silicone. Les corps gras, huiles et vaseline : agréables en massage, à tenir loin des préservatifs en latex.\n\nQuand ? Dès que ça accroche, pour les caresses comme pour la pénétration, et toujours pour l\'anal. La lubrification varie avec le cycle, le stress, la fatigue, l\'allaitement, l\'âge : elle ne dit rien de ton envie.\n\nAstuce : sur toi et sur l\'autre, et le flacon à portée de main plutôt qu\'au fond du tiroir.';
 
   @override
-  String get guideIntLubeKeep =>
-      'Si un produit pique ou irrite, change de formule : plus simple, sans parfum.';
-
-  @override
   String get guideIntDesireCycleTitle => 'Ton désir a ses saisons';
 
   @override
   String get guideIntDesireCycleBody =>
       'Certains jours tu grimperais aux rideaux, d\'autres tu préfères ta série. Ton cycle y est souvent pour quelque chose.\n\nBeaucoup de femmes sentent leur envie monter vers le milieu du cycle, et retomber avant les règles. D\'autres ont un pic juste avant, ou pendant. Aucun calendrier n\'est universel.\n\nLe tien se lit dans ton journal : note ton désir quelques cycles, et l\'appli te montre tes jours hauts. Pratique pour caler un week-end à deux, ou pour comprendre un « pas ce soir » sans en faire une affaire.\n\nEt puis il y a tout ce qui n\'est pas hormonal : la fatigue, la charge mentale, une dispute pas réglée. Le cycle raconte une partie de l\'histoire, pas toute.';
-
-  @override
-  String get guideIntDesireCycleKeep =>
-      'Ton rythme est le bon. Il sert à te connaître, pas à te comparer.';
 
   @override
   String get guideIntSquirtingTitle =>
@@ -3164,10 +3136,6 @@ class AppLocalizationsFr extends AppLocalizations {
       'Star des écrans, mystère des chambres : l\'éjaculation féminine intrigue, et beaucoup se demandent si elles « devraient » y arriver.\n\nCertaines femmes émettent du liquide au moment d\'un plaisir intense, parfois beaucoup, parfois quelques gouttes. D\'autres jamais. Les chercheurs ne sont pas tous d\'accord sur ce qu\'il contient ni d\'où il vient exactement.\n\nCe qui est sûr : ce n\'est ni une preuve d\'orgasme, ni un niveau supérieur, ni une performance à offrir. Et ce qu\'on voit dans le porno est mis en scène.\n\nSi ça t\'arrive : une serviette, et aucune honte. Si ça ne t\'arrive pas : il ne te manque rien.';
 
   @override
-  String get guideIntSquirtingKeep =>
-      'Curieuse d\'explorer ? De la détente, du temps, la paroi avant du vagin. Sans objectif, c\'est plus drôle.';
-
-  @override
   String get guideIntPainTitle => 'Quand ça fait mal';
 
   @override
@@ -3175,19 +3143,11 @@ class AppLocalizationsFr extends AppLocalizations {
       'Serrer les dents en attendant que ça passe n\'a jamais fait partie du contrat. Un rapport qui fait mal, ça se règle, ça ne se supporte pas.\n\nLe plus souvent, c\'est une affaire de temps et de glisse : pas assez d\'excitation, pas assez de lubrifiant, une pénétration trop tôt ou trop profonde. Ralentir, changer d\'angle, remettre du lubrifiant suffit souvent.\n\nParfois le corps se ferme tout seul, même quand la tête dit oui. Parfois la douleur est profonde, ou revient à certains moments du cycle. Là, ce n\'est plus une question de technique.\n\nDis stop dès que ça fait mal. Quelqu\'un qui tient à toi préfère mille fois s\'arrêter.';
 
   @override
-  String get guideIntPainKeep =>
-      'Une douleur qui revient, des brûlures, des saignements après les rapports : parles-en à une sage-femme ou à un médecin. Note-la dans ton journal, ça aide à en parler.';
-
-  @override
   String get guideIntTearsTitle => 'Pleurer après l\'amour';
 
   @override
   String get guideIntTearsBody =>
       'C\'était bien, et pourtant les larmes montent. Ou un coup de blues tombe d\'un coup, sans raison.\n\nÇa arrive à beaucoup de monde. Après une forte montée, le corps redescend : la tension lâche, et parfois ça déborde.\n\nÇa ne veut pas dire que tu es triste, ni que quelque chose cloche entre toi et l\'autre. Parfois si : le corps sent avant la tête qu\'on n\'avait pas vraiment envie.\n\nSur le moment, dis-le simplement : « je ne sais pas pourquoi, ça va passer ». Demande des bras ou de l\'air, selon ce qui te fait du bien.';
-
-  @override
-  String get guideIntTearsKeep =>
-      'Si ça revient souvent, ou si ça remue des souvenirs difficiles, en parler à quelqu\'un dont c\'est le métier fait du bien.';
 
   @override
   String get guideIntSayItTitle =>
@@ -3198,19 +3158,11 @@ class AppLocalizationsFr extends AppLocalizations {
       'Personne ne lit dans les pensées, même au lit. Et « plus à gauche » n\'a jamais tué l\'ambiance.\n\nLe plus simple : guider en direct. Une main sur la sienne, un « oui, comme ça », un « moins fort ». Les mots courts marchent mieux que les longs discours.\n\nPour les sujets plus gros, une envie nouvelle ou un geste que tu n\'aimes plus, choisis un moment habillé : en voiture, en marchant, pas juste après.\n\nCommence par ce qui te plaît : « j\'adore quand tu… ». Puis l\'envie : « j\'aimerais essayer… ». Et un non reste un non, dans les deux sens.';
 
   @override
-  String get guideIntSayItKeep =>
-      'Dire non à une pratique n\'est pas dire non à la personne. Tu peux changer d\'avis à tout moment, même en cours de route.';
-
-  @override
   String get guideIntNoDesireTitle => 'Plus envie du tout : par où reprendre';
 
   @override
   String get guideIntNoDesireBody =>
       'Tu l\'aimes, il ou elle te plaît, et pourtant : rien. Le désir en berne est l\'un des sujets les plus partagés, et les moins avoués.\n\nCherche d\'abord du côté de la vie : sommeil en miettes, charge mentale, rancœur qui traîne, corps qu\'on n\'aime pas ces temps-ci. Le désir a besoin de place, et la place manque.\n\nChez beaucoup de femmes, l\'envie ne tombe pas du ciel : elle vient en chemin, une fois les caresses commencées. Attendre d\'avoir envie pour s\'y mettre, c\'est parfois attendre longtemps.\n\nCe qui relance : du temps à deux sans objectif, des contacts qui ne mènent à rien d\'obligé, de la nouveauté, et des moments seule avec ton propre corps.';
-
-  @override
-  String get guideIntNoDesireKeep =>
-      'Si la baisse est brutale, ou arrive avec un nouveau médicament, un bébé ou des cycles qui changent, parles-en à un professionnel de santé.';
 
   @override
   String get guideIntAfterBabyTitle =>
@@ -3221,19 +3173,11 @@ class AppLocalizationsFr extends AppLocalizations {
       'Entre les nuits en pointillé, le corps qui a changé et un bébé accroché à toi, le désir a de bonnes raisons de se faire attendre.\n\nIl n\'y a pas de date. Certaines reprennent au bout de quelques semaines, d\'autres de plusieurs mois. Le bon moment, c\'est quand tu en as envie et que ça ne fait pas mal.\n\nLe corps lubrifie souvent moins, surtout en allaitant : le lubrifiant devient indispensable. Commence par des caresses, et garde la main sur le rythme.\n\nEt le couple ? Dis où tu en es, même si c\'est « pas maintenant ». La tendresse sans suite obligée fait le pont.';
 
   @override
-  String get guideIntAfterBabyKeep =>
-      'Une douleur qui dure aux rapports se signale à la sage-femme ou au médecin. Une grossesse est possible avant même le retour des règles.';
-
-  @override
   String get guideIntMidlifeTitle => 'Périménopause : le sexe change de règles';
 
   @override
   String get guideIntMidlifeBody =>
       'Plus envie, ou envie mais ça frotte ? À la périménopause, le désir joue à cache-cache et le corps lubrifie moins. Ça ne dit rien de ton couple ni de toi.\n\nCe qui change : il faut souvent plus de temps, plus de caresses, et du lubrifiant sans se poser de question. Ce qui ne change pas : ta capacité à prendre du plaisir.\n\nBeaucoup de femmes racontent une sexualité plus libre à cet âge : on sait ce qu\'on aime, on ose le dire, on ne fait plus semblant.\n\nLes nuits hachées et les bouffées de chaleur n\'aident pas l\'envie. S\'en occuper, c\'est aussi s\'occuper de sa vie sexuelle.';
-
-  @override
-  String get guideIntMidlifeKeep =>
-      'La sécheresse et les douleurs ne sont pas une fatalité : un pharmacien ou un médecin peut t\'en parler. Une grossesse reste possible.';
 
   @override
   String get guideIntOnScheduleTitle =>
@@ -3244,14 +3188,7 @@ class AppLocalizationsFr extends AppLocalizations {
       'Au début c\'était excitant. Trois mois plus tard, c\'est « ce soir, il faut ». Le désir sur commande, personne n\'aime ça.\n\nC\'est très courant, et ça ne dit rien de ton couple. La pression coupe l\'envie, chez toi comme chez l\'autre.\n\nCe qui allège : ne pas tout miser sur un seul soir, garder des moments sans enjeu, et de temps en temps ranger le calendrier.\n\nDis-le à l\'autre : « j\'ai envie de toi, pas seulement d\'un bébé ». Ça change l\'ambiance.';
 
   @override
-  String get guideIntOnScheduleKeep =>
-      'L\'appli montre une fenêtre estimée, pas un rendez-vous obligatoire : c\'est une fourchette, et elle varie.';
-
-  @override
   String get guideTopicIntimacy => 'Intimité';
-
-  @override
-  String get guideKeepTitle => 'À retenir';
 
   @override
   String get guideSourcesIntimacy =>
