@@ -326,6 +326,8 @@ class KioskCard extends StatelessWidget {
     final l10n = AppLocalizations.of(context);
     final theme = Theme.of(context);
     final language = Localizations.localeOf(context).languageCode;
+    // The region the phone is set to: the app itself keeps no country.
+    final country = View.of(context).platformDispatcher.locale.countryCode;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
@@ -340,7 +342,11 @@ class KioskCard extends StatelessWidget {
                 subtitle: Text(l10n.kioskBody),
                 trailing: const Icon(Icons.open_in_new),
                 onTap: () => openLink(
-                  kioskAddress(languageCode: language, intimacy: false),
+                  kioskAddress(
+                    languageCode: language,
+                    countryCode: country,
+                    intimacy: false,
+                  ),
                 ),
               ),
               if (intimacy)
@@ -351,7 +357,11 @@ class KioskCard extends StatelessWidget {
                   subtitle: Text(l10n.kioskIntimacyBody),
                   trailing: const Icon(Icons.open_in_new),
                   onTap: () => openLink(
-                    kioskAddress(languageCode: language, intimacy: true),
+                    kioskAddress(
+                      languageCode: language,
+                      countryCode: country,
+                      intimacy: true,
+                    ),
                   ),
                 ),
             ],

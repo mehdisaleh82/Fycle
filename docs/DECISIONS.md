@@ -829,6 +829,12 @@ Retour de la testeuse sur la compilation n° 9, rapporté par l'utilisateur : po
     - **Pourquoi.** GitHub Pages n'est pas offert pour un dépôt privé sans abonnement. Plutôt que de payer ou d'ouvrir le code de l'appli, le script du kiosque, ses tests et son flux quotidien sont déplacés dans le dépôt public `fycle-kiosk` ; `tool/kiosk/` et `.github/workflows/kiosk.yml` sont retirés de ce dépôt-ci.
     - **Ce qui ne change pas.** L'appli ne lit toujours rien : elle remet une adresse au navigateur du téléphone (`lib/domain/kiosk.dart`), désormais sous `https://mehdisaleh82.github.io/fycle-kiosk/`.
     - **Ce que le dépôt public montre.** La liste des journaux suivis et le script de tri. Aucune donnée, rien de l'appli. Ses commits portent l'adresse « noreply » de GitHub, pas une adresse personnelle.
+176. **Kiosque : une page par pays, faite des seuls médias de ce pays** (20 novembre 2026, modifie 169 et 175).
+    - **Règle.** Chaque flux du kiosque porte le pays de son média. Une page de pays (`fr/be/`, `fr/ca/`, `fr/ch/`, `fr/fr/`, `en/gb/`, `en/us/`) ne liste que les médias de ce pays. S'il y a peu d'articles, la page est courte ; s'il n'y en a pas, elle le dit. Rien venu d'ailleurs ne la remplit.
+    - **Pays sans page.** Un pays que le kiosque ne couvre pas reçoit la page de la langue, qui mélange les médias de tous les pays de cette langue.
+    - **Dans l'appli.** `kioskAddress` reçoit la région réglée sur le téléphone (`PlatformDispatcher.locale.countryCode`) ; l'appli ne garde aucun pays. L'adresse ouverte porte donc la langue et cette région, rien d'autre : ce que tout site web reçoit déjà du navigateur. La liste des pays (`kioskCountries`) est tenue à la main, identique à celle du kiosque (`countries_of`), chacune vérifiée par un test.
+    - **Tri.** Les mots sur les mineurs n'écartent plus un article de la page générale (un bébé y est le sujet), mais écartent toujours tout article qui parle aussi de sexe, sur toutes les pages. Une même dépêche reprise par plusieurs journaux n'est montrée qu'une fois.
+    - **Limite connue.** Aujourd'hui, la Suisse n'a aucun article et le Canada aucun sur la page générale : leurs médias publient peu sur ces sujets dans leurs flux.
 
 ## Questions ouvertes
 

@@ -98,6 +98,25 @@ void main() {
       kioskAddress(languageCode: 'ar', intimacy: false).path,
       endsWith('/en/index.html'),
     );
+    // Her country has pages of its own, made of its own media.
+    expect(
+      kioskAddress(languageCode: 'fr', countryCode: 'BE', intimacy: false).path,
+      endsWith('/fr/be/index.html'),
+    );
+    expect(
+      kioskAddress(languageCode: 'en', countryCode: 'GB', intimacy: true).path,
+      endsWith('/en/gb/intimacy.html'),
+    );
+    // A country without pages of its own, or one that does not go with
+    // the language, gets the pages of the language.
+    expect(
+      kioskAddress(languageCode: 'fr', countryCode: 'LU', intimacy: false).path,
+      endsWith('/fr/index.html'),
+    );
+    expect(
+      kioskAddress(languageCode: 'fr', countryCode: 'US', intimacy: false).path,
+      endsWith('/fr/index.html'),
+    );
     for (final intimacy in [true, false]) {
       final address = kioskAddress(languageCode: 'en', intimacy: intimacy);
       expect(address.scheme, 'https');
@@ -114,6 +133,9 @@ void main() {
     openLink = (address) async => opened.add(address);
     addTearDown(() => openLink = before);
 
+    // A phone set to Belgium.
+    tester.platformDispatcher.localeTestValue = const Locale('fr', 'BE');
+    addTearDown(tester.platformDispatcher.clearLocaleTestValue);
     final harness = Harness(tester);
     await harness.seed(days: periodFrom(CalendarDay(2026, 2, 28)));
     await harness.pumpApp(locale: 'fr');
@@ -129,9 +151,10 @@ void main() {
       await tapVisible(tester, key(name));
     }
     expect(opened, [
-      kioskAddress(languageCode: 'fr', intimacy: false),
-      kioskAddress(languageCode: 'fr', intimacy: true),
+      kioskAddress(languageCode: 'fr', countryCode: 'BE', intimacy: false),
+      kioskAddress(languageCode: 'fr', countryCode: 'BE', intimacy: true),
     ]);
+    expect(opened.first.path, endsWith('/fr/be/index.html'));
   });
 
   testWidgets('the kiosk about intimacy is not offered to a minor', (

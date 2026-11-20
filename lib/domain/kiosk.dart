@@ -7,15 +7,36 @@ library;
 
 const String _kioskRoot = 'https://mehdisaleh82.github.io/fycle-kiosk/';
 
-/// The languages the kiosk is written in. The others get English.
-const Set<String> kioskLanguages = {'en', 'fr'};
+/// The countries with pages of their own, by language the kiosk is written
+/// in. A page of a country lists the media of that country only, however
+/// few articles that makes. The same list is in the kiosk, which builds
+/// the pages: the two change together.
+const Map<String, Set<String>> kioskCountries = {
+  'en': {'gb', 'us'},
+  'fr': {'be', 'ca', 'ch', 'fr'},
+};
 
-/// The page of the kiosk for a language: the general one, or the one about
-/// intimacy, which no other page links to.
+/// The page of the kiosk for a language and the country of the phone: the
+/// general one, or the one about intimacy, which no other page links to.
 ///
-/// Nothing of hers is carried in the address.
-Uri kioskAddress({required String languageCode, required bool intimacy}) {
-  final language = kioskLanguages.contains(languageCode) ? languageCode : 'en';
+/// A language the kiosk is not written in gets English. A country without
+/// pages of its own gets the pages of the language, which mix its media
+/// from everywhere.
+///
+/// Nothing of hers is carried in the address: only the language and the
+/// region the phone is set to, as any web page she opens is told.
+Uri kioskAddress({
+  required String languageCode,
+  required bool intimacy,
+  String? countryCode,
+}) {
+  final language = kioskCountries.containsKey(languageCode)
+      ? languageCode
+      : 'en';
+  final country = countryCode?.toLowerCase();
+  final folder = kioskCountries[language]!.contains(country)
+      ? '$language/$country'
+      : language;
   final page = intimacy ? 'intimacy.html' : 'index.html';
-  return Uri.parse('$_kioskRoot$language/$page');
+  return Uri.parse('$_kioskRoot$folder/$page');
 }
