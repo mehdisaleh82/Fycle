@@ -4309,6 +4309,96 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Log yesterday'**
   String get todayLogYesterday;
+
+  /// No description provided for @dayIntimacyTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Sex'**
+  String get dayIntimacyTitle;
+
+  /// No description provided for @intimacyUnspecified.
+  ///
+  /// In en, this message translates to:
+  /// **'Yes'**
+  String get intimacyUnspecified;
+
+  /// No description provided for @intimacyProtected.
+  ///
+  /// In en, this message translates to:
+  /// **'Protected'**
+  String get intimacyProtected;
+
+  /// No description provided for @intimacyUnprotected.
+  ///
+  /// In en, this message translates to:
+  /// **'Unprotected'**
+  String get intimacyUnprotected;
+
+  /// No description provided for @symptomPainDuringSex.
+  ///
+  /// In en, this message translates to:
+  /// **'Pain during sex'**
+  String get symptomPainDuringSex;
+
+  /// No description provided for @aheadTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'The weeks ahead'**
+  String get aheadTitle;
+
+  /// No description provided for @aheadPeriod.
+  ///
+  /// In en, this message translates to:
+  /// **'Period, estimated'**
+  String get aheadPeriod;
+
+  /// No description provided for @aheadSigns.
+  ///
+  /// In en, this message translates to:
+  /// **'What comes back for you: {signs}'**
+  String aheadSigns(String signs);
+
+  /// No description provided for @aheadFertile.
+  ///
+  /// In en, this message translates to:
+  /// **'Fertile window, estimated'**
+  String get aheadFertile;
+
+  /// No description provided for @aheadDesire.
+  ///
+  /// In en, this message translates to:
+  /// **'Desire often higher · {cycles} of {considered} cycles'**
+  String aheadDesire(int cycles, int considered);
+
+  /// No description provided for @aheadDates.
+  ///
+  /// In en, this message translates to:
+  /// **'{start} to {end}'**
+  String aheadDates(String start, String end);
+
+  /// No description provided for @aheadHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Estimates, to help you plan.'**
+  String get aheadHint;
+
+  /// No description provided for @aheadDesireGeneral.
+  ///
+  /// In en, this message translates to:
+  /// **'Desire: in general, a little higher around the middle of the cycle, and very different from one person to the next. Log yours to see your own pattern.'**
+  String get aheadDesireGeneral;
+
+  /// No description provided for @sexLifeTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Sex life'**
+  String get sexLifeTitle;
+
+  /// No description provided for @sexLifeSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Log sex and see when your desire is usually higher.'**
+  String get sexLifeSubtitle;
 }
 
 class _AppLocalizationsDelegate

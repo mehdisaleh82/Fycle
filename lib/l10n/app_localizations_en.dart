@@ -2779,4 +2779,57 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get todayLogYesterday => 'Log yesterday';
+
+  @override
+  String get dayIntimacyTitle => 'Sex';
+
+  @override
+  String get intimacyUnspecified => 'Yes';
+
+  @override
+  String get intimacyProtected => 'Protected';
+
+  @override
+  String get intimacyUnprotected => 'Unprotected';
+
+  @override
+  String get symptomPainDuringSex => 'Pain during sex';
+
+  @override
+  String get aheadTitle => 'The weeks ahead';
+
+  @override
+  String get aheadPeriod => 'Period, estimated';
+
+  @override
+  String aheadSigns(String signs) {
+    return 'What comes back for you: $signs';
+  }
+
+  @override
+  String get aheadFertile => 'Fertile window, estimated';
+
+  @override
+  String aheadDesire(int cycles, int considered) {
+    return 'Desire often higher · $cycles of $considered cycles';
+  }
+
+  @override
+  String aheadDates(String start, String end) {
+    return '$start to $end';
+  }
+
+  @override
+  String get aheadHint => 'Estimates, to help you plan.';
+
+  @override
+  String get aheadDesireGeneral =>
+      'Desire: in general, a little higher around the middle of the cycle, and very different from one person to the next. Log yours to see your own pattern.';
+
+  @override
+  String get sexLifeTitle => 'Sex life';
+
+  @override
+  String get sexLifeSubtitle =>
+      'Log sex and see when your desire is usually higher.';
 }

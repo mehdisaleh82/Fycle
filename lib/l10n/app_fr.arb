@@ -712,5 +712,20 @@
   "catchUpContinuesYes": "Oui, encore aujourd'hui",
   "catchUpContinuesNo": "Elles sont finies",
   "catchUpHint": "Tu peux corriger chaque jour dans le journal.",
-  "todayLogYesterday": "Noter hier"
+  "todayLogYesterday": "Noter hier",
+  "dayIntimacyTitle": "Rapport",
+  "intimacyUnspecified": "Oui",
+  "intimacyProtected": "Protégé",
+  "intimacyUnprotected": "Non protégé",
+  "symptomPainDuringSex": "Douleur pendant les rapports",
+  "aheadTitle": "Les semaines à venir",
+  "aheadPeriod": "Règles estimées",
+  "aheadSigns": "Ce qui revient chez toi : {signs}",
+  "aheadFertile": "Fenêtre fertile estimée",
+  "aheadDesire": "Désir souvent plus haut · {cycles} cycles sur {considered}",
+  "aheadDates": "Du {start} au {end}",
+  "aheadHint": "Des estimations, pour t'organiser.",
+  "aheadDesireGeneral": "Désir : en général un peu plus haut vers le milieu du cycle, et très différent d'une personne à l'autre. Note le tien pour voir ta propre tendance.",
+  "sexLifeTitle": "Vie sexuelle",
+  "sexLifeSubtitle": "Noter les rapports et voir quand ton désir est souvent plus haut."
 }

@@ -21,4 +21,5 @@ enum Symptom {
   palpitations,
   migraine,
   moodSwings,
+  painDuringSex,
 }

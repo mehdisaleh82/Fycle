@@ -1,5 +1,6 @@
 import 'calendar_day.dart';
 import 'flow_intensity.dart';
+import 'intimacy.dart';
 import 'libido_level.dart';
 import 'migraine.dart';
 import 'mood.dart';
@@ -19,6 +20,7 @@ final class DayEntry {
     this.mood,
     this.sleep,
     this.libido,
+    this.intimacy,
     Set<Symptom> symptoms = const {},
     String? note,
     MigraineDetail? migraine,
@@ -38,6 +40,9 @@ final class DayEntry {
   final Mood? mood;
   final SleepQuality? sleep;
   final LibidoLevel? libido;
+
+  /// Sex logged on the day, if she chose to note it.
+  final Intimacy? intimacy;
   final Set<Symptom> symptoms;
   final String? note;
 
@@ -53,6 +58,7 @@ final class DayEntry {
     mood: mood,
     sleep: sleep,
     libido: libido,
+    intimacy: intimacy,
     symptoms: symptoms,
     note: note,
     migraine: migraine,
@@ -66,6 +72,7 @@ final class DayEntry {
     mood: mood,
     sleep: sleep,
     libido: libido,
+    intimacy: intimacy,
     symptoms: symptoms,
     note: note,
     migraine: migraine,
@@ -79,6 +86,7 @@ final class DayEntry {
     mood: mood,
     sleep: sleep,
     libido: libido,
+    intimacy: intimacy,
     symptoms: symptoms,
     note: note,
     migraine: migraine,
@@ -92,6 +100,7 @@ final class DayEntry {
     mood: mood,
     sleep: sleep,
     libido: libido,
+    intimacy: intimacy,
     symptoms: symptoms,
     note: note,
     migraine: migraine,
@@ -105,6 +114,21 @@ final class DayEntry {
     mood: mood,
     sleep: sleep,
     libido: libido,
+    intimacy: intimacy,
+    symptoms: symptoms,
+    note: note,
+    migraine: migraine,
+  );
+
+  /// The same day with sex logged, or not (null).
+  DayEntry withIntimacy(Intimacy? intimacy) => DayEntry(
+    day: day,
+    flow: flow,
+    pain: pain,
+    mood: mood,
+    sleep: sleep,
+    libido: libido,
+    intimacy: intimacy,
     symptoms: symptoms,
     note: note,
     migraine: migraine,
@@ -118,6 +142,7 @@ final class DayEntry {
     mood: mood,
     sleep: sleep,
     libido: libido,
+    intimacy: intimacy,
     symptoms: symptoms,
     note: note,
     migraine: migraine,
@@ -131,13 +156,15 @@ final class DayEntry {
     mood: mood,
     sleep: sleep,
     libido: libido,
+    intimacy: intimacy,
     symptoms: symptoms,
     note: note,
     migraine: migraine,
   );
 
   /// How many of the groups of choices are filled in: flow, pain, mood,
-  /// sleep, libido and symptoms. The note is free text and is not counted.
+  /// sleep, libido and symptoms. The note is free text and is not counted,
+  /// nor is sex, which many will never log.
   int get filledGroups => [
     flow != null,
     pain != null,
@@ -157,6 +184,7 @@ final class DayEntry {
       mood == null &&
       sleep == null &&
       libido == null &&
+      intimacy == null &&
       symptoms.isEmpty &&
       note == null;
 
@@ -169,6 +197,7 @@ final class DayEntry {
       other.mood == mood &&
       other.sleep == sleep &&
       other.libido == libido &&
+      other.intimacy == intimacy &&
       other.note == note &&
       other.migraine == migraine &&
       other.symptoms.length == symptoms.length &&
@@ -182,6 +211,7 @@ final class DayEntry {
     mood,
     sleep,
     libido,
+    intimacy,
     note,
     migraine,
     Object.hashAllUnordered(symptoms),

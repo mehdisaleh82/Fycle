@@ -39,6 +39,7 @@ class CycleModel extends ChangeNotifier {
   CalendarDay? _dismissedSummaryStart;
   bool _fertilityEstimateEnabled = true;
   bool _widgetEnabled = true;
+  bool _sexLifeVisible = true;
   FertilityEstimate? _fertilityEstimate;
   List<FertilityEstimate> _pastFertilityEstimates = const [];
   PeriodPrediction? _prediction;
@@ -81,6 +82,9 @@ class CycleModel extends ChangeNotifier {
 
   /// Whether the home-screen widget is given something to show.
   bool get widgetEnabled => _widgetEnabled;
+
+  /// Whether logging sex and the pattern of her desire are offered.
+  bool get sexLifeVisible => _sexLifeVisible;
 
   /// Whether the user turned the ovulation estimate on.
   bool get fertilityEstimateEnabled => _fertilityEstimateEnabled;
@@ -315,6 +319,11 @@ class CycleModel extends ChangeNotifier {
     reload();
   }
 
+  void setSexLifeVisible(bool visible) {
+    store.database.sexLifeVisible = visible;
+    reload();
+  }
+
   void setFertilityEstimateEnabled(bool enabled) {
     store.database.fertilityEstimateEnabled = enabled;
     reload();
@@ -397,6 +406,7 @@ class CycleModel extends ChangeNotifier {
           );
     _fertilityEstimateEnabled = database.fertilityEstimateEnabled;
     _widgetEnabled = database.widgetEnabled;
+    _sexLifeVisible = database.sexLifeVisible;
     final prediction = _prediction;
     _fertilityEstimate =
         _fertilityEstimateEnabled && prediction != null && _cycles.isNotEmpty

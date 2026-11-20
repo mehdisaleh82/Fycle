@@ -4,6 +4,7 @@ import '../data/csv_export.dart';
 import '../domain/calendar_day.dart';
 import '../domain/day_entry.dart';
 import '../domain/flow_intensity.dart';
+import '../domain/intimacy.dart';
 import '../domain/libido_level.dart';
 import '../domain/migraine.dart';
 import '../domain/mood.dart';
@@ -71,6 +72,14 @@ String symptomLabel(AppLocalizations l10n, Symptom symptom) =>
       Symptom.palpitations => l10n.symptomPalpitations,
       Symptom.migraine => l10n.symptomMigraine,
       Symptom.moodSwings => l10n.symptomMoodSwings,
+      Symptom.painDuringSex => l10n.symptomPainDuringSex,
+    };
+
+String intimacyLabel(AppLocalizations l10n, Intimacy intimacy) =>
+    switch (intimacy) {
+      Intimacy.unspecified => l10n.intimacyUnspecified,
+      Intimacy.protected => l10n.intimacyProtected,
+      Intimacy.unprotected => l10n.intimacyUnprotected,
     };
 
 /// The name of a sign listed in the trends: a symptom as it is, any other
@@ -130,6 +139,8 @@ CsvLabels csvLabels(AppLocalizations l10n) => CsvLabels(
   symptomName: (symptom) => symptomLabel(l10n, symptom),
   migraine: l10n.symptomMigraine,
   migraineText: (detail) => migraineFacts(l10n, detail).join('; '),
+  intimacy: l10n.dayIntimacyTitle,
+  intimacyName: (intimacy) => intimacyLabel(l10n, intimacy),
 );
 
 String migraineDurationLabel(AppLocalizations l10n, MigraineDuration d) =>
@@ -213,6 +224,7 @@ List<String> entryFacts(AppLocalizations l10n, DayEntry entry) {
   final mood = entry.mood;
   final sleep = entry.sleep;
   final libido = entry.libido;
+  final intimacy = entry.intimacy;
   final symptoms = [
     for (final symptom in entry.symptoms) symptomLabel(l10n, symptom),
   ]..sort();
@@ -227,6 +239,8 @@ List<String> entryFacts(AppLocalizations l10n, DayEntry entry) {
       l10n.signWithKind(l10n.daySleepTitle, sleepLabel(l10n, sleep)),
     if (libido != null)
       l10n.signWithKind(l10n.dayLibidoTitle, libidoLabel(l10n, libido)),
+    if (intimacy != null)
+      l10n.signWithKind(l10n.dayIntimacyTitle, intimacyLabel(l10n, intimacy)),
     ...symptoms,
   ];
 }

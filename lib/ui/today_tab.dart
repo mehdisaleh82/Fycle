@@ -9,6 +9,7 @@ import '../domain/life_stage.dart';
 import '../domain/period_end_estimate.dart';
 import '../domain/start_profile.dart';
 import '../l10n/app_localizations.dart';
+import 'ahead_card.dart';
 import 'app_environment.dart';
 import 'catch_up_card.dart';
 import 'coming_signs_card.dart';
@@ -159,6 +160,7 @@ class TodayTab extends StatelessWidget {
                 onOpenDay: () => onOpenDay(today),
                 onOpenYesterday: () => onOpenDay(today.addDays(-1)),
               ),
+              AheadCard(model: model, today: today, status: status),
               if (model.profile == Profile.discovering ||
                   (model.goals.contains(Goal.understandBody) &&
                       followsACycle(model.profile))) ...[

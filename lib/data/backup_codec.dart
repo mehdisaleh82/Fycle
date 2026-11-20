@@ -7,6 +7,7 @@ import 'package:cryptography/cryptography.dart';
 import '../domain/calendar_day.dart';
 import '../domain/day_entry.dart';
 import '../domain/flow_intensity.dart';
+import '../domain/intimacy.dart';
 import '../domain/libido_level.dart';
 import '../domain/migraine.dart';
 import '../domain/mood.dart';
@@ -273,6 +274,7 @@ final class BackupCodec {
           'mood': ?entry.mood?.name,
           'sleep': ?entry.sleep?.name,
           'libido': ?entry.libido?.name,
+          'intimacy': ?entry.intimacy?.name,
           if (entry.symptoms.isNotEmpty)
             'symptoms': [for (final symptom in entry.symptoms) symptom.name]
               ..sort(),
@@ -347,6 +349,7 @@ final class BackupCodec {
         mood: _byName(Mood.values, item['mood']),
         sleep: _byName(SleepQuality.values, item['sleep']),
         libido: _byName(LibidoLevel.values, item['libido']),
+        intimacy: _byName(Intimacy.values, item['intimacy']),
         symptoms: {
           if (symptoms is List<Object?>)
             for (final name in symptoms) ?_byName(Symptom.values, name),

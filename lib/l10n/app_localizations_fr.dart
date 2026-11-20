@@ -2803,4 +2803,57 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get todayLogYesterday => 'Noter hier';
+
+  @override
+  String get dayIntimacyTitle => 'Rapport';
+
+  @override
+  String get intimacyUnspecified => 'Oui';
+
+  @override
+  String get intimacyProtected => 'Protégé';
+
+  @override
+  String get intimacyUnprotected => 'Non protégé';
+
+  @override
+  String get symptomPainDuringSex => 'Douleur pendant les rapports';
+
+  @override
+  String get aheadTitle => 'Les semaines à venir';
+
+  @override
+  String get aheadPeriod => 'Règles estimées';
+
+  @override
+  String aheadSigns(String signs) {
+    return 'Ce qui revient chez toi : $signs';
+  }
+
+  @override
+  String get aheadFertile => 'Fenêtre fertile estimée';
+
+  @override
+  String aheadDesire(int cycles, int considered) {
+    return 'Désir souvent plus haut · $cycles cycles sur $considered';
+  }
+
+  @override
+  String aheadDates(String start, String end) {
+    return 'Du $start au $end';
+  }
+
+  @override
+  String get aheadHint => 'Des estimations, pour t\'organiser.';
+
+  @override
+  String get aheadDesireGeneral =>
+      'Désir : en général un peu plus haut vers le milieu du cycle, et très différent d\'une personne à l\'autre. Note le tien pour voir ta propre tendance.';
+
+  @override
+  String get sexLifeTitle => 'Vie sexuelle';
+
+  @override
+  String get sexLifeSubtitle =>
+      'Noter les rapports et voir quand ton désir est souvent plus haut.';
 }

@@ -5,6 +5,7 @@ import 'package:sqlite3/sqlite3.dart';
 import '../domain/calendar_day.dart';
 import '../domain/day_entry.dart';
 import '../domain/flow_intensity.dart';
+import '../domain/intimacy.dart';
 import '../domain/libido_level.dart';
 import '../domain/life_stage.dart';
 import '../domain/migraine.dart';
@@ -88,7 +89,7 @@ final class FycleDatabase {
 
   /// Version of the table layout. Raise it and add a step in [_prepare] when
   /// the tables change.
-  static const int schemaVersion = 4;
+  static const int schemaVersion = 5;
 
   static const String _usualCycleLength = 'usual_cycle_length';
   static const String _birthYear = 'birth_year';
@@ -130,6 +131,7 @@ final class FycleDatabase {
   static const String _fertilityEstimate = 'fertility_estimate_enabled';
   static const String _suggestionDismissed = 'suggestion_dismissed_';
   static const String _widget = 'widget_enabled';
+  static const String _sexLife = 'sex_life_visible';
 
   final Database _db;
 
@@ -197,6 +199,12 @@ final class FycleDatabase {
           'ALTER TABLE day_entry ADD COLUMN migraine_medication INTEGER',
         );
         _db.userVersion = 4;
+      });
+    }
+    if (version < 5) {
+      _transaction(() {
+        _db.execute('ALTER TABLE day_entry ADD COLUMN intimacy TEXT');
+        _db.userVersion = 5;
       });
     }
   }
@@ -523,6 +531,13 @@ final class FycleDatabase {
   set widgetEnabled(bool enabled) =>
       _writeDeviceSetting(_widget, enabled ? null : _off);
 
+  /// Whether logging sex and the pattern of her desire are offered. On
+  /// unless the user turned it off. Not part of an export.
+  bool get sexLifeVisible => _deviceSetting(_sexLife) != _off;
+
+  set sexLifeVisible(bool visible) =>
+      _writeDeviceSetting(_sexLife, visible ? null : _off);
+
   /// Everything stored, for export.
   FycleData readAll() => FycleData(
     usualCycleLength: usualCycleLength,
@@ -651,8 +666,9 @@ final class FycleDatabase {
     }
     _db.execute(
       'INSERT INTO day_entry (day, flow, pain, mood, sleep, libido, note, '
-      'migraine_intensity, migraine_duration, migraine_medication) '
-      'VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
+      'migraine_intensity, migraine_duration, migraine_medication, '
+      'intimacy) '
+      'VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
       [
         day,
         entry.flow?.name,
@@ -668,6 +684,7 @@ final class FycleDatabase {
           false => 0,
           null => null,
         },
+        entry.intimacy?.name,
       ],
     );
     for (final symptom in entry.symptoms) {
@@ -693,7 +710,7 @@ final class FycleDatabase {
     final entries = <DayEntry>[];
     for (final row in _db.select(
       'SELECT day, flow, pain, mood, sleep, libido, note, migraine_intensity, '
-      'migraine_duration, migraine_medication FROM day_entry '
+      'migraine_duration, migraine_medication, intimacy FROM day_entry '
       '$where ORDER BY day',
       parameters,
     )) {
@@ -710,6 +727,7 @@ final class FycleDatabase {
           mood: _byName(Mood.values, row['mood'] as String?),
           sleep: _byName(SleepQuality.values, row['sleep'] as String?),
           libido: _byName(LibidoLevel.values, row['libido'] as String?),
+          intimacy: _byName(Intimacy.values, row['intimacy'] as String?),
           symptoms: symptoms[text] ?? const {},
           note: row['note'] as String?,
           migraine: MigraineDetail(

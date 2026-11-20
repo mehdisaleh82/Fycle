@@ -1,5 +1,6 @@
 import '../domain/day_entry.dart';
 import '../domain/flow_intensity.dart';
+import '../domain/intimacy.dart';
 import '../domain/libido_level.dart';
 import '../domain/migraine.dart';
 import '../domain/mood.dart';
@@ -30,6 +31,8 @@ final class CsvLabels {
     required this.symptomName,
     this.migraine = 'migraine',
     this.migraineText = _storedMigraine,
+    this.intimacy = 'intimacy',
+    this.intimacyName = _storedName,
   });
 
   /// Headers and values as they are stored: in English.
@@ -66,6 +69,10 @@ final class CsvLabels {
   final String Function(LibidoLevel) libidoName;
   final String Function(Symptom) symptomName;
 
+  /// Header and wording of sex logged on a day.
+  final String intimacy;
+  final String Function(Intimacy) intimacyName;
+
   /// Header and wording of the detail of a migraine.
   final String migraine;
   final String Function(MigraineDetail) migraineText;
@@ -98,6 +105,7 @@ String daysToCsv(
   // One more column, only when a migraine was detailed: a file without
   // any keeps the columns it always had.
   final withMigraine = all.any((entry) => entry.migraine != null);
+  final withIntimacy = all.any((entry) => entry.intimacy != null);
   final buffer = StringBuffer('\u{FEFF}')
     ..write(
       [
@@ -110,6 +118,7 @@ String daysToCsv(
         labels.symptoms,
         labels.note,
         if (withMigraine) labels.migraine,
+        if (withIntimacy) labels.intimacy,
       ].map(_quoted).join(','),
     )
     ..write('\r\n');
@@ -134,6 +143,11 @@ String daysToCsv(
           if (withMigraine)
             switch (entry.migraine) {
               final detail? => labels.migraineText(detail),
+              null => '',
+            },
+          if (withIntimacy)
+            switch (entry.intimacy) {
+              final intimacy? => labels.intimacyName(intimacy),
               null => '',
             },
         ].map(_quoted).join(','),

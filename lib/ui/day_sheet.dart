@@ -4,6 +4,7 @@ import '../domain/calendar_day.dart';
 import '../domain/cycle_change.dart';
 import '../domain/day_entry.dart';
 import '../domain/flow_intensity.dart';
+import '../domain/intimacy.dart';
 import '../domain/libido_level.dart';
 import '../domain/migraine.dart';
 import '../domain/mood.dart';
@@ -76,6 +77,7 @@ class _DaySheetState extends State<_DaySheet> {
     Mood? Function()? mood,
     SleepQuality? Function()? sleep,
     LibidoLevel? Function()? libido,
+    Intimacy? Function()? intimacy,
     Set<Symptom>? symptoms,
     MigraineDetail? Function()? migraine,
   }) {
@@ -86,6 +88,7 @@ class _DaySheetState extends State<_DaySheet> {
       mood: mood == null ? _entry.mood : mood(),
       sleep: sleep == null ? _entry.sleep : sleep(),
       libido: libido == null ? _entry.libido : libido(),
+      intimacy: intimacy == null ? _entry.intimacy : intimacy(),
       symptoms: symptoms ?? _entry.symptoms,
       note: _note.text,
       // Dropped with the migraine itself when it is unticked.
@@ -241,6 +244,21 @@ class _DaySheetState extends State<_DaySheet> {
                 ),
               ),
             ]),
+            // Offered unless she turned it off; kept wherever it was logged.
+            if (widget.model.sexLifeVisible || _entry.intimacy != null)
+              _Section(
+                title: l10n.dayIntimacyTitle,
+                children: [
+                  for (final intimacy in Intimacy.values)
+                    ChoiceChip(
+                      key: ValueKey('intimacy-${intimacy.name}'),
+                      label: Text(intimacyLabel(l10n, intimacy)),
+                      selected: _entry.intimacy == intimacy,
+                      onSelected: (selected) =>
+                          _save(intimacy: () => selected ? intimacy : null),
+                    ),
+                ],
+              ),
             if (_entry.symptoms.contains(Symptom.migraine)) ...[
               _Section(
                 title: l10n.migraineIntensity,
