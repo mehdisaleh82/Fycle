@@ -3246,4 +3246,186 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get kioskNote =>
       'Picked automatically from the press: nobody has read these articles for you, and none is medical advice.';
+
+  @override
+  String get phaseTitle => 'Your cycle today';
+
+  @override
+  String phaseEstimated(String phase) {
+    return '$phase · estimate';
+  }
+
+  @override
+  String get phaseHormones => 'Hormones';
+
+  @override
+  String get phaseMood => 'Mood and energy';
+
+  @override
+  String get phaseBody => 'Body';
+
+  @override
+  String get phaseTip => 'Today\'s tip';
+
+  @override
+  String get phaseMore => 'Decode';
+
+  @override
+  String get phaseLess => 'Show less';
+
+  @override
+  String get phaseNote =>
+      'General benchmarks, awaiting review by a health professional. Every body is different: yours may not follow them.';
+
+  @override
+  String phaseYours(String signs) {
+    return 'Around this day, you have often logged: $signs.';
+  }
+
+  @override
+  String get phasePerimenopause =>
+      'With a cycle that is changing, hormones follow this pattern less closely: take it as a rough guide.';
+
+  @override
+  String get phaseConceive =>
+      'Your estimated fertile window is shown on the ring above.';
+
+  @override
+  String get phaseDiscovering =>
+      'First cycles are often irregular: they can take a few years to settle.';
+
+  @override
+  String get phasePeriodName => 'Your period';
+
+  @override
+  String get phasePeriodHormones =>
+      'Oestrogen and progesterone are at their lowest. That drop is what starts the bleeding.';
+
+  @override
+  String get phasePeriodMood =>
+      'Energy is often lower on the first days, then climbs back as the days go by.';
+
+  @override
+  String get phasePeriodBody =>
+      'Cramps in the belly or the lower back are common, mostly on the first two days: the uterus contracts to shed its lining.';
+
+  @override
+  String get phasePeriodTip1 =>
+      'Warmth on the belly, a hot-water bottle or a bath: it eases many women.';
+
+  @override
+  String get phasePeriodTip2 =>
+      'Moving gently, walking or stretching, often helps more than staying still.';
+
+  @override
+  String get phasePeriodTip3 =>
+      'A slower day is not a wasted day. If you can, keep the heavy stuff for later in the week.';
+
+  @override
+  String get phaseAfterName => 'After your period';
+
+  @override
+  String get phaseAfterHormones =>
+      'Oestrogen rises day after day while an egg matures in an ovary.';
+
+  @override
+  String get phaseAfterMood =>
+      'Many describe more energy, a clearer head and a lighter mood.';
+
+  @override
+  String get phaseAfterBody =>
+      'Often the quietest days for the body: fewer aches, skin often clearer.';
+
+  @override
+  String get phaseAfterTip1 =>
+      'A good week to start what you kept putting off.';
+
+  @override
+  String get phaseAfterTip2 =>
+      'If you like sport, this is often when effort feels easiest.';
+
+  @override
+  String get phaseAfterTip3 =>
+      'Feeling good? Log it too: the journal is not only for bad days.';
+
+  @override
+  String get phaseMidName => 'Middle of your cycle';
+
+  @override
+  String get phaseMidHormones =>
+      'Oestrogen is at its highest, then a surge of another hormone, LH, triggers ovulation. Its day is only an estimate here.';
+
+  @override
+  String get phaseMidMood =>
+      'Energy and confidence are often at their highest around these days. Not for everyone, and not every cycle.';
+
+  @override
+  String get phaseMidBody =>
+      'Clearer, stretchy discharge is common. Some feel a twinge on one side of the lower belly.';
+
+  @override
+  String get phaseMidTip1 =>
+      'Feel like seeing people? These are often the days for it.';
+
+  @override
+  String get phaseMidTip2 =>
+      'Notice how your discharge changes: it is one of the clearest signals of the cycle.';
+
+  @override
+  String get phaseMidTip3 =>
+      'A good moment for what takes nerve: a talk, a request, a first time at something.';
+
+  @override
+  String get phaseSecondName => 'Second part of your cycle';
+
+  @override
+  String get phaseSecondHormones =>
+      'After ovulation, progesterone takes over and prepares the lining of the uterus. Oestrogen stays moderate.';
+
+  @override
+  String get phaseSecondMood =>
+      'Many feel calmer, more inward. Energy often comes down a notch.';
+
+  @override
+  String get phaseSecondBody =>
+      'Body temperature is slightly higher. Tender breasts, more appetite or lighter sleep are common.';
+
+  @override
+  String get phaseSecondTip1 =>
+      'Hungrier than usual? Common in this part of the cycle, and no lack of willpower.';
+
+  @override
+  String get phaseSecondTip2 =>
+      'A regular bedtime helps when sleep gets lighter.';
+
+  @override
+  String get phaseSecondTip3 =>
+      'A good time to finish what is under way rather than start something new.';
+
+  @override
+  String get phaseBeforeName => 'Before your period';
+
+  @override
+  String get phaseBeforeHormones =>
+      'Without a pregnancy, progesterone and oestrogen fall. That drop is behind most of what is felt these days.';
+
+  @override
+  String get phaseBeforeMood =>
+      'Irritability, low mood, tears close to the surface: common, and it passes when the period comes.';
+
+  @override
+  String get phaseBeforeBody =>
+      'Bloating, tender breasts, headaches, tiredness, spots: common too.';
+
+  @override
+  String get phaseBeforeTip1 =>
+      'What you feel is real, and it has a cause. No need to blame yourself for it.';
+
+  @override
+  String get phaseBeforeTip2 =>
+      'Get your bag ready: your period is estimated soon.';
+
+  @override
+  String get phaseBeforeTip3 =>
+      'Lighter plans, earlier nights: these days often ask for it.';
 }

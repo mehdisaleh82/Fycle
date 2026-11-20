@@ -3274,4 +3274,186 @@ class AppLocalizationsFr extends AppLocalizations {
   @override
   String get kioskNote =>
       'Sélection automatique dans la presse : personne n\'a relu ces articles pour toi, et aucun n\'est un avis médical.';
+
+  @override
+  String get phaseTitle => 'Ton cycle aujourd\'hui';
+
+  @override
+  String phaseEstimated(String phase) {
+    return '$phase · estimation';
+  }
+
+  @override
+  String get phaseHormones => 'Hormones';
+
+  @override
+  String get phaseMood => 'Humeur et énergie';
+
+  @override
+  String get phaseBody => 'Corps';
+
+  @override
+  String get phaseTip => 'Le conseil du jour';
+
+  @override
+  String get phaseMore => 'Décrypter';
+
+  @override
+  String get phaseLess => 'Réduire';
+
+  @override
+  String get phaseNote =>
+      'Repères généraux, en attente de relecture par un professionnel de santé. Chaque corps est différent : le tien peut ne pas les suivre.';
+
+  @override
+  String phaseYours(String signs) {
+    return 'Autour de ce jour, tu as souvent noté : $signs.';
+  }
+
+  @override
+  String get phasePerimenopause =>
+      'Avec un cycle qui change, les hormones suivent ce schéma de moins près : prends-le comme un repère large.';
+
+  @override
+  String get phaseConceive =>
+      'Ta fenêtre de fertilité estimée est indiquée sur l\'anneau, plus haut.';
+
+  @override
+  String get phaseDiscovering =>
+      'Les premiers cycles sont souvent irréguliers : ils peuvent mettre quelques années à se régler.';
+
+  @override
+  String get phasePeriodName => 'Tes règles';
+
+  @override
+  String get phasePeriodHormones =>
+      'Œstrogènes et progestérone sont au plus bas. C\'est cette chute qui déclenche les saignements.';
+
+  @override
+  String get phasePeriodMood =>
+      'L\'énergie est souvent plus basse les premiers jours, puis remonte au fil des jours.';
+
+  @override
+  String get phasePeriodBody =>
+      'Les crampes dans le ventre ou le bas du dos sont fréquentes, surtout les deux premiers jours : l\'utérus se contracte pour évacuer sa muqueuse.';
+
+  @override
+  String get phasePeriodTip1 =>
+      'Du chaud sur le ventre, bouillotte ou bain : ça soulage beaucoup de femmes.';
+
+  @override
+  String get phasePeriodTip2 =>
+      'Bouger doucement, marcher ou s\'étirer, aide souvent plus que rester immobile.';
+
+  @override
+  String get phasePeriodTip3 =>
+      'Une journée au ralenti n\'est pas une journée perdue. Si tu peux, garde le plus lourd pour plus tard dans la semaine.';
+
+  @override
+  String get phaseAfterName => 'Après tes règles';
+
+  @override
+  String get phaseAfterHormones =>
+      'Les œstrogènes remontent jour après jour, pendant qu\'un ovule mûrit dans un ovaire.';
+
+  @override
+  String get phaseAfterMood =>
+      'Beaucoup décrivent plus d\'énergie, les idées plus claires et l\'humeur plus légère.';
+
+  @override
+  String get phaseAfterBody =>
+      'Souvent les jours les plus calmes pour le corps : moins de douleurs, une peau souvent plus nette.';
+
+  @override
+  String get phaseAfterTip1 =>
+      'Une bonne semaine pour lancer ce que tu repoussais.';
+
+  @override
+  String get phaseAfterTip2 =>
+      'Si tu aimes le sport, c\'est souvent là que l\'effort paraît le plus facile.';
+
+  @override
+  String get phaseAfterTip3 =>
+      'Tu te sens bien ? Note-le aussi : le journal n\'est pas réservé aux mauvais jours.';
+
+  @override
+  String get phaseMidName => 'Milieu de ton cycle';
+
+  @override
+  String get phaseMidHormones =>
+      'Les œstrogènes sont au plus haut, puis un pic d\'une autre hormone, la LH, déclenche l\'ovulation. Son jour n\'est ici qu\'une estimation.';
+
+  @override
+  String get phaseMidMood =>
+      'L\'énergie et la confiance sont souvent au plus haut ces jours-ci. Pas chez toutes, ni à chaque cycle.';
+
+  @override
+  String get phaseMidBody =>
+      'Des pertes plus claires et filantes sont fréquentes. Certaines sentent un tiraillement d\'un côté du bas-ventre.';
+
+  @override
+  String get phaseMidTip1 =>
+      'Envie de voir du monde ? Ce sont souvent les jours pour ça.';
+
+  @override
+  String get phaseMidTip2 =>
+      'Regarde comment tes pertes changent : c\'est l\'un des signaux les plus nets du cycle.';
+
+  @override
+  String get phaseMidTip3 =>
+      'Un bon moment pour ce qui demande du cran : une discussion, une demande, une première fois.';
+
+  @override
+  String get phaseSecondName => 'Deuxième partie de ton cycle';
+
+  @override
+  String get phaseSecondHormones =>
+      'Après l\'ovulation, la progestérone prend le relais et prépare la muqueuse de l\'utérus. Les œstrogènes restent modérés.';
+
+  @override
+  String get phaseSecondMood =>
+      'Beaucoup se sentent plus calmes, plus tournées vers l\'intérieur. L\'énergie baisse souvent d\'un cran.';
+
+  @override
+  String get phaseSecondBody =>
+      'La température du corps est un peu plus haute. Seins sensibles, plus d\'appétit ou sommeil plus léger sont fréquents.';
+
+  @override
+  String get phaseSecondTip1 =>
+      'Plus faim que d\'habitude ? C\'est fréquent à ce moment du cycle, pas un manque de volonté.';
+
+  @override
+  String get phaseSecondTip2 =>
+      'Te coucher à heure régulière aide quand le sommeil devient plus léger.';
+
+  @override
+  String get phaseSecondTip3 =>
+      'Un bon moment pour finir ce qui est en cours plutôt que d\'en lancer.';
+
+  @override
+  String get phaseBeforeName => 'Avant tes règles';
+
+  @override
+  String get phaseBeforeHormones =>
+      'Sans grossesse, progestérone et œstrogènes chutent. Cette chute explique l\'essentiel de ce qu\'on ressent ces jours-ci.';
+
+  @override
+  String get phaseBeforeMood =>
+      'Irritabilité, moral en baisse, larmes faciles : c\'est fréquent, et ça passe avec l\'arrivée des règles.';
+
+  @override
+  String get phaseBeforeBody =>
+      'Ballonnements, seins tendus, maux de tête, fatigue, boutons : fréquents aussi.';
+
+  @override
+  String get phaseBeforeTip1 =>
+      'Ce que tu ressens est réel, et ça a une cause. Pas besoin de te le reprocher.';
+
+  @override
+  String get phaseBeforeTip2 =>
+      'Prépare ton sac : tes règles sont estimées bientôt.';
+
+  @override
+  String get phaseBeforeTip3 =>
+      'Agenda allégé, coucher plus tôt : ces jours-là le demandent souvent.';
 }

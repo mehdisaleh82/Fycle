@@ -5077,6 +5077,294 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Picked automatically from the press: nobody has read these articles for you, and none is medical advice.'**
   String get kioskNote;
+
+  /// No description provided for @phaseTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Your cycle today'**
+  String get phaseTitle;
+
+  /// No description provided for @phaseEstimated.
+  ///
+  /// In en, this message translates to:
+  /// **'{phase} · estimate'**
+  String phaseEstimated(String phase);
+
+  /// No description provided for @phaseHormones.
+  ///
+  /// In en, this message translates to:
+  /// **'Hormones'**
+  String get phaseHormones;
+
+  /// No description provided for @phaseMood.
+  ///
+  /// In en, this message translates to:
+  /// **'Mood and energy'**
+  String get phaseMood;
+
+  /// No description provided for @phaseBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Body'**
+  String get phaseBody;
+
+  /// No description provided for @phaseTip.
+  ///
+  /// In en, this message translates to:
+  /// **'Today\'s tip'**
+  String get phaseTip;
+
+  /// No description provided for @phaseMore.
+  ///
+  /// In en, this message translates to:
+  /// **'Decode'**
+  String get phaseMore;
+
+  /// No description provided for @phaseLess.
+  ///
+  /// In en, this message translates to:
+  /// **'Show less'**
+  String get phaseLess;
+
+  /// No description provided for @phaseNote.
+  ///
+  /// In en, this message translates to:
+  /// **'General benchmarks, awaiting review by a health professional. Every body is different: yours may not follow them.'**
+  String get phaseNote;
+
+  /// No description provided for @phaseYours.
+  ///
+  /// In en, this message translates to:
+  /// **'Around this day, you have often logged: {signs}.'**
+  String phaseYours(String signs);
+
+  /// No description provided for @phasePerimenopause.
+  ///
+  /// In en, this message translates to:
+  /// **'With a cycle that is changing, hormones follow this pattern less closely: take it as a rough guide.'**
+  String get phasePerimenopause;
+
+  /// No description provided for @phaseConceive.
+  ///
+  /// In en, this message translates to:
+  /// **'Your estimated fertile window is shown on the ring above.'**
+  String get phaseConceive;
+
+  /// No description provided for @phaseDiscovering.
+  ///
+  /// In en, this message translates to:
+  /// **'First cycles are often irregular: they can take a few years to settle.'**
+  String get phaseDiscovering;
+
+  /// No description provided for @phasePeriodName.
+  ///
+  /// In en, this message translates to:
+  /// **'Your period'**
+  String get phasePeriodName;
+
+  /// No description provided for @phasePeriodHormones.
+  ///
+  /// In en, this message translates to:
+  /// **'Oestrogen and progesterone are at their lowest. That drop is what starts the bleeding.'**
+  String get phasePeriodHormones;
+
+  /// No description provided for @phasePeriodMood.
+  ///
+  /// In en, this message translates to:
+  /// **'Energy is often lower on the first days, then climbs back as the days go by.'**
+  String get phasePeriodMood;
+
+  /// No description provided for @phasePeriodBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Cramps in the belly or the lower back are common, mostly on the first two days: the uterus contracts to shed its lining.'**
+  String get phasePeriodBody;
+
+  /// No description provided for @phasePeriodTip1.
+  ///
+  /// In en, this message translates to:
+  /// **'Warmth on the belly, a hot-water bottle or a bath: it eases many women.'**
+  String get phasePeriodTip1;
+
+  /// No description provided for @phasePeriodTip2.
+  ///
+  /// In en, this message translates to:
+  /// **'Moving gently, walking or stretching, often helps more than staying still.'**
+  String get phasePeriodTip2;
+
+  /// No description provided for @phasePeriodTip3.
+  ///
+  /// In en, this message translates to:
+  /// **'A slower day is not a wasted day. If you can, keep the heavy stuff for later in the week.'**
+  String get phasePeriodTip3;
+
+  /// No description provided for @phaseAfterName.
+  ///
+  /// In en, this message translates to:
+  /// **'After your period'**
+  String get phaseAfterName;
+
+  /// No description provided for @phaseAfterHormones.
+  ///
+  /// In en, this message translates to:
+  /// **'Oestrogen rises day after day while an egg matures in an ovary.'**
+  String get phaseAfterHormones;
+
+  /// No description provided for @phaseAfterMood.
+  ///
+  /// In en, this message translates to:
+  /// **'Many describe more energy, a clearer head and a lighter mood.'**
+  String get phaseAfterMood;
+
+  /// No description provided for @phaseAfterBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Often the quietest days for the body: fewer aches, skin often clearer.'**
+  String get phaseAfterBody;
+
+  /// No description provided for @phaseAfterTip1.
+  ///
+  /// In en, this message translates to:
+  /// **'A good week to start what you kept putting off.'**
+  String get phaseAfterTip1;
+
+  /// No description provided for @phaseAfterTip2.
+  ///
+  /// In en, this message translates to:
+  /// **'If you like sport, this is often when effort feels easiest.'**
+  String get phaseAfterTip2;
+
+  /// No description provided for @phaseAfterTip3.
+  ///
+  /// In en, this message translates to:
+  /// **'Feeling good? Log it too: the journal is not only for bad days.'**
+  String get phaseAfterTip3;
+
+  /// No description provided for @phaseMidName.
+  ///
+  /// In en, this message translates to:
+  /// **'Middle of your cycle'**
+  String get phaseMidName;
+
+  /// No description provided for @phaseMidHormones.
+  ///
+  /// In en, this message translates to:
+  /// **'Oestrogen is at its highest, then a surge of another hormone, LH, triggers ovulation. Its day is only an estimate here.'**
+  String get phaseMidHormones;
+
+  /// No description provided for @phaseMidMood.
+  ///
+  /// In en, this message translates to:
+  /// **'Energy and confidence are often at their highest around these days. Not for everyone, and not every cycle.'**
+  String get phaseMidMood;
+
+  /// No description provided for @phaseMidBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Clearer, stretchy discharge is common. Some feel a twinge on one side of the lower belly.'**
+  String get phaseMidBody;
+
+  /// No description provided for @phaseMidTip1.
+  ///
+  /// In en, this message translates to:
+  /// **'Feel like seeing people? These are often the days for it.'**
+  String get phaseMidTip1;
+
+  /// No description provided for @phaseMidTip2.
+  ///
+  /// In en, this message translates to:
+  /// **'Notice how your discharge changes: it is one of the clearest signals of the cycle.'**
+  String get phaseMidTip2;
+
+  /// No description provided for @phaseMidTip3.
+  ///
+  /// In en, this message translates to:
+  /// **'A good moment for what takes nerve: a talk, a request, a first time at something.'**
+  String get phaseMidTip3;
+
+  /// No description provided for @phaseSecondName.
+  ///
+  /// In en, this message translates to:
+  /// **'Second part of your cycle'**
+  String get phaseSecondName;
+
+  /// No description provided for @phaseSecondHormones.
+  ///
+  /// In en, this message translates to:
+  /// **'After ovulation, progesterone takes over and prepares the lining of the uterus. Oestrogen stays moderate.'**
+  String get phaseSecondHormones;
+
+  /// No description provided for @phaseSecondMood.
+  ///
+  /// In en, this message translates to:
+  /// **'Many feel calmer, more inward. Energy often comes down a notch.'**
+  String get phaseSecondMood;
+
+  /// No description provided for @phaseSecondBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Body temperature is slightly higher. Tender breasts, more appetite or lighter sleep are common.'**
+  String get phaseSecondBody;
+
+  /// No description provided for @phaseSecondTip1.
+  ///
+  /// In en, this message translates to:
+  /// **'Hungrier than usual? Common in this part of the cycle, and no lack of willpower.'**
+  String get phaseSecondTip1;
+
+  /// No description provided for @phaseSecondTip2.
+  ///
+  /// In en, this message translates to:
+  /// **'A regular bedtime helps when sleep gets lighter.'**
+  String get phaseSecondTip2;
+
+  /// No description provided for @phaseSecondTip3.
+  ///
+  /// In en, this message translates to:
+  /// **'A good time to finish what is under way rather than start something new.'**
+  String get phaseSecondTip3;
+
+  /// No description provided for @phaseBeforeName.
+  ///
+  /// In en, this message translates to:
+  /// **'Before your period'**
+  String get phaseBeforeName;
+
+  /// No description provided for @phaseBeforeHormones.
+  ///
+  /// In en, this message translates to:
+  /// **'Without a pregnancy, progesterone and oestrogen fall. That drop is behind most of what is felt these days.'**
+  String get phaseBeforeHormones;
+
+  /// No description provided for @phaseBeforeMood.
+  ///
+  /// In en, this message translates to:
+  /// **'Irritability, low mood, tears close to the surface: common, and it passes when the period comes.'**
+  String get phaseBeforeMood;
+
+  /// No description provided for @phaseBeforeBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Bloating, tender breasts, headaches, tiredness, spots: common too.'**
+  String get phaseBeforeBody;
+
+  /// No description provided for @phaseBeforeTip1.
+  ///
+  /// In en, this message translates to:
+  /// **'What you feel is real, and it has a cause. No need to blame yourself for it.'**
+  String get phaseBeforeTip1;
+
+  /// No description provided for @phaseBeforeTip2.
+  ///
+  /// In en, this message translates to:
+  /// **'Get your bag ready: your period is estimated soon.'**
+  String get phaseBeforeTip2;
+
+  /// No description provided for @phaseBeforeTip3.
+  ///
+  /// In en, this message translates to:
+  /// **'Lighter plans, earlier nights: these days often ask for it.'**
+  String get phaseBeforeTip3;
 }
 
 class _AppLocalizationsDelegate

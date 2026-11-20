@@ -21,6 +21,7 @@ import 'home_screen.dart';
 import 'insights_screen.dart';
 import 'labels.dart';
 import 'life_stage_cards.dart';
+import 'phase_card.dart';
 import 'prediction_card.dart';
 import 'today_card.dart';
 
@@ -154,6 +155,7 @@ class TodayTab extends StatelessWidget {
               if (ask != null)
                 CatchUpCard(model: model, today: today, ask: ask),
               ComingSignsCard(model: model, today: today, status: status),
+              PhaseCard(model: model, today: today, status: status),
               gap,
               TodayCard(
                 model: model,

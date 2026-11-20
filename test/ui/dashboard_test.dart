@@ -42,7 +42,7 @@ void main() {
         expect(find.text('Period in 5 to 11 days'), findsOneWidget);
         expect(find.text('My journal today'), findsOneWidget);
         // Everything else is in the review.
-        expect(find.byType(Card), findsNWidgets(5));
+        expect(find.byType(Card), findsNWidgets(6));
         // What the coming weeks may hold, under the journal.
         expect(find.byKey(const ValueKey('ahead')), findsOneWidget);
         // What comes before her period, between the ring and the journal.
