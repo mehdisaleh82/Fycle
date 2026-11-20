@@ -2768,4 +2768,39 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get notificationSignsBody => 'Un repère pour les jours qui viennent.';
+
+  @override
+  String get catchUpStartedTitle => 'Tes règles ont-elles commencé ?';
+
+  @override
+  String get catchUpToday => 'Aujourd\'hui';
+
+  @override
+  String get catchUpYesterday => 'Hier';
+
+  @override
+  String get catchUpOtherDay => 'Un autre jour';
+
+  @override
+  String get catchUpNotYet => 'Pas encore';
+
+  @override
+  String get catchUpContinuesTitle => 'Tes règles continuent ?';
+
+  @override
+  String catchUpContinuesBody(String date) {
+    return 'Dernier jour noté : $date.';
+  }
+
+  @override
+  String get catchUpContinuesYes => 'Oui, encore aujourd\'hui';
+
+  @override
+  String get catchUpContinuesNo => 'Elles sont finies';
+
+  @override
+  String get catchUpHint => 'Tu peux corriger chaque jour dans le journal.';
+
+  @override
+  String get todayLogYesterday => 'Noter hier';
 }

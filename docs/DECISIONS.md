@@ -710,6 +710,16 @@ Retour de la testeuse sur la compilation n° 9, rapporté par l'utilisateur : po
     - **Règle 7.** La carte compte et rappelle ; elle n'explique rien, ne conseille rien, et n'annonce pas un symptôme comme certain.
     - **Stockage.** Les signes dits à la configuration et le réglage du rappel sont des réglages du téléphone, hors export, comme les autres réponses de la configuration.
     - **Non vérifié.** Le rendu réel de la carte sur iPhone : les images de test n'utilisent pas les polices du téléphone.
+161. **Rattraper un oubli en un geste** (20 novembre 2026, demande de l'utilisateur : aider celle qui oublie de noter). Trois rattrapages sur l'accueil, calculés dans `lib/domain/catch_up.dart`.
+    - **« Tes règles ont-elles commencé ? »** Posée dès que la fourchette estimée est atteinte ou dépassée et qu'aucun flux n'est noté pour le jour (jusqu'à 90 jours après, comme le statut « en retard »). Réponses : « Aujourd'hui », « Hier », « Un autre jour » (sélecteur de date, au plus tôt 8 jours après le dernier jour de règles noté, pour que ce soit bien de nouvelles règles), « Pas encore ». Un jour passé remplit les jours depuis ce début jusqu'à aujourd'hui, sans dépasser la durée de ses règles. « Pas encore » ferme la question jusqu'au lendemain.
+    - **« Tes règles continuent ? »** Posée quand le dernier jour de règles noté date de 1 à 3 jours, que rien n'est noté aujourd'hui et que la durée de ses règles n'est pas dépassée. « Oui, encore aujourd'hui » remplit les jours manquants ; « Elles sont finies » ferme la question pour ces règles. But : éviter des règles « d'un jour » qui faussent les moyennes et la fin estimée.
+    - **Durée de ses règles** pour borner les deux : ses règles les plus longues parmi les 6 derniers cycles complets et plausibles, sinon la durée dite à la configuration, sinon le repère de 5 jours déjà utilisé par l'anneau.
+    - **Remplissage.** Seuls les jours sans flux sont remplis, avec l'abondance dite habituelle (« moyenne » sinon) ; ce qui était déjà noté ces jours-là est gardé. Rien n'est rempli sans sa réponse, et la carte rappelle que tout se corrige dans le journal.
+    - **« Noter hier ».** Un lien discret sous le journal du jour quand hier est vide, seulement si elle a déjà noté un jour plus ancien (pas les premiers jours).
+    - **Règles 7 et 13.** Des questions neutres : jamais « tu as oublié », aucun compteur d'oublis, aucune notification ajoutée. « En retard » n'est qu'un jour après une fourchette estimée ; la carte ne dit rien de plus. Rien pendant une grossesse, ni tant qu'aucune date n'est estimée.
+    - **Stockage.** Les deux réponses qui ferment une question (« pas encore » ce jour, « finies » après tel jour) sont des réglages du téléphone, hors export.
+    - **Hors de ce lot.** Répondre depuis la notification sans ouvrir l'appli : à faire à l'identique sur iPhone et Android (règle 10).
+    - **Non vérifié.** Le rendu réel de la carte sur iPhone.
 
 ## Questions ouvertes
 

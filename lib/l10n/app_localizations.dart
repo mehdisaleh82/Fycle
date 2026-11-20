@@ -4243,6 +4243,72 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'A note for the days ahead.'**
   String get notificationSignsBody;
+
+  /// No description provided for @catchUpStartedTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Has your period started?'**
+  String get catchUpStartedTitle;
+
+  /// No description provided for @catchUpToday.
+  ///
+  /// In en, this message translates to:
+  /// **'Today'**
+  String get catchUpToday;
+
+  /// No description provided for @catchUpYesterday.
+  ///
+  /// In en, this message translates to:
+  /// **'Yesterday'**
+  String get catchUpYesterday;
+
+  /// No description provided for @catchUpOtherDay.
+  ///
+  /// In en, this message translates to:
+  /// **'Another day'**
+  String get catchUpOtherDay;
+
+  /// No description provided for @catchUpNotYet.
+  ///
+  /// In en, this message translates to:
+  /// **'Not yet'**
+  String get catchUpNotYet;
+
+  /// No description provided for @catchUpContinuesTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Is your period still going on?'**
+  String get catchUpContinuesTitle;
+
+  /// No description provided for @catchUpContinuesBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Last day logged: {date}.'**
+  String catchUpContinuesBody(String date);
+
+  /// No description provided for @catchUpContinuesYes.
+  ///
+  /// In en, this message translates to:
+  /// **'Yes, today too'**
+  String get catchUpContinuesYes;
+
+  /// No description provided for @catchUpContinuesNo.
+  ///
+  /// In en, this message translates to:
+  /// **'It is over'**
+  String get catchUpContinuesNo;
+
+  /// No description provided for @catchUpHint.
+  ///
+  /// In en, this message translates to:
+  /// **'You can change any day in the journal.'**
+  String get catchUpHint;
+
+  /// No description provided for @todayLogYesterday.
+  ///
+  /// In en, this message translates to:
+  /// **'Log yesterday'**
+  String get todayLogYesterday;
 }
 
 class _AppLocalizationsDelegate

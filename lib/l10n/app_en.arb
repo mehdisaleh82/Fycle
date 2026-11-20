@@ -909,5 +909,17 @@
   "setupBeforeHint": "Tick what you recognise.",
   "reminderSignsTitle": "What comes back",
   "reminderSignsSubtitle": "Once a cycle, before your usual signs.",
-  "notificationSignsBody": "A note for the days ahead."
+  "notificationSignsBody": "A note for the days ahead.",
+  "catchUpStartedTitle": "Has your period started?",
+  "catchUpToday": "Today",
+  "catchUpYesterday": "Yesterday",
+  "catchUpOtherDay": "Another day",
+  "catchUpNotYet": "Not yet",
+  "catchUpContinuesTitle": "Is your period still going on?",
+  "catchUpContinuesBody": "Last day logged: {date}.",
+  "@catchUpContinuesBody": {"placeholders": {"date": {"type": "String"}}},
+  "catchUpContinuesYes": "Yes, today too",
+  "catchUpContinuesNo": "It is over",
+  "catchUpHint": "You can change any day in the journal.",
+  "todayLogYesterday": "Log yesterday"
 }

@@ -29,6 +29,7 @@ class TodayCard extends StatelessWidget {
     required this.model,
     required this.today,
     required this.onOpenDay,
+    this.onOpenYesterday,
   });
 
   final CycleModel model;
@@ -36,6 +37,9 @@ class TodayCard extends StatelessWidget {
 
   /// Opens the full entry of today.
   final VoidCallback onOpenDay;
+
+  /// Opens the entry of yesterday, offered while it is empty.
+  final VoidCallback? onOpenYesterday;
 
   /// The rows offered in one tap, after the flow: what she follows among
   /// pain, mood, sleep and libido, or pain and mood when she did not say.
@@ -64,6 +68,12 @@ class TodayCard extends StatelessWidget {
     final entry = model.entryFor(today);
     final streak = loggingStreak(model.loggedDays, today);
     final filled = entry.filledGroups;
+    final yesterday = today.addDays(-1);
+    final openYesterday = onOpenYesterday;
+    // Only once she has logged before: not on her first days in the app.
+    final yesterdayMissing =
+        !model.loggedDays.contains(yesterday) &&
+        model.loggedDays.any((day) => day.isBefore(yesterday));
     return TitledCard(
       title: l10n.todayEntryTitle,
       children: [
@@ -173,6 +183,14 @@ class TodayCard extends StatelessWidget {
             label: Text(l10n.homeLogToday),
           ),
         ),
+        if (yesterdayMissing && openYesterday != null)
+          Center(
+            child: TextButton(
+              key: const ValueKey('log-yesterday'),
+              onPressed: openYesterday,
+              child: Text(l10n.todayLogYesterday),
+            ),
+          ),
       ],
     );
   }

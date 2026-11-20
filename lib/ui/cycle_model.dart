@@ -187,6 +187,39 @@ class CycleModel extends ChangeNotifier {
     reload();
   }
 
+  /// Logs flow on each of [days] that has none, as heavy as she said her
+  /// periods usually are, and keeps whatever else is logged on them.
+  void fillPeriodDays(Iterable<CalendarDay> days) {
+    for (final day in days) {
+      final entry = entryFor(day);
+      if (entry.flow == null) {
+        store.database.saveDay(
+          entry.withFlow(_usualFlow ?? FlowIntensity.medium),
+        );
+      }
+    }
+    reload();
+  }
+
+  /// The day she last said her period had not started yet.
+  CalendarDay? get periodNotYetOn => store.database.periodNotYetOn;
+
+  /// The last flow day of the period she said was over.
+  CalendarDay? get periodEndedAfter => store.database.periodEndedAfter;
+
+  /// Does not ask again on [day] whether her period started.
+  void answerPeriodNotYet(CalendarDay day) {
+    store.database.periodNotYetOn = day;
+    reload();
+  }
+
+  /// Does not ask again whether the period last logged on [lastFlowDay]
+  /// goes on.
+  void answerPeriodEnded(CalendarDay lastFlowDay) {
+    store.database.periodEndedAfter = lastFlowDay;
+    reload();
+  }
+
   /// Stores the declared cycle length (null to forget it) and recomputes the
   /// prediction.
   void setUsualCycleLength(int? days) {

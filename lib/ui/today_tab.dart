@@ -1,6 +1,7 @@
 import 'package:material_ui/material_ui.dart';
 
 import '../domain/calendar_day.dart';
+import '../domain/catch_up.dart';
 import '../domain/cycle_overview.dart';
 import '../domain/cycle_status.dart';
 import '../domain/flow_intensity.dart';
@@ -9,6 +10,7 @@ import '../domain/period_end_estimate.dart';
 import '../domain/start_profile.dart';
 import '../l10n/app_localizations.dart';
 import 'app_environment.dart';
+import 'catch_up_card.dart';
 import 'coming_signs_card.dart';
 import 'cycle_model.dart';
 import 'cycle_summary_card.dart';
@@ -96,6 +98,15 @@ class TodayTab extends StatelessWidget {
             ? null
             : model.cycles.last.start;
         final summary = cycleSummaryToShow(model, today);
+        final ask = catchUpOn(
+          today,
+          flowByDay: model.flowByDay,
+          status: status,
+          cycles: model.cycles,
+          declaredPeriodLength: model.usualPeriodLength,
+          notYetOn: model.periodNotYetOn,
+          endedAfter: model.periodEndedAfter,
+        );
         const gap = SizedBox(height: 16);
         return SingleChildScrollView(
           padding: const EdgeInsetsDirectional.fromSTEB(16, 0, 16, 24),
@@ -138,12 +149,15 @@ class TodayTab extends StatelessWidget {
                     model.entryFor(today).withFlow(FlowIntensity.medium),
                   ),
                 ),
+              if (ask != null)
+                CatchUpCard(model: model, today: today, ask: ask),
               ComingSignsCard(model: model, today: today, status: status),
               gap,
               TodayCard(
                 model: model,
                 today: today,
                 onOpenDay: () => onOpenDay(today),
+                onOpenYesterday: () => onOpenDay(today.addDays(-1)),
               ),
               if (model.profile == Profile.discovering ||
                   (model.goals.contains(Goal.understandBody) &&

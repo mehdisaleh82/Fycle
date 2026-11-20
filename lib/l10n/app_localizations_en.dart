@@ -2744,4 +2744,39 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get notificationSignsBody => 'A note for the days ahead.';
+
+  @override
+  String get catchUpStartedTitle => 'Has your period started?';
+
+  @override
+  String get catchUpToday => 'Today';
+
+  @override
+  String get catchUpYesterday => 'Yesterday';
+
+  @override
+  String get catchUpOtherDay => 'Another day';
+
+  @override
+  String get catchUpNotYet => 'Not yet';
+
+  @override
+  String get catchUpContinuesTitle => 'Is your period still going on?';
+
+  @override
+  String catchUpContinuesBody(String date) {
+    return 'Last day logged: $date.';
+  }
+
+  @override
+  String get catchUpContinuesYes => 'Yes, today too';
+
+  @override
+  String get catchUpContinuesNo => 'It is over';
+
+  @override
+  String get catchUpHint => 'You can change any day in the journal.';
+
+  @override
+  String get todayLogYesterday => 'Log yesterday';
 }

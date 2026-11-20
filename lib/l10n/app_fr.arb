@@ -701,5 +701,16 @@
   "setupBeforeHint": "Coche ce que tu reconnais.",
   "reminderSignsTitle": "Ce qui revient",
   "reminderSignsSubtitle": "Une fois par cycle, avant tes signes habituels.",
-  "notificationSignsBody": "Un repère pour les jours qui viennent."
+  "notificationSignsBody": "Un repère pour les jours qui viennent.",
+  "catchUpStartedTitle": "Tes règles ont-elles commencé ?",
+  "catchUpToday": "Aujourd'hui",
+  "catchUpYesterday": "Hier",
+  "catchUpOtherDay": "Un autre jour",
+  "catchUpNotYet": "Pas encore",
+  "catchUpContinuesTitle": "Tes règles continuent ?",
+  "catchUpContinuesBody": "Dernier jour noté : {date}.",
+  "catchUpContinuesYes": "Oui, encore aujourd'hui",
+  "catchUpContinuesNo": "Elles sont finies",
+  "catchUpHint": "Tu peux corriger chaque jour dans le journal.",
+  "todayLogYesterday": "Noter hier"
 }

@@ -125,6 +125,8 @@ final class FycleDatabase {
   static const String _appearance = 'appearance';
   static const String _onboardingDone = 'onboarding_done';
   static const String _summaryDismissed = 'cycle_summary_dismissed';
+  static const String _periodNotYetOn = 'catch_up_not_yet_on';
+  static const String _periodEndedAfter = 'catch_up_ended_after';
   static const String _fertilityEstimate = 'fertility_estimate_enabled';
   static const String _suggestionDismissed = 'suggestion_dismissed_';
   static const String _widget = 'widget_enabled';
@@ -481,6 +483,22 @@ final class FycleDatabase {
 
   set dismissedSummaryStart(CalendarDay? start) =>
       _writeDeviceSetting(_summaryDismissed, start?.toString());
+
+  /// The day she last answered that her period had not started yet, so
+  /// that the question is not asked again that day. Not part of an export.
+  CalendarDay? get periodNotYetOn =>
+      CalendarDay.tryParse(_deviceSetting(_periodNotYetOn) ?? '');
+
+  set periodNotYetOn(CalendarDay? day) =>
+      _writeDeviceSetting(_periodNotYetOn, day?.toString());
+
+  /// The last flow day of the period she said was over, so that she is
+  /// not asked again whether it goes on. Not part of an export.
+  CalendarDay? get periodEndedAfter =>
+      CalendarDay.tryParse(_deviceSetting(_periodEndedAfter) ?? '');
+
+  set periodEndedAfter(CalendarDay? day) =>
+      _writeDeviceSetting(_periodEndedAfter, day?.toString());
 
   /// Whether the estimate of ovulation and of the fertile window is shown.
   /// On unless the user turned it off. Not part of an export.
