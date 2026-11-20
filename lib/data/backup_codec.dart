@@ -8,6 +8,7 @@ import '../domain/calendar_day.dart';
 import '../domain/day_entry.dart';
 import '../domain/flow_intensity.dart';
 import '../domain/libido_level.dart';
+import '../domain/migraine.dart';
 import '../domain/mood.dart';
 import '../domain/pain_level.dart';
 import '../domain/period_predictor.dart';
@@ -98,7 +99,12 @@ final class BackupCodec {
   ///
   /// Throws an [ArgumentError] if the password is shorter than
   /// [minBackupPasswordLength] characters.
-  Future<Uint8List> encode(FycleData data, String password) async {
+  Future<Uint8List> encode(FycleData data, String password) =>
+      encodeText(jsonEncode(_toJson(data)), password);
+
+  /// Encrypts any [text] with [password], in the same file format. Used
+  /// for what is shared with a partner.
+  Future<Uint8List> encodeText(String text, String password) async {
     if (password.runes.length < minBackupPasswordLength) {
       throw ArgumentError.value(
         password.runes.length,
@@ -123,7 +129,7 @@ final class BackupCodec {
 
     final key = await _deriveKey(password, salt, memoryKib, passes, _lanes);
     final box = await AesGcm.with256bits().encrypt(
-      utf8.encode(jsonEncode(_toJson(data))),
+      utf8.encode(text),
       secretKey: key,
       nonce: nonce,
       aad: headerBytes,
@@ -141,6 +147,17 @@ final class BackupCodec {
   /// Throws a [BackupException] if the file is not an export file, comes from
   /// a newer version, was altered, or if [password] is wrong.
   Future<FycleData> decode(Uint8List bytes, String password) async {
+    final text = await decodeText(bytes, password);
+    try {
+      return _fromJson(jsonDecode(text));
+    } on FormatException {
+      throw const BackupException(BackupProblem.wrongPasswordOrDamaged);
+    }
+  }
+
+  /// Decrypts a file produced by [encodeText], with the same errors as
+  /// [decode].
+  Future<String> decodeText(Uint8List bytes, String password) async {
     if (bytes.length < _magic.length + 1) {
       throw const BackupException(BackupProblem.notABackup);
     }
@@ -188,7 +205,7 @@ final class BackupCodec {
     }
 
     try {
-      return _fromJson(jsonDecode(utf8.decode(clear)));
+      return utf8.decode(clear);
     } on FormatException {
       throw const BackupException(BackupProblem.wrongPasswordOrDamaged);
     }
@@ -260,6 +277,12 @@ final class BackupCodec {
             'symptoms': [for (final symptom in entry.symptoms) symptom.name]
               ..sort(),
           'note': ?entry.note,
+          if (entry.migraine case final migraine?)
+            'migraine': {
+              'intensity': ?migraine.intensity?.name,
+              'duration': ?migraine.duration?.name,
+              'medication': ?migraine.medication,
+            },
         },
     ],
   };
@@ -329,6 +352,18 @@ final class BackupCodec {
             for (final name in symptoms) ?_byName(Symptom.values, name),
         },
         note: note as String?,
+        // Added later: anything unexpected is ignored rather than fatal.
+        migraine: switch (item['migraine']) {
+          final Map<String, Object?> migraine => MigraineDetail(
+            intensity: _byName(PainLevel.values, migraine['intensity']),
+            duration: _byName(MigraineDuration.values, migraine['duration']),
+            medication: switch (migraine['medication']) {
+              final bool taken => taken,
+              _ => null,
+            },
+          ),
+          _ => null,
+        },
       );
     }
 

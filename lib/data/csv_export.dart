@@ -1,6 +1,7 @@
 import '../domain/day_entry.dart';
 import '../domain/flow_intensity.dart';
 import '../domain/libido_level.dart';
+import '../domain/migraine.dart';
 import '../domain/mood.dart';
 import '../domain/pain_level.dart';
 import '../domain/sleep_quality.dart';
@@ -27,6 +28,8 @@ final class CsvLabels {
     required this.sleepName,
     required this.libidoName,
     required this.symptomName,
+    this.migraine = 'migraine',
+    this.migraineText = _storedMigraine,
   });
 
   /// Headers and values as they are stored: in English.
@@ -63,13 +66,24 @@ final class CsvLabels {
   final String Function(LibidoLevel) libidoName;
   final String Function(Symptom) symptomName;
 
+  /// Header and wording of the detail of a migraine.
+  final String migraine;
+  final String Function(MigraineDetail) migraineText;
+
+  static String _storedMigraine(MigraineDetail detail) => [
+    ?detail.intensity?.name,
+    ?detail.duration?.name,
+    if (detail.medication case final taken?)
+      taken ? 'medication' : 'no medication',
+  ].join('; ');
+
   static String _storedName(Enum value) => value.name;
 }
 
 /// Turns logged days into a CSV text that opens in any spreadsheet.
 ///
 /// One line per day, columns date, flow, pain, mood, sleep, libido, symptoms, note,
-/// worded
+/// migraine, worded
 /// with [labels]. The date stays an ISO date in every language. Several
 /// symptoms are separated by `; `. The text starts with a byte order mark so
 /// that spreadsheets read accented letters correctly, and lines end with
@@ -80,6 +94,10 @@ String daysToCsv(
   Iterable<DayEntry> days, {
   CsvLabels labels = CsvLabels.english,
 }) {
+  final all = days.toList();
+  // One more column, only when a migraine was detailed: a file without
+  // any keeps the columns it always had.
+  final withMigraine = all.any((entry) => entry.migraine != null);
   final buffer = StringBuffer('\u{FEFF}')
     ..write(
       [
@@ -91,10 +109,11 @@ String daysToCsv(
         labels.libido,
         labels.symptoms,
         labels.note,
+        if (withMigraine) labels.migraine,
       ].map(_quoted).join(','),
     )
     ..write('\r\n');
-  for (final entry in days) {
+  for (final entry in all) {
     final flow = entry.flow;
     final pain = entry.pain;
     final mood = entry.mood;
@@ -112,6 +131,11 @@ String daysToCsv(
           libido == null ? '' : labels.libidoName(libido),
           symptoms.join('; '),
           _safeText(entry.note ?? ''),
+          if (withMigraine)
+            switch (entry.migraine) {
+              final detail? => labels.migraineText(detail),
+              null => '',
+            },
         ].map(_quoted).join(','),
       )
       ..write('\r\n');

@@ -7,6 +7,7 @@ import '../domain/day_entry.dart';
 import '../domain/flow_intensity.dart';
 import '../domain/libido_level.dart';
 import '../domain/life_stage.dart';
+import '../domain/migraine.dart';
 import '../domain/mood.dart';
 import '../domain/pain_level.dart';
 import '../domain/period_predictor.dart';
@@ -87,7 +88,7 @@ final class FycleDatabase {
 
   /// Version of the table layout. Raise it and add a step in [_prepare] when
   /// the tables change.
-  static const int schemaVersion = 3;
+  static const int schemaVersion = 4;
 
   static const String _usualCycleLength = 'usual_cycle_length';
   static const String _birthYear = 'birth_year';
@@ -103,6 +104,7 @@ final class FycleDatabase {
   static const String _usualPain = 'usual_pain';
   static const String _startSigns = 'start_signs';
   static const String _profile = 'profile';
+  static const String _partnerView = 'partner_view';
   static const String _pregnancyStart = 'pregnancy_start';
   static const String _deliveryDate = 'delivery_date';
 
@@ -111,6 +113,9 @@ final class FycleDatabase {
   static const String _periodReminderTime = 'reminder_period_minutes';
   static const String _dailyReminder = 'reminder_daily_enabled';
   static const String _dailyReminderTime = 'reminder_daily_minutes';
+  static const String _contraceptionReminder = 'reminder_contraception_enabled';
+  static const String _contraceptionReminderTime =
+      'reminder_contraception_minutes';
   static const String _appLock = 'app_lock_enabled';
   static const String _appearance = 'appearance';
   static const String _onboardingDone = 'onboarding_done';
@@ -175,6 +180,16 @@ final class FycleDatabase {
         _db.execute('ALTER TABLE day_entry ADD COLUMN sleep TEXT');
         _db.execute('ALTER TABLE day_entry ADD COLUMN libido TEXT');
         _db.userVersion = 3;
+      });
+    }
+    if (version < 4) {
+      _transaction(() {
+        _db.execute('ALTER TABLE day_entry ADD COLUMN migraine_intensity TEXT');
+        _db.execute('ALTER TABLE day_entry ADD COLUMN migraine_duration TEXT');
+        _db.execute(
+          'ALTER TABLE day_entry ADD COLUMN migraine_medication INTEGER',
+        );
+        _db.userVersion = 4;
       });
     }
   }
@@ -315,6 +330,13 @@ final class FycleDatabase {
   set startSigns(Set<Symptom> signs) =>
       _writeDeviceSetting(_startSigns, _joined(signs));
 
+  /// What a partner shared with the holder of this phone, as the JSON text
+  /// of the file once decrypted. Null when this phone is not used to
+  /// follow someone else. Not part of an export.
+  String? get partnerView => _deviceSetting(_partnerView);
+
+  set partnerView(String? json) => _writeDeviceSetting(_partnerView, json);
+
   /// Where she is in her life, as she said. Not part of an export.
   Profile? get profile => _byName(Profile.values, _deviceSetting(_profile));
 
@@ -357,6 +379,10 @@ final class FycleDatabase {
       dailyTime: ClockTime.tryFromMinutes(
         int.tryParse(_deviceSetting(_dailyReminderTime) ?? ''),
       ),
+      contraceptionEnabled: _deviceSetting(_contraceptionReminder) == _on,
+      contraceptionTime: ClockTime.tryFromMinutes(
+        int.tryParse(_deviceSetting(_contraceptionReminderTime) ?? ''),
+      ),
     );
   }
 
@@ -371,6 +397,14 @@ final class FycleDatabase {
     _writeDeviceSetting(
       _dailyReminderTime,
       '${settings.dailyTime.minutesSinceMidnight}',
+    );
+    _writeDeviceSetting(
+      _contraceptionReminder,
+      settings.contraceptionEnabled ? _on : null,
+    );
+    _writeDeviceSetting(
+      _contraceptionReminderTime,
+      '${settings.contraceptionTime.minutesSinceMidnight}',
     );
   });
 
@@ -563,8 +597,9 @@ final class FycleDatabase {
       return;
     }
     _db.execute(
-      'INSERT INTO day_entry (day, flow, pain, mood, sleep, libido, note) '
-      'VALUES (?, ?, ?, ?, ?, ?, ?)',
+      'INSERT INTO day_entry (day, flow, pain, mood, sleep, libido, note, '
+      'migraine_intensity, migraine_duration, migraine_medication) '
+      'VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
       [
         day,
         entry.flow?.name,
@@ -573,6 +608,13 @@ final class FycleDatabase {
         entry.sleep?.name,
         entry.libido?.name,
         entry.note,
+        entry.migraine?.intensity?.name,
+        entry.migraine?.duration?.name,
+        switch (entry.migraine?.medication) {
+          true => 1,
+          false => 0,
+          null => null,
+        },
       ],
     );
     for (final symptom in entry.symptoms) {
@@ -597,7 +639,8 @@ final class FycleDatabase {
 
     final entries = <DayEntry>[];
     for (final row in _db.select(
-      'SELECT day, flow, pain, mood, sleep, libido, note FROM day_entry '
+      'SELECT day, flow, pain, mood, sleep, libido, note, migraine_intensity, '
+      'migraine_duration, migraine_medication FROM day_entry '
       '$where ORDER BY day',
       parameters,
     )) {
@@ -616,6 +659,21 @@ final class FycleDatabase {
           libido: _byName(LibidoLevel.values, row['libido'] as String?),
           symptoms: symptoms[text] ?? const {},
           note: row['note'] as String?,
+          migraine: MigraineDetail(
+            intensity: _byName(
+              PainLevel.values,
+              row['migraine_intensity'] as String?,
+            ),
+            duration: _byName(
+              MigraineDuration.values,
+              row['migraine_duration'] as String?,
+            ),
+            medication: switch (row['migraine_medication']) {
+              1 => true,
+              0 => false,
+              _ => null,
+            },
+          ),
         ),
       );
     }

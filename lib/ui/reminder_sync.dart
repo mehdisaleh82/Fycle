@@ -49,6 +49,7 @@ class ReminderSync {
           body: switch (reminder.kind) {
             ReminderKind.periodApproaching => l10n.notificationPeriodBody,
             ReminderKind.dailyEntry => l10n.notificationDailyBody,
+            ReminderKind.contraception => l10n.notificationContraceptionBody,
           },
         ),
     ];

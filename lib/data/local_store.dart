@@ -137,6 +137,20 @@ final class LocalStore {
     database.replaceAll(data);
   }
 
+  /// Encrypts [text] with [password], as an export file is. Nothing of the
+  /// database goes in but what the caller put in [text].
+  Future<Uint8List> encryptText(String text, String password) =>
+      _codecInBackground
+      ? _encodeTextInBackground(_codec, text, password)
+      : _codec.encodeText(text, password);
+
+  /// Reads back what [encryptText] wrote. Throws a [BackupException] if
+  /// the file cannot be read or the password is wrong.
+  Future<String> decryptText(Uint8List bytes, String password) =>
+      _codecInBackground
+      ? _decodeTextInBackground(_codec, bytes, password)
+      : _codec.decodeText(bytes, password);
+
   /// Everything logged, as readable CSV text worded with [labels]. Not
   /// encrypted.
   String exportCsv({CsvLabels labels = CsvLabels.english}) =>
@@ -167,3 +181,15 @@ Future<FycleData> _decodeInBackground(
   Uint8List bytes,
   String password,
 ) => Isolate.run(() => codec.decode(bytes, password));
+
+Future<Uint8List> _encodeTextInBackground(
+  BackupCodec codec,
+  String text,
+  String password,
+) => Isolate.run(() => codec.encodeText(text, password));
+
+Future<String> _decodeTextInBackground(
+  BackupCodec codec,
+  Uint8List bytes,
+  String password,
+) => Isolate.run(() => codec.decodeText(bytes, password));

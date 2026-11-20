@@ -3571,6 +3571,336 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'After the birth: the estimate will start again when your periods come back.'**
   String get recapPostpartum;
+
+  /// No description provided for @reminderContraceptionTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Contraception reminder'**
+  String get reminderContraceptionTitle;
+
+  /// No description provided for @reminderContraceptionSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Every day at the time you choose. A plain reminder: no advice, and nothing is checked.'**
+  String get reminderContraceptionSubtitle;
+
+  /// No description provided for @notificationContraceptionBody.
+  ///
+  /// In en, this message translates to:
+  /// **'It is time.'**
+  String get notificationContraceptionBody;
+
+  /// No description provided for @yes.
+  ///
+  /// In en, this message translates to:
+  /// **'Yes'**
+  String get yes;
+
+  /// No description provided for @no.
+  ///
+  /// In en, this message translates to:
+  /// **'No'**
+  String get no;
+
+  /// No description provided for @migraineIntensity.
+  ///
+  /// In en, this message translates to:
+  /// **'How strong is the migraine?'**
+  String get migraineIntensity;
+
+  /// No description provided for @migraineDurationTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'How long did it last?'**
+  String get migraineDurationTitle;
+
+  /// No description provided for @migraineMedicationTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Did you take a medication?'**
+  String get migraineMedicationTitle;
+
+  /// No description provided for @migraineHours.
+  ///
+  /// In en, this message translates to:
+  /// **'A few hours'**
+  String get migraineHours;
+
+  /// No description provided for @migraineDay.
+  ///
+  /// In en, this message translates to:
+  /// **'A day'**
+  String get migraineDay;
+
+  /// No description provided for @migraineLonger.
+  ///
+  /// In en, this message translates to:
+  /// **'More than a day'**
+  String get migraineLonger;
+
+  /// No description provided for @migraineMedicationYes.
+  ///
+  /// In en, this message translates to:
+  /// **'medication taken'**
+  String get migraineMedicationYes;
+
+  /// No description provided for @migraineMedicationNo.
+  ///
+  /// In en, this message translates to:
+  /// **'no medication'**
+  String get migraineMedicationNo;
+
+  /// No description provided for @migraineSummaryDays.
+  ///
+  /// In en, this message translates to:
+  /// **'{days, plural, =1{1 day with a migraine in the last 90 days} other{{days} days with a migraine in the last 90 days}}'**
+  String migraineSummaryDays(int days);
+
+  /// No description provided for @migraineSummaryPeriod.
+  ///
+  /// In en, this message translates to:
+  /// **'{days, plural, =0{None during your period or the two days before.} =1{1 of them during your period or the two days before.} other{{days} of them during your period or the two days before.}}'**
+  String migraineSummaryPeriod(int days);
+
+  /// No description provided for @migraineSummaryMedication.
+  ///
+  /// In en, this message translates to:
+  /// **'{days, plural, =1{A medication noted on 1 day.} other{A medication noted on {days} days.}}'**
+  String migraineSummaryMedication(int days);
+
+  /// No description provided for @migraineSummaryIntensity.
+  ///
+  /// In en, this message translates to:
+  /// **'Most often: {level}.'**
+  String migraineSummaryIntensity(String level);
+
+  /// No description provided for @migraineSummaryNote.
+  ///
+  /// In en, this message translates to:
+  /// **'A count of what you ticked, to show a doctor. Nothing is said of causes or treatments.'**
+  String get migraineSummaryNote;
+
+  /// No description provided for @partnerShareTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Share with my partner'**
+  String get partnerShareTitle;
+
+  /// No description provided for @partnerShareSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'A protected file that you send yourself. No server.'**
+  String get partnerShareSubtitle;
+
+  /// No description provided for @partnerShareIntro.
+  ///
+  /// In en, this message translates to:
+  /// **'You create a file protected by a password and send it to your partner the way you like. With the same app, they see where you are in your cycle.'**
+  String get partnerShareIntro;
+
+  /// No description provided for @partnerShareWhat.
+  ///
+  /// In en, this message translates to:
+  /// **'The file holds the first day of your cycle and the estimate of your next period. Nothing of what you log day by day. It does not update itself: make a new one whenever you want.'**
+  String get partnerShareWhat;
+
+  /// No description provided for @partnerShareName.
+  ///
+  /// In en, this message translates to:
+  /// **'Give my first name'**
+  String get partnerShareName;
+
+  /// No description provided for @partnerShareFertility.
+  ///
+  /// In en, this message translates to:
+  /// **'Share my estimated fertile window'**
+  String get partnerShareFertility;
+
+  /// No description provided for @partnerFertilityNote.
+  ///
+  /// In en, this message translates to:
+  /// **'An estimate: neither contraception nor a diagnosis.'**
+  String get partnerFertilityNote;
+
+  /// No description provided for @partnerPassword.
+  ///
+  /// In en, this message translates to:
+  /// **'Password of the file'**
+  String get partnerPassword;
+
+  /// No description provided for @passwordRepeatLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Repeat the password'**
+  String get passwordRepeatLabel;
+
+  /// No description provided for @partnerCreate.
+  ///
+  /// In en, this message translates to:
+  /// **'Create the file'**
+  String get partnerCreate;
+
+  /// No description provided for @partnerSavedTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'File created'**
+  String get partnerSavedTitle;
+
+  /// No description provided for @partnerSavedBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Send it to your partner, and tell them the password in person or by another way than the file.'**
+  String get partnerSavedBody;
+
+  /// No description provided for @partnerOpenEntry.
+  ///
+  /// In en, this message translates to:
+  /// **'My partner sent me a file'**
+  String get partnerOpenEntry;
+
+  /// No description provided for @partnerOpenTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'File from a partner'**
+  String get partnerOpenTitle;
+
+  /// No description provided for @partnerOpenAction.
+  ///
+  /// In en, this message translates to:
+  /// **'Open'**
+  String get partnerOpenAction;
+
+  /// No description provided for @partnerOpenError.
+  ///
+  /// In en, this message translates to:
+  /// **'This file could not be read: wrong password, or not a file made for a partner.'**
+  String get partnerOpenError;
+
+  /// No description provided for @partnerHeader.
+  ///
+  /// In en, this message translates to:
+  /// **'Her cycle'**
+  String get partnerHeader;
+
+  /// No description provided for @partnerHeaderOf.
+  ///
+  /// In en, this message translates to:
+  /// **'{name}\'s cycle'**
+  String partnerHeaderOf(String name);
+
+  /// No description provided for @partnerReadOnly.
+  ///
+  /// In en, this message translates to:
+  /// **'What she chose to share with you. Nothing here leaves your phone.'**
+  String get partnerReadOnly;
+
+  /// No description provided for @partnerDayOfCycle.
+  ///
+  /// In en, this message translates to:
+  /// **'Day {day} of her cycle'**
+  String partnerDayOfCycle(int day);
+
+  /// No description provided for @partnerPeriodOngoing.
+  ///
+  /// In en, this message translates to:
+  /// **'Her period is going on'**
+  String get partnerPeriodOngoing;
+
+  /// No description provided for @partnerPeriodIn.
+  ///
+  /// In en, this message translates to:
+  /// **'{from, plural, =1{Period in 1 to {to} days} other{Period in {from} to {to} days}}'**
+  String partnerPeriodIn(int from, int to);
+
+  /// No description provided for @partnerPeriodExpected.
+  ///
+  /// In en, this message translates to:
+  /// **'Her period may come any day now'**
+  String get partnerPeriodExpected;
+
+  /// No description provided for @partnerRange.
+  ///
+  /// In en, this message translates to:
+  /// **'Estimated between {from} and {to}.'**
+  String partnerRange(String from, String to);
+
+  /// No description provided for @partnerFertileWindow.
+  ///
+  /// In en, this message translates to:
+  /// **'Estimated fertile window: {from} to {to}'**
+  String partnerFertileWindow(String from, String to);
+
+  /// No description provided for @partnerOutdatedTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'These dates are behind'**
+  String get partnerOutdatedTitle;
+
+  /// No description provided for @partnerOutdatedBody.
+  ///
+  /// In en, this message translates to:
+  /// **'The estimate of this file is over. Ask her for a new one.'**
+  String get partnerOutdatedBody;
+
+  /// No description provided for @partnerUnknownTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'No estimate in this file'**
+  String get partnerUnknownTitle;
+
+  /// No description provided for @partnerUnknownBody.
+  ///
+  /// In en, this message translates to:
+  /// **'She had not logged a period yet when she made it. Ask her for a new one later.'**
+  String get partnerUnknownBody;
+
+  /// No description provided for @partnerPregnant.
+  ///
+  /// In en, this message translates to:
+  /// **'She is pregnant'**
+  String get partnerPregnant;
+
+  /// No description provided for @partnerPregnancyCounted.
+  ///
+  /// In en, this message translates to:
+  /// **'counted from the first day of her last period'**
+  String get partnerPregnancyCounted;
+
+  /// No description provided for @partnerAfterBirth.
+  ///
+  /// In en, this message translates to:
+  /// **'After the birth'**
+  String get partnerAfterBirth;
+
+  /// No description provided for @partnerWeeksSinceBirth.
+  ///
+  /// In en, this message translates to:
+  /// **'{weeks, plural, =0{Less than a week since the birth} =1{1 week since the birth} other{{weeks} weeks since the birth}}'**
+  String partnerWeeksSinceBirth(int weeks);
+
+  /// No description provided for @partnerAfterBirthBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Her periods have not come back in her journal yet.'**
+  String get partnerAfterBirthBody;
+
+  /// No description provided for @partnerMadeOn.
+  ///
+  /// In en, this message translates to:
+  /// **'File made on {date}. It does not update itself: ask her for a new one from time to time.'**
+  String partnerMadeOn(String date);
+
+  /// No description provided for @partnerReplace.
+  ///
+  /// In en, this message translates to:
+  /// **'Open a newer file'**
+  String get partnerReplace;
+
+  /// No description provided for @partnerLeave.
+  ///
+  /// In en, this message translates to:
+  /// **'Stop following'**
+  String get partnerLeave;
 }
 
 class _AppLocalizationsDelegate

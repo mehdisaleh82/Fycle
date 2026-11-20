@@ -1,10 +1,14 @@
 import 'dart:async';
+import 'dart:convert';
 
 import 'package:material_ui/material_ui.dart';
 
 import '../data/appearance.dart';
+import '../data/backup_codec.dart';
+import '../data/file_gateway.dart';
 import '../data/fycle_database.dart';
 import '../data/local_store.dart';
+import '../domain/partner_snapshot.dart';
 import '../domain/start_profile.dart';
 import '../l10n/app_localizations.dart';
 import 'app_environment.dart';
@@ -14,6 +18,7 @@ import 'cycle_model.dart';
 import 'dialogs.dart';
 import 'home_screen.dart';
 import 'onboarding_screen.dart';
+import 'partner_screens.dart';
 import 'reminder_sync.dart';
 import 'widget_sync.dart';
 
@@ -46,6 +51,9 @@ class _RootScreenState extends State<RootScreen> with WidgetsBindingObserver {
   _Phase _phase = _Phase.opening;
   CycleModel? _model;
   bool _onboarded = false;
+
+  /// What a partner shared, when this phone is used to follow her.
+  PartnerSnapshot? _partner;
   late final ReminderSync _reminders = ReminderSync(
     widget.environment.reminders,
   );
@@ -125,6 +133,7 @@ class _RootScreenState extends State<RootScreen> with WidgetsBindingObserver {
       setState(() {
         _model = model;
         _onboarded = !model.isEmpty || model.onboardingDone;
+        _partner = _readPartner(model);
         _phase = _Phase.ready;
       });
       _syncReminders();
@@ -194,6 +203,65 @@ class _RootScreenState extends State<RootScreen> with WidgetsBindingObserver {
     if (thenRestore && model != null && mounted) {
       await _restore(model);
     }
+  }
+
+  PartnerSnapshot? _readPartner(CycleModel model) {
+    final stored = model.store.database.partnerView;
+    if (stored == null) {
+      return null;
+    }
+    try {
+      return PartnerSnapshot.fromJson(jsonDecode(stored));
+    } on FormatException {
+      return null;
+    }
+  }
+
+  /// Opens a file a partner sent: picked by hand, read with the password
+  /// she gave, and kept on this phone. Nothing is sent anywhere.
+  Future<void> _openPartnerFile(CycleModel model) async {
+    final l10n = AppLocalizations.of(context);
+    final PickedFile? file;
+    try {
+      file = await widget.environment.files.pick();
+    } on Exception {
+      return;
+    }
+    if (file == null || !mounted) {
+      return;
+    }
+    final password = await askPartnerPassword(context);
+    if (password == null || !mounted) {
+      return;
+    }
+    PartnerSnapshot? snapshot;
+    String? text;
+    try {
+      text = await model.store.decryptText(file.bytes, password);
+      snapshot = PartnerSnapshot.fromJson(jsonDecode(text));
+    } on BackupException {
+      snapshot = null;
+    } on FormatException {
+      snapshot = null;
+    }
+    if (!mounted || !identical(model, _model)) {
+      return;
+    }
+    if (snapshot == null || text == null) {
+      await showNotice(
+        context,
+        title: l10n.partnerOpenTitle,
+        body: l10n.partnerOpenError,
+      );
+      return;
+    }
+    model.store.database.partnerView = text;
+    setState(() => _partner = snapshot);
+  }
+
+  void _leavePartner(CycleModel model) {
+    model.store.database.partnerView = null;
+    setState(() => _partner = null);
   }
 
   Future<void> _restore(CycleModel model) async {
@@ -343,6 +411,15 @@ class _RootScreenState extends State<RootScreen> with WidgetsBindingObserver {
         body: Semantics(label: l10n.openingLabel, child: const SizedBox()),
       );
     }
+    final partner = _partner;
+    if (!_onboarded && partner != null) {
+      return PartnerScreen(
+        snapshot: partner,
+        today: widget.environment.today(),
+        onReplace: () => _openPartnerFile(model),
+        onLeave: () => _leavePartner(model),
+      );
+    }
     if (!_onboarded) {
       return OnboardingScreen(
         model: model,
@@ -354,6 +431,7 @@ class _RootScreenState extends State<RootScreen> with WidgetsBindingObserver {
           _applyReminderDefault(model);
         },
         onRestore: () => _restore(model),
+        onPartner: () => _openPartnerFile(model),
       );
     }
     return HomeScreen(

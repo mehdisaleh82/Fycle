@@ -1,6 +1,7 @@
 import 'calendar_day.dart';
 import 'flow_intensity.dart';
 import 'libido_level.dart';
+import 'migraine.dart';
 import 'mood.dart';
 import 'pain_level.dart';
 import 'sleep_quality.dart';
@@ -20,8 +21,16 @@ final class DayEntry {
     this.libido,
     Set<Symptom> symptoms = const {},
     String? note,
+    MigraineDetail? migraine,
   }) : symptoms = Set.unmodifiable(symptoms),
-       note = (note == null || note.trim().isEmpty) ? null : note;
+       note = (note == null || note.trim().isEmpty) ? null : note,
+       // The detail of a migraine goes with the migraine ticked.
+       migraine =
+           migraine == null ||
+               migraine.isEmpty ||
+               !symptoms.contains(Symptom.migraine)
+           ? null
+           : migraine;
 
   final CalendarDay day;
   final FlowIntensity? flow;
@@ -31,6 +40,9 @@ final class DayEntry {
   final LibidoLevel? libido;
   final Set<Symptom> symptoms;
   final String? note;
+
+  /// What she noted of the migraine of the day, when one is ticked.
+  final MigraineDetail? migraine;
 
   /// The same entry with another [flow] (null for no flow). Everything
   /// else logged for the day is kept.
@@ -43,6 +55,7 @@ final class DayEntry {
     libido: libido,
     symptoms: symptoms,
     note: note,
+    migraine: migraine,
   );
 
   /// The same entry with another [pain] (null for none logged).
@@ -55,6 +68,7 @@ final class DayEntry {
     libido: libido,
     symptoms: symptoms,
     note: note,
+    migraine: migraine,
   );
 
   /// The same entry with another [mood] (null for none logged).
@@ -67,6 +81,7 @@ final class DayEntry {
     libido: libido,
     symptoms: symptoms,
     note: note,
+    migraine: migraine,
   );
 
   /// The same day with another sleep quality.
@@ -79,6 +94,7 @@ final class DayEntry {
     libido: libido,
     symptoms: symptoms,
     note: note,
+    migraine: migraine,
   );
 
   /// The same day with another libido level.
@@ -91,6 +107,33 @@ final class DayEntry {
     libido: libido,
     symptoms: symptoms,
     note: note,
+    migraine: migraine,
+  );
+
+  /// The same day with other symptoms ticked.
+  DayEntry withSymptoms(Set<Symptom> symptoms) => DayEntry(
+    day: day,
+    flow: flow,
+    pain: pain,
+    mood: mood,
+    sleep: sleep,
+    libido: libido,
+    symptoms: symptoms,
+    note: note,
+    migraine: migraine,
+  );
+
+  /// The same day with another detail of its migraine.
+  DayEntry withMigraine(MigraineDetail? migraine) => DayEntry(
+    day: day,
+    flow: flow,
+    pain: pain,
+    mood: mood,
+    sleep: sleep,
+    libido: libido,
+    symptoms: symptoms,
+    note: note,
+    migraine: migraine,
   );
 
   /// How many of the groups of choices are filled in: flow, pain, mood,
@@ -127,6 +170,7 @@ final class DayEntry {
       other.sleep == sleep &&
       other.libido == libido &&
       other.note == note &&
+      other.migraine == migraine &&
       other.symptoms.length == symptoms.length &&
       other.symptoms.containsAll(symptoms);
 
@@ -139,6 +183,7 @@ final class DayEntry {
     sleep,
     libido,
     note,
+    migraine,
     Object.hashAllUnordered(symptoms),
   );
 

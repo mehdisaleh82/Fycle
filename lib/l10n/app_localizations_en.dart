@@ -2301,4 +2301,236 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get recapPostpartum =>
       'After the birth: the estimate will start again when your periods come back.';
+
+  @override
+  String get reminderContraceptionTitle => 'Contraception reminder';
+
+  @override
+  String get reminderContraceptionSubtitle =>
+      'Every day at the time you choose. A plain reminder: no advice, and nothing is checked.';
+
+  @override
+  String get notificationContraceptionBody => 'It is time.';
+
+  @override
+  String get yes => 'Yes';
+
+  @override
+  String get no => 'No';
+
+  @override
+  String get migraineIntensity => 'How strong is the migraine?';
+
+  @override
+  String get migraineDurationTitle => 'How long did it last?';
+
+  @override
+  String get migraineMedicationTitle => 'Did you take a medication?';
+
+  @override
+  String get migraineHours => 'A few hours';
+
+  @override
+  String get migraineDay => 'A day';
+
+  @override
+  String get migraineLonger => 'More than a day';
+
+  @override
+  String get migraineMedicationYes => 'medication taken';
+
+  @override
+  String get migraineMedicationNo => 'no medication';
+
+  @override
+  String migraineSummaryDays(int days) {
+    String _temp0 = intl.Intl.pluralLogic(
+      days,
+      locale: localeName,
+      other: '$days days with a migraine in the last 90 days',
+      one: '1 day with a migraine in the last 90 days',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String migraineSummaryPeriod(int days) {
+    String _temp0 = intl.Intl.pluralLogic(
+      days,
+      locale: localeName,
+      other: '$days of them during your period or the two days before.',
+      one: '1 of them during your period or the two days before.',
+      zero: 'None during your period or the two days before.',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String migraineSummaryMedication(int days) {
+    String _temp0 = intl.Intl.pluralLogic(
+      days,
+      locale: localeName,
+      other: 'A medication noted on $days days.',
+      one: 'A medication noted on 1 day.',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String migraineSummaryIntensity(String level) {
+    return 'Most often: $level.';
+  }
+
+  @override
+  String get migraineSummaryNote =>
+      'A count of what you ticked, to show a doctor. Nothing is said of causes or treatments.';
+
+  @override
+  String get partnerShareTitle => 'Share with my partner';
+
+  @override
+  String get partnerShareSubtitle =>
+      'A protected file that you send yourself. No server.';
+
+  @override
+  String get partnerShareIntro =>
+      'You create a file protected by a password and send it to your partner the way you like. With the same app, they see where you are in your cycle.';
+
+  @override
+  String get partnerShareWhat =>
+      'The file holds the first day of your cycle and the estimate of your next period. Nothing of what you log day by day. It does not update itself: make a new one whenever you want.';
+
+  @override
+  String get partnerShareName => 'Give my first name';
+
+  @override
+  String get partnerShareFertility => 'Share my estimated fertile window';
+
+  @override
+  String get partnerFertilityNote =>
+      'An estimate: neither contraception nor a diagnosis.';
+
+  @override
+  String get partnerPassword => 'Password of the file';
+
+  @override
+  String get passwordRepeatLabel => 'Repeat the password';
+
+  @override
+  String get partnerCreate => 'Create the file';
+
+  @override
+  String get partnerSavedTitle => 'File created';
+
+  @override
+  String get partnerSavedBody =>
+      'Send it to your partner, and tell them the password in person or by another way than the file.';
+
+  @override
+  String get partnerOpenEntry => 'My partner sent me a file';
+
+  @override
+  String get partnerOpenTitle => 'File from a partner';
+
+  @override
+  String get partnerOpenAction => 'Open';
+
+  @override
+  String get partnerOpenError =>
+      'This file could not be read: wrong password, or not a file made for a partner.';
+
+  @override
+  String get partnerHeader => 'Her cycle';
+
+  @override
+  String partnerHeaderOf(String name) {
+    return '$name\'s cycle';
+  }
+
+  @override
+  String get partnerReadOnly =>
+      'What she chose to share with you. Nothing here leaves your phone.';
+
+  @override
+  String partnerDayOfCycle(int day) {
+    return 'Day $day of her cycle';
+  }
+
+  @override
+  String get partnerPeriodOngoing => 'Her period is going on';
+
+  @override
+  String partnerPeriodIn(int from, int to) {
+    String _temp0 = intl.Intl.pluralLogic(
+      from,
+      locale: localeName,
+      other: 'Period in $from to $to days',
+      one: 'Period in 1 to $to days',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get partnerPeriodExpected => 'Her period may come any day now';
+
+  @override
+  String partnerRange(String from, String to) {
+    return 'Estimated between $from and $to.';
+  }
+
+  @override
+  String partnerFertileWindow(String from, String to) {
+    return 'Estimated fertile window: $from to $to';
+  }
+
+  @override
+  String get partnerOutdatedTitle => 'These dates are behind';
+
+  @override
+  String get partnerOutdatedBody =>
+      'The estimate of this file is over. Ask her for a new one.';
+
+  @override
+  String get partnerUnknownTitle => 'No estimate in this file';
+
+  @override
+  String get partnerUnknownBody =>
+      'She had not logged a period yet when she made it. Ask her for a new one later.';
+
+  @override
+  String get partnerPregnant => 'She is pregnant';
+
+  @override
+  String get partnerPregnancyCounted =>
+      'counted from the first day of her last period';
+
+  @override
+  String get partnerAfterBirth => 'After the birth';
+
+  @override
+  String partnerWeeksSinceBirth(int weeks) {
+    String _temp0 = intl.Intl.pluralLogic(
+      weeks,
+      locale: localeName,
+      other: '$weeks weeks since the birth',
+      one: '1 week since the birth',
+      zero: 'Less than a week since the birth',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get partnerAfterBirthBody =>
+      'Her periods have not come back in her journal yet.';
+
+  @override
+  String partnerMadeOn(String date) {
+    return 'File made on $date. It does not update itself: ask her for a new one from time to time.';
+  }
+
+  @override
+  String get partnerReplace => 'Open a newer file';
+
+  @override
+  String get partnerLeave => 'Stop following';
 }

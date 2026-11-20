@@ -7,6 +7,7 @@ import '../domain/cycle_history.dart';
 import '../domain/cycle_overview.dart';
 import '../domain/cycle_status.dart';
 import '../domain/cycle_trends.dart';
+import '../domain/migraine.dart';
 import '../l10n/app_localizations.dart';
 import 'app_environment.dart';
 import 'change_card.dart';
@@ -17,6 +18,7 @@ import 'disclaimer_card.dart';
 import 'fertility_card.dart';
 import 'home_cards.dart';
 import 'labels.dart';
+import 'migraine_card.dart';
 
 /// Trends: the average lengths, what comes back at the same moment of the
 /// cycle, and the list of logged cycles.
@@ -210,6 +212,11 @@ class ReviewDetailScreen extends StatelessWidget {
                     trends: cycleTrends(cycles: cycles, days: model.days),
                   ),
                   const SizedBox(height: 16),
+                  if (migraineSummaryOn(today, days: model.days, cycles: cycles)
+                      case final migraines?) ...[
+                    MigraineCard(summary: migraines),
+                    const SizedBox(height: 16),
+                  ],
                   _HistoryCard(cycles: cycles),
                   const SizedBox(height: 16),
                   UnlockCard(steps: steps),
@@ -577,6 +584,11 @@ class DoctorReportScreen extends StatelessWidget {
                     trends: cycleTrends(cycles: cycles, days: model.days),
                   ),
                   gap,
+                  if (migraineSummaryOn(today, days: model.days, cycles: cycles)
+                      case final migraines?) ...[
+                    MigraineCard(summary: migraines),
+                    gap,
+                  ],
                   _HistoryCard(cycles: cycles),
                 ],
               ),

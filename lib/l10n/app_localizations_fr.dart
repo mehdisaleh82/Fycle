@@ -2326,4 +2326,238 @@ class AppLocalizationsFr extends AppLocalizations {
   @override
   String get recapPostpartum =>
       'Après l\'accouchement : l\'estimation reprendra au retour de tes règles.';
+
+  @override
+  String get reminderContraceptionTitle => 'Rappel de contraception';
+
+  @override
+  String get reminderContraceptionSubtitle =>
+      'Chaque jour à l\'heure que tu choisis. Un simple rappel : aucun conseil, et rien n\'est vérifié.';
+
+  @override
+  String get notificationContraceptionBody => 'C\'est l\'heure.';
+
+  @override
+  String get yes => 'Oui';
+
+  @override
+  String get no => 'Non';
+
+  @override
+  String get migraineIntensity => 'Quelle est l\'intensité de la migraine ?';
+
+  @override
+  String get migraineDurationTitle => 'Combien de temps a-t-elle duré ?';
+
+  @override
+  String get migraineMedicationTitle => 'As-tu pris un médicament ?';
+
+  @override
+  String get migraineHours => 'Quelques heures';
+
+  @override
+  String get migraineDay => 'Une journée';
+
+  @override
+  String get migraineLonger => 'Plus d\'une journée';
+
+  @override
+  String get migraineMedicationYes => 'médicament pris';
+
+  @override
+  String get migraineMedicationNo => 'sans médicament';
+
+  @override
+  String migraineSummaryDays(int days) {
+    String _temp0 = intl.Intl.pluralLogic(
+      days,
+      locale: localeName,
+      other: '$days jours de migraine ces 90 derniers jours',
+      one: '1 jour de migraine ces 90 derniers jours',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String migraineSummaryPeriod(int days) {
+    String _temp0 = intl.Intl.pluralLogic(
+      days,
+      locale: localeName,
+      other: 'Dont $days pendant tes règles ou les deux jours avant.',
+      one: 'Dont 1 pendant tes règles ou les deux jours avant.',
+      zero: 'Aucun pendant tes règles ou les deux jours avant.',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String migraineSummaryMedication(int days) {
+    String _temp0 = intl.Intl.pluralLogic(
+      days,
+      locale: localeName,
+      other: 'Un médicament noté $days jours.',
+      one: 'Un médicament noté 1 jour.',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String migraineSummaryIntensity(String level) {
+    return 'Le plus souvent : $level.';
+  }
+
+  @override
+  String get migraineSummaryNote =>
+      'Un décompte de ce que tu as coché, à montrer à un médecin. Rien n\'est dit des causes ni des traitements.';
+
+  @override
+  String get partnerShareTitle => 'Partager avec mon partenaire';
+
+  @override
+  String get partnerShareSubtitle =>
+      'Un fichier protégé que tu envoies toi-même. Aucun serveur.';
+
+  @override
+  String get partnerShareIntro =>
+      'Tu crées un fichier protégé par un mot de passe et tu l\'envoies à ton ou ta partenaire comme tu veux. Avec la même appli, il ou elle voit où tu en es dans ton cycle.';
+
+  @override
+  String get partnerShareWhat =>
+      'Le fichier contient le premier jour de ton cycle et l\'estimation de tes prochaines règles. Rien de ce que tu notes jour après jour. Il ne se met pas à jour tout seul : refais-en un quand tu veux.';
+
+  @override
+  String get partnerShareName => 'Donner mon prénom';
+
+  @override
+  String get partnerShareFertility =>
+      'Partager ma fenêtre de fertilité estimée';
+
+  @override
+  String get partnerFertilityNote =>
+      'Une estimation : ni contraception ni diagnostic.';
+
+  @override
+  String get partnerPassword => 'Mot de passe du fichier';
+
+  @override
+  String get passwordRepeatLabel => 'Répète le mot de passe';
+
+  @override
+  String get partnerCreate => 'Créer le fichier';
+
+  @override
+  String get partnerSavedTitle => 'Fichier créé';
+
+  @override
+  String get partnerSavedBody =>
+      'Envoie-le à ton ou ta partenaire, et donne-lui le mot de passe de vive voix ou par un autre moyen que le fichier.';
+
+  @override
+  String get partnerOpenEntry => 'Mon ou ma partenaire m\'a envoyé un fichier';
+
+  @override
+  String get partnerOpenTitle => 'Fichier d\'un ou d\'une partenaire';
+
+  @override
+  String get partnerOpenAction => 'Ouvrir';
+
+  @override
+  String get partnerOpenError =>
+      'Ce fichier n\'a pas pu être lu : mot de passe incorrect, ou ce n\'est pas un fichier fait pour un partenaire.';
+
+  @override
+  String get partnerHeader => 'Son cycle';
+
+  @override
+  String partnerHeaderOf(String name) {
+    return 'Le cycle de $name';
+  }
+
+  @override
+  String get partnerReadOnly =>
+      'Ce qu\'elle a choisi de partager avec toi. Rien ici ne quitte ton téléphone.';
+
+  @override
+  String partnerDayOfCycle(int day) {
+    return 'Jour $day de son cycle';
+  }
+
+  @override
+  String get partnerPeriodOngoing => 'Ses règles sont en cours';
+
+  @override
+  String partnerPeriodIn(int from, int to) {
+    String _temp0 = intl.Intl.pluralLogic(
+      from,
+      locale: localeName,
+      other: 'Règles dans $from à $to jours',
+      one: 'Règles dans 1 à $to jours',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get partnerPeriodExpected =>
+      'Ses règles peuvent arriver d\'un jour à l\'autre';
+
+  @override
+  String partnerRange(String from, String to) {
+    return 'Estimées entre le $from et le $to.';
+  }
+
+  @override
+  String partnerFertileWindow(String from, String to) {
+    return 'Fenêtre de fertilité estimée : du $from au $to';
+  }
+
+  @override
+  String get partnerOutdatedTitle => 'Ces dates sont dépassées';
+
+  @override
+  String get partnerOutdatedBody =>
+      'L\'estimation de ce fichier est terminée. Demande-lui un nouveau fichier.';
+
+  @override
+  String get partnerUnknownTitle => 'Pas d\'estimation dans ce fichier';
+
+  @override
+  String get partnerUnknownBody =>
+      'Elle n\'avait pas encore noté de règles quand elle l\'a créé. Demande-lui un nouveau fichier plus tard.';
+
+  @override
+  String get partnerPregnant => 'Elle est enceinte';
+
+  @override
+  String get partnerPregnancyCounted =>
+      'comptés depuis le premier jour de ses dernières règles';
+
+  @override
+  String get partnerAfterBirth => 'Après la naissance';
+
+  @override
+  String partnerWeeksSinceBirth(int weeks) {
+    String _temp0 = intl.Intl.pluralLogic(
+      weeks,
+      locale: localeName,
+      other: '$weeks semaines depuis la naissance',
+      one: '1 semaine depuis la naissance',
+      zero: 'Moins d\'une semaine depuis la naissance',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get partnerAfterBirthBody =>
+      'Ses règles ne sont pas encore revenues dans son journal.';
+
+  @override
+  String partnerMadeOn(String date) {
+    return 'Fichier créé le $date. Il ne se met pas à jour tout seul : demande-lui un nouveau fichier de temps en temps.';
+  }
+
+  @override
+  String get partnerReplace => 'Ouvrir un fichier plus récent';
+
+  @override
+  String get partnerLeave => 'Ne plus suivre';
 }

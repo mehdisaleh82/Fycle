@@ -11,6 +11,7 @@ import 'cycle_model.dart';
 import 'dialogs.dart';
 import 'disclaimer_card.dart';
 import 'onboarding_screen.dart';
+import 'partner_screens.dart';
 
 /// Settings: the usual cycle length, the reminders, the app lock, the
 /// appearance, and
@@ -303,6 +304,38 @@ class SettingsScreen extends StatelessWidget {
                       subtitle: Text(timeText(reminders.dailyTime)),
                       onTap: () => _pickDailyTime(context),
                     ),
+                  SwitchListTile(
+                    key: const ValueKey('contraception-reminder'),
+                    secondary: const Icon(Icons.alarm),
+                    title: Text(l10n.reminderContraceptionTitle),
+                    subtitle: Text(l10n.reminderContraceptionSubtitle),
+                    value: reminders.contraceptionEnabled,
+                    onChanged: (on) => _setReminders(
+                      context,
+                      reminders.copyWith(contraceptionEnabled: on),
+                      turningOn: on,
+                    ),
+                  ),
+                  if (reminders.contraceptionEnabled)
+                    ListTile(
+                      key: const ValueKey('contraception-time'),
+                      leading: const SizedBox(width: 24),
+                      title: Text(l10n.reminderTime),
+                      subtitle: Text(timeText(reminders.contraceptionTime)),
+                      onTap: () async {
+                        final time = await _pickTime(
+                          context,
+                          reminders.contraceptionTime,
+                        );
+                        if (time != null) {
+                          model.setReminderSettings(
+                            model.reminderSettings.copyWith(
+                              contraceptionTime: time,
+                            ),
+                          );
+                        }
+                      },
+                    ),
                 ],
               ),
               Padding(
@@ -315,6 +348,21 @@ class SettingsScreen extends StatelessWidget {
               _SectionTitle(l10n.settingsPrivacySection),
               _Group(
                 children: [
+                  ListTile(
+                    key: const ValueKey('partner-share'),
+                    leading: const Icon(Icons.people_outline),
+                    title: Text(l10n.partnerShareTitle),
+                    subtitle: Text(l10n.partnerShareSubtitle),
+                    trailing: const Icon(Icons.chevron_right),
+                    onTap: () => Navigator.of(context).push(
+                      MaterialPageRoute<void>(
+                        builder: (context) => PartnerShareScreen(
+                          model: model,
+                          environment: environment,
+                        ),
+                      ),
+                    ),
+                  ),
                   SwitchListTile(
                     secondary: const Icon(Icons.fingerprint),
                     title: Text(l10n.lockTitle),

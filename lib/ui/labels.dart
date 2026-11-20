@@ -5,6 +5,7 @@ import '../domain/calendar_day.dart';
 import '../domain/day_entry.dart';
 import '../domain/flow_intensity.dart';
 import '../domain/libido_level.dart';
+import '../domain/migraine.dart';
 import '../domain/mood.dart';
 import '../domain/pain_level.dart';
 import '../domain/period_prediction.dart';
@@ -127,7 +128,25 @@ CsvLabels csvLabels(AppLocalizations l10n) => CsvLabels(
   sleepName: (sleep) => sleepLabel(l10n, sleep),
   libidoName: (libido) => libidoLabel(l10n, libido),
   symptomName: (symptom) => symptomLabel(l10n, symptom),
+  migraine: l10n.symptomMigraine,
+  migraineText: (detail) => migraineFacts(l10n, detail).join('; '),
 );
+
+String migraineDurationLabel(AppLocalizations l10n, MigraineDuration d) =>
+    switch (d) {
+      MigraineDuration.hours => l10n.migraineHours,
+      MigraineDuration.day => l10n.migraineDay,
+      MigraineDuration.longer => l10n.migraineLonger,
+    };
+
+/// What was noted of a migraine, in words.
+List<String> migraineFacts(AppLocalizations l10n, MigraineDetail detail) => [
+  if (detail.intensity case final intensity?) painLabel(l10n, intensity),
+  if (detail.duration case final duration?)
+    migraineDurationLabel(l10n, duration),
+  if (detail.medication case final taken?)
+    taken ? l10n.migraineMedicationYes : l10n.migraineMedicationNo,
+];
 
 DateTime _dateTime(CalendarDay day) => DateTime(day.year, day.month, day.day);
 

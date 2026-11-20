@@ -99,6 +99,7 @@ class OnboardingScreen extends StatefulWidget {
     required this.environment,
     required this.onDone,
     this.onRestore,
+    this.onPartner,
     this.editing = false,
   });
 
@@ -111,6 +112,10 @@ class OnboardingScreen extends StatefulWidget {
 
   /// Called when the user would rather restore a backup file.
   final VoidCallback? onRestore;
+
+  /// Called by someone who received a file from a partner and wants to
+  /// follow her, not to log anything.
+  final VoidCallback? onPartner;
 
   final bool editing;
 
@@ -619,6 +624,12 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                 child: Text(l10n.onboardingRestore),
               ),
             ],
+            if (widget.onPartner != null)
+              TextButton(
+                key: const ValueKey('partner-open'),
+                onPressed: widget.onPartner,
+                child: Text(l10n.partnerOpenEntry),
+              ),
           ],
         );
       case _Step.name:

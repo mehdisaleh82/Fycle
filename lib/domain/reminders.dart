@@ -47,8 +47,11 @@ final class ReminderSettings {
     ClockTime? periodTime,
     this.dailyEnabled = false,
     ClockTime? dailyTime,
+    this.contraceptionEnabled = false,
+    ClockTime? contraceptionTime,
   }) : periodTime = periodTime ?? ClockTime(9, 0),
-       dailyTime = dailyTime ?? ClockTime(20, 0) {
+       dailyTime = dailyTime ?? ClockTime(20, 0),
+       contraceptionTime = contraceptionTime ?? ClockTime(8, 0) {
     if (!periodDaysBeforeChoices.contains(periodDaysBefore)) {
       throw ArgumentError.value(periodDaysBefore, 'periodDaysBefore');
     }
@@ -70,7 +73,13 @@ final class ReminderSettings {
   final bool dailyEnabled;
   final ClockTime dailyTime;
 
-  bool get anyEnabled => periodEnabled || dailyEnabled;
+  /// Daily reminder of a contraception to take. A plain reminder at the
+  /// time she chose: the app gives no advice and checks nothing
+  /// (CLAUDE.md, rule 7).
+  final bool contraceptionEnabled;
+  final ClockTime contraceptionTime;
+
+  bool get anyEnabled => periodEnabled || dailyEnabled || contraceptionEnabled;
 
   ReminderSettings copyWith({
     bool? periodEnabled,
@@ -78,12 +87,16 @@ final class ReminderSettings {
     ClockTime? periodTime,
     bool? dailyEnabled,
     ClockTime? dailyTime,
+    bool? contraceptionEnabled,
+    ClockTime? contraceptionTime,
   }) => ReminderSettings(
     periodEnabled: periodEnabled ?? this.periodEnabled,
     periodDaysBefore: periodDaysBefore ?? this.periodDaysBefore,
     periodTime: periodTime ?? this.periodTime,
     dailyEnabled: dailyEnabled ?? this.dailyEnabled,
     dailyTime: dailyTime ?? this.dailyTime,
+    contraceptionEnabled: contraceptionEnabled ?? this.contraceptionEnabled,
+    contraceptionTime: contraceptionTime ?? this.contraceptionTime,
   );
 
   @override
@@ -93,7 +106,9 @@ final class ReminderSettings {
       other.periodDaysBefore == periodDaysBefore &&
       other.periodTime == periodTime &&
       other.dailyEnabled == dailyEnabled &&
-      other.dailyTime == dailyTime;
+      other.dailyTime == dailyTime &&
+      other.contraceptionEnabled == contraceptionEnabled &&
+      other.contraceptionTime == contraceptionTime;
 
   @override
   int get hashCode => Object.hash(
@@ -102,10 +117,12 @@ final class ReminderSettings {
     periodTime,
     dailyEnabled,
     dailyTime,
+    contraceptionEnabled,
+    contraceptionTime,
   );
 }
 
-enum ReminderKind { periodApproaching, dailyEntry }
+enum ReminderKind { periodApproaching, dailyEntry, contraception }
 
 /// One reminder to schedule: a calendar day and a time on the clock of the
 /// phone. Turning it into an actual instant is left to the caller.
@@ -179,6 +196,22 @@ List<PlannedReminder> planReminders({
             kind: ReminderKind.dailyEntry,
             day: day,
             time: settings.dailyTime,
+          ),
+        );
+      }
+    }
+  }
+
+  if (settings.contraceptionEnabled) {
+    // Every day, whether or not the day is logged.
+    for (var i = 0; i < dailyReminderHorizonDays; i++) {
+      final day = today.addDays(i);
+      if (isFuture(day, settings.contraceptionTime)) {
+        planned.add(
+          PlannedReminder(
+            kind: ReminderKind.contraception,
+            day: day,
+            time: settings.contraceptionTime,
           ),
         );
       }

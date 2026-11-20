@@ -5,6 +5,7 @@ import '../domain/cycle_change.dart';
 import '../domain/day_entry.dart';
 import '../domain/flow_intensity.dart';
 import '../domain/libido_level.dart';
+import '../domain/migraine.dart';
 import '../domain/mood.dart';
 import '../domain/pain_level.dart';
 import '../domain/sleep_quality.dart';
@@ -76,6 +77,7 @@ class _DaySheetState extends State<_DaySheet> {
     SleepQuality? Function()? sleep,
     LibidoLevel? Function()? libido,
     Set<Symptom>? symptoms,
+    MigraineDetail? Function()? migraine,
   }) {
     final entry = DayEntry(
       day: widget.day,
@@ -86,10 +88,16 @@ class _DaySheetState extends State<_DaySheet> {
       libido: libido == null ? _entry.libido : libido(),
       symptoms: symptoms ?? _entry.symptoms,
       note: _note.text,
+      // Dropped with the migraine itself when it is unticked.
+      migraine: migraine == null ? _entry.migraine : migraine(),
     );
     widget.model.saveDay(entry);
     setState(() => _entry = entry);
   }
+
+  /// Changes one thing noted of the migraine of the day.
+  void _saveMigraine(MigraineDetail Function(MigraineDetail) change) =>
+      _save(migraine: () => change(_entry.migraine ?? const MigraineDetail()));
 
   void _toggleSymptom(Symptom symptom) {
     final symptoms = {..._entry.symptoms};
@@ -233,6 +241,59 @@ class _DaySheetState extends State<_DaySheet> {
                 ),
               ),
             ]),
+            if (_entry.symptoms.contains(Symptom.migraine)) ...[
+              _Section(
+                title: l10n.migraineIntensity,
+                children: [
+                  for (final level in [
+                    PainLevel.mild,
+                    PainLevel.moderate,
+                    PainLevel.severe,
+                  ])
+                    ChoiceChip(
+                      key: ValueKey('migraine-${level.name}'),
+                      label: Text(painLabel(l10n, level)),
+                      selected: _entry.migraine?.intensity == level,
+                      onSelected: (on) => _saveMigraine(
+                        (detail) =>
+                            detail.copyWith(intensity: () => on ? level : null),
+                      ),
+                    ),
+                ],
+              ),
+              _Section(
+                title: l10n.migraineDurationTitle,
+                children: [
+                  for (final duration in MigraineDuration.values)
+                    ChoiceChip(
+                      key: ValueKey('migraine-${duration.name}'),
+                      label: Text(migraineDurationLabel(l10n, duration)),
+                      selected: _entry.migraine?.duration == duration,
+                      onSelected: (on) => _saveMigraine(
+                        (detail) => detail.copyWith(
+                          duration: () => on ? duration : null,
+                        ),
+                      ),
+                    ),
+                ],
+              ),
+              _Section(
+                title: l10n.migraineMedicationTitle,
+                children: [
+                  for (final taken in [true, false])
+                    ChoiceChip(
+                      key: ValueKey('migraine-medication-$taken'),
+                      label: Text(taken ? l10n.yes : l10n.no),
+                      selected: _entry.migraine?.medication == taken,
+                      onSelected: (on) => _saveMigraine(
+                        (detail) => detail.copyWith(
+                          medication: () => on ? taken : null,
+                        ),
+                      ),
+                    ),
+                ],
+              ),
+            ],
             const SizedBox(height: 20),
             TextField(
               controller: _note,
