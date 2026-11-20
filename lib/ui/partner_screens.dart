@@ -5,6 +5,8 @@ import 'package:qr/qr.dart';
 
 import '../data/backup_codec.dart';
 import '../domain/calendar_day.dart';
+import '../domain/desire_pattern.dart';
+import '../domain/guide.dart';
 import '../domain/life_stage.dart';
 import '../domain/partner_link.dart';
 import '../domain/partner_snapshot.dart';
@@ -21,10 +23,12 @@ PartnerSnapshot partnerSnapshotOf(
   CalendarDay today, {
   required bool shareName,
   required bool shareFertility,
+  bool shareDesire = false,
 }) {
   final prediction = model.prediction;
   final fertility = shareFertility ? model.fertilityEstimate : null;
   final cycles = model.cycles;
+  final desire = shareDesire ? desireDatesToShare(model, today) : null;
   return PartnerSnapshot(
     madeOn: today,
     name: shareName ? model.firstName : null,
@@ -36,12 +40,42 @@ PartnerSnapshot partnerSnapshotOf(
     latestNext: prediction?.latestStart,
     fertileFrom: fertility?.windowStart,
     fertileTo: fertility?.windowEnd,
+    desireFrom: desire?.from,
+    desireTo: desire?.to,
     pregnancyStart: model.profile == Profile.pregnant
         ? model.pregnancyStart
         : null,
     deliveryDate: model.profile == Profile.postpartum
         ? model.deliveryDate
         : null,
+  );
+}
+
+/// The coming days her desire is often higher, when there is something to
+/// share: she is shown that topic, she logged it over enough cycles, and
+/// the days are not behind.
+({CalendarDay from, CalendarDay to})? desireDatesToShare(
+  CycleModel model,
+  CalendarDay today,
+) {
+  if (model.cycles.isEmpty ||
+      !followsACycle(model.profile) ||
+      !showsIntimacy(
+        sexLifeVisible: model.sexLifeVisible,
+        age: model.age,
+        profile: model.profile,
+      )) {
+    return null;
+  }
+  final window = usualDesireWindow(cycles: model.cycles, days: model.days);
+  if (window == null) {
+    return null;
+  }
+  return desireDatesAhead(
+    window,
+    cycleStart: model.cycles.last.start,
+    today: today,
+    prediction: model.prediction,
   );
 }
 
@@ -68,6 +102,7 @@ class _PartnerShareScreenState extends State<PartnerShareScreen> {
   final _repeat = TextEditingController();
   late bool _shareName = widget.model.firstName != null;
   late bool _shareFertility = false;
+  bool _shareDesire = false;
   String? _passwordError;
   String? _repeatError;
   bool _busy = false;
@@ -105,6 +140,7 @@ class _PartnerShareScreenState extends State<PartnerShareScreen> {
         today,
         shareName: _shareName,
         shareFertility: _shareFertility,
+        shareDesire: _shareDesire,
       );
       final bytes = await widget.model.store.encryptText(
         jsonEncode(snapshot.toJson()),
@@ -140,14 +176,15 @@ class _PartnerShareScreenState extends State<PartnerShareScreen> {
     final accent = AccentColors.of(context);
     final model = widget.model;
     final name = _shareName ? model.firstName : null;
-    final link = partnerLinkOf(
-      partnerSnapshotOf(
-        model,
-        widget.environment.today(),
-        shareName: _shareName,
-        shareFertility: _shareFertility,
-      ),
+    final today = widget.environment.today();
+    final shown = partnerSnapshotOf(
+      model,
+      today,
+      shareName: _shareName,
+      shareFertility: _shareFertility,
+      shareDesire: _shareDesire,
     );
+    final link = partnerLinkOf(shown);
     return Scaffold(
       appBar: AppBar(title: Text(l10n.partnerShareTitle)),
       body: SafeArea(
@@ -217,6 +254,34 @@ class _PartnerShareScreenState extends State<PartnerShareScreen> {
                   value: _shareFertility,
                   onChanged: (on) => setState(() => _shareFertility = on),
                 ),
+              if (desireDatesToShare(model, today) != null)
+                SwitchListTile(
+                  key: const ValueKey('partner-share-desire'),
+                  contentPadding: EdgeInsets.zero,
+                  title: Text(l10n.partnerShareDesire),
+                  subtitle: Text(l10n.partnerShareDesireNote),
+                  value: _shareDesire,
+                  onChanged: (on) => setState(() => _shareDesire = on),
+                ),
+              Align(
+                alignment: AlignmentDirectional.centerStart,
+                child: TextButton.icon(
+                  key: const ValueKey('partner-preview'),
+                  onPressed: () => Navigator.of(context).push(
+                    MaterialPageRoute<void>(
+                      builder: (context) => PartnerScreen(
+                        snapshot: shown,
+                        today: today,
+                        preview: true,
+                        onReplace: () {},
+                        onLeave: () {},
+                      ),
+                    ),
+                  ),
+                  icon: const Icon(Icons.visibility_outlined),
+                  label: Text(l10n.partnerPreview),
+                ),
+              ),
               if (!_byFile)
                 Align(
                   alignment: AlignmentDirectional.centerStart,
@@ -365,10 +430,15 @@ class PartnerScreen extends StatelessWidget {
     required this.today,
     required this.onReplace,
     required this.onLeave,
+    this.preview = false,
   });
 
   final PartnerSnapshot snapshot;
   final CalendarDay today;
+
+  /// Shown to her, on her own phone, before she shares: says so, can be
+  /// left with the back arrow, and offers nothing to replace or stop.
+  final bool preview;
 
   /// Loads a newer file.
   final VoidCallback onReplace;
@@ -444,13 +514,34 @@ class PartnerScreen extends StatelessWidget {
         to != null &&
         !today.isAfter(to) &&
         status.moment != PartnerMoment.outdated;
+    final ahead = status.moment == PartnerMoment.outdated
+        ? const <({CalendarDay earliest, CalendarDay latest})>[]
+        : partnerPeriodsAhead(today, snapshot);
+    final desireFrom = snapshot.desireFrom;
+    final desireTo = snapshot.desireTo;
+    final showDesire =
+        desireFrom != null &&
+        desireTo != null &&
+        !today.isAfter(desireTo) &&
+        status.moment != PartnerMoment.outdated;
     return Scaffold(
+      appBar: preview ? AppBar(title: Text(l10n.partnerPreview)) : null,
       body: SafeArea(
         child: SingleChildScrollView(
           padding: const EdgeInsetsDirectional.fromSTEB(16, 16, 16, 24),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
+              if (preview) ...[
+                Text(
+                  l10n.partnerPreviewBanner,
+                  key: const ValueKey('partner-preview-banner'),
+                  style: theme.textTheme.bodyMedium?.copyWith(
+                    color: theme.colorScheme.primary,
+                  ),
+                ),
+                const SizedBox(height: 12),
+              ],
               Semantics(
                 header: true,
                 child: Text(
@@ -536,6 +627,55 @@ class PartnerScreen extends StatelessWidget {
                   ),
                 ),
               ],
+              if (ahead.length > 1 || showDesire) ...[
+                const SizedBox(height: 16),
+                Card(
+                  key: const ValueKey('partner-ahead'),
+                  child: Padding(
+                    padding: const EdgeInsets.all(16),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Semantics(
+                          header: true,
+                          child: Text(
+                            l10n.partnerAheadTitle,
+                            style: theme.textTheme.titleMedium,
+                          ),
+                        ),
+                        for (final (index, range) in ahead.indexed) ...[
+                          const SizedBox(height: 10),
+                          _AheadLine(
+                            key: ValueKey('partner-ahead-period-$index'),
+                            icon: Icons.water_drop_outlined,
+                            text: l10n.partnerAheadPeriod(
+                              shortDate(l10n, range.earliest),
+                              shortDate(l10n, range.latest),
+                            ),
+                          ),
+                        ],
+                        if (showDesire) ...[
+                          const SizedBox(height: 10),
+                          _AheadLine(
+                            key: const ValueKey('partner-ahead-desire'),
+                            icon: Icons.favorite_outline,
+                            text: l10n.partnerAheadDesire(
+                              shortDate(l10n, desireFrom),
+                              shortDate(l10n, desireTo),
+                            ),
+                          ),
+                          const SizedBox(height: 4),
+                          // A count of past entries, never her answer.
+                          Text(
+                            l10n.partnerDesireNote,
+                            style: theme.textTheme.bodySmall,
+                          ),
+                        ],
+                      ],
+                    ),
+                  ),
+                ),
+              ],
               const SizedBox(height: 16),
               Text(
                 l10n.partnerMadeOn(mediumDate(l10n, snapshot.madeOn)),
@@ -544,23 +684,45 @@ class PartnerScreen extends StatelessWidget {
                   color: theme.colorScheme.onSurfaceVariant,
                 ),
               ),
-              const SizedBox(height: 16),
-              FilledButton.icon(
-                key: const ValueKey('partner-replace'),
-                onPressed: onReplace,
-                icon: const Icon(Icons.file_open_outlined),
-                label: Text(l10n.partnerReplace),
-              ),
-              const SizedBox(height: 8),
-              TextButton(
-                key: const ValueKey('partner-leave'),
-                onPressed: onLeave,
-                child: Text(l10n.partnerLeave),
-              ),
+              if (!preview) ...[
+                const SizedBox(height: 16),
+                FilledButton.icon(
+                  key: const ValueKey('partner-replace'),
+                  onPressed: onReplace,
+                  icon: const Icon(Icons.file_open_outlined),
+                  label: Text(l10n.partnerReplace),
+                ),
+                const SizedBox(height: 8),
+                TextButton(
+                  key: const ValueKey('partner-leave'),
+                  onPressed: onLeave,
+                  child: Text(l10n.partnerLeave),
+                ),
+              ],
             ],
           ),
         ),
       ),
+    );
+  }
+}
+
+class _AheadLine extends StatelessWidget {
+  const _AheadLine({super.key, required this.icon, required this.text});
+
+  final IconData icon;
+  final String text;
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Icon(icon, size: 20, color: theme.colorScheme.primary),
+        const SizedBox(width: 10),
+        Expanded(child: Text(text, style: theme.textTheme.bodyMedium)),
+      ],
     );
   }
 }

@@ -2,5 +2,5 @@
 "NSFaceIDUsageDescription" = "Fycle utilise Face ID pour déverrouiller l’appli quand tu actives son verrou.";
 
 /* Shown by iOS when the app asks to read period days from Health. */
-"NSHealthShareUsageDescription" = "Fycle lit les jours de règles que tu as déjà notés dans Santé pour les copier dans ton journal. Rien ne quitte ton téléphone.";
+"NSHealthShareUsageDescription" = "Fycle lit, sur ton téléphone, les jours de règles et les mesures de ta montre (sommeil, pouls au repos, température au poignet) rangés dans Santé. Rien ne quitte ton téléphone.";
 "NSHealthUpdateUsageDescription" = "Fycle n'écrit rien dans Santé.";

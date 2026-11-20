@@ -3456,4 +3456,127 @@ class AppLocalizationsFr extends AppLocalizations {
   @override
   String get phaseBeforeTip3 =>
       'Agenda allégé, coucher plus tôt : ces jours-là le demandent souvent.';
+
+  @override
+  String get partnerShareDesire =>
+      'Partager les jours où mon désir est souvent plus haut';
+
+  @override
+  String get partnerShareDesireNote =>
+      'D\'après ce que tu as noté. Seules les dates voyagent.';
+
+  @override
+  String get partnerPreview => 'Voir ce que verra mon partenaire';
+
+  @override
+  String get partnerPreviewBanner =>
+      'Aperçu : voilà ce que verra ton partenaire.';
+
+  @override
+  String get partnerAheadTitle => 'Les semaines à venir';
+
+  @override
+  String partnerAheadPeriod(String from, String to) {
+    return 'Règles estimées du $from au $to';
+  }
+
+  @override
+  String partnerAheadDesire(String from, String to) {
+    return 'Son désir est souvent plus haut du $from au $to';
+  }
+
+  @override
+  String get partnerDesireNote =>
+      'D\'après ce qu\'elle a noté aux cycles passés. Une tendance, pas une promesse : demande-lui.';
+
+  @override
+  String get settingsProfileTitle => 'Mon profil';
+
+  @override
+  String settingsProfileAge(int age) {
+    return '$age ans';
+  }
+
+  @override
+  String get settingsShownSection => 'Ce que je vois';
+
+  @override
+  String get settingsDoctorReportSubtitle =>
+      'Ce que regarderait un médecin, en un fichier';
+
+  @override
+  String get devicesTitle => 'Ma montre et mes capteurs';
+
+  @override
+  String get devicesSubtitle => 'Sommeil, pouls, température';
+
+  @override
+  String get devicesIntro =>
+      'Fycle peut lire, sur ton téléphone, ce que ta montre ou tes capteurs rangent dans les données de santé du téléphone : sommeil, pouls au repos, température au poignet. Rien n\'est copié dans Fycle et rien ne quitte ton téléphone.';
+
+  @override
+  String get devicesRead => 'Lire mes mesures';
+
+  @override
+  String get devicesReadAgain => 'Relire';
+
+  @override
+  String get devicesUnavailable =>
+      'Rien n\'a pu être lu : ce téléphone n\'a pas ces données, ou la lecture n\'a pas été autorisée. Tu peux l\'autoriser dans les réglages du téléphone.';
+
+  @override
+  String get devicesNothing =>
+      'Aucune mesure ces dernières semaines. Il faut d\'abord qu\'une montre ou un capteur les enregistre.';
+
+  @override
+  String devicesRecentTitle(int days) {
+    return 'Les $days derniers jours';
+  }
+
+  @override
+  String get devicesHalvesTitle => 'Au fil de tes cycles';
+
+  @override
+  String get devicesSleep => 'Sommeil';
+
+  @override
+  String get devicesHeartRate => 'Pouls au repos';
+
+  @override
+  String get devicesTemperature => 'Température au poignet';
+
+  @override
+  String devicesSleepValue(int hours, int minutes) {
+    return '$hours h $minutes min';
+  }
+
+  @override
+  String devicesHeartRateValue(int beats) {
+    return '$beats battements par minute';
+  }
+
+  @override
+  String devicesTemperatureValue(String degrees) {
+    return '$degrees °C';
+  }
+
+  @override
+  String devicesAverageOf(String measure, int days) {
+    String _temp0 = intl.Intl.pluralLogic(
+      days,
+      locale: localeName,
+      other: '$measure, moyenne de $days jours',
+      one: '$measure, 1 jour mesuré',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String devicesHalvesLine(String first, String second) {
+    return 'Première moitié : $first · Deuxième moitié : $second';
+  }
+
+  @override
+  String get devicesNote =>
+      'Des moyennes de tes propres mesures, coupées au milieu de chaque cycle d\'après les dates. Elles ne confirment ni une ovulation ni une grossesse, et ne remplacent aucun avis médical.';
 }

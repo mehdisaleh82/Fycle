@@ -3428,4 +3428,126 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get phaseBeforeTip3 =>
       'Lighter plans, earlier nights: these days often ask for it.';
+
+  @override
+  String get partnerShareDesire => 'Share the days my desire is often higher';
+
+  @override
+  String get partnerShareDesireNote =>
+      'Drawn from what you logged. Only the dates travel.';
+
+  @override
+  String get partnerPreview => 'See what my partner will see';
+
+  @override
+  String get partnerPreviewBanner =>
+      'Preview: this is what your partner will see.';
+
+  @override
+  String get partnerAheadTitle => 'The weeks ahead';
+
+  @override
+  String partnerAheadPeriod(String from, String to) {
+    return 'Period estimated from $from to $to';
+  }
+
+  @override
+  String partnerAheadDesire(String from, String to) {
+    return 'Her desire is often higher from $from to $to';
+  }
+
+  @override
+  String get partnerDesireNote =>
+      'From what she logged in past cycles. A tendency, not a promise: ask her.';
+
+  @override
+  String get settingsProfileTitle => 'My profile';
+
+  @override
+  String settingsProfileAge(int age) {
+    return '$age years old';
+  }
+
+  @override
+  String get settingsShownSection => 'What I see';
+
+  @override
+  String get settingsDoctorReportSubtitle =>
+      'What a doctor would look at, as a file';
+
+  @override
+  String get devicesTitle => 'My watch and sensors';
+
+  @override
+  String get devicesSubtitle => 'Sleep, heart rate, temperature';
+
+  @override
+  String get devicesIntro =>
+      'Fycle can read, on your phone, what your watch or your sensors keep in the health data of the phone: sleep, heart rate at rest, temperature at the wrist. Nothing is copied into Fycle and nothing leaves your phone.';
+
+  @override
+  String get devicesRead => 'Read my measurements';
+
+  @override
+  String get devicesReadAgain => 'Read again';
+
+  @override
+  String get devicesUnavailable =>
+      'Nothing could be read: this phone has no such data to offer, or reading was not allowed. You can allow it in the settings of the phone.';
+
+  @override
+  String get devicesNothing =>
+      'No measurement over the last weeks. A watch or a sensor has to record them first.';
+
+  @override
+  String devicesRecentTitle(int days) {
+    return 'The last $days days';
+  }
+
+  @override
+  String get devicesHalvesTitle => 'Over your cycles';
+
+  @override
+  String get devicesSleep => 'Sleep';
+
+  @override
+  String get devicesHeartRate => 'Heart rate at rest';
+
+  @override
+  String get devicesTemperature => 'Temperature at the wrist';
+
+  @override
+  String devicesSleepValue(int hours, int minutes) {
+    return '$hours h $minutes min';
+  }
+
+  @override
+  String devicesHeartRateValue(int beats) {
+    return '$beats beats per minute';
+  }
+
+  @override
+  String devicesTemperatureValue(String degrees) {
+    return '$degrees °C';
+  }
+
+  @override
+  String devicesAverageOf(String measure, int days) {
+    String _temp0 = intl.Intl.pluralLogic(
+      days,
+      locale: localeName,
+      other: '$measure, average of $days days',
+      one: '$measure, 1 day measured',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String devicesHalvesLine(String first, String second) {
+    return 'First half: $first · Second half: $second';
+  }
+
+  @override
+  String get devicesNote =>
+      'Averages of your own measurements, cut in the middle of each cycle by dates. They confirm neither an ovulation nor a pregnancy, and replace no medical advice.';
 }

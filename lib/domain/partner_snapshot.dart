@@ -18,6 +18,8 @@ final class PartnerSnapshot {
     this.latestNext,
     this.fertileFrom,
     this.fertileTo,
+    this.desireFrom,
+    this.desireTo,
     this.pregnancyStart,
     this.deliveryDate,
   });
@@ -45,6 +47,11 @@ final class PartnerSnapshot {
   final CalendarDay? fertileFrom;
   final CalendarDay? fertileTo;
 
+  /// The days her desire is often higher, as dates, if she chose to share
+  /// them: a count of what she logged in past cycles, nothing more.
+  final CalendarDay? desireFrom;
+  final CalendarDay? desireTo;
+
   final CalendarDay? pregnancyStart;
   final CalendarDay? deliveryDate;
 
@@ -64,6 +71,8 @@ final class PartnerSnapshot {
     'latestNext': ?latestNext?.toString(),
     'fertileFrom': ?fertileFrom?.toString(),
     'fertileTo': ?fertileTo?.toString(),
+    'desireFrom': ?desireFrom?.toString(),
+    'desireTo': ?desireTo?.toString(),
     'pregnancyStart': ?pregnancyStart?.toString(),
     'deliveryDate': ?deliveryDate?.toString(),
   };
@@ -107,6 +116,8 @@ final class PartnerSnapshot {
       latestNext: day('latestNext'),
       fertileFrom: day('fertileFrom'),
       fertileTo: day('fertileTo'),
+      desireFrom: day('desireFrom'),
+      desireTo: day('desireTo'),
       pregnancyStart: day('pregnancyStart'),
       deliveryDate: day('deliveryDate'),
     );
@@ -222,4 +233,34 @@ PartnerStatus partnerStatusOn(CalendarDay today, PartnerSnapshot snapshot) {
     latest: latest,
     inFertileWindow: fertile,
   );
+}
+
+/// The ranges in which her coming periods are estimated, the next one
+/// first, then [partnerCyclesAhead] more, each a day wider on each side.
+/// Only the ones that are not behind [today]. Empty without an estimate,
+/// during a pregnancy, or before periods are back.
+List<({CalendarDay earliest, CalendarDay latest})> partnerPeriodsAhead(
+  CalendarDay today,
+  PartnerSnapshot snapshot,
+) {
+  final earliest = snapshot.earliestNext;
+  final latest = snapshot.latestNext;
+  if (snapshot.profile == Profile.pregnant ||
+      earliest == null ||
+      latest == null) {
+    return const [];
+  }
+  final length = snapshot.cycleLength;
+  final ranges = <({CalendarDay earliest, CalendarDay latest})>[];
+  for (var ahead = 0; ahead <= partnerCyclesAhead; ahead++) {
+    if (ahead > 0 && length == null) {
+      break;
+    }
+    final shift = ahead * (length ?? 0);
+    final to = latest.addDays(shift + ahead);
+    if (!today.isAfter(to)) {
+      ranges.add((earliest: earliest.addDays(shift - ahead), latest: to));
+    }
+  }
+  return ranges;
 }

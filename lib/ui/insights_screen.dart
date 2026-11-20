@@ -14,6 +14,7 @@ import 'change_card.dart';
 import 'clinical_card.dart';
 import 'comparison_card.dart';
 import 'cycle_model.dart';
+import 'devices_screen.dart';
 import 'disclaimer_card.dart';
 import 'doctor_pdf.dart';
 import 'fertility_card.dart';
@@ -155,6 +156,19 @@ class InsightsScreen extends StatelessWidget {
                 ),
                 icon: const Icon(Icons.article_outlined),
                 label: Text(l10n.guidesTitle),
+              ),
+              const SizedBox(height: 8),
+              // What her watch measured, read when she asks.
+              OutlinedButton.icon(
+                key: const ValueKey('open-devices'),
+                onPressed: () => Navigator.of(context).push(
+                  MaterialPageRoute<void>(
+                    builder: (context) =>
+                        DevicesScreen(model: model, environment: environment),
+                  ),
+                ),
+                icon: const Icon(Icons.watch_outlined),
+                label: Text(l10n.devicesTitle),
               ),
               const SizedBox(height: 16),
               const DisclaimerCard(),

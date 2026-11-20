@@ -32,7 +32,7 @@
 	<key>NSFaceIDUsageDescription</key>
 	<string>Fycle uses Face ID to unlock the app when you turn its lock on.</string>
 	<key>NSHealthShareUsageDescription</key>
-	<string>Fycle reads the period days you already logged in Health to copy them into your journal. Nothing leaves your phone.</string>
+	<string>Fycle reads, on your phone, the period days and the measurements of your watch (sleep, heart rate at rest, wrist temperature) kept in Health. Nothing leaves your phone.</string>
 	<key>NSHealthUpdateUsageDescription</key>
 	<string>Fycle writes nothing to Health.</string>
 	<key>CFBundleURLTypes</key>

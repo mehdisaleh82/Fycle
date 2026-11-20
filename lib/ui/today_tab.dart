@@ -154,8 +154,8 @@ class TodayTab extends StatelessWidget {
                 ),
               if (ask != null)
                 CatchUpCard(model: model, today: today, ask: ask),
-              ComingSignsCard(model: model, today: today, status: status),
-              PhaseCard(model: model, today: today, status: status),
+              // What she does every day comes first, right under the ring;
+              // then what the cycle says, what is ahead, and what to read.
               gap,
               TodayCard(
                 model: model,
@@ -163,9 +163,11 @@ class TodayTab extends StatelessWidget {
                 onOpenDay: () => onOpenDay(today),
                 onOpenYesterday: () => onOpenDay(today.addDays(-1)),
               ),
+              PhaseCard(model: model, today: today, status: status),
+              ComingSignsCard(model: model, today: today, status: status),
               AheadCard(model: model, today: today, status: status),
-              GuideCard(model: model, today: today),
               IntimacyCarousel(model: model, today: today, status: status),
+              GuideCard(model: model, today: today),
               if (model.profile == Profile.discovering ||
                   (model.goals.contains(Goal.understandBody) &&
                       followsACycle(model.profile))) ...[

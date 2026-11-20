@@ -5365,6 +5365,186 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Lighter plans, earlier nights: these days often ask for it.'**
   String get phaseBeforeTip3;
+
+  /// No description provided for @partnerShareDesire.
+  ///
+  /// In en, this message translates to:
+  /// **'Share the days my desire is often higher'**
+  String get partnerShareDesire;
+
+  /// No description provided for @partnerShareDesireNote.
+  ///
+  /// In en, this message translates to:
+  /// **'Drawn from what you logged. Only the dates travel.'**
+  String get partnerShareDesireNote;
+
+  /// No description provided for @partnerPreview.
+  ///
+  /// In en, this message translates to:
+  /// **'See what my partner will see'**
+  String get partnerPreview;
+
+  /// No description provided for @partnerPreviewBanner.
+  ///
+  /// In en, this message translates to:
+  /// **'Preview: this is what your partner will see.'**
+  String get partnerPreviewBanner;
+
+  /// No description provided for @partnerAheadTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'The weeks ahead'**
+  String get partnerAheadTitle;
+
+  /// No description provided for @partnerAheadPeriod.
+  ///
+  /// In en, this message translates to:
+  /// **'Period estimated from {from} to {to}'**
+  String partnerAheadPeriod(String from, String to);
+
+  /// No description provided for @partnerAheadDesire.
+  ///
+  /// In en, this message translates to:
+  /// **'Her desire is often higher from {from} to {to}'**
+  String partnerAheadDesire(String from, String to);
+
+  /// No description provided for @partnerDesireNote.
+  ///
+  /// In en, this message translates to:
+  /// **'From what she logged in past cycles. A tendency, not a promise: ask her.'**
+  String get partnerDesireNote;
+
+  /// No description provided for @settingsProfileTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'My profile'**
+  String get settingsProfileTitle;
+
+  /// No description provided for @settingsProfileAge.
+  ///
+  /// In en, this message translates to:
+  /// **'{age} years old'**
+  String settingsProfileAge(int age);
+
+  /// No description provided for @settingsShownSection.
+  ///
+  /// In en, this message translates to:
+  /// **'What I see'**
+  String get settingsShownSection;
+
+  /// No description provided for @settingsDoctorReportSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'What a doctor would look at, as a file'**
+  String get settingsDoctorReportSubtitle;
+
+  /// No description provided for @devicesTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'My watch and sensors'**
+  String get devicesTitle;
+
+  /// No description provided for @devicesSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Sleep, heart rate, temperature'**
+  String get devicesSubtitle;
+
+  /// No description provided for @devicesIntro.
+  ///
+  /// In en, this message translates to:
+  /// **'Fycle can read, on your phone, what your watch or your sensors keep in the health data of the phone: sleep, heart rate at rest, temperature at the wrist. Nothing is copied into Fycle and nothing leaves your phone.'**
+  String get devicesIntro;
+
+  /// No description provided for @devicesRead.
+  ///
+  /// In en, this message translates to:
+  /// **'Read my measurements'**
+  String get devicesRead;
+
+  /// No description provided for @devicesReadAgain.
+  ///
+  /// In en, this message translates to:
+  /// **'Read again'**
+  String get devicesReadAgain;
+
+  /// No description provided for @devicesUnavailable.
+  ///
+  /// In en, this message translates to:
+  /// **'Nothing could be read: this phone has no such data to offer, or reading was not allowed. You can allow it in the settings of the phone.'**
+  String get devicesUnavailable;
+
+  /// No description provided for @devicesNothing.
+  ///
+  /// In en, this message translates to:
+  /// **'No measurement over the last weeks. A watch or a sensor has to record them first.'**
+  String get devicesNothing;
+
+  /// No description provided for @devicesRecentTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'The last {days} days'**
+  String devicesRecentTitle(int days);
+
+  /// No description provided for @devicesHalvesTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Over your cycles'**
+  String get devicesHalvesTitle;
+
+  /// No description provided for @devicesSleep.
+  ///
+  /// In en, this message translates to:
+  /// **'Sleep'**
+  String get devicesSleep;
+
+  /// No description provided for @devicesHeartRate.
+  ///
+  /// In en, this message translates to:
+  /// **'Heart rate at rest'**
+  String get devicesHeartRate;
+
+  /// No description provided for @devicesTemperature.
+  ///
+  /// In en, this message translates to:
+  /// **'Temperature at the wrist'**
+  String get devicesTemperature;
+
+  /// No description provided for @devicesSleepValue.
+  ///
+  /// In en, this message translates to:
+  /// **'{hours} h {minutes} min'**
+  String devicesSleepValue(int hours, int minutes);
+
+  /// No description provided for @devicesHeartRateValue.
+  ///
+  /// In en, this message translates to:
+  /// **'{beats} beats per minute'**
+  String devicesHeartRateValue(int beats);
+
+  /// No description provided for @devicesTemperatureValue.
+  ///
+  /// In en, this message translates to:
+  /// **'{degrees} °C'**
+  String devicesTemperatureValue(String degrees);
+
+  /// No description provided for @devicesAverageOf.
+  ///
+  /// In en, this message translates to:
+  /// **'{days, plural, =1{{measure}, 1 day measured} other{{measure}, average of {days} days}}'**
+  String devicesAverageOf(String measure, int days);
+
+  /// No description provided for @devicesHalvesLine.
+  ///
+  /// In en, this message translates to:
+  /// **'First half: {first} · Second half: {second}'**
+  String devicesHalvesLine(String first, String second);
+
+  /// No description provided for @devicesNote.
+  ///
+  /// In en, this message translates to:
+  /// **'Averages of your own measurements, cut in the middle of each cycle by dates. They confirm neither an ovulation nor a pregnancy, and replace no medical advice.'**
+  String get devicesNote;
 }
 
 class _AppLocalizationsDelegate

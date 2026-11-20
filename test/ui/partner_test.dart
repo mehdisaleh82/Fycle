@@ -5,6 +5,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:fycle/data/file_gateway.dart';
 import 'package:fycle/domain/calendar_day.dart';
 import 'package:fycle/domain/day_entry.dart';
+import 'package:fycle/domain/libido_level.dart';
 import 'package:fycle/domain/life_stage.dart';
 import 'package:fycle/domain/partner_link.dart';
 import 'package:fycle/domain/partner_snapshot.dart';
@@ -126,6 +127,118 @@ void main() {
     // No password is asked for a code.
     expect(find.byType(TextField), findsNothing);
     expect(harness.files.saved, isEmpty);
+  });
+
+  test('the periods ahead are the next one and two more, each wider', () {
+    final ranges = partnerPeriodsAhead(CalendarDay(2026, 3, 20), lina);
+    expect(ranges, [
+      (earliest: CalendarDay(2026, 3, 25), latest: CalendarDay(2026, 3, 31)),
+      (earliest: CalendarDay(2026, 4, 21), latest: CalendarDay(2026, 4, 29)),
+      (earliest: CalendarDay(2026, 5, 18), latest: CalendarDay(2026, 5, 28)),
+    ]);
+    // What is behind is left out.
+    expect(partnerPeriodsAhead(CalendarDay(2026, 4, 10), lina), hasLength(2));
+    // Nothing during a pregnancy.
+    expect(
+      partnerPeriodsAhead(
+        CalendarDay(2026, 3, 20),
+        PartnerSnapshot(
+          madeOn: CalendarDay(2026, 3, 20),
+          profile: Profile.pregnant,
+        ),
+      ),
+      isEmpty,
+    );
+  });
+
+  testWidgets('she may share the days her desire is often higher, and sees '
+      'first what her partner will see', (tester) async {
+    // 5 March: day 6. Desire logged high around day 13 of two cycles.
+    final harness = Harness(tester, today: CalendarDay(2026, 3, 5));
+    await harness.seed(
+      days: [
+        ...threePeriods(),
+        DayEntry(day: CalendarDay(2026, 1, 15), libido: LibidoLevel.high),
+        DayEntry(day: CalendarDay(2026, 2, 12), libido: LibidoLevel.high),
+      ],
+    );
+    await harness.pumpApp();
+    await tapVisible(tester, find.byIcon(Icons.settings_outlined));
+    await tap(tester, 'partner-share');
+
+    PartnerSnapshot shared() => partnerFromLink(
+      tester.widget<PartnerCode>(find.byType(PartnerCode)).link,
+    )!;
+    // Not shared unless she says so.
+    expect(shared().desireFrom, isNull);
+    await tap(tester, 'partner-share-desire');
+    expect(shared().desireFrom, CalendarDay(2026, 3, 12));
+    expect(shared().desireTo, CalendarDay(2026, 3, 12));
+
+    await tap(tester, 'partner-preview');
+    expect(key('partner-preview-banner'), findsOneWidget);
+    await tester.scrollUntilVisible(
+      key('partner-ahead-desire'),
+      200,
+      scrollable: find.byType(Scrollable).last,
+    );
+    expect(key('partner-ahead-period-0'), findsOneWidget);
+    expect(find.textContaining('not a promise'), findsOneWidget);
+    // A preview offers nothing to replace nor to stop.
+    expect(key('partner-leave'), findsNothing);
+    await tester.pageBack();
+    await tester.pumpAndSettle();
+    expect(find.byType(PartnerCode), findsOneWidget);
+  });
+
+  testWidgets('nothing about desire is offered once she turned it off', (
+    tester,
+  ) async {
+    final harness = Harness(tester, today: CalendarDay(2026, 3, 5));
+    await harness.seed(
+      days: [
+        ...threePeriods(),
+        DayEntry(day: CalendarDay(2026, 1, 15), libido: LibidoLevel.high),
+        DayEntry(day: CalendarDay(2026, 2, 12), libido: LibidoLevel.high),
+      ],
+    );
+    await harness.read((store) => store.database.sexLifeVisible = false);
+    await harness.pumpApp();
+    await tapVisible(tester, find.byIcon(Icons.settings_outlined));
+    await tap(tester, 'partner-share');
+    expect(key('partner-share-desire'), findsNothing);
+  });
+
+  testWidgets('a partner sees the weeks ahead', (tester) async {
+    final harness = Harness(tester);
+    await harness.pumpApp();
+    await scan(
+      tester,
+      partnerLinkOf(
+        PartnerSnapshot(
+          madeOn: CalendarDay(2026, 3, 20),
+          name: 'Lina',
+          profile: Profile.tracking,
+          cycleStart: CalendarDay(2026, 2, 28),
+          periodLength: 4,
+          cycleLength: 28,
+          earliestNext: CalendarDay(2026, 3, 25),
+          latestNext: CalendarDay(2026, 3, 31),
+          desireFrom: CalendarDay(2026, 3, 21),
+          desireTo: CalendarDay(2026, 3, 23),
+        ),
+      ),
+    );
+    await tester.scrollUntilVisible(
+      key('partner-ahead-desire'),
+      200,
+      scrollable: find.byType(Scrollable).last,
+    );
+    expect(key('partner-ahead-period-2'), findsOneWidget);
+    expect(
+      find.text('Her desire is often higher from Mar 21 to Mar 23'),
+      findsOneWidget,
+    );
   });
 
   testWidgets('a partner scans the code and sees where she is', (tester) async {

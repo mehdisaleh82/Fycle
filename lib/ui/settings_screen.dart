@@ -1,6 +1,7 @@
 import 'package:material_ui/material_ui.dart';
 
 import '../data/appearance.dart';
+import '../domain/life_stage.dart';
 import '../domain/reminders.dart';
 import '../l10n/app_localizations.dart';
 import 'app_environment.dart';
@@ -11,6 +12,7 @@ import 'cycle_length_field.dart';
 import 'cycle_model.dart';
 import 'dialogs.dart';
 import 'disclaimer_card.dart';
+import 'insights_screen.dart';
 import 'onboarding_screen.dart';
 import 'partner_screens.dart';
 
@@ -248,17 +250,17 @@ class SettingsScreen extends StatelessWidget {
                 padding: const EdgeInsets.symmetric(horizontal: 16),
                 child: header,
               ),
+              // Who she is, first: everything else follows from it.
+              Padding(
+                padding: const EdgeInsetsDirectional.fromSTEB(16, 8, 16, 0),
+                child: _ProfileCard(
+                  model: model,
+                  onTap: () => _editAnswers(context),
+                ),
+              ),
               _SectionTitle(l10n.settingsCycleSection),
               _Group(
                 children: [
-                  ListTile(
-                    key: const ValueKey('edit-answers'),
-                    leading: const Icon(Icons.person_outline),
-                    title: Text(l10n.settingsAnswers),
-                    subtitle: Text(l10n.settingsAnswersSubtitle),
-                    trailing: const Icon(Icons.chevron_right),
-                    onTap: () => _editAnswers(context),
-                  ),
                   ListTile(
                     leading: const Icon(Icons.loop),
                     title: Text(l10n.settingsCycleLength),
@@ -280,6 +282,12 @@ class SettingsScreen extends StatelessWidget {
                     ),
                     onTap: () => _editBirthYear(context),
                   ),
+                ],
+              ),
+              // What the app shows or keeps to itself, in one place.
+              _SectionTitle(l10n.settingsShownSection),
+              _Group(
+                children: [
                   SwitchListTile(
                     key: const ValueKey('fertility-estimate'),
                     secondary: const Icon(Icons.egg_outlined),
@@ -287,6 +295,22 @@ class SettingsScreen extends StatelessWidget {
                     subtitle: Text(l10n.fertilitySettingSubtitle),
                     value: model.fertilityEstimateEnabled,
                     onChanged: (on) => _setFertilityEstimate(context, on),
+                  ),
+                  SwitchListTile(
+                    key: const ValueKey('sex-life'),
+                    secondary: const Icon(Icons.favorite_border),
+                    title: Text(l10n.sexLifeTitle),
+                    subtitle: Text(l10n.sexLifeSubtitle),
+                    value: model.sexLifeVisible,
+                    onChanged: model.setSexLifeVisible,
+                  ),
+                  SwitchListTile(
+                    key: const ValueKey('widget-enabled'),
+                    secondary: const Icon(Icons.widgets_outlined),
+                    title: Text(l10n.widgetTitle),
+                    subtitle: Text(l10n.widgetSubtitle),
+                    value: model.widgetEnabled,
+                    onChanged: model.setWidgetEnabled,
                   ),
                 ],
               ),
@@ -437,22 +461,6 @@ class SettingsScreen extends StatelessWidget {
                     value: model.appLockEnabled,
                     onChanged: (on) => _setAppLock(context, on),
                   ),
-                  SwitchListTile(
-                    key: const ValueKey('widget-enabled'),
-                    secondary: const Icon(Icons.widgets_outlined),
-                    title: Text(l10n.widgetTitle),
-                    subtitle: Text(l10n.widgetSubtitle),
-                    value: model.widgetEnabled,
-                    onChanged: model.setWidgetEnabled,
-                  ),
-                  SwitchListTile(
-                    key: const ValueKey('sex-life'),
-                    secondary: const Icon(Icons.favorite_border),
-                    title: Text(l10n.sexLifeTitle),
-                    subtitle: Text(l10n.sexLifeSubtitle),
-                    value: model.sexLifeVisible,
-                    onChanged: model.setSexLifeVisible,
-                  ),
                 ],
               ),
               _SectionTitle(l10n.settingsAppearanceSection),
@@ -492,6 +500,21 @@ class SettingsScreen extends StatelessWidget {
                       model: model,
                       environment: environment,
                       enabled: on,
+                    ),
+                  ),
+                  ListTile(
+                    key: const ValueKey('settings-doctor-report'),
+                    leading: const Icon(Icons.assignment_outlined),
+                    title: Text(l10n.doctorReportTitle),
+                    subtitle: Text(l10n.settingsDoctorReportSubtitle),
+                    trailing: const Icon(Icons.chevron_right),
+                    onTap: () => Navigator.of(context).push(
+                      MaterialPageRoute<void>(
+                        builder: (context) => DoctorReportScreen(
+                          model: model,
+                          environment: environment,
+                        ),
+                      ),
                     ),
                   ),
                   ListTile(
@@ -548,6 +571,81 @@ class SettingsScreen extends StatelessWidget {
 }
 
 /// The rows of one section, gathered on a card.
+/// Her first name, her moment of life and her age, on one card that opens
+/// the answers she gave at setup.
+class _ProfileCard extends StatelessWidget {
+  const _ProfileCard({required this.model, required this.onTap});
+
+  final CycleModel model;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
+    final theme = Theme.of(context);
+    final profile = switch (model.profile) {
+      Profile.discovering => l10n.profileDiscovering,
+      Profile.tracking => l10n.profileTracking,
+      Profile.conceiving => l10n.profileConceiving,
+      Profile.pregnant => l10n.profilePregnant,
+      Profile.postpartum => l10n.profilePostpartum,
+      Profile.perimenopause => l10n.profilePerimenopause,
+      null => null,
+    };
+    final age = model.age;
+    final details = [?profile, if (age != null) l10n.settingsProfileAge(age)];
+    return Card(
+      clipBehavior: Clip.antiAlias,
+      child: InkWell(
+        key: const ValueKey('edit-answers'),
+        onTap: onTap,
+        child: Padding(
+          padding: const EdgeInsets.all(16),
+          child: Row(
+            children: [
+              CircleAvatar(
+                radius: 24,
+                backgroundColor: theme.colorScheme.primaryContainer,
+                foregroundColor: theme.colorScheme.onPrimaryContainer,
+                child: const Icon(Icons.person_outline),
+              ),
+              const SizedBox(width: 14),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      model.firstName ?? l10n.settingsProfileTitle,
+                      key: const ValueKey('settings-profile-name'),
+                      style: theme.textTheme.titleMedium,
+                    ),
+                    for (final (index, line) in details.indexed)
+                      Text(
+                        line,
+                        key: ValueKey('settings-profile-line-$index'),
+                        style: theme.textTheme.bodyMedium?.copyWith(
+                          color: theme.colorScheme.onSurfaceVariant,
+                        ),
+                      ),
+                    const SizedBox(height: 2),
+                    Text(
+                      l10n.settingsAnswersSubtitle,
+                      style: theme.textTheme.bodySmall?.copyWith(
+                        color: theme.colorScheme.onSurfaceVariant,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              const Icon(Icons.chevron_right),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
 class _Group extends StatelessWidget {
   const _Group({required this.children});
 

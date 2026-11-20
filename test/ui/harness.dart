@@ -11,6 +11,7 @@ import 'package:fycle/data/reminder_gateway.dart';
 import 'package:fycle/data/widget_gateway.dart';
 import 'package:fycle/domain/calendar_day.dart';
 import 'package:fycle/domain/day_entry.dart';
+import 'package:fycle/domain/device_readings.dart';
 import 'package:fycle/domain/flow_intensity.dart';
 import 'package:fycle/domain/life_stage.dart';
 import 'package:fycle/domain/start_profile.dart';
@@ -81,6 +82,13 @@ final class FakeHealth implements HealthGateway {
   Future<Map<CalendarDay, FlowIntensity>?> readPeriodDays({
     required DateTime now,
   }) async => days;
+
+  /// What a watch measured; null when she does not allow reading it.
+  List<DeviceDay>? deviceDays;
+
+  @override
+  Future<List<DeviceDay>?> readDeviceDays({required DateTime now}) async =>
+      deviceDays;
 }
 
 /// Stands in for the home-screen widget of the phone.
