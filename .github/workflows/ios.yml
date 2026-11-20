@@ -73,6 +73,9 @@ jobs:
       # The app is signed while it is built, not afterwards: the app and its
       # home-screen widget share an App Group, and that entitlement has to be
       # part of the signature of both (docs/DECISIONS.md, decision 133).
+      # REGISTER_APP_GROUPS lets automatic signing register the App Group and
+      # put it in both profiles: without it, the profiles Xcode creates do not
+      # carry the group and the archive fails.
       - name: Build, sign and send to TestFlight
         if: steps.secrets.outputs.present == 'true'
         env:
@@ -95,6 +98,7 @@ jobs:
             -authenticationKeyIssuerID "$ASC_ISSUER_ID" \
             DEVELOPMENT_TEAM="$APPLE_TEAM_ID" \
             CODE_SIGN_STYLE=Automatic \
+            REGISTER_APP_GROUPS=YES \
             COMPILER_INDEX_STORE_ENABLE=NO
           cat > "$RUNNER_TEMP/ExportOptions.plist" <<EOF
           <?xml version="1.0" encoding="UTF-8"?>
