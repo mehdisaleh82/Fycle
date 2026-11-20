@@ -27,6 +27,7 @@ dependencies:
   pdf: ^3.13.1
   health: ^13.3.2
   qr: ^3.0.3
+  url_launcher: ^6.3.3
 
 dev_dependencies:
   flutter_test:
@@ -36,6 +37,8 @@ dev_dependencies:
 flutter:
   generate: true
   uses-material-design: true
+  assets:
+    - assets/art/
 
 # SQLite is bundled in its encrypted variant (SQLite3 Multiple Ciphers).
 # The build downloads a precompiled library and checks its sha256 hash.

@@ -18,6 +18,7 @@ import '../domain/start_profile.dart';
 import '../domain/symptom.dart';
 import '../l10n/app_localizations.dart';
 import 'app_environment.dart';
+import 'art.dart';
 import 'cycle_model.dart';
 import 'dialogs.dart';
 import 'disclaimer_card.dart';
@@ -730,6 +731,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
         );
       case _Step.name:
         return _Question(
+          art: Art.woman,
           title: l10n.setupNameTitle,
           hint: l10n.setupNameHint,
           child: TextField(
@@ -744,6 +746,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
         );
       case _Step.birthYear:
         return _Question(
+          art: Art.lotus,
           lead: _name.text.trim().isEmpty
               ? null
               : l10n.setupGreeting(_name.text.trim()),
@@ -758,6 +761,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
         );
       case _Step.goals:
         return _Question(
+          art: Art.cycle,
           title: l10n.setupProfileTitle,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -829,6 +833,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
         final pregnant = _profile == Profile.pregnant;
         final date = _keyDate;
         return _Question(
+          art: Art.body,
           title: pregnant
               ? l10n.onboardingLastPeriodQuestion
               : l10n.setupBirthDateTitle,
@@ -869,6 +874,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
         );
       case _Step.regularity:
         return _Question(
+          art: Art.trend,
           title: l10n.setupRegularTitle,
           hint: l10n.setupRegularHint,
           child: Column(
@@ -900,6 +906,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
         );
       case _Step.lengths:
         return _Question(
+          art: Art.uterus,
           title: l10n.setupLengthsTitle,
           hint: l10n.setupLengthsHint,
           child: Column(
@@ -931,6 +938,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
         );
       case _Step.changes:
         return _Question(
+          art: Art.warmth,
           title: l10n.setupChangesTitle,
           hint: l10n.setupChangesHint,
           child: Column(
@@ -967,6 +975,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
         final day = _lastPeriod;
         final preview = _preview();
         return _Question(
+          art: Art.calendar,
           title: l10n.onboardingLastPeriodQuestion,
           hint: l10n.setupLastHint,
           child: Column(
@@ -1005,6 +1014,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
         String timeText(ClockTime time) =>
             TimeOfDay(hour: time.hour, minute: time.minute).format(context);
         return _Question(
+          art: Art.reminder,
           title: l10n.setupRemindersTitle,
           hint: l10n.setupRemindersHint,
           child: Column(
@@ -1079,6 +1089,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
         );
       case _Step.lock:
         return _Question(
+          art: Art.private,
           title: l10n.setupLockTitle,
           hint: l10n.setupLockHint,
           child: ListenableBuilder(
@@ -1101,6 +1112,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
         );
       case _Step.privacy:
         return _Question(
+          art: Art.private,
           title: l10n.setupPrivacyTitle,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -1117,6 +1129,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
         );
       case _Step.wishes:
         return _Question(
+          art: Art.guide,
           title: l10n.setupWishesTitle,
           hint: l10n.setupWishesHint,
           child: Column(
@@ -1145,6 +1158,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
         );
       case _Step.usual:
         return _Question(
+          art: Art.cramps,
           title: l10n.setupUsualTitle,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -1224,6 +1238,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
         );
       case _Step.before:
         return _Question(
+          art: Art.energy,
           title: l10n.setupBeforeTitle,
           hint: l10n.setupBeforeHint,
           child: Column(
@@ -1242,6 +1257,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
         );
       case _Step.signs:
         return _Question(
+          art: Art.sleep,
           title: l10n.setupSignsTitle,
           hint: l10n.setupSignsHint,
           child: Column(
@@ -1264,6 +1280,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
         // An earlier period starts at least a short cycle before.
         final latest = last.addDays(-PeriodPredictor.minCycleLength);
         return _Question(
+          art: Art.progress,
           title: l10n.setupEarlierTitle,
           hint: l10n.setupEarlierHint,
           child: Column(
@@ -1292,6 +1309,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
         );
       case _Step.tracked:
         return _Question(
+          art: Art.journal,
           title: l10n.setupTrackedTitle,
           hint: l10n.setupTrackedHint,
           child: Column(
@@ -1452,11 +1470,15 @@ class _TopBar extends StatelessWidget {
 /// One question: what is asked, why, and the way to answer.
 class _Question extends StatelessWidget {
   const _Question({
+    this.art,
     this.lead,
     required this.title,
     this.hint,
     required this.child,
   });
+
+  /// A small picture above the question.
+  final Art? art;
 
   /// A word said before the question, such as a greeting.
   final String? lead;
@@ -1471,10 +1493,18 @@ class _Question extends StatelessWidget {
     final theme = Theme.of(context);
     final lead = this.lead;
     final hint = this.hint;
+    final art = this.art;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         const SizedBox(height: 8),
+        if (art != null) ...[
+          Align(
+            alignment: AlignmentDirectional.centerStart,
+            child: ArtImage(art),
+          ),
+          const SizedBox(height: 12),
+        ],
         if (lead != null) ...[
           Text(
             lead,

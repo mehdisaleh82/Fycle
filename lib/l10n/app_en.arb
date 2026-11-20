@@ -987,5 +987,17 @@
   "guidePregCareSeek": "You can contact those who follow your pregnancy at any time if you are worried, without waiting for the next appointment.",
   "guidePregAfterTitle": "After the birth: bleeding and periods",
   "guidePregAfterBody": "After the birth, you bleed from the vagina: heavily at first, then less and less, turning brownish, for a few weeks. This bleeding is not a period.\n\nWhen periods come back differs for everyone. With bottle feeding, or mixed feeding, the first period can come as soon as 5 to 6 weeks after the birth. With full breastfeeding, nights included, periods may not come back until you breastfeed less.\n\nA pregnancy is possible from 3 weeks after the birth, even while breastfeeding and before periods are back.\n\nA check-up is usually held 6 to 8 weeks after the birth: a good time to talk about your body and your mood.",
-  "guidePregAfterSeek": "Tell a midwife or a doctor at once if you have: sudden or very heavy bleeding, large clots, a fever with a sore tummy, a headache with vision changes or vomiting, pain or swelling in one calf, chest pain or trouble breathing."
+  "guidePregAfterSeek": "Tell a midwife or a doctor at once if you have: sudden or very heavy bleeding, large clots, a fever with a sore tummy, a headache with vision changes or vomiting, pain or swelling in one calf, chest pain or trouble breathing.",
+  "readingTitle": "Further reading",
+  "readingNote": "Opens in your browser. The site will see your visit, as with any web page.",
+  "readingTopicCycle": "Cycle and periods",
+  "readingTopicSexuality": "Sex and pleasure",
+  "readingTopicContraception": "Contraception",
+  "readingTopicFertility": "Fertility",
+  "linksCycle": "Periods|NHS|https://www.nhs.uk/conditions/periods/\nPeriod pain|NHS|https://www.nhs.uk/symptoms/period-pain/\nPMS (premenstrual syndrome)|NHS|https://www.nhs.uk/conditions/pre-menstrual-syndrome/\nEndometriosis|NHS|https://www.nhs.uk/conditions/endometriosis/\nThrush|NHS|https://www.nhs.uk/conditions/thrush-in-men-and-women/",
+  "linksSexuality": "Orgasms and pleasure|Brook|https://www.brook.org.uk/your-life/orgasms/\nMasturbation|Brook|https://www.brook.org.uk/your-life/masturbation/\nAnal sex|Brook|https://www.brook.org.uk/your-life/anal-sex/\nPainful sex|Brook|https://www.brook.org.uk/your-life/painful-sex/\nLow sex drive|NHS|https://www.nhs.uk/conditions/loss-of-libido/\nVaginal dryness|NHS|https://www.nhs.uk/conditions/vaginal-dryness/\nSexually transmitted infections|NHS|https://www.nhs.uk/conditions/sexually-transmitted-infections-stis/\nSexual health|World Health Organization|https://www.who.int/health-topics/sexual-health",
+  "linksContraception": "Contraception|NHS|https://www.nhs.uk/contraception/\nEmergency contraception|NHS|https://www.nhs.uk/contraception/emergency-contraception/",
+  "linksFertility": "Trying for a baby|NHS|https://www.nhs.uk/pregnancy/trying-for-a-baby/\nInfertility|NHS|https://www.nhs.uk/conditions/infertility/",
+  "linksPerimenopause": "Menopause and perimenopause|NHS|https://www.nhs.uk/conditions/menopause/",
+  "linksPregnancy": "Pregnancy|NHS|https://www.nhs.uk/pregnancy/\nSex and contraception after birth|NHS|https://www.nhs.uk/conditions/baby/support-and-services/sex-and-contraception-after-birth/"
 }

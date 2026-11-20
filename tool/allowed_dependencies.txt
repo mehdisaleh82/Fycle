@@ -18,6 +18,7 @@ path_provider           # flutter.dev, private folder of the app
 pdf                     # pure Dart, writes the report for the doctor on the phone, no network
 sqlite3                 # encrypted local database (SQLite3 Multiple Ciphers)
 timezone                # date type required by flutter_local_notifications
+url_launcher            # flutter.dev, asks the system to open a page in the browser; makes no network call itself
 
 # Direct, development only
 flutter_lints           # flutter.dev, static analysis rules
@@ -110,6 +111,13 @@ string_scanner
 term_glyph
 test_api
 typed_data
+url_launcher_android
+url_launcher_ios
+url_launcher_linux
+url_launcher_macos
+url_launcher_platform_interface
+url_launcher_web        # unused on mobile
+url_launcher_windows
 uuid                    # required by health, random identifiers, no network
 vector_math
 vm_service

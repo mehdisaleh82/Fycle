@@ -4687,6 +4687,78 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Tell a midwife or a doctor at once if you have: sudden or very heavy bleeding, large clots, a fever with a sore tummy, a headache with vision changes or vomiting, pain or swelling in one calf, chest pain or trouble breathing.'**
   String get guidePregAfterSeek;
+
+  /// No description provided for @readingTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Further reading'**
+  String get readingTitle;
+
+  /// No description provided for @readingNote.
+  ///
+  /// In en, this message translates to:
+  /// **'Opens in your browser. The site will see your visit, as with any web page.'**
+  String get readingNote;
+
+  /// No description provided for @readingTopicCycle.
+  ///
+  /// In en, this message translates to:
+  /// **'Cycle and periods'**
+  String get readingTopicCycle;
+
+  /// No description provided for @readingTopicSexuality.
+  ///
+  /// In en, this message translates to:
+  /// **'Sex and pleasure'**
+  String get readingTopicSexuality;
+
+  /// No description provided for @readingTopicContraception.
+  ///
+  /// In en, this message translates to:
+  /// **'Contraception'**
+  String get readingTopicContraception;
+
+  /// No description provided for @readingTopicFertility.
+  ///
+  /// In en, this message translates to:
+  /// **'Fertility'**
+  String get readingTopicFertility;
+
+  /// No description provided for @linksCycle.
+  ///
+  /// In en, this message translates to:
+  /// **'Periods|NHS|https://www.nhs.uk/conditions/periods/\nPeriod pain|NHS|https://www.nhs.uk/symptoms/period-pain/\nPMS (premenstrual syndrome)|NHS|https://www.nhs.uk/conditions/pre-menstrual-syndrome/\nEndometriosis|NHS|https://www.nhs.uk/conditions/endometriosis/\nThrush|NHS|https://www.nhs.uk/conditions/thrush-in-men-and-women/'**
+  String get linksCycle;
+
+  /// No description provided for @linksSexuality.
+  ///
+  /// In en, this message translates to:
+  /// **'Orgasms and pleasure|Brook|https://www.brook.org.uk/your-life/orgasms/\nMasturbation|Brook|https://www.brook.org.uk/your-life/masturbation/\nAnal sex|Brook|https://www.brook.org.uk/your-life/anal-sex/\nPainful sex|Brook|https://www.brook.org.uk/your-life/painful-sex/\nLow sex drive|NHS|https://www.nhs.uk/conditions/loss-of-libido/\nVaginal dryness|NHS|https://www.nhs.uk/conditions/vaginal-dryness/\nSexually transmitted infections|NHS|https://www.nhs.uk/conditions/sexually-transmitted-infections-stis/\nSexual health|World Health Organization|https://www.who.int/health-topics/sexual-health'**
+  String get linksSexuality;
+
+  /// No description provided for @linksContraception.
+  ///
+  /// In en, this message translates to:
+  /// **'Contraception|NHS|https://www.nhs.uk/contraception/\nEmergency contraception|NHS|https://www.nhs.uk/contraception/emergency-contraception/'**
+  String get linksContraception;
+
+  /// No description provided for @linksFertility.
+  ///
+  /// In en, this message translates to:
+  /// **'Trying for a baby|NHS|https://www.nhs.uk/pregnancy/trying-for-a-baby/\nInfertility|NHS|https://www.nhs.uk/conditions/infertility/'**
+  String get linksFertility;
+
+  /// No description provided for @linksPerimenopause.
+  ///
+  /// In en, this message translates to:
+  /// **'Menopause and perimenopause|NHS|https://www.nhs.uk/conditions/menopause/'**
+  String get linksPerimenopause;
+
+  /// No description provided for @linksPregnancy.
+  ///
+  /// In en, this message translates to:
+  /// **'Pregnancy|NHS|https://www.nhs.uk/pregnancy/\nSex and contraception after birth|NHS|https://www.nhs.uk/conditions/baby/support-and-services/sex-and-contraception-after-birth/'**
+  String get linksPregnancy;
 }
 
 class _AppLocalizationsDelegate

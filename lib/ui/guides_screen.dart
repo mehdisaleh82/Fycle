@@ -1,16 +1,83 @@
 import 'package:material_ui/material_ui.dart';
 
 import '../domain/calendar_day.dart';
+import '../domain/further_reading.dart';
 import '../domain/guide.dart';
 import '../l10n/app_localizations.dart';
+import 'art.dart';
 import 'cycle_model.dart';
 import 'home_cards.dart';
+import 'links.dart';
 
 String guideTopicLabel(AppLocalizations l10n, GuideTopic topic) =>
     switch (topic) {
       GuideTopic.perimenopause => l10n.guideTopicPerimenopause,
       GuideTopic.pregnancy => l10n.guideTopicPregnancy,
     };
+
+Art guideTopicArt(GuideTopic topic) => switch (topic) {
+  GuideTopic.perimenopause => Art.warmth,
+  GuideTopic.pregnancy => Art.body,
+};
+
+String readingTopicLabel(AppLocalizations l10n, ReadingTopic topic) =>
+    switch (topic) {
+      ReadingTopic.cycle => l10n.readingTopicCycle,
+      ReadingTopic.sexuality => l10n.readingTopicSexuality,
+      ReadingTopic.contraception => l10n.readingTopicContraception,
+      ReadingTopic.fertility => l10n.readingTopicFertility,
+      ReadingTopic.perimenopause => l10n.guideTopicPerimenopause,
+      ReadingTopic.pregnancy => l10n.guideTopicPregnancy,
+    };
+
+/// The outside pages of a topic, as the language of the interface lists
+/// them: each language brings its own sources.
+List<ReadingLink> readingLinks(AppLocalizations l10n, ReadingTopic topic) =>
+    parseReadingLinks(switch (topic) {
+      ReadingTopic.cycle => l10n.linksCycle,
+      ReadingTopic.sexuality => l10n.linksSexuality,
+      ReadingTopic.contraception => l10n.linksContraception,
+      ReadingTopic.fertility => l10n.linksFertility,
+      ReadingTopic.perimenopause => l10n.linksPerimenopause,
+      ReadingTopic.pregnancy => l10n.linksPregnancy,
+    });
+
+ReadingTopic readingTopicOf(GuideTopic topic) => switch (topic) {
+  GuideTopic.perimenopause => ReadingTopic.perimenopause,
+  GuideTopic.pregnancy => ReadingTopic.pregnancy,
+};
+
+/// The outside pages of one topic, each opened in the browser of the
+/// phone. Nothing when the language lists none.
+class ReadingList extends StatelessWidget {
+  const ReadingList({super.key, required this.topic});
+
+  final ReadingTopic topic;
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
+    final links = readingLinks(l10n, topic);
+    if (links.isEmpty) {
+      return const SizedBox.shrink();
+    }
+    return Card(
+      key: ValueKey('links-${topic.name}'),
+      child: Column(
+        children: [
+          for (final (index, link) in links.indexed)
+            ListTile(
+              key: ValueKey('link-${topic.name}-$index'),
+              title: Text(link.title),
+              subtitle: Text(link.source),
+              trailing: const Icon(Icons.open_in_new),
+              onTap: () => openLink(link.address),
+            ),
+        ],
+      ),
+    );
+  }
+}
 
 /// Where the text of a topic comes from.
 String guideSources(AppLocalizations l10n, GuideTopic topic) => switch (topic) {
@@ -171,13 +238,21 @@ class GuidesScreen extends StatelessWidget {
             Text(l10n.guidesIntro, style: theme.textTheme.bodyMedium),
             for (final topic in topics) ...[
               const SizedBox(height: 20),
-              Semantics(
-                header: true,
-                child: Text(
-                  guideTopicLabel(l10n, topic),
-                  key: ValueKey('guide-topic-${topic.name}'),
-                  style: theme.textTheme.titleMedium,
-                ),
+              Row(
+                children: [
+                  ArtImage(guideTopicArt(topic), size: 40),
+                  const SizedBox(width: 12),
+                  Expanded(
+                    child: Semantics(
+                      header: true,
+                      child: Text(
+                        guideTopicLabel(l10n, topic),
+                        key: ValueKey('guide-topic-${topic.name}'),
+                        style: theme.textTheme.titleMedium,
+                      ),
+                    ),
+                  ),
+                ],
               ),
               const SizedBox(height: 8),
               Card(
@@ -195,6 +270,34 @@ class GuidesScreen extends StatelessWidget {
                 ),
               ),
             ],
+            const SizedBox(height: 28),
+            Semantics(
+              header: true,
+              child: Text(
+                l10n.readingTitle,
+                key: const ValueKey('reading-title'),
+                style: theme.textTheme.titleLarge,
+              ),
+            ),
+            const SizedBox(height: 4),
+            Text(l10n.readingNote, style: theme.textTheme.bodySmall),
+            for (final topic in ReadingTopic.values)
+              // Nothing about sex for the one who turned it off.
+              if ((model.sexLifeVisible ||
+                      (topic != ReadingTopic.sexuality &&
+                          topic != ReadingTopic.contraception)) &&
+                  readingLinks(l10n, topic).isNotEmpty) ...[
+                const SizedBox(height: 16),
+                Semantics(
+                  header: true,
+                  child: Text(
+                    readingTopicLabel(l10n, topic),
+                    style: theme.textTheme.titleMedium,
+                  ),
+                ),
+                const SizedBox(height: 8),
+                ReadingList(topic: topic),
+              ],
           ],
         ),
       ),
@@ -225,6 +328,11 @@ class GuideScreen extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
+              Align(
+                alignment: AlignmentDirectional.centerStart,
+                child: ArtImage(guideTopicArt(guide.topic)),
+              ),
+              const SizedBox(height: 12),
               Semantics(
                 header: true,
                 child: Text(
@@ -267,6 +375,23 @@ class GuideScreen extends StatelessWidget {
                 key: const ValueKey('guide-sources'),
                 style: muted,
               ),
+              if (readingLinks(
+                l10n,
+                readingTopicOf(guide.topic),
+              ).isNotEmpty) ...[
+                const SizedBox(height: 24),
+                Semantics(
+                  header: true,
+                  child: Text(
+                    l10n.readingTitle,
+                    style: theme.textTheme.titleMedium,
+                  ),
+                ),
+                const SizedBox(height: 4),
+                Text(l10n.readingNote, style: muted),
+                const SizedBox(height: 8),
+                ReadingList(topic: readingTopicOf(guide.topic)),
+              ],
             ],
           ),
         ),

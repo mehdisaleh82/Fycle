@@ -3029,4 +3029,46 @@ class AppLocalizationsFr extends AppLocalizations {
   @override
   String get guidePregAfterSeek =>
       'Préviens sans attendre une sage-femme ou un médecin si tu as : un saignement soudain ou très abondant, de gros caillots, de la fièvre avec un ventre douloureux, un mal de tête avec des troubles de la vue ou des vomissements, une douleur ou un gonflement dans un mollet, une douleur dans la poitrine ou du mal à respirer.';
+
+  @override
+  String get readingTitle => 'Pour aller plus loin';
+
+  @override
+  String get readingNote =>
+      'S\'ouvre dans ton navigateur. Le site verra ta visite, comme pour toute page web.';
+
+  @override
+  String get readingTopicCycle => 'Cycle et règles';
+
+  @override
+  String get readingTopicSexuality => 'Sexualité et plaisir';
+
+  @override
+  String get readingTopicContraception => 'Contraception';
+
+  @override
+  String get readingTopicFertility => 'Fertilité';
+
+  @override
+  String get linksCycle =>
+      'Santé des femmes : cycle et règles|ameli.fr|https://www.ameli.fr/assure/sante/sante-femme\nRègles douloureuses|ameli.fr|https://www.ameli.fr/assure/sante/themes/regles-douloureuses/consultation-traitement\nEndométriose|Santé.fr|https://www.sante.fr/endometriose\nVaginite et mycose vaginale|ameli.fr|https://www.ameli.fr/assure/sante/themes/vaginite/definition-symptomes-facteurs-favorisants';
+
+  @override
+  String get linksSexuality =>
+      'QuestionSexualité : corps, désir, plaisir, pratiques|Santé publique France|https://questionsexualite.fr/\nSanté sexuelle|Santé.fr|https://www.sante.fr/sinformer/sante-sexuelle';
+
+  @override
+  String get linksContraception => '';
+
+  @override
+  String get linksFertility =>
+      'Fertilité, infertilité et stérilité|ameli.fr|https://www.ameli.fr/assure/sante/themes/sterilite-pma-infertilite\nAvant une grossesse : consultation et mode de vie|ameli.fr|https://www.ameli.fr/assure/sante/devenir-parent/concevoir-un-enfant/consultation-et-mode-de-vie-en-vue-d-une-grossesse\nAssistance médicale à la procréation|Agence de la biomédecine|https://www.procreation-medicale.fr/';
+
+  @override
+  String get linksPerimenopause =>
+      'Ménopause et périménopause|ameli.fr|https://www.ameli.fr/assure/sante/themes/menopause';
+
+  @override
+  String get linksPregnancy =>
+      'Grossesse|ameli.fr|https://www.ameli.fr/assure/sante/devenir-parent/grossesse';
 }

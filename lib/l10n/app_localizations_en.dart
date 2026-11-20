@@ -3004,4 +3004,47 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get guidePregAfterSeek =>
       'Tell a midwife or a doctor at once if you have: sudden or very heavy bleeding, large clots, a fever with a sore tummy, a headache with vision changes or vomiting, pain or swelling in one calf, chest pain or trouble breathing.';
+
+  @override
+  String get readingTitle => 'Further reading';
+
+  @override
+  String get readingNote =>
+      'Opens in your browser. The site will see your visit, as with any web page.';
+
+  @override
+  String get readingTopicCycle => 'Cycle and periods';
+
+  @override
+  String get readingTopicSexuality => 'Sex and pleasure';
+
+  @override
+  String get readingTopicContraception => 'Contraception';
+
+  @override
+  String get readingTopicFertility => 'Fertility';
+
+  @override
+  String get linksCycle =>
+      'Periods|NHS|https://www.nhs.uk/conditions/periods/\nPeriod pain|NHS|https://www.nhs.uk/symptoms/period-pain/\nPMS (premenstrual syndrome)|NHS|https://www.nhs.uk/conditions/pre-menstrual-syndrome/\nEndometriosis|NHS|https://www.nhs.uk/conditions/endometriosis/\nThrush|NHS|https://www.nhs.uk/conditions/thrush-in-men-and-women/';
+
+  @override
+  String get linksSexuality =>
+      'Orgasms and pleasure|Brook|https://www.brook.org.uk/your-life/orgasms/\nMasturbation|Brook|https://www.brook.org.uk/your-life/masturbation/\nAnal sex|Brook|https://www.brook.org.uk/your-life/anal-sex/\nPainful sex|Brook|https://www.brook.org.uk/your-life/painful-sex/\nLow sex drive|NHS|https://www.nhs.uk/conditions/loss-of-libido/\nVaginal dryness|NHS|https://www.nhs.uk/conditions/vaginal-dryness/\nSexually transmitted infections|NHS|https://www.nhs.uk/conditions/sexually-transmitted-infections-stis/\nSexual health|World Health Organization|https://www.who.int/health-topics/sexual-health';
+
+  @override
+  String get linksContraception =>
+      'Contraception|NHS|https://www.nhs.uk/contraception/\nEmergency contraception|NHS|https://www.nhs.uk/contraception/emergency-contraception/';
+
+  @override
+  String get linksFertility =>
+      'Trying for a baby|NHS|https://www.nhs.uk/pregnancy/trying-for-a-baby/\nInfertility|NHS|https://www.nhs.uk/conditions/infertility/';
+
+  @override
+  String get linksPerimenopause =>
+      'Menopause and perimenopause|NHS|https://www.nhs.uk/conditions/menopause/';
+
+  @override
+  String get linksPregnancy =>
+      'Pregnancy|NHS|https://www.nhs.uk/pregnancy/\nSex and contraception after birth|NHS|https://www.nhs.uk/conditions/baby/support-and-services/sex-and-contraception-after-birth/';
 }
