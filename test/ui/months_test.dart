@@ -81,13 +81,7 @@ void main() {
     final harness = Harness(tester);
     await harness.pumpApp(locale: 'fr');
     await setupTo(tester, 'Tout est prêt');
-    expect(
-      find.text(
-        "Note tes règles le jour où elles commencent : l'estimation "
-        "s'affine à chaque cycle.",
-      ),
-      findsOneWidget,
-    );
+    expect(find.text('Note tes règles dès le premier jour.'), findsOneWidget);
   });
 
   for (final locale in ['en', 'fr']) {

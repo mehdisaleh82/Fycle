@@ -14,6 +14,79 @@ void main() {
     expect(goalsOf(null), isEmpty);
   });
 
+  group('several profiles together', () {
+    test('a birth and a wish to conceive go together', () {
+      final chosen = toggledProfiles({Profile.postpartum}, Profile.conceiving);
+      expect(chosen, {Profile.postpartum, Profile.conceiving});
+      expect(mainProfile(chosen), Profile.postpartum);
+      expect(goalsOfAll(chosen), {Goal.conceive});
+    });
+
+    test('a pregnancy stands alone, both ways', () {
+      expect(
+        toggledProfiles({
+          Profile.tracking,
+          Profile.conceiving,
+        }, Profile.pregnant),
+        {Profile.pregnant},
+      );
+      expect(toggledProfiles({Profile.pregnant}, Profile.tracking), {
+        Profile.tracking,
+      });
+    });
+
+    test('discovering and tracking replace each other', () {
+      expect(
+        toggledProfiles({
+          Profile.discovering,
+          Profile.perimenopause,
+        }, Profile.tracking),
+        {Profile.tracking, Profile.perimenopause},
+      );
+      expect(toggledProfiles({Profile.tracking}, Profile.discovering), {
+        Profile.discovering,
+      });
+    });
+
+    test('touching a chosen profile takes it away', () {
+      expect(
+        toggledProfiles({
+          Profile.tracking,
+          Profile.conceiving,
+        }, Profile.conceiving),
+        {Profile.tracking},
+      );
+    });
+
+    test('the main profile is the one the home screen follows', () {
+      expect(mainProfile({}), isNull);
+      expect(
+        mainProfile({Profile.discovering, Profile.conceiving}),
+        Profile.conceiving,
+      );
+      expect(
+        mainProfile({Profile.perimenopause, Profile.conceiving}),
+        Profile.perimenopause,
+      );
+    });
+
+    test('what is stored gives back what she chose', () {
+      for (final chosen in [
+        {Profile.pregnant},
+        {Profile.postpartum, Profile.conceiving},
+        {Profile.tracking, Profile.perimenopause},
+        {Profile.discovering},
+        <Profile>{},
+      ]) {
+        expect(
+          profilesFrom(mainProfile(chosen), goalsOfAll(chosen)),
+          chosen,
+          reason: '$chosen',
+        );
+      }
+    });
+  });
+
   test('a pregnancy and the weeks after a birth do not follow a cycle', () {
     expect(followsACycle(null), isTrue);
     expect(followsACycle(Profile.tracking), isTrue);

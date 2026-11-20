@@ -41,13 +41,7 @@ void main() {
       await tap(tester, 'onboarding-next');
 
       await setupTo(tester, 'All set');
-      expect(
-        find.text(
-          'Pregnancy mode: the weeks are counted, the estimate of your '
-          'periods is paused.',
-        ),
-        findsOneWidget,
-      );
+      expect(find.text('Pregnancy mode: weeks counted.'), findsOneWidget);
       await tap(tester, 'onboarding-finish');
 
       expect(key('pregnancy-card'), findsOneWidget);

@@ -6,6 +6,7 @@ import '../domain/cycle_status.dart';
 import '../domain/flow_intensity.dart';
 import '../domain/life_stage.dart';
 import '../domain/period_end_estimate.dart';
+import '../domain/start_profile.dart';
 import '../l10n/app_localizations.dart';
 import 'app_environment.dart';
 import 'cycle_model.dart';
@@ -142,7 +143,9 @@ class TodayTab extends StatelessWidget {
                 today: today,
                 onOpenDay: () => onOpenDay(today),
               ),
-              if (model.profile == Profile.discovering) ...[
+              if (model.profile == Profile.discovering ||
+                  (model.goals.contains(Goal.understandBody) &&
+                      followsACycle(model.profile))) ...[
                 gap,
                 const LearnCard(),
               ],

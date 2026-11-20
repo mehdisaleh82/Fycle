@@ -13,8 +13,7 @@ class AppLocalizationsFr extends AppLocalizations {
   String get appTitle => 'Fycle';
 
   @override
-  String get disclaimer =>
-      'Fycle est un outil d\'information. Ce n\'est ni un avis médical ni une méthode de contraception.';
+  String get disclaimer => 'Fycle informe. Ni avis médical, ni contraception.';
 
   @override
   String get privacyLine => 'Aucun compte. Rien ne quitte ce téléphone.';
@@ -79,7 +78,7 @@ class AppLocalizationsFr extends AppLocalizations {
   String get onboardingStart => 'Commencer';
 
   @override
-  String get onboardingRestore => 'J\'ai un fichier de sauvegarde';
+  String get onboardingRestore => 'Reprendre ma sauvegarde';
 
   @override
   String get cycleLengthFieldLabel => 'Jours (facultatif)';
@@ -370,7 +369,7 @@ class AppLocalizationsFr extends AppLocalizations {
   String get settingsDataSection => 'Tes données';
 
   @override
-  String get settingsExport => 'Enregistrer une sauvegarde chiffrée';
+  String get settingsExport => 'Enregistrer une sauvegarde protégée';
 
   @override
   String get settingsExportSubtitle =>
@@ -387,7 +386,7 @@ class AppLocalizationsFr extends AppLocalizations {
   String get settingsCsv => 'Exporter pour un tableur (CSV)';
 
   @override
-  String get settingsCsvSubtitle => 'Un fichier lisible, non chiffré.';
+  String get settingsCsvSubtitle => 'Un fichier lisible, sans mot de passe.';
 
   @override
   String get settingsDelete => 'Tout supprimer';
@@ -400,7 +399,7 @@ class AppLocalizationsFr extends AppLocalizations {
   String get settingsAboutSection => 'À propos';
 
   @override
-  String get exportTitle => 'Sauvegarde chiffrée';
+  String get exportTitle => 'Sauvegarde protégée';
 
   @override
   String get exportWarning =>
@@ -458,11 +457,11 @@ class AppLocalizationsFr extends AppLocalizations {
       'Mot de passe incorrect, ou fichier abîmé. Rien n\'a été modifié.';
 
   @override
-  String get csvWarningTitle => 'Fichier non chiffré';
+  String get csvWarningTitle => 'Fichier sans protection';
 
   @override
   String get csvWarningBody =>
-      'Ce fichier n\'est pas chiffré : toute personne qui l\'obtient peut le lire. Range-le dans un endroit de confiance.';
+      'Ce fichier n\'est pas protégé : toute personne qui l\'obtient peut le lire. Range-le dans un endroit de confiance.';
 
   @override
   String get csvAction => 'Exporter';
@@ -547,8 +546,7 @@ class AppLocalizationsFr extends AppLocalizations {
   String get lockTitle => 'Verrouiller Fycle';
 
   @override
-  String get lockSubtitle =>
-      'Face ID, empreinte ou code de ce téléphone, à chaque ouverture de Fycle.';
+  String get lockSubtitle => 'Face ID, empreinte ou code, à chaque ouverture.';
 
   @override
   String get lockUnavailableTitle => 'Aucun code sur ce téléphone';
@@ -1500,10 +1498,6 @@ class AppLocalizationsFr extends AppLocalizations {
   String get remindersAskLater => 'Plus tard';
 
   @override
-  String get setupWelcomeBody =>
-      'Quelques questions pour partir de toi, pas d\'une moyenne. Chacune peut être passée.';
-
-  @override
   String get setupBegin => 'C\'est parti';
 
   @override
@@ -1527,8 +1521,7 @@ class AppLocalizationsFr extends AppLocalizations {
   String get setupNameTitle => 'Quel est ton prénom ?';
 
   @override
-  String get setupNameHint =>
-      'Il reste sur ce téléphone. Tu peux laisser vide.';
+  String get setupNameHint => 'Facultatif.';
 
   @override
   String get setupNameLabel => 'Prénom';
@@ -1537,8 +1530,7 @@ class AppLocalizationsFr extends AppLocalizations {
   String get setupBirthTitle => 'En quelle année es-tu née ?';
 
   @override
-  String get setupBirthHint =>
-      'La durée d\'un cycle change avec l\'âge : la première estimation part de là.';
+  String get setupBirthHint => 'Pour ta première estimation.';
 
   @override
   String get setupGoalsTitle => 'Qu\'est-ce qui t\'amène ?';
@@ -1562,8 +1554,7 @@ class AppLocalizationsFr extends AppLocalizations {
   String get setupRegularTitle => 'Tes règles sont-elles régulières ?';
 
   @override
-  String get setupRegularHint =>
-      'C\'est-à-dire que le nombre de jours entre deux règles reste à peu près le même.';
+  String get setupRegularHint => 'À peu près le même écart entre deux règles.';
 
   @override
   String get regularYes => 'Oui';
@@ -1578,26 +1569,22 @@ class AppLocalizationsFr extends AppLocalizations {
   String get regularNoPeriods => 'Je n\'ai pas de règles';
 
   @override
-  String get setupLengthsTitle =>
-      'Combien de jours durent ton cycle et tes règles ?';
+  String get setupLengthsTitle => 'Ton cycle et tes règles, en jours';
 
   @override
-  String get setupLengthsHint =>
-      'Indique un nombre de jours, même approximatif, avec les boutons − et +. Si tu ne sais pas, touche « Passer » : l\'appli le calculera à partir de ce que tu notes.';
+  String get setupLengthsHint => 'Même à peu près. Sinon, passe.';
 
   @override
   String get setupCycleLength => 'Durée de ton cycle';
 
   @override
-  String get setupCycleLengthHelper =>
-      'Du premier jour de tes règles au premier jour des règles suivantes.';
+  String get setupCycleLengthHelper => 'Du 1er jour des règles au suivant.';
 
   @override
   String get setupPeriodLength => 'Durée de tes règles';
 
   @override
-  String get setupPeriodLengthHelper =>
-      'Le nombre de jours où tu as tes règles.';
+  String get setupPeriodLengthHelper => 'Jours de saignement.';
 
   @override
   String setupDays(int count) {
@@ -1617,12 +1604,11 @@ class AppLocalizationsFr extends AppLocalizations {
   String get setupMore => 'Un jour de plus';
 
   @override
-  String get setupChangesTitle =>
-      'Tes règles ont-elles changé ces derniers mois ?';
+  String get setupChangesTitle => 'Tes règles ont-elles changé récemment ?';
 
   @override
   String get setupChangesHint =>
-      'Coche ce qui a changé. Si un changement t\'inquiète, parles-en à un médecin ou à une sage-femme.';
+      'Un changement t\'inquiète ? Parles-en à un médecin.';
 
   @override
   String get changeHeavier => 'Mon flux est plus abondant';
@@ -1640,8 +1626,7 @@ class AppLocalizationsFr extends AppLocalizations {
   String get changeNothing => 'Rien n\'a changé';
 
   @override
-  String get setupLastHint =>
-      'Touche le jour. Une date approximative suffit : tu pourras la corriger plus tard.';
+  String get setupLastHint => 'Touche le jour, même approximatif.';
 
   @override
   String get setupRemindersTitle => 'Veux-tu des rappels ?';
@@ -1650,8 +1635,7 @@ class AppLocalizationsFr extends AppLocalizations {
   String get setupLockTitle => 'Rien que pour toi';
 
   @override
-  String get setupLockHint =>
-      'Personne n\'ouvre l\'appli sans toi. Tu peux changer cela à tout moment dans les réglages.';
+  String get setupLockHint => 'Personne n\'ouvre l\'appli sans toi.';
 
   @override
   String get setupReadyTitle => 'Tout est prêt';
@@ -1662,8 +1646,7 @@ class AppLocalizationsFr extends AppLocalizations {
   }
 
   @override
-  String get setupReadyBody =>
-      'Note tes règles le jour où elles commencent : l\'estimation s\'affine à chaque cycle.';
+  String get setupReadyBody => 'Note tes règles dès le premier jour.';
 
   @override
   String get settingsAnswers => 'Mes réponses';
@@ -1769,17 +1752,13 @@ class AppLocalizationsFr extends AppLocalizations {
       'Beaucoup de choses peuvent faire bouger un cycle. Seul un professionnel de santé peut dire ce qu\'un changement signifie.';
 
   @override
-  String get setupPrivacyTitle =>
-      'Tes données ne quittent jamais ton téléphone';
-
-  @override
-  String get setupPrivacyHint => 'Ce que tu notes ici ne regarde que toi.';
+  String get setupPrivacyTitle => 'Tes données restent sur ton téléphone';
 
   @override
   String get privacyNoAccount => 'Aucun compte à créer.';
 
   @override
-  String get privacyOnPhone => 'Tout est rangé sur ton téléphone, chiffré.';
+  String get privacyOnPhone => 'Tout reste sur ton téléphone, protégé.';
 
   @override
   String get privacyBackup => 'Rien n\'est envoyé sur Internet.';
@@ -1793,34 +1772,29 @@ class AppLocalizationsFr extends AppLocalizations {
   }
 
   @override
-  String get setupWishesTitle => 'Dis-m\'en plus sur ce que tu veux';
+  String get setupWishesTitle => 'Qu\'attends-tu de Fycle ?';
 
   @override
-  String get setupWishesHint =>
-      'Plusieurs réponses possibles. Chacune décide de ce que l\'appli met en avant.';
+  String get setupWishesHint => 'Plusieurs choix possibles.';
 
   @override
-  String get wishKnowWhen => 'Savoir quand mes règles arrivent';
+  String get wishKnowWhen => 'Prévoir mes règles';
 
   @override
-  String get wishKnowUsualRanges =>
-      'Situer mon cycle par rapport aux repères habituels';
+  String get wishKnowUsualRanges => 'Me situer par rapport aux repères';
 
   @override
-  String get wishFertileWindow => 'Connaître ma fenêtre de fertilité estimée';
+  String get wishFertileWindow => 'Voir ma fenêtre de fertilité estimée';
 
   @override
   String get wishAfterContraception =>
-      'Comprendre mon cycle après l\'arrêt d\'une contraception';
+      'Comprendre mon cycle après une contraception';
 
   @override
-  String get wishWhatComesBack => 'Voir ce qui revient à chaque cycle';
+  String get wishWhatComesBack => 'Voir ce qui revient';
 
   @override
   String get setupUsualTitle => 'Comment sont tes règles d\'habitude ?';
-
-  @override
-  String get setupUsualHint => 'Choisis ce qui te ressemble le plus.';
 
   @override
   String get setupUsualFlow => 'Abondance';
@@ -1833,25 +1807,22 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get setupContraceptionHint =>
-      'Avec une contraception hormonale, les saignements ne suivent pas un cycle naturel : l\'appli masque alors l\'estimation d\'ovulation. Elle ne donne aucun conseil de contraception.';
+      'Fycle ne donne aucun conseil de contraception.';
 
   @override
   String get contraceptionNone => 'Non';
 
   @override
-  String get contraceptionHormonal =>
-      'Oui, hormonale (pilule, implant, stérilet hormonal, anneau, patch)';
+  String get contraceptionHormonal => 'Oui, hormonale';
 
   @override
-  String get contraceptionNonHormonal =>
-      'Oui, sans hormones (stérilet au cuivre, préservatifs, autre)';
+  String get contraceptionNonHormonal => 'Oui, sans hormones';
 
   @override
-  String get setupSignsTitle => 'As-tu ces signes en ce moment ?';
+  String get setupSignsTitle => 'As-tu ces signes pendant ton cycle ?';
 
   @override
-  String get setupSignsHint =>
-      'Coche ceux que tu as. Tu pourras ensuite les noter chaque jour dans ton journal.';
+  String get setupSignsHint => 'Coche ceux que tu as.';
 
   @override
   String get symptomVaginalDryness => 'Sécheresse vaginale';
@@ -1869,15 +1840,13 @@ class AppLocalizationsFr extends AppLocalizations {
   String get setupEarlierTitle => 'Et les règles d\'avant ?';
 
   @override
-  String get setupEarlierHint =>
-      'Touche le premier jour de tes règles précédentes, trois au plus, si tu t\'en souviens. L\'estimation part alors de ton propre cycle.';
+  String get setupEarlierHint => 'Touche leur premier jour, trois au plus.';
 
   @override
   String get setupTrackedTitle => 'Que veux-tu noter chaque jour ?';
 
   @override
-  String get setupTrackedHint =>
-      'Coche ce qui compte pour toi. Ces rubriques s\'afficheront en premier dans ton journal.';
+  String get setupTrackedHint => 'Coche ce qui compte pour toi.';
 
   @override
   String get trackedPain => 'Douleur';
@@ -1895,67 +1864,63 @@ class AppLocalizationsFr extends AppLocalizations {
   String get trackedSymptoms => 'Symptômes';
 
   @override
-  String get recapTitle => 'Ce que j\'ai réglé pour toi';
+  String get recapTitle => 'Tes réglages';
 
   @override
   String recapCycleOwn(int days) {
-    return 'Ton estimation part de tes propres dates : un cycle de $days jours.';
+    return 'Cycle de $days jours, d\'après tes dates.';
   }
 
   @override
   String recapCycleDeclared(int days) {
-    return 'Ton estimation part de ce que tu as indiqué : un cycle de $days jours.';
+    return 'Cycle de $days jours, comme indiqué.';
   }
 
   @override
   String recapCycleAge(int days) {
-    return 'Ton estimation part de la moyenne publiée pour ton âge : $days jours.';
+    return 'Cycle de $days jours, moyenne de ton âge.';
   }
 
   @override
   String recapCycleDefault(int days) {
-    return 'Ton estimation part d\'un cycle courant de $days jours.';
+    return 'Cycle de $days jours pour commencer.';
   }
 
   @override
   String recapRange(int days) {
-    return 'Une fourchette de $days jours de chaque côté, qui se resserre avec tes dates.';
+    return 'Fourchette de $days jours, qui se resserre.';
   }
 
   @override
-  String get recapNoDate =>
-      'Pas encore d\'estimation : elle démarre le jour où tu notes des règles.';
+  String get recapNoDate => 'Estimation dès tes premières règles notées.';
 
   @override
   String get recapFertilityOn =>
-      'La fenêtre de fertilité estimée est affichée. Une estimation : ni contraception ni diagnostic.';
+      'Fenêtre de fertilité estimée affichée. Ni contraception ni diagnostic.';
 
   @override
   String get recapFertilityHormonal =>
-      'L\'estimation d\'ovulation est masquée : elle n\'a pas de sens sous contraception hormonale.';
+      'Estimation d\'ovulation masquée (contraception hormonale).';
 
   @override
-  String get recapFertilityOff =>
-      'La fenêtre de fertilité estimée est masquée. Tu peux l\'activer dans les réglages.';
+  String get recapFertilityOff => 'Fenêtre de fertilité masquée.';
 
   @override
   String recapJournal(String items) {
-    return 'Ton journal commence par : $items.';
+    return 'Ton journal : $items.';
   }
 
   @override
-  String get recapChanges =>
-      'Le bilan suit ce qui change d\'un cycle au suivant.';
+  String get recapChanges => 'Bilan des changements d\'un cycle à l\'autre.';
 
   @override
-  String get recapRemindersOn => 'Les rappels sont activés.';
+  String get recapRemindersOn => 'Rappels activés.';
 
   @override
-  String get recapRemindersOff =>
-      'Les rappels sont coupés. Tu peux les activer dans les réglages.';
+  String get recapRemindersOff => 'Rappels coupés.';
 
   @override
-  String get recapLockOn => 'L\'appli est verrouillée à l\'ouverture.';
+  String get recapLockOn => 'Appli verrouillée à l\'ouverture.';
 
   @override
   String changeSignsList(String signs) {
@@ -2111,8 +2076,7 @@ class AppLocalizationsFr extends AppLocalizations {
   String get symptomMoodSwings => 'Sautes d\'humeur';
 
   @override
-  String get setupRemindersHint =>
-      'Discrets : ils ne parlent jamais de tes règles. Tout se passe sur ton téléphone.';
+  String get setupRemindersHint => 'Discrets : jamais le mot « règles ».';
 
   @override
   String get setupPeriodReminder => 'Me prévenir avant mes règles';
@@ -2174,60 +2138,50 @@ class AppLocalizationsFr extends AppLocalizations {
   String get setupProfileTitle => 'Où en es-tu ?';
 
   @override
-  String get setupProfileHint =>
-      'L\'appli s\'adapte à ta réponse. Tu pourras la changer à tout moment dans les réglages.';
-
-  @override
   String get profileDiscovering => 'Je découvre mon cycle';
 
   @override
-  String get profileDiscoveringDetail =>
-      'Mes premières règles, ou je commence à les suivre.';
+  String get profileDiscoveringDetail => 'Je débute';
 
   @override
   String get profileTracking => 'Je suis mes règles';
 
   @override
-  String get profileTrackingDetail =>
-      'Savoir quand elles arrivent et noter mes journées.';
+  String get profileTrackingDetail => 'Prévoir et noter';
 
   @override
   String get profileConceiving => 'Je cherche à concevoir';
 
   @override
-  String get profileConceivingDetail =>
-      'Repérer ma fenêtre de fertilité estimée.';
+  String get profileConceivingDetail => 'Fenêtre de fertilité estimée';
 
   @override
   String get profilePregnant => 'Je suis enceinte';
 
   @override
-  String get profilePregnantDetail =>
-      'Compter les semaines et noter mes journées.';
+  String get profilePregnantDetail => 'Compter les semaines';
 
   @override
   String get profilePostpartum => 'J\'ai accouché';
 
   @override
-  String get profilePostpartumDetail => 'En attendant le retour de mes règles.';
+  String get profilePostpartumDetail => 'Jusqu\'au retour des règles';
 
   @override
   String get profilePerimenopause => 'Mon cycle change';
 
   @override
-  String get profilePerimenopauseDetail =>
-      'Préménopause : suivre ce qui bouge.';
+  String get profilePerimenopauseDetail => 'Préménopause';
 
   @override
   String get setupPregnancyDateHint =>
-      'Les semaines de grossesse se comptent à partir de ce jour. Une date approximative suffit.';
+      'Les semaines se comptent depuis ce jour.';
 
   @override
   String get setupBirthDateTitle => 'Quand as-tu accouché ?';
 
   @override
-  String get setupBirthDateHint =>
-      'Pour compter les semaines depuis la naissance, et repartir de zéro au retour de tes règles.';
+  String get setupBirthDateHint => 'Pour compter les semaines.';
 
   @override
   String get setupChooseDate => 'Choisir la date';
@@ -2317,12 +2271,10 @@ class AppLocalizationsFr extends AppLocalizations {
       'Indique la date de ton accouchement pour compter les semaines.';
 
   @override
-  String get recapPregnancy =>
-      'Mode grossesse : les semaines sont comptées, l\'estimation des règles est en pause.';
+  String get recapPregnancy => 'Mode grossesse : semaines comptées.';
 
   @override
-  String get recapPostpartum =>
-      'Après l\'accouchement : l\'estimation reprendra au retour de tes règles.';
+  String get recapPostpartum => 'Estimation au retour de tes règles.';
 
   @override
   String get reminderContraceptionTitle => 'Rappel de contraception';
@@ -2450,7 +2402,7 @@ class AppLocalizationsFr extends AppLocalizations {
       'Envoie-le à ton ou ta partenaire, et donne-lui le mot de passe de vive voix ou par un autre moyen que le fichier.';
 
   @override
-  String get partnerOpenEntry => 'Mon ou ma partenaire m\'a envoyé un fichier';
+  String get partnerOpenEntry => 'Ouvrir le fichier de mon ou ma partenaire';
 
   @override
   String get partnerOpenTitle => 'Fichier d\'un ou d\'une partenaire';
@@ -2613,7 +2565,7 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get autoBackupSubtitle =>
-      'Une fois par jour, un fichier chiffré est mis à jour dans le dossier de l\'appli, que tu vois dans l\'app Fichiers. Rien n\'est envoyé nulle part.';
+      'Une fois par jour, un fichier protégé par ton mot de passe est mis à jour dans l\'app Fichiers. Rien n\'est envoyé.';
 
   @override
   String get autoBackupPasswordTitle =>
@@ -2675,6 +2627,47 @@ class AppLocalizationsFr extends AppLocalizations {
       one: '1 jour de règles copié dans ton journal.',
       zero:
           'Rien de nouveau : les jours trouvés étaient déjà dans ton journal.',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get setupTagline => 'Y voir clair dans ton cycle.';
+
+  @override
+  String get setupExisting => 'J\'ai déjà Fycle';
+
+  @override
+  String get contraceptionHormonalDetail =>
+      'Pilule, implant, stérilet hormonal, anneau, patch';
+
+  @override
+  String get contraceptionNonHormonalDetail =>
+      'Stérilet au cuivre, préservatif, autre';
+
+  @override
+  String get kpiRegularity => 'Ton cycle';
+
+  @override
+  String get kpiRegular => 'Régulier';
+
+  @override
+  String get kpiVariable => 'Variable';
+
+  @override
+  String get kpiRegularitySoon => 'Bientôt';
+
+  @override
+  String get kpiRegularityNeed => 'dès 3 cycles complets';
+
+  @override
+  String kpiRegularityGap(int days) {
+    String _temp0 = intl.Intl.pluralLogic(
+      days,
+      locale: localeName,
+      other: '$days jours d\'écart',
+      one: '1 jour d\'écart',
+      zero: 'toujours la même durée',
     );
     return '$_temp0';
   }

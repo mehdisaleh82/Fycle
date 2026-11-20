@@ -30,7 +30,7 @@ void main() {
       tester,
     ) async {
       await openSettings(tester);
-      await tapVisible(tester, find.text('Save an encrypted backup'));
+      await tapVisible(tester, find.text('Save a protected backup'));
       await tester.pumpAndSettle();
 
       expect(find.textContaining('nobody can open the file'), findsOneWidget);
@@ -39,7 +39,7 @@ void main() {
 
     testWidgets('refuses a short or mistyped password', (tester) async {
       final harness = await openSettings(tester);
-      await tapVisible(tester, find.text('Save an encrypted backup'));
+      await tapVisible(tester, find.text('Save a protected backup'));
       await tester.pumpAndSettle();
 
       await tester.enterText(dialogField(), 'short');
@@ -57,7 +57,7 @@ void main() {
 
     testWidgets('saves a file that the password opens', (tester) async {
       final harness = await openSettings(tester);
-      await tapVisible(tester, find.text('Save an encrypted backup'));
+      await tapVisible(tester, find.text('Save a protected backup'));
       await tester.pumpAndSettle();
       await tester.enterText(dialogField(), _password);
       await tester.enterText(dialogField(1), _password);
@@ -77,7 +77,7 @@ void main() {
     testWidgets('says nothing was saved when the user cancels', (tester) async {
       final harness = await openSettings(tester);
       harness.files.cancelSave = true;
-      await tapVisible(tester, find.text('Save an encrypted backup'));
+      await tapVisible(tester, find.text('Save a protected backup'));
       await tester.pumpAndSettle();
       await tester.enterText(dialogField(), _password);
       await tester.enterText(dialogField(1), _password);
@@ -164,7 +164,7 @@ void main() {
     final harness = await openSettings(tester, locale: 'fr');
     await tapVisible(tester, find.text('Exporter pour un tableur (CSV)'));
     await tester.pumpAndSettle();
-    expect(find.textContaining("n'est pas chiffré"), findsOneWidget);
+    expect(find.textContaining("n'est pas protégé"), findsOneWidget);
     await tester.tap(find.text('Exporter'));
     await tester.pumpAndSettle();
 

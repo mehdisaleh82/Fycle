@@ -1,5 +1,5 @@
 import 'package:flutter/services.dart';
-import 'package:intl/intl.dart';
+import 'package:intl/intl.dart' show toBeginningOfSentenceCase;
 import 'package:material_ui/material_ui.dart';
 
 import '../data/device_auth.dart';
@@ -150,7 +150,19 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
         initialItem: (_birthYear ?? _thisYear - 30) - _firstYear,
       );
   late Set<Goal> _goals = {...widget.model.goals};
-  late Profile? _profile = widget.model.profile;
+
+  /// Where she is: several answers go together (a birth and a wish to
+  /// conceive, a changing cycle she tracks).
+  late Set<Profile> _profiles = profilesFrom(
+    widget.model.profile,
+    widget.model.goals,
+  );
+
+  /// The one that decides what the home screen shows.
+  Profile? get _profile => mainProfile(_profiles);
+
+  /// Whether the last move went forward: the screens slide that way.
+  bool _forward = true;
 
   /// The date that goes with a pregnancy (first day of the last period)
   /// or with a birth.
@@ -243,7 +255,10 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
       }
       return;
     }
-    setState(() => _step = steps[index - 1]);
+    setState(() {
+      _forward = false;
+      _step = steps[index - 1];
+    });
   }
 
   /// Goes to the next screen, or saves everything after the last one.
@@ -255,7 +270,10 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
       _finish();
       return;
     }
-    setState(() => _step = steps[index + 1]);
+    setState(() {
+      _forward = true;
+      _step = steps[index + 1];
+    });
   }
 
   Future<void> _next() async {
@@ -288,7 +306,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
         _yearChosen = false;
       case _Step.goals:
         _goals = {};
-        _profile = null;
+        _profiles = {};
       case _Step.keyDate:
         _keyDate = null;
       case _Step.regularity:
@@ -410,6 +428,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
       final lastLogged = model.cycles.isEmpty ? null : model.cycles.last.start;
       model.setProfile(
         _profile,
+        goals: _goals,
         pregnancyStart: _profile == Profile.pregnant
             ? _keyDate ?? (model.pregnancyStart == null ? lastLogged : null)
             : null,
@@ -421,12 +440,20 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
     }
     final day = _lastPeriod;
     if (day != null && periods && !widget.editing) {
-      // Only first days are asked. Each is stored as one day of the flow
+      // Only first days are asked. Each period is stored for as many days
+      // as she says hers last, one day when she did not say, with the flow
       // she calls usual, medium otherwise; the journal corrects it.
+      final today = widget.environment.today();
       for (final start in [..._earlier, day]) {
-        model.saveDay(
-          DayEntry(day: start, flow: _usualFlow ?? FlowIntensity.medium),
-        );
+        for (var i = 0; i < (_periodLength ?? 1); i++) {
+          final bleeding = start.addDays(i);
+          if (bleeding.isAfter(today)) {
+            break;
+          }
+          model.saveDay(
+            DayEntry(day: bleeding, flow: _usualFlow ?? FlowIntensity.medium),
+          );
+        }
       }
     }
     widget.onDone();
@@ -538,10 +565,41 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
               onSkip: plain ? null : _skip,
             ),
             Expanded(
-              child: SingleChildScrollView(
-                key: ValueKey(_step),
-                padding: const EdgeInsetsDirectional.fromSTEB(20, 8, 20, 16),
-                child: _body(context, l10n),
+              // One screen leaves as the next comes in, from the side she
+              // is going to.
+              child: AnimatedSwitcher(
+                duration: MediaQuery.disableAnimationsOf(context)
+                    ? Duration.zero
+                    : const Duration(milliseconds: 280),
+                switchInCurve: Curves.easeOutCubic,
+                switchOutCurve: Curves.easeInCubic,
+                layoutBuilder: (current, previous) => Stack(
+                  fit: StackFit.expand,
+                  children: [...previous, ?current],
+                ),
+                transitionBuilder: (child, animation) {
+                  final incoming = child.key == ValueKey(_step);
+                  final side =
+                      (_forward == incoming ? 1.0 : -1.0) *
+                      (Directionality.of(context) == TextDirection.rtl
+                          ? -1
+                          : 1);
+                  return FadeTransition(
+                    opacity: animation,
+                    child: SlideTransition(
+                      position: Tween(
+                        begin: Offset(0.12 * side, 0),
+                        end: Offset.zero,
+                      ).animate(animation),
+                      child: child,
+                    ),
+                  );
+                },
+                child: SingleChildScrollView(
+                  key: ValueKey(_step),
+                  padding: const EdgeInsetsDirectional.fromSTEB(20, 8, 20, 16),
+                  child: _body(context, l10n),
+                ),
               ),
             ),
             Padding(
@@ -582,6 +640,41 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
     );
   }
 
+  /// The files she may already have: her own backup, or the one her
+  /// partner sent.
+  Future<void> _openExisting() async {
+    final l10n = AppLocalizations.of(context);
+    final onRestore = widget.onRestore;
+    final onPartner = widget.onPartner;
+    final chosen = await showModalBottomSheet<VoidCallback>(
+      context: context,
+      showDragHandle: true,
+      builder: (context) => SafeArea(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            if (onRestore != null)
+              ListTile(
+                key: const ValueKey('onboarding-restore'),
+                leading: const Icon(Icons.restore),
+                title: Text(l10n.onboardingRestore),
+                onTap: () => Navigator.of(context).pop(onRestore),
+              ),
+            if (onPartner != null)
+              ListTile(
+                key: const ValueKey('partner-open'),
+                leading: const Icon(Icons.favorite_border),
+                title: Text(l10n.partnerOpenEntry),
+                onTap: () => Navigator.of(context).pop(onPartner),
+              ),
+            const SizedBox(height: 8),
+          ],
+        ),
+      ),
+    );
+    chosen?.call();
+  }
+
   Widget _body(BuildContext context, AppLocalizations l10n) {
     final theme = Theme.of(context);
     switch (_step) {
@@ -604,32 +697,27 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
             ),
             const SizedBox(height: 8),
             Text(
-              l10n.privacyLine,
-              style: theme.textTheme.bodyLarge?.copyWith(
-                color: theme.colorScheme.onSurfaceVariant,
+              l10n.setupTagline,
+              key: const ValueKey('onboarding-tagline'),
+              style: theme.textTheme.titleLarge?.copyWith(
+                color: theme.colorScheme.primary,
               ),
             ),
-            const SizedBox(height: 8),
-            Text(
-              l10n.setupWelcomeBody,
-              key: const ValueKey('onboarding-months'),
-              style: theme.textTheme.bodyLarge,
-            ),
-            const SizedBox(height: 20),
+            const SizedBox(height: 24),
             const DisclaimerCard(),
-            if (widget.onRestore != null) ...[
+            // One quiet way in for who has a file already: the welcome
+            // stays about starting.
+            if (widget.onRestore != null || widget.onPartner != null) ...[
               const SizedBox(height: 8),
-              TextButton(
-                onPressed: widget.onRestore,
-                child: Text(l10n.onboardingRestore),
+              Align(
+                alignment: AlignmentDirectional.centerStart,
+                child: TextButton(
+                  key: const ValueKey('onboarding-existing'),
+                  onPressed: _openExisting,
+                  child: Text(l10n.setupExisting),
+                ),
               ),
             ],
-            if (widget.onPartner != null)
-              TextButton(
-                key: const ValueKey('partner-open'),
-                onPressed: widget.onPartner,
-                child: Text(l10n.partnerOpenEntry),
-              ),
           ],
         );
       case _Step.name:
@@ -663,7 +751,6 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
       case _Step.goals:
         return _Question(
           title: l10n.setupProfileTitle,
-          hint: l10n.setupProfileHint,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
@@ -710,13 +797,14 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                   icon: icon,
                   label: label,
                   detail: detail,
-                  selected: _profile == profile,
+                  selected: _profiles.contains(profile),
+                  several: true,
                   onTap: () => setState(() {
-                    _profile = profile;
-                    _goals = goalsOf(profile);
+                    _profiles = toggledProfiles(_profiles, profile);
+                    _goals = goalsOfAll(_profiles);
                   }),
                 ),
-              if (_profile == Profile.conceiving) ...[
+              if (_profiles.contains(Profile.conceiving)) ...[
                 const SizedBox(height: 4),
                 // The estimate of the fertile window comes with what it is
                 // not (rule 7).
@@ -1006,7 +1094,6 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
       case _Step.privacy:
         return _Question(
           title: l10n.setupPrivacyTitle,
-          hint: l10n.setupPrivacyHint,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
@@ -1051,7 +1138,6 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
       case _Step.usual:
         return _Question(
           title: l10n.setupUsualTitle,
-          hint: l10n.setupUsualHint,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -1102,14 +1188,23 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              for (final (value, label) in [
-                (Contraception.none, l10n.contraceptionNone),
-                (Contraception.hormonal, l10n.contraceptionHormonal),
-                (Contraception.nonHormonal, l10n.contraceptionNonHormonal),
+              for (final (value, label, detail) in [
+                (Contraception.none, l10n.contraceptionNone, null),
+                (
+                  Contraception.hormonal,
+                  l10n.contraceptionHormonal,
+                  l10n.contraceptionHormonalDetail,
+                ),
+                (
+                  Contraception.nonHormonal,
+                  l10n.contraceptionNonHormonal,
+                  l10n.contraceptionNonHormonalDetail,
+                ),
               ])
                 _Choice(
                   key: ValueKey('contraception-${value.name}'),
                   label: label,
+                  detail: detail,
                   selected: _contraception == value,
                   onTap: () {
                     _contraception = value;
@@ -1292,9 +1387,15 @@ class _TopBar extends StatelessWidget {
                 child: ExcludeSemantics(
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(2),
-                    child: LinearProgressIndicator(
-                      value: step / total,
-                      minHeight: 4,
+                    // The bar glides to where she is.
+                    child: TweenAnimationBuilder<double>(
+                      tween: Tween(end: step / total),
+                      duration: MediaQuery.disableAnimationsOf(context)
+                          ? Duration.zero
+                          : const Duration(milliseconds: 320),
+                      curve: Curves.easeOutCubic,
+                      builder: (context, value, _) =>
+                          LinearProgressIndicator(value: value, minHeight: 4),
                     ),
                   ),
                 ),
@@ -1327,20 +1428,23 @@ class _Question extends StatelessWidget {
   const _Question({
     this.lead,
     required this.title,
-    required this.hint,
+    this.hint,
     required this.child,
   });
 
   /// A word said before the question, such as a greeting.
   final String? lead;
   final String title;
-  final String hint;
+
+  /// A few words under the question, only when it needs them.
+  final String? hint;
   final Widget child;
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final lead = this.lead;
+    final hint = this.hint;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
@@ -1359,16 +1463,45 @@ class _Question extends StatelessWidget {
           header: true,
           child: Text(title, style: theme.textTheme.headlineSmall),
         ),
-        const SizedBox(height: 8),
-        Text(
-          hint,
-          style: theme.textTheme.bodyLarge?.copyWith(
-            color: theme.colorScheme.onSurfaceVariant,
+        if (hint != null) ...[
+          const SizedBox(height: 8),
+          Text(
+            hint,
+            style: theme.textTheme.bodyLarge?.copyWith(
+              color: theme.colorScheme.onSurfaceVariant,
+            ),
           ),
-        ),
+        ],
         const SizedBox(height: 20),
-        child,
+        _Rise(child: child),
       ],
+    );
+  }
+}
+
+/// Lets the answers come up a moment after the question, once.
+class _Rise extends StatelessWidget {
+  const _Rise({required this.child});
+
+  final Widget child;
+
+  @override
+  Widget build(BuildContext context) {
+    if (MediaQuery.disableAnimationsOf(context)) {
+      return child;
+    }
+    return TweenAnimationBuilder<double>(
+      tween: Tween(begin: 0, end: 1),
+      duration: const Duration(milliseconds: 420),
+      curve: const Interval(0.25, 1, curve: Curves.easeOutCubic),
+      child: child,
+      builder: (context, value, child) => Opacity(
+        opacity: value,
+        child: FractionalTranslation(
+          translation: Offset(0, 0.04 * (1 - value)),
+          child: child,
+        ),
+      ),
     );
   }
 }
@@ -1483,13 +1616,23 @@ class _Choice extends StatelessWidget {
                       ),
                     ),
                     const SizedBox(width: 8),
-                    Icon(
-                      selected
-                          ? Icons.check_circle
-                          : (several
-                                ? Icons.add_circle_outline
-                                : Icons.radio_button_unchecked),
-                      color: selected ? scheme.onPrimary : scheme.outline,
+                    // The mark pops in when she chooses.
+                    AnimatedSwitcher(
+                      duration: MediaQuery.disableAnimationsOf(context)
+                          ? Duration.zero
+                          : const Duration(milliseconds: 200),
+                      switchInCurve: Curves.easeOutBack,
+                      transitionBuilder: (child, animation) =>
+                          ScaleTransition(scale: animation, child: child),
+                      child: Icon(
+                        selected
+                            ? Icons.check_circle
+                            : (several
+                                  ? Icons.add_circle_outline
+                                  : Icons.radio_button_unchecked),
+                        key: ValueKey(selected),
+                        color: selected ? scheme.onPrimary : scheme.outline,
+                      ),
                     ),
                   ],
                 ),

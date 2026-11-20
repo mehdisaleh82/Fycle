@@ -23,6 +23,60 @@ Set<Goal> goalsOf(Profile? profile) => switch (profile) {
   Profile.pregnant || Profile.postpartum || null => const {},
 };
 
+/// What becomes of [chosen] when she touches [tapped]: several profiles go
+/// together, within what makes sense. A pregnancy stands alone, since no
+/// period is expected then; discovering and tracking are two ways of saying
+/// how far she is, so one replaces the other.
+Set<Profile> toggledProfiles(Set<Profile> chosen, Profile tapped) {
+  if (chosen.contains(tapped)) {
+    return {...chosen}..remove(tapped);
+  }
+  if (tapped == Profile.pregnant) {
+    return {tapped};
+  }
+  final next = {...chosen, tapped}..remove(Profile.pregnant);
+  if (tapped == Profile.discovering) {
+    next.remove(Profile.tracking);
+  }
+  if (tapped == Profile.tracking) {
+    next.remove(Profile.discovering);
+  }
+  return next;
+}
+
+/// The profile that decides what the home screen shows, among [chosen]:
+/// a pregnancy first, then a recent birth, then the rest.
+Profile? mainProfile(Set<Profile> chosen) {
+  for (final profile in const [
+    Profile.pregnant,
+    Profile.postpartum,
+    Profile.perimenopause,
+    Profile.conceiving,
+    Profile.tracking,
+    Profile.discovering,
+  ]) {
+    if (chosen.contains(profile)) {
+      return profile;
+    }
+  }
+  return null;
+}
+
+/// The goals all of [chosen] stand for, together.
+Set<Goal> goalsOfAll(Set<Profile> chosen) => {
+  for (final profile in chosen) ...goalsOf(profile),
+};
+
+/// The profiles she chose, read back from what is stored: the main one and
+/// her goals.
+Set<Profile> profilesFrom(Profile? main, Set<Goal> goals) => {
+  ?main,
+  if (main != Profile.pregnant)
+    for (final profile in Profile.values)
+      if (goalsOf(profile).isNotEmpty && goals.containsAll(goalsOf(profile)))
+        profile,
+};
+
 /// Whether the profile is one where periods come cycle after cycle, so
 /// that the usual questions about them make sense.
 bool followsACycle(Profile? profile) =>

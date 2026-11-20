@@ -41,10 +41,7 @@ void main() {
       tester.widget<Text>(find.byKey(const ValueKey('estimate-basis'))).data,
       'Estimate based on your last 2 cycles. Confidence: medium',
     );
-    expect(
-      find.textContaining('not a method of contraception'),
-      findsOneWidget,
-    );
+    expect(find.textContaining('not contraception'), findsOneWidget);
   });
 
   testWidgets('the prediction is shown in French', (tester) async {

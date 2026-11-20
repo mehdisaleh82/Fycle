@@ -137,6 +137,7 @@ void main() {
     harness.files.nextPick = PickedFile(name: 'x.fycle', bytes: bytes!);
     await harness.pumpApp();
 
+    await tap(tester, 'onboarding-existing');
     await tap(tester, 'partner-open');
     await tester.enterText(dialogField(), password);
     await tap(tester, 'partner-open-confirm');
@@ -167,6 +168,7 @@ void main() {
     harness.files.nextPick = PickedFile(name: 'x.fycle', bytes: bytes!);
     await harness.pumpApp();
 
+    await tap(tester, 'onboarding-existing');
     await tap(tester, 'partner-open');
     await tester.enterText(dialogField(), 'another password');
     await tap(tester, 'partner-open-confirm');

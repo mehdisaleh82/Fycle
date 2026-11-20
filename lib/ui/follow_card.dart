@@ -1,6 +1,7 @@
 import 'package:material_ui/material_ui.dart';
 
 import '../domain/calendar_day.dart';
+import '../domain/clinical_review.dart';
 import '../domain/daily_figures.dart';
 import '../domain/life_stage.dart';
 import '../domain/period_prediction.dart';
@@ -41,10 +42,38 @@ class FollowCard extends StatelessWidget {
     final follows = model.tracked.isEmpty
         ? const {Tracked.pain, Tracked.mood}
         : model.tracked;
-    final fertility = model.profile == Profile.conceiving
+    final cycle = followsACycle(model.profile);
+    final fertility =
+        cycle &&
+            (model.profile == Profile.conceiving ||
+                model.goals.contains(Goal.conceive))
         ? model.fertilityEstimate
         : null;
+    // How regular her cycles are, in one word: what she comes to see.
+    final review = cycle
+        ? clinicalReview(
+            cycles: model.cycles,
+            flowByDay: model.flowByDay,
+            today: today,
+            age: model.age,
+          )
+        : null;
+    final regular = review?.regular;
     final tiles = [
+      if (cycle)
+        _Tile(
+          name: 'regularity',
+          icon: Icons.autorenew,
+          label: l10n.kpiRegularity,
+          value: switch (regular) {
+            null => l10n.kpiRegularitySoon,
+            true => l10n.kpiRegular,
+            false => l10n.kpiVariable,
+          },
+          caption: regular == null
+              ? l10n.kpiRegularityNeed
+              : l10n.kpiRegularityGap(review!.variation),
+        ),
       if (fertility != null)
         _Tile(
           name: 'fertile',

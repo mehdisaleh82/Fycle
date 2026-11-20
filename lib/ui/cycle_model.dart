@@ -231,9 +231,11 @@ class CycleModel extends ChangeNotifier {
   }
 
   /// Changes where she is in her life, with the date that goes with it
-  /// when one is given. A date not given is kept as it was.
+  /// when one is given. A date not given is kept as it was. [goals] are
+  /// those of all the profiles she chose, when she chose several.
   void setProfile(
     Profile? profile, {
+    Set<Goal>? goals,
     CalendarDay? pregnancyStart,
     CalendarDay? deliveryDate,
   }) {
@@ -245,7 +247,7 @@ class CycleModel extends ChangeNotifier {
     if (deliveryDate != null) {
       database.deliveryDate = deliveryDate;
     }
-    database.goals = goalsOf(profile);
+    database.goals = goals ?? goalsOf(profile);
     if (!followsACycle(profile)) {
       // No fertile window is estimated during a pregnancy or before
       // periods are back.

@@ -107,7 +107,7 @@ abstract class AppLocalizations {
   /// Mandatory notice, shown at first launch, on the home screen and in the settings.
   ///
   /// In en, this message translates to:
-  /// **'Fycle is an information tool. It does not give medical advice and is not a method of contraception.'**
+  /// **'Fycle informs. Not medical advice, not contraception.'**
   String get disclaimer;
 
   /// No description provided for @privacyLine.
@@ -227,7 +227,7 @@ abstract class AppLocalizations {
   /// No description provided for @onboardingRestore.
   ///
   /// In en, this message translates to:
-  /// **'I have a backup file'**
+  /// **'Restore my backup'**
   String get onboardingRestore;
 
   /// No description provided for @cycleLengthFieldLabel.
@@ -707,7 +707,7 @@ abstract class AppLocalizations {
   /// No description provided for @settingsExport.
   ///
   /// In en, this message translates to:
-  /// **'Save an encrypted backup'**
+  /// **'Save a protected backup'**
   String get settingsExport;
 
   /// No description provided for @settingsExportSubtitle.
@@ -737,7 +737,7 @@ abstract class AppLocalizations {
   /// No description provided for @settingsCsvSubtitle.
   ///
   /// In en, this message translates to:
-  /// **'A readable file, not encrypted.'**
+  /// **'A readable file, without a password.'**
   String get settingsCsvSubtitle;
 
   /// No description provided for @settingsDelete.
@@ -761,7 +761,7 @@ abstract class AppLocalizations {
   /// No description provided for @exportTitle.
   ///
   /// In en, this message translates to:
-  /// **'Encrypted backup'**
+  /// **'Protected backup'**
   String get exportTitle;
 
   /// No description provided for @exportWarning.
@@ -863,13 +863,13 @@ abstract class AppLocalizations {
   /// No description provided for @csvWarningTitle.
   ///
   /// In en, this message translates to:
-  /// **'Unencrypted file'**
+  /// **'Unprotected file'**
   String get csvWarningTitle;
 
   /// No description provided for @csvWarningBody.
   ///
   /// In en, this message translates to:
-  /// **'This file is not encrypted: anyone who gets it can read it. Keep it in a place you trust.'**
+  /// **'This file is not protected: anyone who gets it can read it. Keep it in a place you trust.'**
   String get csvWarningBody;
 
   /// No description provided for @csvAction.
@@ -1013,7 +1013,7 @@ abstract class AppLocalizations {
   /// No description provided for @lockSubtitle.
   ///
   /// In en, this message translates to:
-  /// **'Face ID, fingerprint or the passcode of this phone, each time Fycle opens.'**
+  /// **'Face ID, fingerprint or passcode, each time it opens.'**
   String get lockSubtitle;
 
   /// No description provided for @lockUnavailableTitle.
@@ -2324,12 +2324,6 @@ abstract class AppLocalizations {
   /// **'Later'**
   String get remindersAskLater;
 
-  /// No description provided for @setupWelcomeBody.
-  ///
-  /// In en, this message translates to:
-  /// **'A few questions to start from you, not from an average. Each one can be skipped.'**
-  String get setupWelcomeBody;
-
   /// No description provided for @setupBegin.
   ///
   /// In en, this message translates to:
@@ -2375,7 +2369,7 @@ abstract class AppLocalizations {
   /// No description provided for @setupNameHint.
   ///
   /// In en, this message translates to:
-  /// **'It stays on this phone. You can leave it empty.'**
+  /// **'Optional.'**
   String get setupNameHint;
 
   /// No description provided for @setupNameLabel.
@@ -2393,7 +2387,7 @@ abstract class AppLocalizations {
   /// No description provided for @setupBirthHint.
   ///
   /// In en, this message translates to:
-  /// **'The length of a cycle changes with age: the first estimate starts from there.'**
+  /// **'For your first estimate.'**
   String get setupBirthHint;
 
   /// No description provided for @setupGoalsTitle.
@@ -2441,7 +2435,7 @@ abstract class AppLocalizations {
   /// No description provided for @setupRegularHint.
   ///
   /// In en, this message translates to:
-  /// **'That is, the number of days between two periods stays about the same.'**
+  /// **'About the same gap between two periods.'**
   String get setupRegularHint;
 
   /// No description provided for @regularYes.
@@ -2471,13 +2465,13 @@ abstract class AppLocalizations {
   /// No description provided for @setupLengthsTitle.
   ///
   /// In en, this message translates to:
-  /// **'How many days do your cycle and your period last?'**
+  /// **'Your cycle and your period, in days'**
   String get setupLengthsTitle;
 
   /// No description provided for @setupLengthsHint.
   ///
   /// In en, this message translates to:
-  /// **'Give a number of days, even a rough one, with the − and + buttons. If you don\'t know, tap \"Skip\": the app will work it out from what you log.'**
+  /// **'Roughly is fine. Or skip.'**
   String get setupLengthsHint;
 
   /// No description provided for @setupCycleLength.
@@ -2489,7 +2483,7 @@ abstract class AppLocalizations {
   /// No description provided for @setupCycleLengthHelper.
   ///
   /// In en, this message translates to:
-  /// **'From the first day of your period to the first day of the next one.'**
+  /// **'From day 1 of a period to the next.'**
   String get setupCycleLengthHelper;
 
   /// No description provided for @setupPeriodLength.
@@ -2501,7 +2495,7 @@ abstract class AppLocalizations {
   /// No description provided for @setupPeriodLengthHelper.
   ///
   /// In en, this message translates to:
-  /// **'The number of days your period lasts.'**
+  /// **'Days of bleeding.'**
   String get setupPeriodLengthHelper;
 
   /// No description provided for @setupDays.
@@ -2525,13 +2519,13 @@ abstract class AppLocalizations {
   /// No description provided for @setupChangesTitle.
   ///
   /// In en, this message translates to:
-  /// **'Have your periods changed in the last few months?'**
+  /// **'Have your periods changed lately?'**
   String get setupChangesTitle;
 
   /// No description provided for @setupChangesHint.
   ///
   /// In en, this message translates to:
-  /// **'Tick what has changed. If a change worries you, talk to a doctor or a midwife about it.'**
+  /// **'Worried by a change? Talk to a doctor.'**
   String get setupChangesHint;
 
   /// No description provided for @changeHeavier.
@@ -2567,7 +2561,7 @@ abstract class AppLocalizations {
   /// No description provided for @setupLastHint.
   ///
   /// In en, this message translates to:
-  /// **'Touch the day. An approximate date is enough: you can correct it later.'**
+  /// **'Touch the day, even roughly.'**
   String get setupLastHint;
 
   /// No description provided for @setupRemindersTitle.
@@ -2585,7 +2579,7 @@ abstract class AppLocalizations {
   /// No description provided for @setupLockHint.
   ///
   /// In en, this message translates to:
-  /// **'Nobody opens the app without you. You can change this at any time in the settings.'**
+  /// **'Nobody opens the app without you.'**
   String get setupLockHint;
 
   /// No description provided for @setupReadyTitle.
@@ -2603,7 +2597,7 @@ abstract class AppLocalizations {
   /// No description provided for @setupReadyBody.
   ///
   /// In en, this message translates to:
-  /// **'Log your period the day it starts: the estimate gets closer with each cycle.'**
+  /// **'Log your period from the first day.'**
   String get setupReadyBody;
 
   /// No description provided for @settingsAnswers.
@@ -2735,14 +2729,8 @@ abstract class AppLocalizations {
   /// No description provided for @setupPrivacyTitle.
   ///
   /// In en, this message translates to:
-  /// **'Your data never leaves your phone'**
+  /// **'Your data stays on your phone'**
   String get setupPrivacyTitle;
-
-  /// No description provided for @setupPrivacyHint.
-  ///
-  /// In en, this message translates to:
-  /// **'What you log here is nobody\'s business but yours.'**
-  String get setupPrivacyHint;
 
   /// No description provided for @privacyNoAccount.
   ///
@@ -2753,7 +2741,7 @@ abstract class AppLocalizations {
   /// No description provided for @privacyOnPhone.
   ///
   /// In en, this message translates to:
-  /// **'Everything is stored on your phone, encrypted.'**
+  /// **'Everything stays on your phone, protected.'**
   String get privacyOnPhone;
 
   /// No description provided for @privacyBackup.
@@ -2777,43 +2765,43 @@ abstract class AppLocalizations {
   /// No description provided for @setupWishesTitle.
   ///
   /// In en, this message translates to:
-  /// **'Tell me more about what you want'**
+  /// **'What do you want from Fycle?'**
   String get setupWishesTitle;
 
   /// No description provided for @setupWishesHint.
   ///
   /// In en, this message translates to:
-  /// **'Several answers are possible. Each one decides what the app puts forward.'**
+  /// **'Pick as many as you like.'**
   String get setupWishesHint;
 
   /// No description provided for @wishKnowWhen.
   ///
   /// In en, this message translates to:
-  /// **'Know when my period is coming'**
+  /// **'Predict my period'**
   String get wishKnowWhen;
 
   /// No description provided for @wishKnowUsualRanges.
   ///
   /// In en, this message translates to:
-  /// **'See how my cycle compares with the usual ranges'**
+  /// **'Compare with the usual ranges'**
   String get wishKnowUsualRanges;
 
   /// No description provided for @wishFertileWindow.
   ///
   /// In en, this message translates to:
-  /// **'Know my estimated fertile window'**
+  /// **'See my estimated fertile window'**
   String get wishFertileWindow;
 
   /// No description provided for @wishAfterContraception.
   ///
   /// In en, this message translates to:
-  /// **'Understand my cycle after stopping contraception'**
+  /// **'Understand my cycle after contraception'**
   String get wishAfterContraception;
 
   /// No description provided for @wishWhatComesBack.
   ///
   /// In en, this message translates to:
-  /// **'See what comes back with each cycle'**
+  /// **'See what comes back'**
   String get wishWhatComesBack;
 
   /// No description provided for @setupUsualTitle.
@@ -2821,12 +2809,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'What are your periods usually like?'**
   String get setupUsualTitle;
-
-  /// No description provided for @setupUsualHint.
-  ///
-  /// In en, this message translates to:
-  /// **'Choose what fits you best.'**
-  String get setupUsualHint;
 
   /// No description provided for @setupUsualFlow.
   ///
@@ -2849,7 +2831,7 @@ abstract class AppLocalizations {
   /// No description provided for @setupContraceptionHint.
   ///
   /// In en, this message translates to:
-  /// **'With a hormonal contraception, bleeding does not follow a natural cycle: the app then hides the ovulation estimate. It gives no advice on contraception.'**
+  /// **'Fycle gives no advice on contraception.'**
   String get setupContraceptionHint;
 
   /// No description provided for @contraceptionNone.
@@ -2861,25 +2843,25 @@ abstract class AppLocalizations {
   /// No description provided for @contraceptionHormonal.
   ///
   /// In en, this message translates to:
-  /// **'Yes, hormonal (pill, implant, hormonal IUD, ring, patch)'**
+  /// **'Yes, hormonal'**
   String get contraceptionHormonal;
 
   /// No description provided for @contraceptionNonHormonal.
   ///
   /// In en, this message translates to:
-  /// **'Yes, without hormones (copper IUD, condoms, other)'**
+  /// **'Yes, without hormones'**
   String get contraceptionNonHormonal;
 
   /// No description provided for @setupSignsTitle.
   ///
   /// In en, this message translates to:
-  /// **'Do you have these signs these days?'**
+  /// **'Do you get these signs during your cycle?'**
   String get setupSignsTitle;
 
   /// No description provided for @setupSignsHint.
   ///
   /// In en, this message translates to:
-  /// **'Tick the ones you have. You will then be able to log them each day in your journal.'**
+  /// **'Tick the ones you have.'**
   String get setupSignsHint;
 
   /// No description provided for @symptomVaginalDryness.
@@ -2915,7 +2897,7 @@ abstract class AppLocalizations {
   /// No description provided for @setupEarlierHint.
   ///
   /// In en, this message translates to:
-  /// **'Touch the first day of up to three earlier periods, if you remember them. The estimate then starts from your own cycle.'**
+  /// **'Touch their first day, three at most.'**
   String get setupEarlierHint;
 
   /// No description provided for @setupTrackedTitle.
@@ -2927,7 +2909,7 @@ abstract class AppLocalizations {
   /// No description provided for @setupTrackedHint.
   ///
   /// In en, this message translates to:
-  /// **'Tick what matters to you. These sections will come first in your journal.'**
+  /// **'Tick what matters to you.'**
   String get setupTrackedHint;
 
   /// No description provided for @trackedPain.
@@ -2963,91 +2945,91 @@ abstract class AppLocalizations {
   /// No description provided for @recapTitle.
   ///
   /// In en, this message translates to:
-  /// **'What I set up for you'**
+  /// **'Your settings'**
   String get recapTitle;
 
   /// No description provided for @recapCycleOwn.
   ///
   /// In en, this message translates to:
-  /// **'Your estimate starts from your own dates: a cycle of {days} days.'**
+  /// **'A {days}-day cycle, from your dates.'**
   String recapCycleOwn(int days);
 
   /// No description provided for @recapCycleDeclared.
   ///
   /// In en, this message translates to:
-  /// **'Your estimate starts from what you said: a cycle of {days} days.'**
+  /// **'A {days}-day cycle, as you said.'**
   String recapCycleDeclared(int days);
 
   /// No description provided for @recapCycleAge.
   ///
   /// In en, this message translates to:
-  /// **'Your estimate starts from the published average for your age: {days} days.'**
+  /// **'A {days}-day cycle, the average at your age.'**
   String recapCycleAge(int days);
 
   /// No description provided for @recapCycleDefault.
   ///
   /// In en, this message translates to:
-  /// **'Your estimate starts from a common cycle of {days} days.'**
+  /// **'A {days}-day cycle to start with.'**
   String recapCycleDefault(int days);
 
   /// No description provided for @recapRange.
   ///
   /// In en, this message translates to:
-  /// **'A range of {days} days on each side, which narrows as your dates come in.'**
+  /// **'A range of {days} days, which narrows.'**
   String recapRange(int days);
 
   /// No description provided for @recapNoDate.
   ///
   /// In en, this message translates to:
-  /// **'No estimate yet: it starts the day you log a period.'**
+  /// **'An estimate once you log a period.'**
   String get recapNoDate;
 
   /// No description provided for @recapFertilityOn.
   ///
   /// In en, this message translates to:
-  /// **'The estimated fertile window is shown. An estimate: neither contraception nor a diagnosis.'**
+  /// **'Estimated fertile window shown. Neither contraception nor a diagnosis.'**
   String get recapFertilityOn;
 
   /// No description provided for @recapFertilityHormonal.
   ///
   /// In en, this message translates to:
-  /// **'The ovulation estimate is hidden: it means nothing with a hormonal contraception.'**
+  /// **'Ovulation estimate hidden (hormonal contraception).'**
   String get recapFertilityHormonal;
 
   /// No description provided for @recapFertilityOff.
   ///
   /// In en, this message translates to:
-  /// **'The estimated fertile window is hidden. You can turn it on in the settings.'**
+  /// **'Fertile window hidden.'**
   String get recapFertilityOff;
 
   /// No description provided for @recapJournal.
   ///
   /// In en, this message translates to:
-  /// **'Your journal starts with: {items}.'**
+  /// **'Your journal: {items}.'**
   String recapJournal(String items);
 
   /// No description provided for @recapChanges.
   ///
   /// In en, this message translates to:
-  /// **'The review follows what changes from one cycle to the next.'**
+  /// **'A review of changes from cycle to cycle.'**
   String get recapChanges;
 
   /// No description provided for @recapRemindersOn.
   ///
   /// In en, this message translates to:
-  /// **'Reminders are on.'**
+  /// **'Reminders on.'**
   String get recapRemindersOn;
 
   /// No description provided for @recapRemindersOff.
   ///
   /// In en, this message translates to:
-  /// **'Reminders are off. You can turn them on in the settings.'**
+  /// **'Reminders off.'**
   String get recapRemindersOff;
 
   /// No description provided for @recapLockOn.
   ///
   /// In en, this message translates to:
-  /// **'The app is locked when it opens.'**
+  /// **'App locked when it opens.'**
   String get recapLockOn;
 
   /// No description provided for @changeSignsList.
@@ -3239,7 +3221,7 @@ abstract class AppLocalizations {
   /// No description provided for @setupRemindersHint.
   ///
   /// In en, this message translates to:
-  /// **'Discreet: they never mention your period. Everything happens on your phone.'**
+  /// **'Discreet: never the word \"period\".'**
   String get setupRemindersHint;
 
   /// No description provided for @setupPeriodReminder.
@@ -3350,12 +3332,6 @@ abstract class AppLocalizations {
   /// **'Where are you at?'**
   String get setupProfileTitle;
 
-  /// No description provided for @setupProfileHint.
-  ///
-  /// In en, this message translates to:
-  /// **'The app adapts to your answer. You can change it at any time in the settings.'**
-  String get setupProfileHint;
-
   /// No description provided for @profileDiscovering.
   ///
   /// In en, this message translates to:
@@ -3365,7 +3341,7 @@ abstract class AppLocalizations {
   /// No description provided for @profileDiscoveringDetail.
   ///
   /// In en, this message translates to:
-  /// **'My first periods, or I am starting to track them.'**
+  /// **'I\'m starting out'**
   String get profileDiscoveringDetail;
 
   /// No description provided for @profileTracking.
@@ -3377,7 +3353,7 @@ abstract class AppLocalizations {
   /// No description provided for @profileTrackingDetail.
   ///
   /// In en, this message translates to:
-  /// **'Know when they come and log my days.'**
+  /// **'Predict and log'**
   String get profileTrackingDetail;
 
   /// No description provided for @profileConceiving.
@@ -3389,7 +3365,7 @@ abstract class AppLocalizations {
   /// No description provided for @profileConceivingDetail.
   ///
   /// In en, this message translates to:
-  /// **'Find my estimated fertile window.'**
+  /// **'Estimated fertile window'**
   String get profileConceivingDetail;
 
   /// No description provided for @profilePregnant.
@@ -3401,7 +3377,7 @@ abstract class AppLocalizations {
   /// No description provided for @profilePregnantDetail.
   ///
   /// In en, this message translates to:
-  /// **'Count the weeks and log my days.'**
+  /// **'Count the weeks'**
   String get profilePregnantDetail;
 
   /// No description provided for @profilePostpartum.
@@ -3413,7 +3389,7 @@ abstract class AppLocalizations {
   /// No description provided for @profilePostpartumDetail.
   ///
   /// In en, this message translates to:
-  /// **'Waiting for my periods to come back.'**
+  /// **'Until my period returns'**
   String get profilePostpartumDetail;
 
   /// No description provided for @profilePerimenopause.
@@ -3425,13 +3401,13 @@ abstract class AppLocalizations {
   /// No description provided for @profilePerimenopauseDetail.
   ///
   /// In en, this message translates to:
-  /// **'Perimenopause: follow what moves.'**
+  /// **'Perimenopause'**
   String get profilePerimenopauseDetail;
 
   /// No description provided for @setupPregnancyDateHint.
   ///
   /// In en, this message translates to:
-  /// **'The weeks of pregnancy are counted from that day. An approximate date is enough.'**
+  /// **'The weeks are counted from that day.'**
   String get setupPregnancyDateHint;
 
   /// No description provided for @setupBirthDateTitle.
@@ -3443,7 +3419,7 @@ abstract class AppLocalizations {
   /// No description provided for @setupBirthDateHint.
   ///
   /// In en, this message translates to:
-  /// **'To count the weeks since the birth, and start afresh when your periods come back.'**
+  /// **'To count the weeks.'**
   String get setupBirthDateHint;
 
   /// No description provided for @setupChooseDate.
@@ -3557,13 +3533,13 @@ abstract class AppLocalizations {
   /// No description provided for @recapPregnancy.
   ///
   /// In en, this message translates to:
-  /// **'Pregnancy mode: the weeks are counted, the estimate of your periods is paused.'**
+  /// **'Pregnancy mode: weeks counted.'**
   String get recapPregnancy;
 
   /// No description provided for @recapPostpartum.
   ///
   /// In en, this message translates to:
-  /// **'After the birth: the estimate will start again when your periods come back.'**
+  /// **'An estimate when your period returns.'**
   String get recapPostpartum;
 
   /// No description provided for @reminderContraceptionTitle.
@@ -3749,7 +3725,7 @@ abstract class AppLocalizations {
   /// No description provided for @partnerOpenEntry.
   ///
   /// In en, this message translates to:
-  /// **'My partner sent me a file'**
+  /// **'Open my partner\'s file'**
   String get partnerOpenEntry;
 
   /// No description provided for @partnerOpenTitle.
@@ -3971,7 +3947,7 @@ abstract class AppLocalizations {
   /// No description provided for @autoBackupSubtitle.
   ///
   /// In en, this message translates to:
-  /// **'Once a day, an encrypted file is brought up to date in the folder of the app, which you see in the Files app. Nothing is sent anywhere.'**
+  /// **'Once a day, a file protected by your password is brought up to date in the Files app. Nothing is sent.'**
   String get autoBackupSubtitle;
 
   /// No description provided for @autoBackupPasswordTitle.
@@ -4063,6 +4039,66 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'{days, plural, =0{Nothing new: the days found were already in your journal.} =1{1 day of period copied into your journal.} other{{days} days of period copied into your journal.}}'**
   String healthImportDone(int days);
+
+  /// No description provided for @setupTagline.
+  ///
+  /// In en, this message translates to:
+  /// **'See your cycle clearly.'**
+  String get setupTagline;
+
+  /// No description provided for @setupExisting.
+  ///
+  /// In en, this message translates to:
+  /// **'I already use Fycle'**
+  String get setupExisting;
+
+  /// No description provided for @contraceptionHormonalDetail.
+  ///
+  /// In en, this message translates to:
+  /// **'Pill, implant, hormonal IUD, ring, patch'**
+  String get contraceptionHormonalDetail;
+
+  /// No description provided for @contraceptionNonHormonalDetail.
+  ///
+  /// In en, this message translates to:
+  /// **'Copper IUD, condoms, other'**
+  String get contraceptionNonHormonalDetail;
+
+  /// No description provided for @kpiRegularity.
+  ///
+  /// In en, this message translates to:
+  /// **'Your cycle'**
+  String get kpiRegularity;
+
+  /// No description provided for @kpiRegular.
+  ///
+  /// In en, this message translates to:
+  /// **'Regular'**
+  String get kpiRegular;
+
+  /// No description provided for @kpiVariable.
+  ///
+  /// In en, this message translates to:
+  /// **'Variable'**
+  String get kpiVariable;
+
+  /// No description provided for @kpiRegularitySoon.
+  ///
+  /// In en, this message translates to:
+  /// **'Soon'**
+  String get kpiRegularitySoon;
+
+  /// No description provided for @kpiRegularityNeed.
+  ///
+  /// In en, this message translates to:
+  /// **'from 3 full cycles'**
+  String get kpiRegularityNeed;
+
+  /// No description provided for @kpiRegularityGap.
+  ///
+  /// In en, this message translates to:
+  /// **'{days, plural, =0{always the same length} =1{1 day apart} other{{days} days apart}}'**
+  String kpiRegularityGap(int days);
 }
 
 class _AppLocalizationsDelegate
