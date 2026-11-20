@@ -55,7 +55,7 @@ Avant toute tâche, lire `docs/SPEC.md` (périmètre et jalons) et `docs/DECISIO
 - Une tâche n'est terminée que si `dart format .`, `flutter analyze` et `flutter test` passent.
 - Toute décision d'architecture, nouvelle ou modifiée, est consignée dans `docs/DECISIONS.md`.
 - En cas de doute sur une règle de ce fichier, demander plutôt que supposer.
-- L'utilisateur ne teste pas sur PC : il teste uniquement sur son iPhone. À la fin de chaque tâche terminée et vérifiée, sans attendre qu'il le demande : commiter, pousser `main`, puis lancer la compilation iPhone en poussant un tag `ios-build-N` (N suit le dernier tag existant). Il ne lui reste qu'à mettre à jour dans TestFlight. Lui dire le numéro de la compilation et ce qu'elle contient. Ne pas lui demander de lancer l'appli sous Windows ni de vérifier quoi que ce soit sur le PC.
+- L'utilisateur ne teste pas sur PC : il teste uniquement sur son iPhone. À la fin de chaque tâche terminée et vérifiée, sans attendre qu'il le demande : commiter et pousser `main`. Ne jamais lancer la compilation iPhone (tag `ios-build-N`) sans son accord : la proposer, et attendre sa réponse. Regrouper les changements pour ne proposer qu'une compilation par séance : les minutes de compilation sont comptées. Une fois la compilation lancée, lui dire son numéro et ce qu'elle contient. Ne pas lui demander de lancer l'appli sous Windows ni de vérifier quoi que ce soit sur le PC.
 
 ## Garde-fous automatiques à créer puis à maintenir
 
