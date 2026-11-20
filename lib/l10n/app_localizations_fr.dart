@@ -3256,4 +3256,22 @@ class AppLocalizationsFr extends AppLocalizations {
   @override
   String get guideSourcesIntimacy =>
       'Écrit pour l\'appli, sur le ton d\'un magazine. Ce qui touche à la sécurité sera relu par un professionnel de santé.';
+
+  @override
+  String get kioskTitle => 'Le kiosque du jour';
+
+  @override
+  String get kioskBody =>
+      'Des articles récents de la presse, choisis chaque jour';
+
+  @override
+  String get kioskIntimacyTitle => 'Le kiosque Intimité';
+
+  @override
+  String get kioskIntimacyBody =>
+      'Sexe, désir, témoignages : ce que la presse écrit en ce moment';
+
+  @override
+  String get kioskNote =>
+      'Sélection automatique dans la presse : personne n\'a relu ces articles pour toi, et aucun n\'est un avis médical.';
 }

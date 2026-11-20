@@ -1047,5 +1047,11 @@
   "guideIntOnScheduleKeep": "The app shows an estimated window, not a compulsory appointment: it is a range, and it varies.",
   "guideTopicIntimacy": "Intimacy",
   "guideKeepTitle": "Worth knowing",
-  "guideSourcesIntimacy": "Written for the app, in the tone of a magazine. What touches on safety will be reviewed by a health professional."
+  "guideSourcesIntimacy": "Written for the app, in the tone of a magazine. What touches on safety will be reviewed by a health professional.",
+  "kioskTitle": "Today's newsstand",
+  "@kioskTitle": {"description": "Title of the button opening the web page of recent press articles."},
+  "kioskBody": "Recent articles from the press, picked every day",
+  "kioskIntimacyTitle": "The intimacy newsstand",
+  "kioskIntimacyBody": "Sex, desire, first-person stories: what the press is writing",
+  "kioskNote": "Picked automatically from the press: nobody has read these articles for you, and none is medical advice."
 }

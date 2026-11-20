@@ -1,6 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fycle/domain/calendar_day.dart';
 import 'package:fycle/domain/further_reading.dart';
+import 'package:fycle/domain/kiosk.dart';
 import 'package:fycle/l10n/app_localizations.dart';
 import 'package:fycle/ui/guides_screen.dart';
 import 'package:fycle/ui/links.dart';
@@ -81,6 +82,75 @@ void main() {
     );
     await tapVisible(tester, key('link-sexuality-2'));
     expect(opened, [Uri.parse('https://www.brook.org.uk/your-life/anal-sex/')]);
+  });
+
+  test('the kiosk has a page per language, and nothing of hers in it', () {
+    expect(
+      kioskAddress(languageCode: 'fr', intimacy: false).path,
+      endsWith('/fr/index.html'),
+    );
+    expect(
+      kioskAddress(languageCode: 'fr', intimacy: true).path,
+      endsWith('/fr/intimacy.html'),
+    );
+    // A language the kiosk is not written in gets English.
+    expect(
+      kioskAddress(languageCode: 'ar', intimacy: false).path,
+      endsWith('/en/index.html'),
+    );
+    for (final intimacy in [true, false]) {
+      final address = kioskAddress(languageCode: 'en', intimacy: intimacy);
+      expect(address.scheme, 'https');
+      expect(address.hasQuery, isFalse);
+      expect(address.hasFragment, isFalse);
+    }
+  });
+
+  testWidgets('the kiosk is handed to the system, in her language', (
+    tester,
+  ) async {
+    final opened = <Uri>[];
+    final before = openLink;
+    openLink = (address) async => opened.add(address);
+    addTearDown(() => openLink = before);
+
+    final harness = Harness(tester);
+    await harness.seed(days: periodFrom(CalendarDay(2026, 2, 28)));
+    await harness.pumpApp(locale: 'fr');
+    await openReview(tester);
+    await tapVisible(tester, key('open-guides'));
+
+    for (final name in ['open-kiosk', 'open-kiosk-intimacy']) {
+      await tester.scrollUntilVisible(
+        key(name),
+        300,
+        scrollable: find.byType(Scrollable).last,
+      );
+      await tapVisible(tester, key(name));
+    }
+    expect(opened, [
+      kioskAddress(languageCode: 'fr', intimacy: false),
+      kioskAddress(languageCode: 'fr', intimacy: true),
+    ]);
+  });
+
+  testWidgets('the kiosk about intimacy is not offered to a minor', (
+    tester,
+  ) async {
+    final harness = Harness(tester);
+    await harness.seed(
+      days: periodFrom(CalendarDay(2026, 2, 28)),
+      birthYear: 2011,
+    );
+    await harness.pumpApp();
+    await openReview(tester);
+    await tapVisible(tester, key('open-guides'));
+    await tester.scrollUntilVisible(
+      key('open-kiosk'),
+      300,
+      scrollable: find.byType(Scrollable).last,
+    );
+    expect(key('open-kiosk-intimacy'), findsNothing);
   });
 
   testWidgets('nothing about sex is listed once she turned it off', (

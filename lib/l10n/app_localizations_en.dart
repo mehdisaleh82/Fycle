@@ -3229,4 +3229,21 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get guideSourcesIntimacy =>
       'Written for the app, in the tone of a magazine. What touches on safety will be reviewed by a health professional.';
+
+  @override
+  String get kioskTitle => 'Today\'s newsstand';
+
+  @override
+  String get kioskBody => 'Recent articles from the press, picked every day';
+
+  @override
+  String get kioskIntimacyTitle => 'The intimacy newsstand';
+
+  @override
+  String get kioskIntimacyBody =>
+      'Sex, desire, first-person stories: what the press is writing';
+
+  @override
+  String get kioskNote =>
+      'Picked automatically from the press: nobody has read these articles for you, and none is medical advice.';
 }

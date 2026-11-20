@@ -5047,6 +5047,36 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Written for the app, in the tone of a magazine. What touches on safety will be reviewed by a health professional.'**
   String get guideSourcesIntimacy;
+
+  /// Title of the button opening the web page of recent press articles.
+  ///
+  /// In en, this message translates to:
+  /// **'Today\'s newsstand'**
+  String get kioskTitle;
+
+  /// No description provided for @kioskBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Recent articles from the press, picked every day'**
+  String get kioskBody;
+
+  /// No description provided for @kioskIntimacyTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'The intimacy newsstand'**
+  String get kioskIntimacyTitle;
+
+  /// No description provided for @kioskIntimacyBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Sex, desire, first-person stories: what the press is writing'**
+  String get kioskIntimacyBody;
+
+  /// No description provided for @kioskNote.
+  ///
+  /// In en, this message translates to:
+  /// **'Picked automatically from the press: nobody has read these articles for you, and none is medical advice.'**
+  String get kioskNote;
 }
 
 class _AppLocalizationsDelegate

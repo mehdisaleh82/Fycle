@@ -835,5 +835,10 @@
   "guideIntOnScheduleKeep": "L'appli montre une fenêtre estimée, pas un rendez-vous obligatoire : c'est une fourchette, et elle varie.",
   "guideTopicIntimacy": "Intimité",
   "guideKeepTitle": "À retenir",
-  "guideSourcesIntimacy": "Écrit pour l'appli, sur le ton d'un magazine. Ce qui touche à la sécurité sera relu par un professionnel de santé."
+  "guideSourcesIntimacy": "Écrit pour l'appli, sur le ton d'un magazine. Ce qui touche à la sécurité sera relu par un professionnel de santé.",
+  "kioskTitle": "Le kiosque du jour",
+  "kioskBody": "Des articles récents de la presse, choisis chaque jour",
+  "kioskIntimacyTitle": "Le kiosque Intimité",
+  "kioskIntimacyBody": "Sexe, désir, témoignages : ce que la presse écrit en ce moment",
+  "kioskNote": "Sélection automatique dans la presse : personne n'a relu ces articles pour toi, et aucun n'est un avis médical."
 }

@@ -5,6 +5,7 @@ import '../domain/cycle_status.dart';
 import '../domain/desire_pattern.dart';
 import '../domain/further_reading.dart';
 import '../domain/guide.dart';
+import '../domain/kiosk.dart';
 import '../domain/start_profile.dart';
 import '../l10n/app_localizations.dart';
 import 'art.dart';
@@ -312,6 +313,59 @@ class GuideCard extends StatelessWidget {
   }
 }
 
+/// The way to the kiosk: recent articles from the press, on a web page
+/// rebuilt every day and opened in the browser of the phone. The page
+/// about intimacy is offered only to the one who is shown that topic.
+class KioskCard extends StatelessWidget {
+  const KioskCard({super.key, required this.intimacy});
+
+  final bool intimacy;
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
+    final theme = Theme.of(context);
+    final language = Localizations.localeOf(context).languageCode;
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        Card(
+          key: const ValueKey('kiosk'),
+          child: Column(
+            children: [
+              ListTile(
+                key: const ValueKey('open-kiosk'),
+                leading: const Icon(Icons.newspaper_outlined),
+                title: Text(l10n.kioskTitle),
+                subtitle: Text(l10n.kioskBody),
+                trailing: const Icon(Icons.open_in_new),
+                onTap: () => openLink(
+                  kioskAddress(languageCode: language, intimacy: false),
+                ),
+              ),
+              if (intimacy)
+                ListTile(
+                  key: const ValueKey('open-kiosk-intimacy'),
+                  leading: const Icon(Icons.favorite_outline),
+                  title: Text(l10n.kioskIntimacyTitle),
+                  subtitle: Text(l10n.kioskIntimacyBody),
+                  trailing: const Icon(Icons.open_in_new),
+                  onTap: () => openLink(
+                    kioskAddress(languageCode: language, intimacy: true),
+                  ),
+                ),
+            ],
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsetsDirectional.only(start: 4, top: 6, end: 4),
+          child: Text(l10n.kioskNote, style: theme.textTheme.bodySmall),
+        ),
+      ],
+    );
+  }
+}
+
 /// Every guide, by topic, hers first.
 class GuidesScreen extends StatelessWidget {
   const GuidesScreen({super.key, required this.model});
@@ -383,6 +437,8 @@ class GuidesScreen extends StatelessWidget {
             ),
             const SizedBox(height: 4),
             Text(l10n.readingNote, style: theme.textTheme.bodySmall),
+            const SizedBox(height: 12),
+            KioskCard(intimacy: topics.contains(GuideTopic.intimacy)),
             for (final topic in ReadingTopic.values)
               // Nothing about sex for the one who turned it off.
               if ((model.sexLifeVisible ||
