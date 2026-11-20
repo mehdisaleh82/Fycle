@@ -3079,14 +3079,14 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get guideIntOrgasmBody =>
-      'Feu d\'artifice pour certaines, vague tranquille pour d\'autres, grand absent pour beaucoup : l\'orgasme a mille visages, et aucun n\'est le bon.\n\nChez la plupart des femmes, tout part du clitoris. Ce qu\'on en voit n\'est que la pointe : il se prolonge à l\'intérieur, de part et d\'autre du vagin. Voilà pourquoi la pénétration seule suffit rarement, et pourquoi une main, une langue ou un jouet en plus changent tout.\n\nVaginal ou clitoridien ? Le débat est dépassé : c\'est le même organe, atteint par des chemins différents. Simultané, multiple, bruyant ? De jolis bonus, pas des objectifs.\n\nCe qui aide vraiment : du temps, de l\'excitation avant d\'y aller, la tête pas trop ailleurs, et quelqu\'un, toi comprise, qui sait où et comment.';
+      'Feu d\'artifice pour certaines, vague lente pour d\'autres, frisson discret parfois : l\'orgasme a mille visages, et chacun vaut le détour.\n\nChez la plupart des femmes, tout part du clitoris. Ce qu\'on en voit n\'est que la pointe : il se prolonge à l\'intérieur, de part et d\'autre du vagin. Voilà pourquoi une main, une langue ou un jouet en plus de la pénétration ouvrent tant de portes.\n\nVaginal ou clitoridien ? C\'est le même organe, atteint par des chemins différents, et chaque chemin a son paysage. Simultané, multiple, bruyant, silencieux : autant de variantes à goûter au fil du temps.\n\nLe terrain de jeu est vaste : la montée lente qu\'on fait durer, le bord où l\'on s\'arrête pour repartir, la respiration qui s\'allonge, le bassin qui bouge. Explore, compare, et garde ce qui te fait le plus d\'effet.';
 
   @override
   String get guideIntNoOrgasmTitle => 'Je n\'arrive pas à jouir : et alors ?';
 
   @override
   String get guideIntNoOrgasmBody =>
-      'Tu fais semblant, ou tu attends que ça vienne en te demandant ce qui cloche. Réponse : rien, probablement.\n\nBeaucoup de femmes jouissent rarement, ou jamais, par la pénétration seule. Ce n\'est pas un défaut de fabrication : c\'est l\'anatomie.\n\nLes freins les plus courants ne sont pas dans le corps : la pression d\'y arriver, la fatigue, la liste de courses qui défile, un partenaire pressé, l\'habitude de passer après.\n\nPar où commencer : seule, sans enjeu, pour repérer ce qui te fait de l\'effet. Puis le montrer ou le dire. Et rayer l\'orgasme de la liste des choses à réussir : il vient plus volontiers quand on ne l\'attend pas à la porte.';
+      'L\'orgasme se fait attendre, ou ne vient pas ? Bonne nouvelle : le plaisir, lui, est déjà là, et il y a beaucoup à explorer en chemin.\n\nBeaucoup de femmes jouissent rarement, ou jamais, par la pénétration seule. C\'est l\'anatomie : le clitoris est le centre du jeu, et il aime qu\'on s\'occupe de lui directement.\n\nLe plaisir aime la place. Un moment sans montre, une lumière qui te plaît, de la musique, un bain avant : tout ce qui ramène l\'attention dans le corps ouvre la voie.\n\nPars en repérage, seule, par curiosité : quelle zone, quelle pression, quel rythme font monter la chaleur ? Reste sur ce qui est bon et laisse la sensation grandir, sans but à atteindre. Puis partage la carte : montre, guide, raconte.';
 
   @override
   String get guideIntSoloTitle =>
@@ -3094,7 +3094,7 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get guideIntSoloBody =>
-      'On en parle peu, presque toutes le font. Se masturber n\'est ni un lot de consolation ni une infidélité : c\'est la façon la plus sûre de savoir ce que tu aimes.\n\nPas de bonne méthode. Les doigts, la paume, le jet de la douche, un coussin, un jouet : le clitoris aime la régularité plus que la force, et souvent le contour plus que le centre.\n\nVarie la pression, le rythme, la position. Ajoute du lubrifiant : ça change tout. Prends ton temps, ou pas : cinq minutes avant de dormir comptent aussi.\n\nPendant les règles ? Oui, et certaines disent que ça calme leurs crampes. En couple ? Oui aussi : l\'un n\'enlève rien à l\'autre.';
+      'Se caresser, c\'est partir à la découverte de son propre plaisir. Presque toutes le font, et c\'est le plus sûr moyen de savoir ce que tu aimes.\n\nToutes les méthodes sont bonnes. Les doigts, la paume, le jet de la douche, un coussin, un jouet : le clitoris aime la régularité plus que la force, et souvent le contour plus que le centre.\n\nJoue avec la pression, le rythme, la position. Ajoute du lubrifiant : les sensations changent du tout au tout. Explore aussi ailleurs : les seins, l\'intérieur des cuisses, l\'entrée du vagin.\n\nInvite ton imagination : un souvenir, un scénario, une lecture, une voix. Cinq minutes avant de dormir ou une heure rien que pour toi, pendant les règles ou non, seule ou sous le regard de l\'autre : à toi de composer.';
 
   @override
   String get guideIntPeriodSexTitle =>
@@ -3102,7 +3102,7 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get guideIntPeriodSexBody =>
-      'Rien ne l\'interdit, beaucoup en ont envie, et le désir monte parfois pile à ce moment-là. Reste la logistique.\n\nUne serviette foncée sur le lit, la douche à deux, une position où tu es allongée : le flux se fait oublier. Tampon et coupe se retirent avant une pénétration.\n\nLe sang fait glisser, l\'orgasme détend : certaines trouvent leurs règles plus légères à vivre après. D\'autres n\'ont envie de rien, et c\'est tout aussi valable.\n\nDis-le simplement : « j\'ai mes règles, ça te va ? » La plupart des partenaires s\'en fichent bien plus que tu ne le crois.';
+      'Beaucoup en ont envie, et le désir monte parfois pile à ce moment-là. Les règles ont leurs sensations propres, qui valent d\'être découvertes.\n\nCôté décor : une serviette foncée sur le lit, ou la douche à deux, où l\'eau s\'occupe de tout. Tampon et coupe se retirent avant une pénétration.\n\nLe sang fait glisser, le bas-ventre est plus sensible, et certaines disent que l\'orgasme leur détend le ventre. Les caresses seules, sans pénétration, sont aussi un terrain à explorer ces jours-là.\n\nPour lancer le sujet, une phrase suffit : « j\'ai mes règles, et j\'ai envie de toi ». La suite s\'invente à deux.';
 
   @override
   String get guideIntAnalTitle =>
@@ -3110,7 +3110,7 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get guideIntAnalBody =>
-      'Curieuse, tentée, ou sollicitée sans être sûre d\'en avoir envie ? Première règle : ça ne se fait que si tu le veux, toi.\n\nL\'anus ne lubrifie pas et ne se détend pas sur commande. Donc : beaucoup de lubrifiant, beaucoup de temps, et on commence petit. Un doigt, un petit jouet à base évasée, bien avant quoi que ce soit d\'autre.\n\nRespire, et pousse légèrement au moment de l\'entrée : le muscle s\'ouvre. C\'est toi qui donnes le rythme. Une position où tu contrôles la profondeur aide beaucoup.\n\nÇa ne doit pas faire mal. Une gêne au début, oui. Une douleur : on arrête, on remet du lubrifiant, on reprend plus tard, ou jamais.\n\nCôté propreté, une douche suffit. Le reste fait partie du jeu, et tout le monde le sait.';
+      'Curieuse ? L\'anus est une zone très riche en terminaisons nerveuses, et l\'explorer peut ouvrir un tout autre registre de sensations.\n\nIl ne lubrifie pas de lui-même et aime qu\'on prenne son temps. Donc : du lubrifiant en abondance, et on commence par l\'extérieur, en caresses et en massages. Puis un doigt, ou un petit jouet à base évasée.\n\nRespire, et pousse légèrement au moment de l\'entrée : le muscle s\'ouvre. Donne le rythme, choisis une position où tu règles la profondeur, et associe les caresses du clitoris : les sensations se répondent.\n\nLe plaisir est la boussole : une gêne, et on ralentit, on remet du lubrifiant, on change d\'angle. Une douche avant suffit pour être à l\'aise.\n\nEt l\'exploration va dans les deux sens : l\'autre aussi a peut-être envie de découvrir.';
 
   @override
   String get guideIntLubeTitle =>
@@ -3118,14 +3118,14 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get guideIntLubeBody =>
-      'Ce n\'est pas un aveu de panne. C\'est ce qui transforme « ça va » en « encore ».\n\nÀ base d\'eau : passe-partout, compatible avec tout, sèche plus vite, on en remet. À base de silicone : glisse longtemps, parfait sous la douche et pour l\'anal, mais pas avec les jouets en silicone. Les corps gras, huiles et vaseline : agréables en massage, à tenir loin des préservatifs en latex.\n\nQuand ? Dès que ça accroche, pour les caresses comme pour la pénétration, et toujours pour l\'anal. La lubrification varie avec le cycle, le stress, la fatigue, l\'allaitement, l\'âge : elle ne dit rien de ton envie.\n\nAstuce : sur toi et sur l\'autre, et le flacon à portée de main plutôt qu\'au fond du tiroir.';
+      'C\'est ce qui transforme « ça va » en « encore ». Un flacon de lubrifiant est un accessoire de plaisir à part entière.\n\nÀ base d\'eau : passe-partout, compatible avec tout, sèche plus vite, on en remet. À base de silicone : glisse longtemps, parfait sous la douche et pour l\'anal, mais pas avec les jouets en silicone. Les huiles : un régal en massage, mais elles abîment le latex des préservatifs.\n\nEssaie-le partout : pour les caresses, seule ou à deux, sur un jouet, pour la pénétration, et toujours pour l\'anal. Beaucoup découvrent que tout devient plus doux, plus lent, plus précis.\n\nFais des essais : textures, effets chauffants ou rafraîchissants, quantité. Sur toi et sur l\'autre, et le flacon à portée de main plutôt qu\'au fond du tiroir.';
 
   @override
   String get guideIntDesireCycleTitle => 'Ton désir a ses saisons';
 
   @override
   String get guideIntDesireCycleBody =>
-      'Certains jours tu grimperais aux rideaux, d\'autres tu préfères ta série. Ton cycle y est souvent pour quelque chose.\n\nBeaucoup de femmes sentent leur envie monter vers le milieu du cycle, et retomber avant les règles. D\'autres ont un pic juste avant, ou pendant. Aucun calendrier n\'est universel.\n\nLe tien se lit dans ton journal : note ton désir quelques cycles, et l\'appli te montre tes jours hauts. Pratique pour caler un week-end à deux, ou pour comprendre un « pas ce soir » sans en faire une affaire.\n\nEt puis il y a tout ce qui n\'est pas hormonal : la fatigue, la charge mentale, une dispute pas réglée. Le cycle raconte une partie de l\'histoire, pas toute.';
+      'Certains jours tu grimperais aux rideaux, d\'autres tu préfères la douceur. Ton cycle y est souvent pour quelque chose, et c\'est un terrain d\'exploration.\n\nBeaucoup de femmes sentent leur envie monter vers le milieu du cycle. D\'autres ont un pic juste avant les règles, ou pendant. Chaque moment a sa couleur : plus fougueux, plus tendre, plus sensible.\n\nLe tien se lit dans ton journal : note ton désir quelques cycles, et l\'appli te montre tes jours hauts. De quoi prévoir une soirée, un week-end, ou un rendez-vous avec toi-même.\n\nObserve aussi ce qui change d\'une semaine à l\'autre : ce qui t\'excite, les caresses que tu préfères, la sensibilité de ta peau. Tu découvriras peut-être plusieurs facettes de ton désir.';
 
   @override
   String get guideIntSquirtingTitle =>
@@ -3133,21 +3133,21 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get guideIntSquirtingBody =>
-      'Star des écrans, mystère des chambres : l\'éjaculation féminine intrigue, et beaucoup se demandent si elles « devraient » y arriver.\n\nCertaines femmes émettent du liquide au moment d\'un plaisir intense, parfois beaucoup, parfois quelques gouttes. D\'autres jamais. Les chercheurs ne sont pas tous d\'accord sur ce qu\'il contient ni d\'où il vient exactement.\n\nCe qui est sûr : ce n\'est ni une preuve d\'orgasme, ni un niveau supérieur, ni une performance à offrir. Et ce qu\'on voit dans le porno est mis en scène.\n\nSi ça t\'arrive : une serviette, et aucune honte. Si ça ne t\'arrive pas : il ne te manque rien.';
+      'Star des écrans, mystère des chambres : l\'éjaculation féminine intrigue, et elle peut s\'explorer par simple curiosité.\n\nCertaines femmes émettent du liquide au moment d\'un plaisir intense, parfois beaucoup, parfois quelques gouttes. D\'autres jamais. Les chercheurs ne sont pas tous d\'accord sur ce qu\'il contient ni d\'où il vient exactement.\n\nLa piste la plus souvent citée : la paroi avant du vagin, à quelques centimètres de l\'entrée, stimulée avec des doigts recourbés ou un jouet courbe, pendant que le clitoris n\'est pas oublié. Une envie d\'uriner peut se présenter : se laisser aller fait partie de l\'expérience.\n\nUne serviette sur le lit, du temps, et aucune attente : que le liquide vienne ou non, tu auras exploré une zone qui a beaucoup à offrir.';
 
   @override
   String get guideIntPainTitle => 'Quand ça fait mal';
 
   @override
   String get guideIntPainBody =>
-      'Serrer les dents en attendant que ça passe n\'a jamais fait partie du contrat. Un rapport qui fait mal, ça se règle, ça ne se supporte pas.\n\nLe plus souvent, c\'est une affaire de temps et de glisse : pas assez d\'excitation, pas assez de lubrifiant, une pénétration trop tôt ou trop profonde. Ralentir, changer d\'angle, remettre du lubrifiant suffit souvent.\n\nParfois le corps se ferme tout seul, même quand la tête dit oui. Parfois la douleur est profonde, ou revient à certains moments du cycle. Là, ce n\'est plus une question de technique.\n\nDis stop dès que ça fait mal. Quelqu\'un qui tient à toi préfère mille fois s\'arrêter.';
+      'Le plaisir a besoin de confort. Quand ça accroche, que ça tire ou que ça fait mal, il y a presque toujours une piste à explorer pour retrouver la douceur.\n\nLe plus souvent, c\'est une affaire de temps et de glisse : plus de caresses avant, plus de lubrifiant, une pénétration plus tardive et moins profonde. Ralentir, changer d\'angle, remettre du lubrifiant change souvent tout.\n\nLes positions comptent : celles où tu règles toi-même le rythme et la profondeur, celles sur le côté, plus douces. Et la pénétration n\'est qu\'une option parmi d\'autres : les mains, la bouche, les jouets offrent tout un monde.\n\nParfois le corps se ferme tout seul, ou la douleur est profonde et revient à certains moments du cycle. Ce n\'est alors plus une question de technique, et un professionnel de santé peut aider à retrouver le confort.';
 
   @override
   String get guideIntTearsTitle => 'Pleurer après l\'amour';
 
   @override
   String get guideIntTearsBody =>
-      'C\'était bien, et pourtant les larmes montent. Ou un coup de blues tombe d\'un coup, sans raison.\n\nÇa arrive à beaucoup de monde. Après une forte montée, le corps redescend : la tension lâche, et parfois ça déborde.\n\nÇa ne veut pas dire que tu es triste, ni que quelque chose cloche entre toi et l\'autre. Parfois si : le corps sent avant la tête qu\'on n\'avait pas vraiment envie.\n\nSur le moment, dis-le simplement : « je ne sais pas pourquoi, ça va passer ». Demande des bras ou de l\'air, selon ce qui te fait du bien.';
+      'C\'était bien, et pourtant les larmes montent. Ou une vague d\'émotion arrive d\'un coup, sans raison apparente.\n\nÇa arrive à beaucoup de monde. Après une forte montée, le corps redescend : la tension lâche, et parfois ça déborde. Le plaisir remue bien plus que la peau.\n\nTu peux l\'accueillir comme une sensation de plus : respirer, laisser passer, sentir ce qui se détend. Certaines y trouvent un moment d\'une grande douceur.\n\nÀ deux, quelques mots suffisent : « ça déborde, c\'est tout ». Des bras, une couverture, du silence ou un fou rire : explore ce qui prolonge le mieux le moment.';
 
   @override
   String get guideIntSayItTitle =>
@@ -3155,14 +3155,14 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get guideIntSayItBody =>
-      'Personne ne lit dans les pensées, même au lit. Et « plus à gauche » n\'a jamais tué l\'ambiance.\n\nLe plus simple : guider en direct. Une main sur la sienne, un « oui, comme ça », un « moins fort ». Les mots courts marchent mieux que les longs discours.\n\nPour les sujets plus gros, une envie nouvelle ou un geste que tu n\'aimes plus, choisis un moment habillé : en voiture, en marchant, pas juste après.\n\nCommence par ce qui te plaît : « j\'adore quand tu… ». Puis l\'envie : « j\'aimerais essayer… ». Et un non reste un non, dans les deux sens.';
+      'Dire ce qu\'on aime est un jeu qui rend tout meilleur. Et « plus à gauche » n\'a jamais tué l\'ambiance.\n\nLe plus simple : guider en direct. Une main sur la sienne, un « oui, comme ça », un « plus doucement ». Les mots courts et les soupirs marchent mieux que les longs discours.\n\nPour les envies nouvelles, choisis un moment tranquille : en voiture, en marchant, par message. « J\'adore quand tu… », « j\'aimerais essayer… », « et toi, qu\'est-ce qui te ferait envie ? »\n\nTu peux aussi en faire un jeu : chacun écrit trois envies, on les échange, on garde celles qui font sourire les deux. La curiosité de l\'un nourrit celle de l\'autre.';
 
   @override
   String get guideIntNoDesireTitle => 'Plus envie du tout : par où reprendre';
 
   @override
   String get guideIntNoDesireBody =>
-      'Tu l\'aimes, il ou elle te plaît, et pourtant : rien. Le désir en berne est l\'un des sujets les plus partagés, et les moins avoués.\n\nCherche d\'abord du côté de la vie : sommeil en miettes, charge mentale, rancœur qui traîne, corps qu\'on n\'aime pas ces temps-ci. Le désir a besoin de place, et la place manque.\n\nChez beaucoup de femmes, l\'envie ne tombe pas du ciel : elle vient en chemin, une fois les caresses commencées. Attendre d\'avoir envie pour s\'y mettre, c\'est parfois attendre longtemps.\n\nCe qui relance : du temps à deux sans objectif, des contacts qui ne mènent à rien d\'obligé, de la nouveauté, et des moments seule avec ton propre corps.';
+      'Le désir a ses éclipses : c\'est l\'un des sujets les plus partagés. Et il existe mille façons de le réinviter.\n\nChez beaucoup de femmes, l\'envie ne tombe pas du ciel : elle vient en chemin, une fois les caresses commencées. Le désir peut suivre le plaisir, au lieu de le précéder.\n\nLe désir a besoin de place : du sommeil, du temps à soi, un corps dont on prend soin, une tête un peu vidée. Tout ce qui te fait du bien lui prépare le terrain.\n\nPistes à explorer : des massages sans suite prévue, un bain à deux, une lecture ou un podcast érotique, un lieu nouveau, des moments seule avec ton corps. Suis ce qui éveille ta curiosité, même un peu.';
 
   @override
   String get guideIntAfterBabyTitle =>
@@ -3170,14 +3170,14 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get guideIntAfterBabyBody =>
-      'Entre les nuits en pointillé, le corps qui a changé et un bébé accroché à toi, le désir a de bonnes raisons de se faire attendre.\n\nIl n\'y a pas de date. Certaines reprennent au bout de quelques semaines, d\'autres de plusieurs mois. Le bon moment, c\'est quand tu en as envie et que ça ne fait pas mal.\n\nLe corps lubrifie souvent moins, surtout en allaitant : le lubrifiant devient indispensable. Commence par des caresses, et garde la main sur le rythme.\n\nEt le couple ? Dis où tu en es, même si c\'est « pas maintenant ». La tendresse sans suite obligée fait le pont.';
+      'Entre les nuits en pointillé, le corps qui a changé et un bébé accroché à toi, le désir prend parfois son temps. Quand il revient, c\'est une sexualité à redécouvrir.\n\nChacune a son calendrier : quelques semaines pour certaines, plusieurs mois pour d\'autres. Ton envie donne le signal.\n\nTon corps a de nouvelles sensations à te faire connaître. Il lubrifie souvent moins, surtout en allaitant : le lubrifiant devient un allié. Commence par des caresses, donne le rythme, explore ce qui a changé et ce qui est encore meilleur.\n\nÀ deux, la tendresse sans suite prévue fait le pont : massages, peau contre peau, baisers longs. On se réapprivoise, et l\'envie suit souvent.';
 
   @override
   String get guideIntMidlifeTitle => 'Périménopause : le sexe change de règles';
 
   @override
   String get guideIntMidlifeBody =>
-      'Plus envie, ou envie mais ça frotte ? À la périménopause, le désir joue à cache-cache et le corps lubrifie moins. Ça ne dit rien de ton couple ni de toi.\n\nCe qui change : il faut souvent plus de temps, plus de caresses, et du lubrifiant sans se poser de question. Ce qui ne change pas : ta capacité à prendre du plaisir.\n\nBeaucoup de femmes racontent une sexualité plus libre à cet âge : on sait ce qu\'on aime, on ose le dire, on ne fait plus semblant.\n\nLes nuits hachées et les bouffées de chaleur n\'aident pas l\'envie. S\'en occuper, c\'est aussi s\'occuper de sa vie sexuelle.';
+      'À la périménopause, le désir joue à cache-cache et le corps change de rythme. C\'est aussi, pour beaucoup, le début d\'une sexualité plus libre.\n\nCe qui change : il faut souvent plus de temps, plus de caresses, et du lubrifiant sans compter. Ce qui ne change pas : ta capacité à prendre du plaisir.\n\nBeaucoup de femmes le racontent : on sait ce qu\'on aime, on ose le dire, on a envie d\'essayer. Jouets, nouvelles caresses, nouveaux moments de la journée : le terrain s\'élargit.\n\nPrendre son temps devient un plaisir en soi : des préliminaires qui durent, des massages, une lenteur qui fait monter l\'envie. Et les nuits plus reposées font le reste.';
 
   @override
   String get guideIntOnScheduleTitle =>
@@ -3185,7 +3185,7 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get guideIntOnScheduleBody =>
-      'Au début c\'était excitant. Trois mois plus tard, c\'est « ce soir, il faut ». Le désir sur commande, personne n\'aime ça.\n\nC\'est très courant, et ça ne dit rien de ton couple. La pression coupe l\'envie, chez toi comme chez l\'autre.\n\nCe qui allège : ne pas tout miser sur un seul soir, garder des moments sans enjeu, et de temps en temps ranger le calendrier.\n\nDis-le à l\'autre : « j\'ai envie de toi, pas seulement d\'un bébé ». Ça change l\'ambiance.';
+      'Au début c\'était excitant. Trois mois plus tard, c\'est « ce soir, il faut ». Le plaisir, lui, peut reprendre toute sa place.\n\nC\'est très courant : le calendrier prend le dessus, chez toi comme chez l\'autre. La bonne nouvelle, c\'est que l\'envie revient dès qu\'on lui refait de la place.\n\nRemets du jeu : un autre lieu, une autre heure, un rendez-vous préparé comme une première fois, des caresses qui ne mènent nulle part de précis. Les jours du calendrier peuvent devenir des soirées attendues.\n\nEt entre deux, des moments sans aucun enjeu, pour le seul plaisir. « J\'ai envie de toi » : cette phrase-là change toute l\'ambiance.';
 
   @override
   String get guideTopicIntimacy => 'Intimité';

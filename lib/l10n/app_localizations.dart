@@ -4769,7 +4769,7 @@ abstract class AppLocalizations {
   /// No description provided for @guideIntOrgasmBody.
   ///
   /// In en, this message translates to:
-  /// **'Fireworks for some, a quiet wave for others, a no-show for many: orgasm has a thousand faces, and none is the right one.\n\nFor most women, it all starts with the clitoris. What you see is only the tip: it runs on inside, on either side of the vagina. That is why penetration alone is rarely enough, and why a hand, a tongue or a toy on top changes everything.\n\nVaginal or clitoral? An old debate: it is the same organ, reached by different roads. Together, multiple, loud? Nice extras, not goals.\n\nWhat really helps: time, being turned on before you start, a head that is not elsewhere, and someone, you included, who knows where and how.'**
+  /// **'Fireworks for some, a slow wave for others, sometimes a quiet shiver: orgasm has a thousand faces, and each is worth the trip.\n\nFor most women, it all starts with the clitoris. What you see is only the tip: it extends inside, on either side of the vagina. That is why a hand, a tongue or a toy alongside penetration opens so many doors.\n\nVaginal or clitoral? It is the same organ, reached by different routes, and each route has its own scenery. Simultaneous, multiple, loud, silent: so many variations to taste over time.\n\nThe playground is wide: a slow build you draw out, the edge where you pause and start again, longer breaths, hips that move. Explore, compare, and keep what does the most for you.'**
   String get guideIntOrgasmBody;
 
   /// No description provided for @guideIntNoOrgasmTitle.
@@ -4781,7 +4781,7 @@ abstract class AppLocalizations {
   /// No description provided for @guideIntNoOrgasmBody.
   ///
   /// In en, this message translates to:
-  /// **'You fake it, or you wait for it while wondering what is wrong. Spoiler: probably nothing.\n\nMany women rarely or never come from penetration alone. It is not a manufacturing fault: it is anatomy.\n\nThe usual brakes are not in the body: the pressure to get there, tiredness, the shopping list scrolling by, a partner in a hurry, the habit of coming second.\n\nWhere to start: alone, with nothing at stake, to find what does something for you. Then show it or say it. And take orgasm off the list of things to achieve: it comes more readily when nobody is waiting at the door.'**
+  /// **'Orgasm takes its time, or does not come? Good news: pleasure is already there, and there is a lot to explore along the way.\n\nMany women rarely or never climax from penetration alone. It is anatomy: the clitoris is the centre of the game, and it likes direct attention.\n\nPleasure likes room. Time with no clock, a light you like, music, a bath beforehand: anything that brings your attention back into your body opens the way.\n\nGo scouting, alone, out of curiosity: which area, which pressure, which rhythm brings the warmth up? Stay with what feels good and let the sensation grow, with no goal to reach. Then share the map: show, guide, tell.'**
   String get guideIntNoOrgasmBody;
 
   /// No description provided for @guideIntSoloTitle.
@@ -4793,7 +4793,7 @@ abstract class AppLocalizations {
   /// No description provided for @guideIntSoloBody.
   ///
   /// In en, this message translates to:
-  /// **'Hardly anyone talks about it, nearly everyone does it. Masturbating is neither a consolation prize nor cheating: it is the surest way to know what you like.\n\nThere is no right method. Fingers, the palm, the shower head, a pillow, a toy: the clitoris likes steadiness more than force, and often the edges more than the centre.\n\nChange the pressure, the rhythm, the position. Add lube: it changes everything. Take your time, or not: five minutes before sleep count too.\n\nDuring your period? Yes, and some say it eases their cramps. In a relationship? Yes too: one takes nothing from the other.'**
+  /// **'Touching yourself is setting out to discover your own pleasure. Almost everyone does it, and it is the surest way to know what you like.\n\nEvery method is a good one. Fingers, the palm, the shower jet, a pillow, a toy: the clitoris likes steadiness more than force, and often the edges more than the centre.\n\nPlay with pressure, rhythm, position. Add lubricant: the sensations change completely. Explore elsewhere too: breasts, inner thighs, the entrance of the vagina.\n\nInvite your imagination: a memory, a scenario, something to read, a voice. Five minutes before sleep or an hour just for you, on your period or not, alone or with a partner watching: yours to compose.'**
   String get guideIntSoloBody;
 
   /// No description provided for @guideIntPeriodSexTitle.
@@ -4805,7 +4805,7 @@ abstract class AppLocalizations {
   /// No description provided for @guideIntPeriodSexBody.
   ///
   /// In en, this message translates to:
-  /// **'Nothing forbids it, many want it, and desire sometimes rises right then. What is left is logistics.\n\nA dark towel on the bed, a shower for two, a position where you lie down: the flow fades into the background. Tampons and cups come out before penetration.\n\nBlood helps things glide, orgasm relaxes: some find their period easier to live with afterwards. Others want nothing at all, and that is just as valid.\n\nSay it plainly: \"I\'m on my period, is that OK with you?\" Most partners care far less than you think.'**
+  /// **'Many want it, and desire sometimes rises right then. A period has sensations of its own, worth discovering.\n\nFor the setting: a dark towel on the bed, or a shower for two, where the water takes care of everything. Tampons and cups come out before penetration.\n\nBlood adds glide, the lower belly is more sensitive, and some say an orgasm relaxes their belly. Touch alone, without penetration, is also something to explore on those days.\n\nTo bring it up, one sentence is enough: \"I have my period, and I want you.\" The rest is invented together.'**
   String get guideIntPeriodSexBody;
 
   /// No description provided for @guideIntAnalTitle.
@@ -4817,7 +4817,7 @@ abstract class AppLocalizations {
   /// No description provided for @guideIntAnalBody.
   ///
   /// In en, this message translates to:
-  /// **'Curious, tempted, or asked without being sure you want to? First rule: it only happens if you want it.\n\nThe anus makes no lubrication and does not relax on command. So: a lot of lube, a lot of time, and start small. A finger, a small toy with a flared base, long before anything else.\n\nBreathe, and push out slightly at the moment of entry: the muscle opens. You set the pace. A position where you control the depth helps a lot.\n\nIt should not hurt. Some discomfort at first, yes. Pain: stop, add lube, try again later, or never.\n\nAs for cleanliness, a shower is enough. The rest is part of the game, and everybody knows it.'**
+  /// **'Curious? The anus is very rich in nerve endings, and exploring it can open a whole other range of sensations.\n\nIt does not lubricate by itself and likes to be given time. So: plenty of lubricant, and start on the outside, with touch and massage. Then a finger, or a small toy with a flared base.\n\nBreathe, and push out slightly at the moment of entry: the muscle opens. Set the pace, choose a position where you control the depth, and add clitoral touch: the sensations answer each other.\n\nPleasure is the compass: any discomfort, and you slow down, add lubricant, change the angle. A shower beforehand is enough to feel at ease.\n\nAnd exploring goes both ways: your partner may be curious too.'**
   String get guideIntAnalBody;
 
   /// No description provided for @guideIntLubeTitle.
@@ -4829,7 +4829,7 @@ abstract class AppLocalizations {
   /// No description provided for @guideIntLubeBody.
   ///
   /// In en, this message translates to:
-  /// **'It is not an admission of failure. It is what turns \"fine\" into \"more\".\n\nWater-based: goes with everything, dries faster, just add more. Silicone-based: glides for a long time, perfect in the shower and for anal, but not with silicone toys. Oils and petroleum jelly: lovely for a massage, to be kept away from latex condoms.\n\nWhen? As soon as it drags, for touching as for penetration, and always for anal. How wet you get changes with your cycle, stress, tiredness, breastfeeding, age: it says nothing about how much you want it.\n\nA tip: on you and on the other person, and the bottle within reach rather than at the back of the drawer.'**
+  /// **'It is what turns \"fine\" into \"more\". A bottle of lubricant is a pleasure accessory in its own right.\n\nWater-based: goes with everything, dries faster, just add more. Silicone-based: glides for a long time, perfect in the shower and for anal, but not with silicone toys. Oils: a treat for massage, but they damage the latex of condoms.\n\nTry it everywhere: for touch, alone or together, on a toy, for penetration, and always for anal. Many find that everything becomes softer, slower, more precise.\n\nExperiment: textures, warming or cooling effects, how much. On you and on your partner, with the bottle within reach and not at the back of the drawer.'**
   String get guideIntLubeBody;
 
   /// No description provided for @guideIntDesireCycleTitle.
@@ -4841,7 +4841,7 @@ abstract class AppLocalizations {
   /// No description provided for @guideIntDesireCycleBody.
   ///
   /// In en, this message translates to:
-  /// **'Some days you would climb the curtains, others you would rather have your series. Your cycle often has something to do with it.\n\nMany women feel their desire rise around the middle of the cycle and drop before their period. Others peak just before, or during. No calendar fits everyone.\n\nYours can be read in your journal: log your desire for a few cycles, and the app shows your high days. Handy to plan a weekend for two, or to understand a \"not tonight\" without making a thing of it.\n\nAnd then there is everything that is not hormonal: tiredness, mental load, an argument left open. The cycle tells part of the story, not all of it.'**
+  /// **'Some days you could climb the walls, others you want softness. Your cycle often has something to do with it, and that is ground to explore.\n\nMany women feel their desire rise around the middle of the cycle. Others peak just before their period, or during it. Each moment has its colour: more fiery, more tender, more sensitive.\n\nYours can be read in your journal: log your desire for a few cycles, and the app shows your high days. Enough to plan an evening, a weekend, or a date with yourself.\n\nNotice also what changes from one week to the next: what turns you on, the touch you prefer, how sensitive your skin is. You may discover several sides of your desire.'**
   String get guideIntDesireCycleBody;
 
   /// No description provided for @guideIntSquirtingTitle.
@@ -4853,7 +4853,7 @@ abstract class AppLocalizations {
   /// No description provided for @guideIntSquirtingBody.
   ///
   /// In en, this message translates to:
-  /// **'A star on screen, a mystery in bedrooms: female ejaculation intrigues, and many wonder whether they \"should\" manage it.\n\nSome women release fluid at a moment of intense pleasure, sometimes a lot, sometimes a few drops. Others never do. Researchers do not all agree on what it contains or where exactly it comes from.\n\nWhat is certain: it is neither proof of orgasm, nor a higher level, nor a performance to offer. And what you see in porn is staged.\n\nIf it happens to you: a towel, and no shame. If it does not: you are missing nothing.'**
+  /// **'A star on screen, a mystery in bedrooms: female ejaculation intrigues, and it can be explored out of plain curiosity.\n\nSome women release fluid at a moment of intense pleasure, sometimes a lot, sometimes a few drops. Others never do. Researchers do not all agree on what it contains or where exactly it comes from.\n\nThe lead most often mentioned: the front wall of the vagina, a few centimetres from the entrance, stimulated with curled fingers or a curved toy, while the clitoris is not forgotten. An urge to pee may show up: letting go is part of the experience.\n\nA towel on the bed, time, and no expectation: whether fluid comes or not, you will have explored an area with a lot to offer.'**
   String get guideIntSquirtingBody;
 
   /// No description provided for @guideIntPainTitle.
@@ -4865,7 +4865,7 @@ abstract class AppLocalizations {
   /// No description provided for @guideIntPainBody.
   ///
   /// In en, this message translates to:
-  /// **'Gritting your teeth until it is over was never part of the deal. Sex that hurts gets sorted, not endured.\n\nMost often it is a matter of time and glide: not turned on enough, not enough lube, penetration too soon or too deep. Slowing down, changing the angle, adding lube is often enough.\n\nSometimes the body closes by itself, even when the head says yes. Sometimes the pain is deep, or comes back at certain times of the cycle. Then it is no longer about technique.\n\nSay stop as soon as it hurts. Someone who cares about you would a thousand times rather stop.'**
+  /// **'Pleasure needs comfort. When it catches, pulls or hurts, there is almost always a lead to explore to find softness again.\n\nMost often it is a matter of time and glide: more touch beforehand, more lubricant, penetration later and less deep. Slowing down, changing the angle, adding lubricant often changes everything.\n\nPositions matter: the ones where you set the rhythm and the depth yourself, the ones on your side, which are gentler. And penetration is only one option among others: hands, mouths and toys offer a whole world.\n\nSometimes the body closes by itself, or the pain is deep and returns at certain times of the cycle. Then it is no longer about technique, and a health professional can help you find comfort again.'**
   String get guideIntPainBody;
 
   /// No description provided for @guideIntTearsTitle.
@@ -4877,7 +4877,7 @@ abstract class AppLocalizations {
   /// No description provided for @guideIntTearsBody.
   ///
   /// In en, this message translates to:
-  /// **'It was good, and yet the tears come. Or a low mood drops out of nowhere.\n\nIt happens to a lot of people. After a strong build-up, the body comes down: tension lets go, and sometimes it overflows.\n\nIt does not mean you are sad, or that something is wrong between the two of you. Sometimes it does: the body knows before the head that you did not really want to.\n\nIn the moment, say it plainly: \"I don\'t know why, it will pass\". Ask for arms or for air, whichever does you good.'**
+  /// **'It was good, and yet the tears come. Or a wave of emotion arrives all at once, for no clear reason.\n\nIt happens to many people. After a strong build-up, the body comes down: the tension lets go, and sometimes it overflows. Pleasure stirs far more than the skin.\n\nYou can welcome it as one more sensation: breathe, let it pass, feel what relaxes. Some find in it a moment of great tenderness.\n\nTogether, a few words are enough: \"it is just overflowing\". Arms, a blanket, silence or a fit of giggles: explore what best prolongs the moment.'**
   String get guideIntTearsBody;
 
   /// No description provided for @guideIntSayItTitle.
@@ -4889,7 +4889,7 @@ abstract class AppLocalizations {
   /// No description provided for @guideIntSayItBody.
   ///
   /// In en, this message translates to:
-  /// **'Nobody reads minds, not even in bed. And \"a bit to the left\" never killed the mood.\n\nThe simplest: guide as you go. A hand on theirs, a \"yes, like that\", a \"softer\". Short words work better than long speeches.\n\nFor bigger subjects, a new wish or something you no longer like, pick a moment with clothes on: in the car, on a walk, not right after.\n\nStart with what you like: \"I love it when you…\". Then the wish: \"I would like to try…\". And a no stays a no, both ways.'**
+  /// **'Saying what you like is a game that makes everything better. And \"a bit to the left\" never killed the mood.\n\nThe simplest way: guide in the moment. A hand over theirs, a \"yes, like that\", a \"more gently\". Short words and sighs work better than long speeches.\n\nFor new wishes, pick a quiet moment: in the car, on a walk, by message. \"I love it when you…\", \"I would like to try…\", \"and you, what would you like?\"\n\nYou can also make a game of it: each writes down three wishes, you swap, and you keep the ones that make you both smile. One person\'s curiosity feeds the other\'s.'**
   String get guideIntSayItBody;
 
   /// No description provided for @guideIntNoDesireTitle.
@@ -4901,7 +4901,7 @@ abstract class AppLocalizations {
   /// No description provided for @guideIntNoDesireBody.
   ///
   /// In en, this message translates to:
-  /// **'You love them, you find them attractive, and yet: nothing. Low desire is one of the most shared subjects, and the least admitted.\n\nLook at life first: broken sleep, mental load, a grudge that lingers, a body you do not like these days. Desire needs room, and there is none.\n\nFor many women, wanting does not fall from the sky: it comes along the way, once the touching has started. Waiting to want it before you begin can mean waiting a long time.\n\nWhat restarts it: time together with no goal, touch that leads to nothing required, something new, and moments alone with your own body.'**
+  /// **'Desire has its eclipses: it is one of the most widely shared subjects. And there are a thousand ways to invite it back.\n\nFor many women, desire does not fall from the sky: it comes along the way, once touching has started. Desire can follow pleasure, not only come before it.\n\nDesire needs room: sleep, time for yourself, a body you look after, a head that is a little emptier. Everything that does you good prepares the ground.\n\nLeads to explore: massages with nothing planned after, a bath for two, an erotic story or podcast, a new place, time alone with your body. Follow what wakes your curiosity, even a little.'**
   String get guideIntNoDesireBody;
 
   /// No description provided for @guideIntAfterBabyTitle.
@@ -4913,7 +4913,7 @@ abstract class AppLocalizations {
   /// No description provided for @guideIntAfterBabyBody.
   ///
   /// In en, this message translates to:
-  /// **'Between broken nights, a body that has changed and a baby attached to you, desire has good reasons to keep you waiting.\n\nThere is no date. Some start again after a few weeks, others after several months. The right time is when you want to and it does not hurt.\n\nThe body often makes less lubrication, especially while breastfeeding: lube becomes essential. Start with touching, and keep control of the pace.\n\nAnd the two of you? Say where you are, even if it is \"not now\". Tenderness with nothing required after it bridges the gap.'**
+  /// **'Between broken nights, a body that has changed and a baby attached to you, desire sometimes takes its time. When it returns, there is a sexuality to rediscover.\n\nEveryone has her own calendar: a few weeks for some, several months for others. Your desire gives the signal.\n\nYour body has new sensations to show you. It often lubricates less, especially when breastfeeding: lubricant becomes an ally. Start with touch, set the pace, explore what has changed and what is even better.\n\nTogether, tenderness with nothing planned after makes the bridge: massages, skin against skin, long kisses. You get to know each other again, and desire often follows.'**
   String get guideIntAfterBabyBody;
 
   /// No description provided for @guideIntMidlifeTitle.
@@ -4925,7 +4925,7 @@ abstract class AppLocalizations {
   /// No description provided for @guideIntMidlifeBody.
   ///
   /// In en, this message translates to:
-  /// **'No desire, or desire but it chafes? In perimenopause, desire plays hide and seek and the body makes less lubrication. It says nothing about your relationship, or about you.\n\nWhat changes: it often takes more time, more touching, and lube without a second thought. What does not: your ability to feel pleasure.\n\nMany women describe freer sex at this age: you know what you like, you dare to say it, you no longer pretend.\n\nBroken nights and hot flushes do not help desire. Looking after them is also looking after your sex life.'**
+  /// **'In perimenopause, desire plays hide and seek and the body changes its rhythm. For many, it is also the start of a freer sexuality.\n\nWhat changes: it often takes more time, more touch, and lubricant without counting. What does not change: your ability to feel pleasure.\n\nMany women say so: you know what you like, you dare to say it, you want to try things. Toys, new kinds of touch, new times of day: the ground widens.\n\nTaking your time becomes a pleasure in itself: foreplay that lasts, massages, a slowness that builds desire. And better rested nights do the rest.'**
   String get guideIntMidlifeBody;
 
   /// No description provided for @guideIntOnScheduleTitle.
@@ -4937,7 +4937,7 @@ abstract class AppLocalizations {
   /// No description provided for @guideIntOnScheduleBody.
   ///
   /// In en, this message translates to:
-  /// **'At first it was exciting. Three months later it is \"tonight, we have to\". Desire on demand: nobody likes that.\n\nIt is very common, and it says nothing about your relationship. Pressure cuts desire, for you as for the other.\n\nWhat lightens it: not staking everything on one evening, keeping moments with nothing at stake, and now and then putting the calendar away.\n\nTell the other one: \"I want you, not only a baby\". It changes the mood.'**
+  /// **'At first it was exciting. Three months later, it is \"tonight, we have to\". Pleasure can take back all its place.\n\nIt is very common: the calendar takes over, for you and for your partner. The good news is that desire comes back as soon as you make room for it again.\n\nBring back some play: another place, another time of day, a date prepared like a first one, touch that leads nowhere in particular. The days on the calendar can become evenings you look forward to.\n\nAnd in between, moments with nothing at stake, for pleasure alone. \"I want you\": that sentence changes the whole mood.'**
   String get guideIntOnScheduleBody;
 
   /// No description provided for @guideTopicIntimacy.
