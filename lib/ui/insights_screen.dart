@@ -1,6 +1,7 @@
 import 'package:material_ui/material_ui.dart';
 
 import '../domain/clinical_review.dart';
+import '../domain/cycle_change.dart';
 import '../domain/cycle_comparison.dart';
 import '../domain/cycle_history.dart';
 import '../domain/cycle_overview.dart';
@@ -8,6 +9,7 @@ import '../domain/cycle_status.dart';
 import '../domain/cycle_trends.dart';
 import '../l10n/app_localizations.dart';
 import 'app_environment.dart';
+import 'change_card.dart';
 import 'clinical_card.dart';
 import 'comparison_card.dart';
 import 'cycle_model.dart';
@@ -105,6 +107,17 @@ class InsightsScreen extends StatelessWidget {
               if (comparison != null) ...[
                 const SizedBox(height: 16),
                 ComparisonCard(comparison: comparison),
+              ],
+              if (model.followsCycleChanges) ...[
+                const SizedBox(height: 16),
+                ChangeCard(
+                  change: cycleChangeOn(
+                    today,
+                    cycles: cycles,
+                    days: model.days,
+                  ),
+                  saidAtSetup: model.recentChanges,
+                ),
               ],
               if (showFertility) ...[
                 const SizedBox(height: 16),
@@ -543,6 +556,17 @@ class DoctorReportScreen extends StatelessWidget {
                   if (comparison != null) ...[
                     gap,
                     ComparisonCard(comparison: comparison),
+                  ],
+                  if (model.followsCycleChanges) ...[
+                    gap,
+                    ChangeCard(
+                      change: cycleChangeOn(
+                        today,
+                        cycles: cycles,
+                        days: model.days,
+                      ),
+                      saidAtSetup: model.recentChanges,
+                    ),
                   ],
                   gap,
                   _AveragesCard(averages: cycleAverages(cycles, today: today)),

@@ -1669,4 +1669,104 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get periodEndDeclaredToday =>
       'Probably the last day, going by what you said';
+
+  @override
+  String get symptomHotFlashes => 'Hot flashes';
+
+  @override
+  String get symptomNightSweats => 'Night sweats';
+
+  @override
+  String get changeTitle => 'What is changing';
+
+  @override
+  String get changeIntro =>
+      'What your dates show from one cycle to the next. An observation, not a diagnosis.';
+
+  @override
+  String get changeTooFew =>
+      'Two complete cycles are needed to compare one with the next.';
+
+  @override
+  String changeNoDifference(int cycles) {
+    String _temp0 = intl.Intl.pluralLogic(
+      cycles,
+      locale: localeName,
+      other:
+          'Over your last $cycles cycles, none differs from the one before by 7 days or more.',
+      one: 'Your last cycle is within 7 days of the one before.',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String changeDifferences(int count, int cycles) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other:
+          '$count times over your last $cycles cycles, the length changed by 7 days or more from one cycle to the next.',
+      one:
+          'Once over your last $cycles cycles, the length changed by 7 days or more from one cycle to the next.',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String changeLongInterval(int days) {
+    return 'One cycle lasted $days days: 60 days or more between two periods.';
+  }
+
+  @override
+  String changeSinceLast(int days) {
+    return '$days days since your last period started: 60 days or more without a period.';
+  }
+
+  @override
+  String get changeNoSigns =>
+      'No hot flashes or night sweats logged in the last 90 days. You can tick them in your journal.';
+
+  @override
+  String changeSigns(int hot, int night) {
+    String _temp0 = intl.Intl.pluralLogic(
+      hot,
+      locale: localeName,
+      other: '$hot days',
+      one: '1 day',
+      zero: 'no day',
+    );
+    String _temp1 = intl.Intl.pluralLogic(
+      night,
+      locale: localeName,
+      other: '$night days',
+      one: '1 day',
+      zero: 'no day',
+    );
+    return 'In the last 90 days: hot flashes logged on $_temp0, night sweats on $_temp1.';
+  }
+
+  @override
+  String changeSaid(String changes) {
+    return 'When you set the app up, you said: $changes.';
+  }
+
+  @override
+  String get changeSaidHeavier => 'heavier flow';
+
+  @override
+  String get changeSaidLighter => 'lighter flow';
+
+  @override
+  String get changeSaidLessRegular => 'less regular periods';
+
+  @override
+  String get changeSaidLength => 'periods of a different length';
+
+  @override
+  String get changeToReport =>
+      'Worth telling a doctor or a midwife about: many things can move a cycle, and only a health professional can say what this means.';
+
+  @override
+  String get changeFooter =>
+      'Many things can move a cycle. Only a health professional can say what a change means.';
 }

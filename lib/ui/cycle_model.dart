@@ -13,6 +13,7 @@ import '../domain/period_starts.dart';
 import '../domain/reference_cycle.dart';
 import '../domain/reminders.dart';
 import '../domain/start_profile.dart';
+import '../domain/start_profile.dart' as start_profile;
 
 /// What the screens show, read from the local store and recomputed after
 /// every change: the flow log, the days with any entry, the prediction, and
@@ -102,6 +103,10 @@ class CycleModel extends ChangeNotifier {
 
   /// The changes she noticed in her periods when the app was set up.
   Set<RecentChange> get recentChanges => _recentChanges;
+
+  /// Whether the app follows what changes from one cycle to the next.
+  bool get followsCycleChanges =>
+      start_profile.followsCycleChanges(goals: _goals, age: age);
 
   /// Her age this year, or null when the year of birth is unknown.
   int? get age {

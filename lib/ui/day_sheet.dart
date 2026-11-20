@@ -39,6 +39,11 @@ class _DaySheet extends StatefulWidget {
 }
 
 class _DaySheetState extends State<_DaySheet> {
+  static const Set<Symptom> _changeSigns = {
+    Symptom.hotFlashes,
+    Symptom.nightSweats,
+  };
+
   late DayEntry _entry;
   late final TextEditingController _note;
 
@@ -186,12 +191,17 @@ class _DaySheetState extends State<_DaySheet> {
               title: l10n.daySymptomsTitle,
               children: [
                 for (final symptom in Symptom.values)
-                  FilterChip(
-                    key: ValueKey('symptom-${symptom.name}'),
-                    label: Text(symptomLabel(l10n, symptom)),
-                    selected: _entry.symptoms.contains(symptom),
-                    onSelected: (_) => _toggleSymptom(symptom),
-                  ),
+                  // The signs of a changing cycle are offered to those
+                  // who follow it, and kept wherever they were ticked.
+                  if (!_changeSigns.contains(symptom) ||
+                      widget.model.followsCycleChanges ||
+                      _entry.symptoms.contains(symptom))
+                    FilterChip(
+                      key: ValueKey('symptom-${symptom.name}'),
+                      label: Text(symptomLabel(l10n, symptom)),
+                      selected: _entry.symptoms.contains(symptom),
+                      onSelected: (_) => _toggleSymptom(symptom),
+                    ),
               ],
             ),
             const SizedBox(height: 20),

@@ -61,6 +61,8 @@ String symptomLabel(AppLocalizations l10n, Symptom symptom) =>
       Symptom.acne => l10n.symptomAcne,
       Symptom.cravings => l10n.symptomCravings,
       Symptom.insomnia => l10n.symptomInsomnia,
+      Symptom.hotFlashes => l10n.symptomHotFlashes,
+      Symptom.nightSweats => l10n.symptomNightSweats,
     };
 
 /// The name of a sign listed in the trends: a symptom as it is, any other

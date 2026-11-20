@@ -13,4 +13,6 @@ enum Symptom {
   acne,
   cravings,
   insomnia,
+  hotFlashes,
+  nightSweats,
 }

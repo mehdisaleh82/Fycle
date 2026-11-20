@@ -594,6 +594,19 @@ Retour de la testeuse sur la compilation n° 9, rapporté par l'utilisateur : po
     - Les rappels choisis pendant le parcours sont ceux qui sont activés ; ceux qu'elle passe restent coupés, et rien n'est réactivé derrière elle (complète les décisions 129 et 137). Le téléphone n'est interrogé que si elle garde au moins un rappel.
     - **Non repris**, volontairement : consentement au suivi publicitaire, « comment as-tu connu l'appli », compte, code partenaire (question ouverte), articles et encarts d'information médicale (à écrire et relire par un professionnel de santé), mode grossesse.
     - Textes nouveaux à faire relire par un professionnel de santé avant toute diffusion au-delà des deux testeurs (règle 7) : la question sur les changements récents et ses réponses, la question sur la régularité.
+142. **Suivi d'un cycle qui change : un constat, jamais un score** (étape 2 du parcours de départ, accord de l'utilisateur du 20 novembre 2026).
+    - Pour qui : celles qui ont choisi « Suivre une périménopause », ou à partir de 40 ans (même condition que la question du parcours, décision 141). Les autres ne voient rien de tout cela.
+    - Deux signes de plus à cocher dans le journal : bouffées de chaleur et sueurs nocturnes. Un signe déjà coché reste affiché même si elle change d'objectif.
+    - Une carte « Ce qui change », dans le bilan et dans le rapport pour le médecin (`lib/domain/cycle_change.dart`, `lib/ui/change_card.dart`). Elle compte, sur les dix derniers cycles complets :
+        - les cycles dont la durée diffère du précédent de 7 jours ou plus ; à partir de deux, l'écart « revient » ;
+        - un cycle de 60 jours ou plus, ou 60 jours ou plus écoulés depuis les dernières règles ;
+        - les jours où chaque signe a été noté, sur 90 jours ;
+        - et rappelle ce qu'elle avait indiqué au départ.
+    - Source des deux seuils : Harlow et al., STRAW + 10, 2012 (écart persistant de 7 jours ou plus entre cycles consécutifs, persistant voulant dire qu'il revient dans les 10 cycles ; intervalle de 60 jours ou plus sans règles). La fenêtre de 90 jours pour les signes est un choix de l'appli.
+    - **Ce que la carte ne fait pas** (règle 7) : elle ne nomme aucun stade, n'écrit pas le mot « ménopause », ne donne ni score ni probabilité. Quand un seuil est franchi, elle dit que c'est à signaler à un médecin ou à une sage-femme, et que beaucoup de choses peuvent faire bouger un cycle. Un test vérifie que le mot n'apparaît pas.
+    - Un cycle de plus de 90 jours reste traité comme un oubli de saisie, pas comme un changement (décision sur les cycles plausibles).
+    - Textes à faire relire par un professionnel de santé avant toute diffusion au-delà des deux testeurs.
+    - Non fait : articles d'information sur la périménopause (à écrire et relire par un professionnel de santé), autres signes (humeur et sommeil sont déjà dans le journal).
 
 ## Questions ouvertes
 

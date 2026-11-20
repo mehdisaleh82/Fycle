@@ -10,6 +10,7 @@ import 'package:fycle/data/widget_gateway.dart';
 import 'package:fycle/domain/calendar_day.dart';
 import 'package:fycle/domain/day_entry.dart';
 import 'package:fycle/domain/flow_intensity.dart';
+import 'package:fycle/domain/start_profile.dart';
 import 'package:fycle/domain/widget_snapshot.dart';
 import 'package:fycle/ui/app.dart';
 import 'package:fycle/ui/app_environment.dart';
@@ -158,11 +159,17 @@ final class Harness {
   Future<void> seed({
     Iterable<DayEntry> days = const [],
     int? usualCycleLength,
+    int? birthYear,
+    Set<Goal> goals = const {},
+    Set<RecentChange> recentChanges = const {},
     bool remindersDefaultApplied = true,
   }) async {
     final store = await openStore();
     days.forEach(store.database.saveDay);
     store.database.usualCycleLength = usualCycleLength;
+    store.database.birthYear = birthYear;
+    store.database.goals = goals;
+    store.database.recentChanges = recentChanges;
     if (remindersDefaultApplied) {
       store.database.dismissSuggestion('reminders_default');
     }

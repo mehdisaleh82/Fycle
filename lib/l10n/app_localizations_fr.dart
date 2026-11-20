@@ -1688,4 +1688,104 @@ class AppLocalizationsFr extends AppLocalizations {
   @override
   String get periodEndDeclaredToday =>
       'Sans doute le dernier jour, d\'après ce que tu as indiqué';
+
+  @override
+  String get symptomHotFlashes => 'Bouffées de chaleur';
+
+  @override
+  String get symptomNightSweats => 'Sueurs nocturnes';
+
+  @override
+  String get changeTitle => 'Ce qui change';
+
+  @override
+  String get changeIntro =>
+      'Ce que tes dates montrent d\'un cycle au suivant. Un constat, pas un diagnostic.';
+
+  @override
+  String get changeTooFew =>
+      'Il faut deux cycles complets pour comparer un cycle au suivant.';
+
+  @override
+  String changeNoDifference(int cycles) {
+    String _temp0 = intl.Intl.pluralLogic(
+      cycles,
+      locale: localeName,
+      other:
+          'Sur tes $cycles derniers cycles, aucun ne diffère du précédent de 7 jours ou plus.',
+      one: 'Ton dernier cycle est à moins de 7 jours du précédent.',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String changeDifferences(int count, int cycles) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other:
+          '$count fois sur tes $cycles derniers cycles, la durée a changé de 7 jours ou plus d\'un cycle au suivant.',
+      one:
+          'Une fois sur tes $cycles derniers cycles, la durée a changé de 7 jours ou plus d\'un cycle au suivant.',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String changeLongInterval(int days) {
+    return 'Un cycle a duré $days jours : 60 jours ou plus entre deux règles.';
+  }
+
+  @override
+  String changeSinceLast(int days) {
+    return '$days jours depuis le début de tes dernières règles : 60 jours ou plus sans règles.';
+  }
+
+  @override
+  String get changeNoSigns =>
+      'Ni bouffées de chaleur ni sueurs nocturnes notées ces 90 derniers jours. Tu peux les cocher dans ton journal.';
+
+  @override
+  String changeSigns(int hot, int night) {
+    String _temp0 = intl.Intl.pluralLogic(
+      hot,
+      locale: localeName,
+      other: '$hot jours',
+      one: '1 jour',
+      zero: 'aucun jour',
+    );
+    String _temp1 = intl.Intl.pluralLogic(
+      night,
+      locale: localeName,
+      other: '$night jours',
+      one: '1 jour',
+      zero: 'aucun jour',
+    );
+    return 'Ces 90 derniers jours : bouffées de chaleur notées $_temp0, sueurs nocturnes $_temp1.';
+  }
+
+  @override
+  String changeSaid(String changes) {
+    return 'Au départ, tu avais indiqué : $changes.';
+  }
+
+  @override
+  String get changeSaidHeavier => 'flux plus abondant';
+
+  @override
+  String get changeSaidLighter => 'flux plus léger';
+
+  @override
+  String get changeSaidLessRegular => 'règles moins régulières';
+
+  @override
+  String get changeSaidLength => 'durée des règles changée';
+
+  @override
+  String get changeToReport =>
+      'À signaler à un médecin ou à une sage-femme : beaucoup de choses peuvent faire bouger un cycle, et seul un professionnel de santé peut dire ce que cela signifie.';
+
+  @override
+  String get changeFooter =>
+      'Beaucoup de choses peuvent faire bouger un cycle. Seul un professionnel de santé peut dire ce qu\'un changement signifie.';
 }

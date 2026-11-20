@@ -35,6 +35,12 @@ bool asksAboutRecentChanges({required Set<Goal> goals, int? age}) =>
     goals.contains(Goal.perimenopause) ||
     (age != null && age >= recentChangesFromAge);
 
+/// Whether the app follows what changes from one cycle to the next: the
+/// signs to log, and the card of the review. Same condition as the
+/// question of the setup.
+bool followsCycleChanges({required Set<Goal> goals, int? age}) =>
+    asksAboutRecentChanges(goals: goals, age: age);
+
 /// Whether the estimate of the fertile window is shown from the start.
 /// Without an answer, it is. With answers, only if one of them is about
 /// conceiving or about understanding her body: someone who only wants the

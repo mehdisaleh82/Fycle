@@ -2635,6 +2635,114 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Probably the last day, going by what you said'**
   String get periodEndDeclaredToday;
+
+  /// No description provided for @symptomHotFlashes.
+  ///
+  /// In en, this message translates to:
+  /// **'Hot flashes'**
+  String get symptomHotFlashes;
+
+  /// No description provided for @symptomNightSweats.
+  ///
+  /// In en, this message translates to:
+  /// **'Night sweats'**
+  String get symptomNightSweats;
+
+  /// No description provided for @changeTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'What is changing'**
+  String get changeTitle;
+
+  /// No description provided for @changeIntro.
+  ///
+  /// In en, this message translates to:
+  /// **'What your dates show from one cycle to the next. An observation, not a diagnosis.'**
+  String get changeIntro;
+
+  /// No description provided for @changeTooFew.
+  ///
+  /// In en, this message translates to:
+  /// **'Two complete cycles are needed to compare one with the next.'**
+  String get changeTooFew;
+
+  /// No description provided for @changeNoDifference.
+  ///
+  /// In en, this message translates to:
+  /// **'{cycles, plural, =1{Your last cycle is within 7 days of the one before.} other{Over your last {cycles} cycles, none differs from the one before by 7 days or more.}}'**
+  String changeNoDifference(int cycles);
+
+  /// No description provided for @changeDifferences.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{Once over your last {cycles} cycles, the length changed by 7 days or more from one cycle to the next.} other{{count} times over your last {cycles} cycles, the length changed by 7 days or more from one cycle to the next.}}'**
+  String changeDifferences(int count, int cycles);
+
+  /// No description provided for @changeLongInterval.
+  ///
+  /// In en, this message translates to:
+  /// **'One cycle lasted {days} days: 60 days or more between two periods.'**
+  String changeLongInterval(int days);
+
+  /// No description provided for @changeSinceLast.
+  ///
+  /// In en, this message translates to:
+  /// **'{days} days since your last period started: 60 days or more without a period.'**
+  String changeSinceLast(int days);
+
+  /// No description provided for @changeNoSigns.
+  ///
+  /// In en, this message translates to:
+  /// **'No hot flashes or night sweats logged in the last 90 days. You can tick them in your journal.'**
+  String get changeNoSigns;
+
+  /// No description provided for @changeSigns.
+  ///
+  /// In en, this message translates to:
+  /// **'In the last 90 days: hot flashes logged on {hot, plural, =0{no day} =1{1 day} other{{hot} days}}, night sweats on {night, plural, =0{no day} =1{1 day} other{{night} days}}.'**
+  String changeSigns(int hot, int night);
+
+  /// No description provided for @changeSaid.
+  ///
+  /// In en, this message translates to:
+  /// **'When you set the app up, you said: {changes}.'**
+  String changeSaid(String changes);
+
+  /// No description provided for @changeSaidHeavier.
+  ///
+  /// In en, this message translates to:
+  /// **'heavier flow'**
+  String get changeSaidHeavier;
+
+  /// No description provided for @changeSaidLighter.
+  ///
+  /// In en, this message translates to:
+  /// **'lighter flow'**
+  String get changeSaidLighter;
+
+  /// No description provided for @changeSaidLessRegular.
+  ///
+  /// In en, this message translates to:
+  /// **'less regular periods'**
+  String get changeSaidLessRegular;
+
+  /// No description provided for @changeSaidLength.
+  ///
+  /// In en, this message translates to:
+  /// **'periods of a different length'**
+  String get changeSaidLength;
+
+  /// No description provided for @changeToReport.
+  ///
+  /// In en, this message translates to:
+  /// **'Worth telling a doctor or a midwife about: many things can move a cycle, and only a health professional can say what this means.'**
+  String get changeToReport;
+
+  /// No description provided for @changeFooter.
+  ///
+  /// In en, this message translates to:
+  /// **'Many things can move a cycle. Only a health professional can say what a change means.'**
+  String get changeFooter;
 }
 
 class _AppLocalizationsDelegate
