@@ -8,8 +8,8 @@ import 'package:material_ui/material_ui.dart';
 
 import 'harness.dart';
 
-/// The public health sites the app may send her to. Never a competitor
-/// (CLAUDE.md, rule 8), never a shop.
+/// The sites the app may send her to: public health sites and general
+/// media. Never a competitor (CLAUDE.md, rule 8), never a shop.
 const allowedHosts = {
   'www.nhs.uk',
   'www.brook.org.uk',
@@ -18,6 +18,11 @@ const allowedHosts = {
   'www.sante.fr',
   'www.procreation-medicale.fr',
   'questionsexualite.fr',
+  'www.slate.fr',
+  'www.brut.media',
+  'www.parismatch.be',
+  'www.rtbf.be',
+  'www.lalibre.be',
 };
 
 void main() {
@@ -37,7 +42,7 @@ void main() {
     expect(parseReadingLinks(''), isEmpty);
   });
 
-  test('every link goes to a public health site, in both languages', () {
+  test('every link goes to a site of the list, in both languages', () {
     for (final code in ['en', 'fr']) {
       final l10n = lookupAppLocalizations(Locale(code));
       var count = 0;

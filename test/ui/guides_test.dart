@@ -59,12 +59,73 @@ void main() {
     await openReview(tester);
     await tapVisible(tester, key('open-guides'));
 
-    expect(
-      tester.getTopLeft(key('guide-topic-pregnancy')).dy,
-      lessThan(tester.getTopLeft(key('guide-topic-perimenopause')).dy),
+    // Her topic is at the top, intimacy next, the other one further down.
+    expect(key('guide-topic-pregnancy'), findsOneWidget);
+    expect(key('guide-topic-perimenopause'), findsNothing);
+    await tester.scrollUntilVisible(
+      key('guide-perimenopauseSeekAdvice'),
+      300,
+      scrollable: find.byType(Scrollable).last,
     );
     await tapVisible(tester, key('guide-perimenopauseSeekAdvice'));
     expect(textOf(tester, 'guide-title'), 'When to see a doctor');
+  });
+
+  testWidgets('intimacy is a row of cards on the home screen', (tester) async {
+    // 1 March: the second day of a period.
+    final harness = Harness(tester, today: CalendarDay(2026, 3, 1));
+    await harness.seed(
+      days: [
+        ...periodFrom(CalendarDay(2026, 1, 3)),
+        ...periodFrom(CalendarDay(2026, 1, 31)),
+        ...periodFrom(CalendarDay(2026, 2, 28)),
+      ],
+    );
+    await harness.pumpApp();
+
+    // During her period, what is about it comes first.
+    final first = key('intimacy-card-intimacyPeriodSex');
+    await tester.scrollUntilVisible(
+      first,
+      300,
+      scrollable: find.byType(Scrollable).first,
+    );
+    expect(
+      tester.getTopLeft(first).dx,
+      tester.getTopLeft(key('intimacy-carousel')).dx,
+    );
+
+    await tapVisible(tester, first);
+    expect(
+      textOf(tester, 'guide-title'),
+      'Sex on your period: yes, and here is how',
+    );
+    expect(find.text('Worth knowing'), findsOneWidget);
+    // Still said to be awaiting review.
+    expect(key('guide-pending-review'), findsOneWidget);
+  });
+
+  testWidgets('nothing about intimacy for a minor, nor once turned off', (
+    tester,
+  ) async {
+    final minor = Harness(tester);
+    await minor.seed(
+      days: periodFrom(CalendarDay(2026, 2, 28)),
+      birthYear: 2011,
+    );
+    await minor.pumpApp();
+    expect(key('intimacy-title'), findsNothing);
+    await openReview(tester);
+    await tapVisible(tester, key('open-guides'));
+    expect(key('guide-topic-intimacy'), findsNothing);
+  });
+
+  testWidgets('nothing about intimacy once she turned it off', (tester) async {
+    final harness = Harness(tester);
+    await harness.seed(days: periodFrom(CalendarDay(2026, 2, 28)));
+    await harness.read((store) => store.database.sexLifeVisible = false);
+    await harness.pumpApp();
+    expect(key('intimacy-title'), findsNothing);
   });
 
   test('every guide has a text in both languages, and French says "tu"', () {
@@ -76,8 +137,10 @@ void main() {
         expect(text.body.split('\n\n').length, greaterThan(2));
         expect(text.seek, isNotEmpty);
         // No treatment is named, no contraception advice is given.
-        for (final word in ['HRT', 'THS', 'pilule', ' pill', 'préservatif']) {
-          expect('${text.body} ${text.seek}', isNot(contains(word)));
+        if (guide.topic != GuideTopic.intimacy) {
+          for (final word in ['HRT', 'THS', 'pilule', ' pill', 'préservatif']) {
+            expect('${text.body} ${text.seek}', isNot(contains(word)));
+          }
         }
         if (code == 'fr') {
           expect(

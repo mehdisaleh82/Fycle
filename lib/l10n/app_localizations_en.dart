@@ -2838,7 +2838,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get guidesIntro =>
-      'Short pages of general information, written from public health sources. They replace no appointment.';
+      'Short pages written for you. They replace no appointment.';
 
   @override
   String get guideTopicPerimenopause => 'Perimenopause';
@@ -2874,55 +2874,56 @@ class AppLocalizationsEn extends AppLocalizations {
       'Written from the pages of the NHS (United Kingdom) on pregnancy week by week, pregnancy care, the baby\'s movements, bleeding in pregnancy, pre-eclampsia and the body after the birth, read on 20 November 2026.';
 
   @override
-  String get guidePeriWhatTitle => 'Perimenopause: what it is';
+  String get guidePeriWhatTitle => 'Perimenopause: what is going on?';
 
   @override
   String get guidePeriWhatBody =>
-      'Perimenopause is the time when periods become irregular, before they stop for good. It comes from a fall in hormone levels.\n\nMenopause is reached after 12 months without a period, when no hormonal contraception is used. It usually happens between 45 and 55, sometimes earlier.\n\nSymptoms usually last 7 to 9 years, sometimes longer, and change over time. They differ a lot from one person to the next: some are hardly affected, others a great deal.\n\nThere is no routine test: a doctor goes by age and symptoms.';
+      'A cycle doing whatever it likes, broken nights, a mood on a rollercoaster: what if that was it? The word is scary, the thing is ordinary, and nobody told you.\n\nPerimenopause is the time when periods become irregular, before they stop for good. It comes from a fall in hormone levels.\n\nMenopause is reached after 12 months without a period, when no hormonal contraception is used. It usually happens between 45 and 55, sometimes earlier.\n\nSymptoms usually last 7 to 9 years, sometimes longer, and change over time. They differ a lot from one person to the next: some are hardly affected, others a great deal.\n\nThere is no routine test: a doctor goes by age and symptoms.';
 
   @override
   String get guidePeriWhatSeek =>
       'Talk to a doctor if you think you have symptoms and want to know your options.';
 
   @override
-  String get guidePeriPeriodsTitle => 'Periods that change';
+  String get guidePeriPeriodsTitle => 'My periods are all over the place';
 
   @override
   String get guidePeriPeriodsBody =>
-      'A change in periods is usually one of the first signs of perimenopause.\n\nThey may come more often or less often. Bleeding may become heavier or lighter.\n\nIn the end, periods stop altogether.\n\nHormonal contraception can change or stop periods, which makes it harder to tell where you are.\n\nLogging your periods here shows how the gap between them changes over the months.';
+      'Twenty-three days, then forty, then a flood: your cycle has not lost its mind, it is changing pace.\n\nA change in periods is usually one of the first signs of perimenopause.\n\nThey may come more often or less often. Bleeding may become heavier or lighter.\n\nIn the end, periods stop altogether.\n\nHormonal contraception can change or stop periods, which makes it harder to tell where you are.\n\nLogging your periods here shows how the gap between them changes over the months.';
 
   @override
   String get guidePeriPeriodsSeek =>
       'See a doctor if your bleeding pattern has changed and you bleed more than before, or if you bleed after 12 months or more without a period.';
 
   @override
-  String get guidePeriFlushesTitle => 'Hot flushes and night sweats';
+  String get guidePeriFlushesTitle => 'Hot flushes: the inner radiator';
 
   @override
   String get guidePeriFlushesBody =>
-      'A hot flush is a sudden feeling of heat, or of cold, in the face, neck and chest. It lasts a few minutes and can come with heavy sweating, a racing heart or dizziness.\n\nAt night, they are called night sweats and can disturb sleep.\n\nWhat the NHS lists as helping day to day: light clothing, a cool bedroom, a cool shower, a fan or a cold drink, less stress, regular exercise, and fewer triggers such as spicy food, caffeine, hot drinks, alcohol and smoking.\n\nTreatments exist: a doctor can go through them with you.';
+      'In a meeting, in bed, on the train: the wave rises without warning. You are not the only one opening the window in January.\n\nA hot flush is a sudden feeling of heat, or of cold, in the face, neck and chest. It lasts a few minutes and can come with heavy sweating, a racing heart or dizziness.\n\nAt night, they are called night sweats and can disturb sleep.\n\nWhat the NHS lists as helping day to day: light clothing, a cool bedroom, a cool shower, a fan or a cold drink, less stress, regular exercise, and fewer triggers such as spicy food, caffeine, hot drinks, alcohol and smoking.\n\nTreatments exist: a doctor can go through them with you.';
 
   @override
   String get guidePeriFlushesSeek =>
       'Talk to a doctor if you want to know your options, or if you have palpitations.';
 
   @override
-  String get guidePeriSleepTitle => 'Sleep, mood and memory';
+  String get guidePeriSleepTitle =>
+      'Broken nights, wobbly moods, missing words';
 
   @override
   String get guidePeriSleepBody =>
-      'Trouble falling asleep or staying asleep is common, and often worse with night sweats.\n\nMood swings, low mood or anxiety may come too. So may trouble with memory or concentration, which feels worse after poor sleep.\n\nWhat the NHS lists as helping: regular sleep times, as much rest as you can, regular exercise, relaxing activities such as yoga or meditation, and talking with people going through the same thing.\n\nA talking therapy can help with low mood, anxiety and sleep. A doctor can also suggest treatments.';
+      'You look for your keys, then for the word \"keys\". No, you are not losing your mind.\n\nTrouble falling asleep or staying asleep is common, and often worse with night sweats.\n\nMood swings, low mood or anxiety may come too. So may trouble with memory or concentration, which feels worse after poor sleep.\n\nWhat the NHS lists as helping: regular sleep times, as much rest as you can, regular exercise, relaxing activities such as yoga or meditation, and talking with people going through the same thing.\n\nA talking therapy can help with low mood, anxiety and sleep. A doctor can also suggest treatments.';
 
   @override
   String get guidePeriSleepSeek =>
       'Talk to a doctor if you want to know your options. Getting advice early can limit the effects on your health, your relationships and your work.';
 
   @override
-  String get guidePeriSexTitle => 'Sex and dryness';
+  String get guidePeriSexTitle => 'Desire that shifts, a body that lags';
 
   @override
   String get guidePeriSexBody =>
-      'A lower sex drive is one of the possible symptoms of perimenopause.\n\nThe vagina may feel dry, burning, irritated or itchy, which can make sex painful. Urinary infections, or signs that feel like one, may also come more often.\n\nThese symptoms can go on after menopause. Solutions exist: a pharmacist or a doctor can suggest some, in private.\n\nA pregnancy is still possible during perimenopause.';
+      'No desire, or desire but it chafes? Desire plays hide and seek, and it says nothing about your couple, or about you.\n\nA lower sex drive is one of the possible symptoms of perimenopause.\n\nThe vagina may feel dry, burning, irritated or itchy, which can make sex painful. Urinary infections, or signs that feel like one, may also come more often.\n\nThese symptoms can go on after menopause. Solutions exist: a pharmacist or a doctor can suggest some, in private.\n\nA pregnancy is still possible during perimenopause.';
 
   @override
   String get guidePeriSexSeek =>
@@ -3047,4 +3048,185 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get linksPregnancy =>
       'Pregnancy|NHS|https://www.nhs.uk/pregnancy/\nSex and contraception after birth|NHS|https://www.nhs.uk/conditions/baby/support-and-services/sex-and-contraception-after-birth/';
+
+  @override
+  String get guideIntOrgasmTitle => 'Orgasm: all your questions';
+
+  @override
+  String get guideIntOrgasmBody =>
+      'Fireworks for some, a quiet wave for others, a no-show for many: orgasm has a thousand faces, and none is the right one.\n\nFor most women, it all starts with the clitoris. What you see is only the tip: it runs on inside, on either side of the vagina. That is why penetration alone is rarely enough, and why a hand, a tongue or a toy on top changes everything.\n\nVaginal or clitoral? An old debate: it is the same organ, reached by different roads. Together, multiple, loud? Nice extras, not goals.\n\nWhat really helps: time, being turned on before you start, a head that is not elsewhere, and someone, you included, who knows where and how.';
+
+  @override
+  String get guideIntOrgasmKeep =>
+      'No orgasm this time does not mean it failed. Pleasure is not measured at the finish line.';
+
+  @override
+  String get guideIntNoOrgasmTitle => 'I can\'t come: so what?';
+
+  @override
+  String get guideIntNoOrgasmBody =>
+      'You fake it, or you wait for it while wondering what is wrong. Spoiler: probably nothing.\n\nMany women rarely or never come from penetration alone. It is not a manufacturing fault: it is anatomy.\n\nThe usual brakes are not in the body: the pressure to get there, tiredness, the shopping list scrolling by, a partner in a hurry, the habit of coming second.\n\nWhere to start: alone, with nothing at stake, to find what does something for you. Then show it or say it. And take orgasm off the list of things to achieve: it comes more readily when nobody is waiting at the door.';
+
+  @override
+  String get guideIntNoOrgasmKeep =>
+      'If it weighs on you, or if it used to be easy and no longer is, a sex therapist or a midwife can talk about it without awkwardness.';
+
+  @override
+  String get guideIntSoloTitle =>
+      'Touching yourself: the manual nobody gave you';
+
+  @override
+  String get guideIntSoloBody =>
+      'Hardly anyone talks about it, nearly everyone does it. Masturbating is neither a consolation prize nor cheating: it is the surest way to know what you like.\n\nThere is no right method. Fingers, the palm, the shower head, a pillow, a toy: the clitoris likes steadiness more than force, and often the edges more than the centre.\n\nChange the pressure, the rhythm, the position. Add lube: it changes everything. Take your time, or not: five minutes before sleep count too.\n\nDuring your period? Yes, and some say it eases their cramps. In a relationship? Yes too: one takes nothing from the other.';
+
+  @override
+  String get guideIntSoloKeep =>
+      'Clean hands, toys washed after use, and a flared base for anything that goes near the anus. The rest is nobody\'s business but yours.';
+
+  @override
+  String get guideIntPeriodSexTitle =>
+      'Sex on your period: yes, and here is how';
+
+  @override
+  String get guideIntPeriodSexBody =>
+      'Nothing forbids it, many want it, and desire sometimes rises right then. What is left is logistics.\n\nA dark towel on the bed, a shower for two, a position where you lie down: the flow fades into the background. Tampons and cups come out before penetration.\n\nBlood helps things glide, orgasm relaxes: some find their period easier to live with afterwards. Others want nothing at all, and that is just as valid.\n\nSay it plainly: \"I\'m on my period, is that OK with you?\" Most partners care far less than you think.';
+
+  @override
+  String get guideIntPeriodSexKeep =>
+      'A period protects neither from a pregnancy nor from infections.';
+
+  @override
+  String get guideIntAnalTitle =>
+      'Anal sex: wanting it, getting ready, staying comfortable';
+
+  @override
+  String get guideIntAnalBody =>
+      'Curious, tempted, or asked without being sure you want to? First rule: it only happens if you want it.\n\nThe anus makes no lubrication and does not relax on command. So: a lot of lube, a lot of time, and start small. A finger, a small toy with a flared base, long before anything else.\n\nBreathe, and push out slightly at the moment of entry: the muscle opens. You set the pace. A position where you control the depth helps a lot.\n\nIt should not hurt. Some discomfort at first, yes. Pain: stop, add lube, try again later, or never.\n\nAs for cleanliness, a shower is enough. The rest is part of the game, and everybody knows it.';
+
+  @override
+  String get guideIntAnalKeep =>
+      'Never from the anus to the vagina without changing the condom or washing what went in. A condom protects from infections; with one, no oil-based lube.';
+
+  @override
+  String get guideIntLubeTitle => 'Lube: the best friend nobody dares to buy';
+
+  @override
+  String get guideIntLubeBody =>
+      'It is not an admission of failure. It is what turns \"fine\" into \"more\".\n\nWater-based: goes with everything, dries faster, just add more. Silicone-based: glides for a long time, perfect in the shower and for anal, but not with silicone toys. Oils and petroleum jelly: lovely for a massage, to be kept away from latex condoms.\n\nWhen? As soon as it drags, for touching as for penetration, and always for anal. How wet you get changes with your cycle, stress, tiredness, breastfeeding, age: it says nothing about how much you want it.\n\nA tip: on you and on the other person, and the bottle within reach rather than at the back of the drawer.';
+
+  @override
+  String get guideIntLubeKeep =>
+      'If a product stings or irritates, change formula: simpler, unscented.';
+
+  @override
+  String get guideIntDesireCycleTitle => 'Your desire has its seasons';
+
+  @override
+  String get guideIntDesireCycleBody =>
+      'Some days you would climb the curtains, others you would rather have your series. Your cycle often has something to do with it.\n\nMany women feel their desire rise around the middle of the cycle and drop before their period. Others peak just before, or during. No calendar fits everyone.\n\nYours can be read in your journal: log your desire for a few cycles, and the app shows your high days. Handy to plan a weekend for two, or to understand a \"not tonight\" without making a thing of it.\n\nAnd then there is everything that is not hormonal: tiredness, mental load, an argument left open. The cycle tells part of the story, not all of it.';
+
+  @override
+  String get guideIntDesireCycleKeep =>
+      'Your rhythm is the right one. It is there to know yourself, not to compare.';
+
+  @override
+  String get guideIntSquirtingTitle =>
+      'Squirting: what is known, what is fantasy';
+
+  @override
+  String get guideIntSquirtingBody =>
+      'A star on screen, a mystery in bedrooms: female ejaculation intrigues, and many wonder whether they \"should\" manage it.\n\nSome women release fluid at a moment of intense pleasure, sometimes a lot, sometimes a few drops. Others never do. Researchers do not all agree on what it contains or where exactly it comes from.\n\nWhat is certain: it is neither proof of orgasm, nor a higher level, nor a performance to offer. And what you see in porn is staged.\n\nIf it happens to you: a towel, and no shame. If it does not: you are missing nothing.';
+
+  @override
+  String get guideIntSquirtingKeep =>
+      'Curious to explore? Relaxation, time, the front wall of the vagina. Without a goal, it is more fun.';
+
+  @override
+  String get guideIntPainTitle => 'When it hurts';
+
+  @override
+  String get guideIntPainBody =>
+      'Gritting your teeth until it is over was never part of the deal. Sex that hurts gets sorted, not endured.\n\nMost often it is a matter of time and glide: not turned on enough, not enough lube, penetration too soon or too deep. Slowing down, changing the angle, adding lube is often enough.\n\nSometimes the body closes by itself, even when the head says yes. Sometimes the pain is deep, or comes back at certain times of the cycle. Then it is no longer about technique.\n\nSay stop as soon as it hurts. Someone who cares about you would a thousand times rather stop.';
+
+  @override
+  String get guideIntPainKeep =>
+      'Pain that keeps coming back, burning, bleeding after sex: talk to a midwife or a doctor. Log it in your journal, it helps to talk about it.';
+
+  @override
+  String get guideIntTearsTitle => 'Crying after sex';
+
+  @override
+  String get guideIntTearsBody =>
+      'It was good, and yet the tears come. Or a low mood drops out of nowhere.\n\nIt happens to a lot of people. After a strong build-up, the body comes down: tension lets go, and sometimes it overflows.\n\nIt does not mean you are sad, or that something is wrong between the two of you. Sometimes it does: the body knows before the head that you did not really want to.\n\nIn the moment, say it plainly: \"I don\'t know why, it will pass\". Ask for arms or for air, whichever does you good.';
+
+  @override
+  String get guideIntTearsKeep =>
+      'If it comes back often, or stirs up difficult memories, talking to someone whose job it is does good.';
+
+  @override
+  String get guideIntSayItTitle => 'Saying what you like, and what you don\'t';
+
+  @override
+  String get guideIntSayItBody =>
+      'Nobody reads minds, not even in bed. And \"a bit to the left\" never killed the mood.\n\nThe simplest: guide as you go. A hand on theirs, a \"yes, like that\", a \"softer\". Short words work better than long speeches.\n\nFor bigger subjects, a new wish or something you no longer like, pick a moment with clothes on: in the car, on a walk, not right after.\n\nStart with what you like: \"I love it when you…\". Then the wish: \"I would like to try…\". And a no stays a no, both ways.';
+
+  @override
+  String get guideIntSayItKeep =>
+      'Saying no to a practice is not saying no to the person. You can change your mind at any time, even halfway through.';
+
+  @override
+  String get guideIntNoDesireTitle => 'No desire at all: where to start again';
+
+  @override
+  String get guideIntNoDesireBody =>
+      'You love them, you find them attractive, and yet: nothing. Low desire is one of the most shared subjects, and the least admitted.\n\nLook at life first: broken sleep, mental load, a grudge that lingers, a body you do not like these days. Desire needs room, and there is none.\n\nFor many women, wanting does not fall from the sky: it comes along the way, once the touching has started. Waiting to want it before you begin can mean waiting a long time.\n\nWhat restarts it: time together with no goal, touch that leads to nothing required, something new, and moments alone with your own body.';
+
+  @override
+  String get guideIntNoDesireKeep =>
+      'If the drop is sudden, or comes with a new medicine, a baby or a changing cycle, talk to a health professional.';
+
+  @override
+  String get guideIntAfterBabyTitle =>
+      'After a baby: sex comes back, or not just yet';
+
+  @override
+  String get guideIntAfterBabyBody =>
+      'Between broken nights, a body that has changed and a baby attached to you, desire has good reasons to keep you waiting.\n\nThere is no date. Some start again after a few weeks, others after several months. The right time is when you want to and it does not hurt.\n\nThe body often makes less lubrication, especially while breastfeeding: lube becomes essential. Start with touching, and keep control of the pace.\n\nAnd the couple? Say where you are, even if it is \"not now\". Tenderness with nothing required after it bridges the gap.';
+
+  @override
+  String get guideIntAfterBabyKeep =>
+      'Pain during sex that lasts is worth telling a midwife or a doctor. A pregnancy is possible even before periods are back.';
+
+  @override
+  String get guideIntMidlifeTitle => 'Perimenopause: sex changes its rules';
+
+  @override
+  String get guideIntMidlifeBody =>
+      'No desire, or desire but it chafes? In perimenopause, desire plays hide and seek and the body makes less lubrication. It says nothing about your couple, or about you.\n\nWhat changes: it often takes more time, more touching, and lube without a second thought. What does not: your ability to feel pleasure.\n\nMany women describe freer sex at this age: you know what you like, you dare to say it, you no longer pretend.\n\nBroken nights and hot flushes do not help desire. Looking after them is also looking after your sex life.';
+
+  @override
+  String get guideIntMidlifeKeep =>
+      'Dryness and pain are not a fate: a pharmacist or a doctor can talk to you about it. A pregnancy is still possible.';
+
+  @override
+  String get guideIntOnScheduleTitle =>
+      'Trying for a baby: when sex becomes a schedule';
+
+  @override
+  String get guideIntOnScheduleBody =>
+      'At first it was exciting. Three months later it is \"tonight, we have to\". Desire on demand: nobody likes that.\n\nIt is very common, and it says nothing about your couple. Pressure cuts desire, for you as for the other.\n\nWhat lightens it: not staking everything on one evening, keeping moments with nothing at stake, and now and then putting the calendar away.\n\nTell the other one: \"I want you, not only a baby\". It changes the mood.';
+
+  @override
+  String get guideIntOnScheduleKeep =>
+      'The app shows an estimated window, not a compulsory appointment: it is a range, and it varies.';
+
+  @override
+  String get guideTopicIntimacy => 'Intimacy';
+
+  @override
+  String get guideKeepTitle => 'Worth knowing';
+
+  @override
+  String get guideSourcesIntimacy =>
+      'Written for the app, in the tone of a magazine. What touches on safety will be reviewed by a health professional.';
 }

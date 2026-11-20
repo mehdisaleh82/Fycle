@@ -4409,7 +4409,7 @@ abstract class AppLocalizations {
   /// No description provided for @guidesIntro.
   ///
   /// In en, this message translates to:
-  /// **'Short pages of general information, written from public health sources. They replace no appointment.'**
+  /// **'Short pages written for you. They replace no appointment.'**
   String get guidesIntro;
 
   /// No description provided for @guideTopicPerimenopause.
@@ -4475,13 +4475,13 @@ abstract class AppLocalizations {
   /// No description provided for @guidePeriWhatTitle.
   ///
   /// In en, this message translates to:
-  /// **'Perimenopause: what it is'**
+  /// **'Perimenopause: what is going on?'**
   String get guidePeriWhatTitle;
 
   /// No description provided for @guidePeriWhatBody.
   ///
   /// In en, this message translates to:
-  /// **'Perimenopause is the time when periods become irregular, before they stop for good. It comes from a fall in hormone levels.\n\nMenopause is reached after 12 months without a period, when no hormonal contraception is used. It usually happens between 45 and 55, sometimes earlier.\n\nSymptoms usually last 7 to 9 years, sometimes longer, and change over time. They differ a lot from one person to the next: some are hardly affected, others a great deal.\n\nThere is no routine test: a doctor goes by age and symptoms.'**
+  /// **'A cycle doing whatever it likes, broken nights, a mood on a rollercoaster: what if that was it? The word is scary, the thing is ordinary, and nobody told you.\n\nPerimenopause is the time when periods become irregular, before they stop for good. It comes from a fall in hormone levels.\n\nMenopause is reached after 12 months without a period, when no hormonal contraception is used. It usually happens between 45 and 55, sometimes earlier.\n\nSymptoms usually last 7 to 9 years, sometimes longer, and change over time. They differ a lot from one person to the next: some are hardly affected, others a great deal.\n\nThere is no routine test: a doctor goes by age and symptoms.'**
   String get guidePeriWhatBody;
 
   /// No description provided for @guidePeriWhatSeek.
@@ -4493,13 +4493,13 @@ abstract class AppLocalizations {
   /// No description provided for @guidePeriPeriodsTitle.
   ///
   /// In en, this message translates to:
-  /// **'Periods that change'**
+  /// **'My periods are all over the place'**
   String get guidePeriPeriodsTitle;
 
   /// No description provided for @guidePeriPeriodsBody.
   ///
   /// In en, this message translates to:
-  /// **'A change in periods is usually one of the first signs of perimenopause.\n\nThey may come more often or less often. Bleeding may become heavier or lighter.\n\nIn the end, periods stop altogether.\n\nHormonal contraception can change or stop periods, which makes it harder to tell where you are.\n\nLogging your periods here shows how the gap between them changes over the months.'**
+  /// **'Twenty-three days, then forty, then a flood: your cycle has not lost its mind, it is changing pace.\n\nA change in periods is usually one of the first signs of perimenopause.\n\nThey may come more often or less often. Bleeding may become heavier or lighter.\n\nIn the end, periods stop altogether.\n\nHormonal contraception can change or stop periods, which makes it harder to tell where you are.\n\nLogging your periods here shows how the gap between them changes over the months.'**
   String get guidePeriPeriodsBody;
 
   /// No description provided for @guidePeriPeriodsSeek.
@@ -4511,13 +4511,13 @@ abstract class AppLocalizations {
   /// No description provided for @guidePeriFlushesTitle.
   ///
   /// In en, this message translates to:
-  /// **'Hot flushes and night sweats'**
+  /// **'Hot flushes: the inner radiator'**
   String get guidePeriFlushesTitle;
 
   /// No description provided for @guidePeriFlushesBody.
   ///
   /// In en, this message translates to:
-  /// **'A hot flush is a sudden feeling of heat, or of cold, in the face, neck and chest. It lasts a few minutes and can come with heavy sweating, a racing heart or dizziness.\n\nAt night, they are called night sweats and can disturb sleep.\n\nWhat the NHS lists as helping day to day: light clothing, a cool bedroom, a cool shower, a fan or a cold drink, less stress, regular exercise, and fewer triggers such as spicy food, caffeine, hot drinks, alcohol and smoking.\n\nTreatments exist: a doctor can go through them with you.'**
+  /// **'In a meeting, in bed, on the train: the wave rises without warning. You are not the only one opening the window in January.\n\nA hot flush is a sudden feeling of heat, or of cold, in the face, neck and chest. It lasts a few minutes and can come with heavy sweating, a racing heart or dizziness.\n\nAt night, they are called night sweats and can disturb sleep.\n\nWhat the NHS lists as helping day to day: light clothing, a cool bedroom, a cool shower, a fan or a cold drink, less stress, regular exercise, and fewer triggers such as spicy food, caffeine, hot drinks, alcohol and smoking.\n\nTreatments exist: a doctor can go through them with you.'**
   String get guidePeriFlushesBody;
 
   /// No description provided for @guidePeriFlushesSeek.
@@ -4529,13 +4529,13 @@ abstract class AppLocalizations {
   /// No description provided for @guidePeriSleepTitle.
   ///
   /// In en, this message translates to:
-  /// **'Sleep, mood and memory'**
+  /// **'Broken nights, wobbly moods, missing words'**
   String get guidePeriSleepTitle;
 
   /// No description provided for @guidePeriSleepBody.
   ///
   /// In en, this message translates to:
-  /// **'Trouble falling asleep or staying asleep is common, and often worse with night sweats.\n\nMood swings, low mood or anxiety may come too. So may trouble with memory or concentration, which feels worse after poor sleep.\n\nWhat the NHS lists as helping: regular sleep times, as much rest as you can, regular exercise, relaxing activities such as yoga or meditation, and talking with people going through the same thing.\n\nA talking therapy can help with low mood, anxiety and sleep. A doctor can also suggest treatments.'**
+  /// **'You look for your keys, then for the word \"keys\". No, you are not losing your mind.\n\nTrouble falling asleep or staying asleep is common, and often worse with night sweats.\n\nMood swings, low mood or anxiety may come too. So may trouble with memory or concentration, which feels worse after poor sleep.\n\nWhat the NHS lists as helping: regular sleep times, as much rest as you can, regular exercise, relaxing activities such as yoga or meditation, and talking with people going through the same thing.\n\nA talking therapy can help with low mood, anxiety and sleep. A doctor can also suggest treatments.'**
   String get guidePeriSleepBody;
 
   /// No description provided for @guidePeriSleepSeek.
@@ -4547,13 +4547,13 @@ abstract class AppLocalizations {
   /// No description provided for @guidePeriSexTitle.
   ///
   /// In en, this message translates to:
-  /// **'Sex and dryness'**
+  /// **'Desire that shifts, a body that lags'**
   String get guidePeriSexTitle;
 
   /// No description provided for @guidePeriSexBody.
   ///
   /// In en, this message translates to:
-  /// **'A lower sex drive is one of the possible symptoms of perimenopause.\n\nThe vagina may feel dry, burning, irritated or itchy, which can make sex painful. Urinary infections, or signs that feel like one, may also come more often.\n\nThese symptoms can go on after menopause. Solutions exist: a pharmacist or a doctor can suggest some, in private.\n\nA pregnancy is still possible during perimenopause.'**
+  /// **'No desire, or desire but it chafes? Desire plays hide and seek, and it says nothing about your couple, or about you.\n\nA lower sex drive is one of the possible symptoms of perimenopause.\n\nThe vagina may feel dry, burning, irritated or itchy, which can make sex painful. Urinary infections, or signs that feel like one, may also come more often.\n\nThese symptoms can go on after menopause. Solutions exist: a pharmacist or a doctor can suggest some, in private.\n\nA pregnancy is still possible during perimenopause.'**
   String get guidePeriSexBody;
 
   /// No description provided for @guidePeriSexSeek.
@@ -4759,6 +4759,294 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Pregnancy|NHS|https://www.nhs.uk/pregnancy/\nSex and contraception after birth|NHS|https://www.nhs.uk/conditions/baby/support-and-services/sex-and-contraception-after-birth/'**
   String get linksPregnancy;
+
+  /// No description provided for @guideIntOrgasmTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Orgasm: all your questions'**
+  String get guideIntOrgasmTitle;
+
+  /// No description provided for @guideIntOrgasmBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Fireworks for some, a quiet wave for others, a no-show for many: orgasm has a thousand faces, and none is the right one.\n\nFor most women, it all starts with the clitoris. What you see is only the tip: it runs on inside, on either side of the vagina. That is why penetration alone is rarely enough, and why a hand, a tongue or a toy on top changes everything.\n\nVaginal or clitoral? An old debate: it is the same organ, reached by different roads. Together, multiple, loud? Nice extras, not goals.\n\nWhat really helps: time, being turned on before you start, a head that is not elsewhere, and someone, you included, who knows where and how.'**
+  String get guideIntOrgasmBody;
+
+  /// No description provided for @guideIntOrgasmKeep.
+  ///
+  /// In en, this message translates to:
+  /// **'No orgasm this time does not mean it failed. Pleasure is not measured at the finish line.'**
+  String get guideIntOrgasmKeep;
+
+  /// No description provided for @guideIntNoOrgasmTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'I can\'t come: so what?'**
+  String get guideIntNoOrgasmTitle;
+
+  /// No description provided for @guideIntNoOrgasmBody.
+  ///
+  /// In en, this message translates to:
+  /// **'You fake it, or you wait for it while wondering what is wrong. Spoiler: probably nothing.\n\nMany women rarely or never come from penetration alone. It is not a manufacturing fault: it is anatomy.\n\nThe usual brakes are not in the body: the pressure to get there, tiredness, the shopping list scrolling by, a partner in a hurry, the habit of coming second.\n\nWhere to start: alone, with nothing at stake, to find what does something for you. Then show it or say it. And take orgasm off the list of things to achieve: it comes more readily when nobody is waiting at the door.'**
+  String get guideIntNoOrgasmBody;
+
+  /// No description provided for @guideIntNoOrgasmKeep.
+  ///
+  /// In en, this message translates to:
+  /// **'If it weighs on you, or if it used to be easy and no longer is, a sex therapist or a midwife can talk about it without awkwardness.'**
+  String get guideIntNoOrgasmKeep;
+
+  /// No description provided for @guideIntSoloTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Touching yourself: the manual nobody gave you'**
+  String get guideIntSoloTitle;
+
+  /// No description provided for @guideIntSoloBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Hardly anyone talks about it, nearly everyone does it. Masturbating is neither a consolation prize nor cheating: it is the surest way to know what you like.\n\nThere is no right method. Fingers, the palm, the shower head, a pillow, a toy: the clitoris likes steadiness more than force, and often the edges more than the centre.\n\nChange the pressure, the rhythm, the position. Add lube: it changes everything. Take your time, or not: five minutes before sleep count too.\n\nDuring your period? Yes, and some say it eases their cramps. In a relationship? Yes too: one takes nothing from the other.'**
+  String get guideIntSoloBody;
+
+  /// No description provided for @guideIntSoloKeep.
+  ///
+  /// In en, this message translates to:
+  /// **'Clean hands, toys washed after use, and a flared base for anything that goes near the anus. The rest is nobody\'s business but yours.'**
+  String get guideIntSoloKeep;
+
+  /// No description provided for @guideIntPeriodSexTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Sex on your period: yes, and here is how'**
+  String get guideIntPeriodSexTitle;
+
+  /// No description provided for @guideIntPeriodSexBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Nothing forbids it, many want it, and desire sometimes rises right then. What is left is logistics.\n\nA dark towel on the bed, a shower for two, a position where you lie down: the flow fades into the background. Tampons and cups come out before penetration.\n\nBlood helps things glide, orgasm relaxes: some find their period easier to live with afterwards. Others want nothing at all, and that is just as valid.\n\nSay it plainly: \"I\'m on my period, is that OK with you?\" Most partners care far less than you think.'**
+  String get guideIntPeriodSexBody;
+
+  /// No description provided for @guideIntPeriodSexKeep.
+  ///
+  /// In en, this message translates to:
+  /// **'A period protects neither from a pregnancy nor from infections.'**
+  String get guideIntPeriodSexKeep;
+
+  /// No description provided for @guideIntAnalTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Anal sex: wanting it, getting ready, staying comfortable'**
+  String get guideIntAnalTitle;
+
+  /// No description provided for @guideIntAnalBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Curious, tempted, or asked without being sure you want to? First rule: it only happens if you want it.\n\nThe anus makes no lubrication and does not relax on command. So: a lot of lube, a lot of time, and start small. A finger, a small toy with a flared base, long before anything else.\n\nBreathe, and push out slightly at the moment of entry: the muscle opens. You set the pace. A position where you control the depth helps a lot.\n\nIt should not hurt. Some discomfort at first, yes. Pain: stop, add lube, try again later, or never.\n\nAs for cleanliness, a shower is enough. The rest is part of the game, and everybody knows it.'**
+  String get guideIntAnalBody;
+
+  /// No description provided for @guideIntAnalKeep.
+  ///
+  /// In en, this message translates to:
+  /// **'Never from the anus to the vagina without changing the condom or washing what went in. A condom protects from infections; with one, no oil-based lube.'**
+  String get guideIntAnalKeep;
+
+  /// No description provided for @guideIntLubeTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Lube: the best friend nobody dares to buy'**
+  String get guideIntLubeTitle;
+
+  /// No description provided for @guideIntLubeBody.
+  ///
+  /// In en, this message translates to:
+  /// **'It is not an admission of failure. It is what turns \"fine\" into \"more\".\n\nWater-based: goes with everything, dries faster, just add more. Silicone-based: glides for a long time, perfect in the shower and for anal, but not with silicone toys. Oils and petroleum jelly: lovely for a massage, to be kept away from latex condoms.\n\nWhen? As soon as it drags, for touching as for penetration, and always for anal. How wet you get changes with your cycle, stress, tiredness, breastfeeding, age: it says nothing about how much you want it.\n\nA tip: on you and on the other person, and the bottle within reach rather than at the back of the drawer.'**
+  String get guideIntLubeBody;
+
+  /// No description provided for @guideIntLubeKeep.
+  ///
+  /// In en, this message translates to:
+  /// **'If a product stings or irritates, change formula: simpler, unscented.'**
+  String get guideIntLubeKeep;
+
+  /// No description provided for @guideIntDesireCycleTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Your desire has its seasons'**
+  String get guideIntDesireCycleTitle;
+
+  /// No description provided for @guideIntDesireCycleBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Some days you would climb the curtains, others you would rather have your series. Your cycle often has something to do with it.\n\nMany women feel their desire rise around the middle of the cycle and drop before their period. Others peak just before, or during. No calendar fits everyone.\n\nYours can be read in your journal: log your desire for a few cycles, and the app shows your high days. Handy to plan a weekend for two, or to understand a \"not tonight\" without making a thing of it.\n\nAnd then there is everything that is not hormonal: tiredness, mental load, an argument left open. The cycle tells part of the story, not all of it.'**
+  String get guideIntDesireCycleBody;
+
+  /// No description provided for @guideIntDesireCycleKeep.
+  ///
+  /// In en, this message translates to:
+  /// **'Your rhythm is the right one. It is there to know yourself, not to compare.'**
+  String get guideIntDesireCycleKeep;
+
+  /// No description provided for @guideIntSquirtingTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Squirting: what is known, what is fantasy'**
+  String get guideIntSquirtingTitle;
+
+  /// No description provided for @guideIntSquirtingBody.
+  ///
+  /// In en, this message translates to:
+  /// **'A star on screen, a mystery in bedrooms: female ejaculation intrigues, and many wonder whether they \"should\" manage it.\n\nSome women release fluid at a moment of intense pleasure, sometimes a lot, sometimes a few drops. Others never do. Researchers do not all agree on what it contains or where exactly it comes from.\n\nWhat is certain: it is neither proof of orgasm, nor a higher level, nor a performance to offer. And what you see in porn is staged.\n\nIf it happens to you: a towel, and no shame. If it does not: you are missing nothing.'**
+  String get guideIntSquirtingBody;
+
+  /// No description provided for @guideIntSquirtingKeep.
+  ///
+  /// In en, this message translates to:
+  /// **'Curious to explore? Relaxation, time, the front wall of the vagina. Without a goal, it is more fun.'**
+  String get guideIntSquirtingKeep;
+
+  /// No description provided for @guideIntPainTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'When it hurts'**
+  String get guideIntPainTitle;
+
+  /// No description provided for @guideIntPainBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Gritting your teeth until it is over was never part of the deal. Sex that hurts gets sorted, not endured.\n\nMost often it is a matter of time and glide: not turned on enough, not enough lube, penetration too soon or too deep. Slowing down, changing the angle, adding lube is often enough.\n\nSometimes the body closes by itself, even when the head says yes. Sometimes the pain is deep, or comes back at certain times of the cycle. Then it is no longer about technique.\n\nSay stop as soon as it hurts. Someone who cares about you would a thousand times rather stop.'**
+  String get guideIntPainBody;
+
+  /// No description provided for @guideIntPainKeep.
+  ///
+  /// In en, this message translates to:
+  /// **'Pain that keeps coming back, burning, bleeding after sex: talk to a midwife or a doctor. Log it in your journal, it helps to talk about it.'**
+  String get guideIntPainKeep;
+
+  /// No description provided for @guideIntTearsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Crying after sex'**
+  String get guideIntTearsTitle;
+
+  /// No description provided for @guideIntTearsBody.
+  ///
+  /// In en, this message translates to:
+  /// **'It was good, and yet the tears come. Or a low mood drops out of nowhere.\n\nIt happens to a lot of people. After a strong build-up, the body comes down: tension lets go, and sometimes it overflows.\n\nIt does not mean you are sad, or that something is wrong between the two of you. Sometimes it does: the body knows before the head that you did not really want to.\n\nIn the moment, say it plainly: \"I don\'t know why, it will pass\". Ask for arms or for air, whichever does you good.'**
+  String get guideIntTearsBody;
+
+  /// No description provided for @guideIntTearsKeep.
+  ///
+  /// In en, this message translates to:
+  /// **'If it comes back often, or stirs up difficult memories, talking to someone whose job it is does good.'**
+  String get guideIntTearsKeep;
+
+  /// No description provided for @guideIntSayItTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Saying what you like, and what you don\'t'**
+  String get guideIntSayItTitle;
+
+  /// No description provided for @guideIntSayItBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Nobody reads minds, not even in bed. And \"a bit to the left\" never killed the mood.\n\nThe simplest: guide as you go. A hand on theirs, a \"yes, like that\", a \"softer\". Short words work better than long speeches.\n\nFor bigger subjects, a new wish or something you no longer like, pick a moment with clothes on: in the car, on a walk, not right after.\n\nStart with what you like: \"I love it when you…\". Then the wish: \"I would like to try…\". And a no stays a no, both ways.'**
+  String get guideIntSayItBody;
+
+  /// No description provided for @guideIntSayItKeep.
+  ///
+  /// In en, this message translates to:
+  /// **'Saying no to a practice is not saying no to the person. You can change your mind at any time, even halfway through.'**
+  String get guideIntSayItKeep;
+
+  /// No description provided for @guideIntNoDesireTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'No desire at all: where to start again'**
+  String get guideIntNoDesireTitle;
+
+  /// No description provided for @guideIntNoDesireBody.
+  ///
+  /// In en, this message translates to:
+  /// **'You love them, you find them attractive, and yet: nothing. Low desire is one of the most shared subjects, and the least admitted.\n\nLook at life first: broken sleep, mental load, a grudge that lingers, a body you do not like these days. Desire needs room, and there is none.\n\nFor many women, wanting does not fall from the sky: it comes along the way, once the touching has started. Waiting to want it before you begin can mean waiting a long time.\n\nWhat restarts it: time together with no goal, touch that leads to nothing required, something new, and moments alone with your own body.'**
+  String get guideIntNoDesireBody;
+
+  /// No description provided for @guideIntNoDesireKeep.
+  ///
+  /// In en, this message translates to:
+  /// **'If the drop is sudden, or comes with a new medicine, a baby or a changing cycle, talk to a health professional.'**
+  String get guideIntNoDesireKeep;
+
+  /// No description provided for @guideIntAfterBabyTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'After a baby: sex comes back, or not just yet'**
+  String get guideIntAfterBabyTitle;
+
+  /// No description provided for @guideIntAfterBabyBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Between broken nights, a body that has changed and a baby attached to you, desire has good reasons to keep you waiting.\n\nThere is no date. Some start again after a few weeks, others after several months. The right time is when you want to and it does not hurt.\n\nThe body often makes less lubrication, especially while breastfeeding: lube becomes essential. Start with touching, and keep control of the pace.\n\nAnd the couple? Say where you are, even if it is \"not now\". Tenderness with nothing required after it bridges the gap.'**
+  String get guideIntAfterBabyBody;
+
+  /// No description provided for @guideIntAfterBabyKeep.
+  ///
+  /// In en, this message translates to:
+  /// **'Pain during sex that lasts is worth telling a midwife or a doctor. A pregnancy is possible even before periods are back.'**
+  String get guideIntAfterBabyKeep;
+
+  /// No description provided for @guideIntMidlifeTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Perimenopause: sex changes its rules'**
+  String get guideIntMidlifeTitle;
+
+  /// No description provided for @guideIntMidlifeBody.
+  ///
+  /// In en, this message translates to:
+  /// **'No desire, or desire but it chafes? In perimenopause, desire plays hide and seek and the body makes less lubrication. It says nothing about your couple, or about you.\n\nWhat changes: it often takes more time, more touching, and lube without a second thought. What does not: your ability to feel pleasure.\n\nMany women describe freer sex at this age: you know what you like, you dare to say it, you no longer pretend.\n\nBroken nights and hot flushes do not help desire. Looking after them is also looking after your sex life.'**
+  String get guideIntMidlifeBody;
+
+  /// No description provided for @guideIntMidlifeKeep.
+  ///
+  /// In en, this message translates to:
+  /// **'Dryness and pain are not a fate: a pharmacist or a doctor can talk to you about it. A pregnancy is still possible.'**
+  String get guideIntMidlifeKeep;
+
+  /// No description provided for @guideIntOnScheduleTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Trying for a baby: when sex becomes a schedule'**
+  String get guideIntOnScheduleTitle;
+
+  /// No description provided for @guideIntOnScheduleBody.
+  ///
+  /// In en, this message translates to:
+  /// **'At first it was exciting. Three months later it is \"tonight, we have to\". Desire on demand: nobody likes that.\n\nIt is very common, and it says nothing about your couple. Pressure cuts desire, for you as for the other.\n\nWhat lightens it: not staking everything on one evening, keeping moments with nothing at stake, and now and then putting the calendar away.\n\nTell the other one: \"I want you, not only a baby\". It changes the mood.'**
+  String get guideIntOnScheduleBody;
+
+  /// No description provided for @guideIntOnScheduleKeep.
+  ///
+  /// In en, this message translates to:
+  /// **'The app shows an estimated window, not a compulsory appointment: it is a range, and it varies.'**
+  String get guideIntOnScheduleKeep;
+
+  /// No description provided for @guideTopicIntimacy.
+  ///
+  /// In en, this message translates to:
+  /// **'Intimacy'**
+  String get guideTopicIntimacy;
+
+  /// No description provided for @guideKeepTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Worth knowing'**
+  String get guideKeepTitle;
+
+  /// No description provided for @guideSourcesIntimacy.
+  ///
+  /// In en, this message translates to:
+  /// **'Written for the app, in the tone of a magazine. What touches on safety will be reviewed by a health professional.'**
+  String get guideSourcesIntimacy;
 }
 
 class _AppLocalizationsDelegate

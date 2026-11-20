@@ -163,6 +163,7 @@ class TodayTab extends StatelessWidget {
               ),
               AheadCard(model: model, today: today, status: status),
               GuideCard(model: model, today: today),
+              IntimacyCarousel(model: model, today: today, status: status),
               if (model.profile == Profile.discovering ||
                   (model.goals.contains(Goal.understandBody) &&
                       followsACycle(model.profile))) ...[

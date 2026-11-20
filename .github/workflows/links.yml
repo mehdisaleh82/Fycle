@@ -1,0 +1,22 @@
+name: Links
+
+# Asks every outside page the app links to whether it still answers, once
+# a day. A page that is gone fails the run, and GitHub sends a notice.
+# Runs on Linux: it costs almost nothing. See docs/DECISIONS.md, decision
+# 168.
+on:
+  schedule:
+    - cron: '17 5 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  links:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check the links
+        run: python3 tool/check_links.py

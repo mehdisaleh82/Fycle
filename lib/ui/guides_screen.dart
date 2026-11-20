@@ -1,8 +1,11 @@
 import 'package:material_ui/material_ui.dart';
 
 import '../domain/calendar_day.dart';
+import '../domain/cycle_status.dart';
+import '../domain/desire_pattern.dart';
 import '../domain/further_reading.dart';
 import '../domain/guide.dart';
+import '../domain/start_profile.dart';
 import '../l10n/app_localizations.dart';
 import 'art.dart';
 import 'cycle_model.dart';
@@ -13,11 +16,28 @@ String guideTopicLabel(AppLocalizations l10n, GuideTopic topic) =>
     switch (topic) {
       GuideTopic.perimenopause => l10n.guideTopicPerimenopause,
       GuideTopic.pregnancy => l10n.guideTopicPregnancy,
+      GuideTopic.intimacy => l10n.guideTopicIntimacy,
     };
 
 Art guideTopicArt(GuideTopic topic) => switch (topic) {
   GuideTopic.perimenopause => Art.warmth,
   GuideTopic.pregnancy => Art.body,
+  GuideTopic.intimacy => Art.woman,
+};
+
+/// The picture of a guide: its own when it has one, that of its topic
+/// otherwise.
+Art guideArt(Guide guide) => switch (guide) {
+  Guide.intimacyNoOrgasm || Guide.intimacySolo => Art.lotus,
+  Guide.intimacyPeriodSex || Guide.intimacyOnSchedule => Art.calendar,
+  Guide.intimacyAnal || Guide.intimacyAfterBaby => Art.body,
+  Guide.intimacyDesireCycle => Art.cycle,
+  Guide.intimacyPain => Art.cramps,
+  Guide.intimacyTears => Art.sleep,
+  Guide.intimacySayIt => Art.journal,
+  Guide.intimacyNoDesire || Guide.intimacyLube => Art.energy,
+  Guide.intimacyMidlife => Art.warmth,
+  _ => guideTopicArt(guide.topic),
 };
 
 String readingTopicLabel(AppLocalizations l10n, ReadingTopic topic) =>
@@ -45,6 +65,7 @@ List<ReadingLink> readingLinks(AppLocalizations l10n, ReadingTopic topic) =>
 ReadingTopic readingTopicOf(GuideTopic topic) => switch (topic) {
   GuideTopic.perimenopause => ReadingTopic.perimenopause,
   GuideTopic.pregnancy => ReadingTopic.pregnancy,
+  GuideTopic.intimacy => ReadingTopic.sexuality,
 };
 
 /// The outside pages of one topic, each opened in the browser of the
@@ -83,6 +104,7 @@ class ReadingList extends StatelessWidget {
 String guideSources(AppLocalizations l10n, GuideTopic topic) => switch (topic) {
   GuideTopic.perimenopause => l10n.guideSourcesPerimenopause,
   GuideTopic.pregnancy => l10n.guideSourcesPregnancy,
+  GuideTopic.intimacy => l10n.guideSourcesIntimacy,
 };
 
 /// The title, the text (paragraphs separated by an empty line) and when to
@@ -150,6 +172,81 @@ String guideSources(AppLocalizations l10n, GuideTopic topic) => switch (topic) {
     title: l10n.guidePregAfterTitle,
     body: l10n.guidePregAfterBody,
     seek: l10n.guidePregAfterSeek,
+  ),
+  Guide.intimacyOrgasm => (
+    title: l10n.guideIntOrgasmTitle,
+    body: l10n.guideIntOrgasmBody,
+    seek: l10n.guideIntOrgasmKeep,
+  ),
+  Guide.intimacyNoOrgasm => (
+    title: l10n.guideIntNoOrgasmTitle,
+    body: l10n.guideIntNoOrgasmBody,
+    seek: l10n.guideIntNoOrgasmKeep,
+  ),
+  Guide.intimacySolo => (
+    title: l10n.guideIntSoloTitle,
+    body: l10n.guideIntSoloBody,
+    seek: l10n.guideIntSoloKeep,
+  ),
+  Guide.intimacyPeriodSex => (
+    title: l10n.guideIntPeriodSexTitle,
+    body: l10n.guideIntPeriodSexBody,
+    seek: l10n.guideIntPeriodSexKeep,
+  ),
+  Guide.intimacyAnal => (
+    title: l10n.guideIntAnalTitle,
+    body: l10n.guideIntAnalBody,
+    seek: l10n.guideIntAnalKeep,
+  ),
+  Guide.intimacyLube => (
+    title: l10n.guideIntLubeTitle,
+    body: l10n.guideIntLubeBody,
+    seek: l10n.guideIntLubeKeep,
+  ),
+  Guide.intimacyDesireCycle => (
+    title: l10n.guideIntDesireCycleTitle,
+    body: l10n.guideIntDesireCycleBody,
+    seek: l10n.guideIntDesireCycleKeep,
+  ),
+  Guide.intimacySquirting => (
+    title: l10n.guideIntSquirtingTitle,
+    body: l10n.guideIntSquirtingBody,
+    seek: l10n.guideIntSquirtingKeep,
+  ),
+  Guide.intimacyPain => (
+    title: l10n.guideIntPainTitle,
+    body: l10n.guideIntPainBody,
+    seek: l10n.guideIntPainKeep,
+  ),
+  Guide.intimacyTears => (
+    title: l10n.guideIntTearsTitle,
+    body: l10n.guideIntTearsBody,
+    seek: l10n.guideIntTearsKeep,
+  ),
+  Guide.intimacySayIt => (
+    title: l10n.guideIntSayItTitle,
+    body: l10n.guideIntSayItBody,
+    seek: l10n.guideIntSayItKeep,
+  ),
+  Guide.intimacyNoDesire => (
+    title: l10n.guideIntNoDesireTitle,
+    body: l10n.guideIntNoDesireBody,
+    seek: l10n.guideIntNoDesireKeep,
+  ),
+  Guide.intimacyAfterBaby => (
+    title: l10n.guideIntAfterBabyTitle,
+    body: l10n.guideIntAfterBabyBody,
+    seek: l10n.guideIntAfterBabyKeep,
+  ),
+  Guide.intimacyMidlife => (
+    title: l10n.guideIntMidlifeTitle,
+    body: l10n.guideIntMidlifeBody,
+    seek: l10n.guideIntMidlifeKeep,
+  ),
+  Guide.intimacyOnSchedule => (
+    title: l10n.guideIntOnScheduleTitle,
+    body: l10n.guideIntOnScheduleBody,
+    seek: l10n.guideIntOnScheduleKeep,
   ),
 };
 
@@ -228,6 +325,11 @@ class GuidesScreen extends StatelessWidget {
     final topics = guideTopicsFor(
       profile: model.profile,
       followsCycleChanges: model.followsCycleChanges,
+      intimacy: showsIntimacy(
+        sexLifeVisible: model.sexLifeVisible,
+        age: model.age,
+        profile: model.profile,
+      ),
     );
     return Scaffold(
       appBar: AppBar(title: Text(l10n.guidesTitle)),
@@ -357,14 +459,23 @@ class GuideScreen extends StatelessWidget {
                   ),
                 ),
               ),
-              for (final paragraph in text.body.split('\n\n')) ...[
+              for (final (index, paragraph)
+                  in text.body.split('\n\n').indexed) ...[
                 const SizedBox(height: 12),
-                Text(paragraph, style: theme.textTheme.bodyLarge),
+                Text(
+                  paragraph,
+                  // A magazine opens on a line that stands out.
+                  style: index == 0 && guide.topic == GuideTopic.intimacy
+                      ? theme.textTheme.titleMedium
+                      : theme.textTheme.bodyLarge,
+                ),
               ],
               const SizedBox(height: 16),
               TitledCard(
                 key: const ValueKey('guide-seek'),
-                title: l10n.guideSeekTitle,
+                title: guide.topic == GuideTopic.intimacy
+                    ? l10n.guideKeepTitle
+                    : l10n.guideSeekTitle,
                 children: [Text(text.seek, style: theme.textTheme.bodyLarge)],
               ),
               const SizedBox(height: 16),
@@ -395,6 +506,129 @@ class GuideScreen extends StatelessWidget {
             ],
           ),
         ),
+      ),
+    );
+  }
+}
+
+/// The guides on intimacy, as cards to swipe through on the home screen.
+/// What fits where she is comes first, and the first card changes from one
+/// day to the next. Nothing for a minor, nor once she turned it off.
+class IntimacyCarousel extends StatelessWidget {
+  const IntimacyCarousel({
+    super.key,
+    required this.model,
+    required this.today,
+    required this.status,
+  });
+
+  final CycleModel model;
+  final CalendarDay today;
+  final CycleStatus status;
+
+  @override
+  Widget build(BuildContext context) {
+    if (!showsIntimacy(
+      sexLifeVisible: model.sexLifeVisible,
+      age: model.age,
+      profile: model.profile,
+    )) {
+      return const SizedBox.shrink();
+    }
+    final l10n = AppLocalizations.of(context);
+    final theme = Theme.of(context);
+    final cycles = model.cycles;
+    final window = cycles.isEmpty
+        ? null
+        : usualDesireWindow(cycles: cycles, days: model.days);
+    final dayOfCycle = cycles.isEmpty
+        ? null
+        : today.daysSince(cycles.last.start) + 1;
+    final guides = intimacyGuidesFor(
+      profile: model.profile,
+      followsCycleChanges: model.followsCycleChanges,
+      wantsToConceive: model.goals.contains(Goal.conceive),
+      periodOngoing: status is PeriodOngoing,
+      desireDays:
+          window != null &&
+          dayOfCycle != null &&
+          dayOfCycle >= window.fromDay &&
+          dayOfCycle <= window.toDay,
+      rotation: today.daysSince(CalendarDay(2020, 1, 1)),
+    );
+    // Room for three lines of title, whatever the size of the text.
+    final height = 84 + MediaQuery.textScalerOf(context).scale(66);
+    return Padding(
+      padding: const EdgeInsets.only(top: 16),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Wrap(
+            alignment: WrapAlignment.spaceBetween,
+            crossAxisAlignment: WrapCrossAlignment.center,
+            children: [
+              Semantics(
+                header: true,
+                child: Text(
+                  l10n.guideTopicIntimacy,
+                  key: const ValueKey('intimacy-title'),
+                  style: theme.textTheme.titleMedium,
+                ),
+              ),
+              TextButton(
+                key: const ValueKey('intimacy-all'),
+                onPressed: () => Navigator.of(context).push(
+                  MaterialPageRoute<void>(
+                    builder: (context) => GuidesScreen(model: model),
+                  ),
+                ),
+                child: Text(l10n.guideAll),
+              ),
+            ],
+          ),
+          SizedBox(
+            height: height,
+            child: ListView.separated(
+              key: const ValueKey('intimacy-carousel'),
+              scrollDirection: Axis.horizontal,
+              itemCount: guides.length,
+              separatorBuilder: (context, index) => const SizedBox(width: 10),
+              itemBuilder: (context, index) {
+                final guide = guides[index];
+                return SizedBox(
+                  width: 150,
+                  child: Material(
+                    color: theme.colorScheme.surfaceContainerHigh,
+                    borderRadius: BorderRadius.circular(16),
+                    clipBehavior: Clip.antiAlias,
+                    child: InkWell(
+                      key: ValueKey('intimacy-card-${guide.name}'),
+                      onTap: () => _open(context, guide),
+                      child: Padding(
+                        padding: const EdgeInsets.all(12),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            ArtImage(guideArt(guide), size: 48),
+                            const SizedBox(height: 8),
+                            Expanded(
+                              child: Text(
+                                guideText(l10n, guide).title,
+                                maxLines: 3,
+                                overflow: TextOverflow.ellipsis,
+                                style: theme.textTheme.titleSmall,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                );
+              },
+            ),
+          ),
+        ],
       ),
     );
   }
