@@ -320,8 +320,16 @@ Future<void> openReviewDetail(WidgetTester tester) async {
 Future<void> openHome(WidgetTester tester) =>
     tapVisible(tester, find.byIcon(Icons.home_outlined));
 
-/// Scrolls to [finder] if needed, then taps it.
-Future<void> tapVisible(WidgetTester tester, Finder finder) async {
+/// Scrolls to [finder] if needed, then taps it. With [optional], does
+/// nothing when it is not on screen.
+Future<void> tapVisible(
+  WidgetTester tester,
+  Finder finder, {
+  bool optional = false,
+}) async {
+  if (optional && finder.evaluate().isEmpty) {
+    return;
+  }
   await tester.ensureVisible(finder);
   await tester.pumpAndSettle();
   await tester.tap(finder);
@@ -395,16 +403,19 @@ Future<void> walkEveryScreen(WidgetTester tester, Harness harness) async {
   }
   await tapVisible(tester, find.byKey(finish));
 
-  // Home, then the entry of the day.
-  expect(find.byKey(const ValueKey('log-today')), findsOneWidget);
+  // Home, both views of the cycle, then its shortcut to the journal and the
+  // entry of the day.
+  await tapVisible(tester, find.byKey(const ValueKey('cycle-ring')));
+  expect(find.byKey(const ValueKey('cycle-strip')), findsOneWidget);
+  await tapVisible(tester, find.byKey(const ValueKey('open-journal-today')));
   await tapVisible(tester, find.byKey(const ValueKey('log-today')));
   await tapVisible(tester, find.byKey(const ValueKey('flow-medium')));
   await tapVisible(tester, find.byKey(const ValueKey('day-done')));
-
-  // The journal and the review.
-  await openJournal(tester);
-  await tapVisible(tester, find.byKey(const ValueKey('journal-write-today')));
-  await tapVisible(tester, find.byKey(const ValueKey('day-done')));
+  await tapVisible(
+    tester,
+    find.byKey(const ValueKey('quick-sleep-nightSweats')),
+    optional: true,
+  );
   await openReviewDetail(tester);
   expect(find.byKey(const ValueKey('cycle-report')), findsOneWidget);
   await tapVisible(tester, find.byType(BackButton));

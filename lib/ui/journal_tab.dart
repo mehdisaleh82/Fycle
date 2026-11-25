@@ -12,14 +12,15 @@ import 'follow_card.dart';
 import 'home_cards.dart';
 import 'labels.dart';
 import 'month_calendar.dart';
+import 'today_card.dart';
 
 /// At most this many pages are listed under the calendar, most recent
 /// first. Older ones open from the calendar.
 const int journalPagesShown = 30;
 
-/// The journal tab: the calendar of the month, then the latest pages, each
-/// with its date, what was logged and the note. A tap opens a day to write
-/// or correct it.
+/// The journal tab: the journal of the day, filled in one tap at a time,
+/// then the calendar of the month and the latest pages, each with its date,
+/// what was logged and the note. A tap opens a day to write or correct it.
 class JournalTab extends StatelessWidget {
   const JournalTab({
     super.key,
@@ -70,6 +71,14 @@ class JournalTab extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               header,
+              // What she does every day comes first.
+              TodayCard(
+                model: model,
+                today: today,
+                onOpenDay: () => onOpenDay(today),
+                onOpenYesterday: () => onOpenDay(today.addDays(-1)),
+              ),
+              const SizedBox(height: 16),
               MonthCalendar(
                 year: year,
                 month: month,
@@ -91,13 +100,6 @@ class JournalTab extends StatelessWidget {
                     color: theme.colorScheme.onSurfaceVariant,
                   ),
                 ),
-              ),
-              const SizedBox(height: 16),
-              FilledButton.icon(
-                key: const ValueKey('journal-write-today'),
-                onPressed: () => onOpenDay(today),
-                icon: const Icon(Icons.edit_outlined),
-                label: Text(l10n.journalWriteToday),
               ),
               const SizedBox(height: 16),
               // The detail behind the figures of the home.

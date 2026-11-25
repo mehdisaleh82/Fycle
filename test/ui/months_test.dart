@@ -51,7 +51,7 @@ void main() {
     await harness.pumpApp();
     await openJournal(tester);
 
-    await tapVisible(tester, find.byKey(const ValueKey('journal-write-today')));
+    await tapVisible(tester, find.byKey(const ValueKey('log-today')));
     await tapVisible(tester, find.byKey(const ValueKey('mood-calm')));
     await tapVisible(tester, find.byKey(const ValueKey('day-done')));
 

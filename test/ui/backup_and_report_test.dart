@@ -95,6 +95,7 @@ void main() {
 
       // Not again the same day, whatever she logs.
       await openHome(tester);
+      await openJournal(tester);
       await tap(tester, 'quick-pain-mild');
       expect(harness.autoBackup.written, hasLength(1));
 
@@ -174,6 +175,7 @@ void main() {
         pregnancyStart: CalendarDay(2026, 2, 28),
       );
       await harness.pumpApp();
+      await openJournal(tester);
 
       expect(find.text('Bleeding today'), findsOneWidget);
     });

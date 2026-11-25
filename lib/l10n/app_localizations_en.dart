@@ -911,6 +911,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get todayEntryTitle => 'My journal today';
 
   @override
+  String get homeOpenJournal => 'Fill in my journal';
+
+  @override
   String todayEntryProgress(int done, int total) {
     return '$done of $total sections filled in today';
   }
@@ -1023,9 +1026,6 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get journalEmpty =>
       'Nothing written yet. Your first page starts with today.';
-
-  @override
-  String get journalWriteToday => 'Write today\'s page';
 
   @override
   String get todayNoteTitle => 'Your note';
@@ -1376,13 +1376,20 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String get ringCountdownCaption => 'Days left';
-
-  @override
-  String get ringShowCountdown => 'Show the days left';
-
-  @override
   String get ringShowDay => 'Show the day of the cycle';
+
+  @override
+  String get ringShowTimeline => 'Show the cycle as a line, with its steps';
+
+  @override
+  String stepPeriodStarted(String date) {
+    return 'Period started on $date';
+  }
+
+  @override
+  String stepFertile(String start, String end) {
+    return 'Fertile window, estimate: $start to $end';
+  }
 
   @override
   String get widgetTitle => 'Home-screen widget';
@@ -3203,6 +3210,49 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get phaseTip => 'Today\'s tip';
+
+  @override
+  String get phaseTipYours => 'Today\'s tip, from your journal';
+
+  @override
+  String get tipPain =>
+      'Belly pain today: warmth on it, a hot-water bottle or a bath, eases many women. Moving gently often helps too.';
+
+  @override
+  String get tipHeadache =>
+      'Headache: drinking water and a quiet moment away from screens and bright light often help.';
+
+  @override
+  String get tipNightSweats =>
+      'Night sweats or hot flashes: a cool bedroom, cotton sheets and layers that come off easily often make the night easier.';
+
+  @override
+  String get tipPoorSleep =>
+      'After a bad night: daylight in the morning and a regular bedtime often help the next one.';
+
+  @override
+  String get tipFatigue =>
+      'Tired today: lighten what can be lightened, and go to bed a little earlier if you can. It is not laziness.';
+
+  @override
+  String get tipBackPain =>
+      'Back pain: warmth on the lower back and a few gentle stretches often feel good.';
+
+  @override
+  String get tipBloating =>
+      'Bloated: eating slowly and a short walk after a meal often bring relief.';
+
+  @override
+  String get tipNausea =>
+      'Nausea: small amounts, more often, usually go down better than one big meal.';
+
+  @override
+  String get tipBreastTenderness =>
+      'Tender breasts: a soft bra without underwire is often more comfortable on these days.';
+
+  @override
+  String get tipLowMood =>
+      'A heavy day: ten minutes of walking outside, or a few words with someone you trust, often lighten it a little.';
 
   @override
   String get phaseMore => 'Decode';

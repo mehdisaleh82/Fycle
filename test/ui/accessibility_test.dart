@@ -42,6 +42,7 @@ void main() {
         expect(find.byIcon(Icons.lock_outline), findsOneWidget);
         harness.deviceAuth.outcome = AuthOutcome.success;
         await tapVisible(tester, find.byType(FilledButton));
+        await openJournal(tester);
         expect(find.byKey(const ValueKey('log-today')), findsOneWidget);
       });
 
@@ -109,6 +110,7 @@ void main() {
         final harness = Harness(tester);
         await harness.seed(days: periodFrom(CalendarDay(2026, 2, 28)));
         await harness.pumpApp(locale: locale, themeMode: themeMode);
+        await openJournal(tester);
         await tapVisible(tester, find.byKey(const ValueKey('log-today')));
 
         await expectLater(tester, meetsGuideline(textContrastGuideline));

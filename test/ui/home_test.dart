@@ -137,6 +137,7 @@ void main() {
     await harness.seed(days: threePeriods());
     await harness.pumpApp();
 
+    await openJournal(tester);
     await tapVisible(tester, find.text('Log today'));
     await tester.tap(find.byKey(const ValueKey('flow-heavy')));
     await tester.pumpAndSettle();
@@ -147,6 +148,7 @@ void main() {
     expect(entry?.flow, FlowIntensity.heavy);
 
     await tapVisible(tester, find.text('Done'));
+    await openHome(tester);
     expect(find.text('Day 1 of your period'), findsOneWidget);
     expect(find.textContaining('Next period expected between'), findsOneWidget);
   });
@@ -184,6 +186,12 @@ void main() {
       await harness.pumpApp();
       final haptics = recordHaptics(tester);
 
+      // The home only leads to the journal, where the day is filled in.
+      expect(find.text('Period today'), findsNothing);
+      await tapVisible(
+        tester,
+        find.byKey(const ValueKey('open-journal-today')),
+      );
       expect(find.text('Period today'), findsOneWidget);
       await tapVisible(tester, find.byKey(const ValueKey('quick-flow-light')));
 
@@ -192,8 +200,10 @@ void main() {
       );
       expect(entry?.flow, FlowIntensity.light);
       expect(haptics, ['HapticFeedbackType.selectionClick']);
-      expect(find.text('Day 1 of your period'), findsOneWidget);
       expect(chosen(tester, 'quick-flow-light'), isTrue);
+      await openHome(tester);
+      expect(find.text('Day 1 of your period'), findsOneWidget);
+      expect(find.text('1 of 6 sections filled in today'), findsOneWidget);
     });
 
     testWidgets('a second tap takes it back', (tester) async {
@@ -201,6 +211,7 @@ void main() {
       await harness.seed(days: threePeriods());
       await harness.pumpApp();
 
+      await openJournal(tester);
       await tapVisible(tester, find.byKey(const ValueKey('quick-flow-heavy')));
       await tapVisible(tester, find.byKey(const ValueKey('quick-flow-heavy')));
 
@@ -208,6 +219,7 @@ void main() {
         (store) => store.database.readDay(harness.today),
       );
       expect(entry, isNull);
+      await openHome(tester);
       expect(
         find.text('Period expected between Mar 25 and Mar 31'),
         findsOneWidget,
@@ -232,6 +244,7 @@ void main() {
       );
       await harness.pumpApp();
 
+      await openJournal(tester);
       await tapVisible(tester, find.byKey(const ValueKey('quick-flow-medium')));
 
       final entry = await harness.read(
@@ -259,6 +272,7 @@ void main() {
       await harness.seed(days: threePeriods());
       await harness.pumpApp();
 
+      await openJournal(tester);
       await tapVisible(tester, find.text('Log today'));
       await tester.tap(find.byKey(const ValueKey('flow-spotting')));
       await tester.pumpAndSettle();
@@ -288,6 +302,7 @@ void main() {
       await harness.pumpApp();
 
       // Today is not logged yet: the run is not broken.
+      await openJournal(tester);
       expect(find.text('Logged 3 days in a row'), findsOneWidget);
 
       await tapVisible(tester, find.byKey(const ValueKey('quick-flow-light')));
@@ -303,6 +318,7 @@ void main() {
         ],
       );
       await harness.pumpApp(locale: 'fr');
+      await openJournal(tester);
 
       expect(find.text("Règles aujourd'hui"), findsOneWidget);
       expect(find.text('Saisie 2 jours de suite'), findsOneWidget);
@@ -320,6 +336,7 @@ void main() {
       );
       await harness.pumpApp();
 
+      await openJournal(tester);
       expect(find.byKey(const ValueKey('logging-streak')), findsNothing);
       expect(find.textContaining('in a row'), findsNothing);
     });
@@ -332,6 +349,7 @@ void main() {
     await harness.seed(days: threePeriods());
     await harness.pumpApp();
 
+    await openJournal(tester);
     await tapVisible(tester, find.text('Log today'));
     await tapVisible(tester, find.byKey(const ValueKey('pain-severe')));
     await tapVisible(tester, find.byKey(const ValueKey('mood-calm')));
@@ -368,6 +386,7 @@ void main() {
     await harness.seed(days: threePeriods());
     await harness.pumpApp();
 
+    await openJournal(tester);
     await tapVisible(tester, find.text('Log today'));
     await tapVisible(tester, find.byKey(const ValueKey('sleep-poor')));
     await tapVisible(tester, find.byKey(const ValueKey('libido-high')));
@@ -411,5 +430,31 @@ void main() {
       find.byKey(const ValueKey('flow-medium')),
     );
     expect(chip.selected, isTrue);
+  });
+
+  testWidgets('night sweats are logged with the sleep, by everyone', (
+    tester,
+  ) async {
+    final harness = Harness(tester);
+    await harness.seed(days: threePeriods());
+    await harness.pumpApp();
+
+    await openJournal(tester);
+    await tapVisible(tester, find.text('Log today'));
+    await tapVisible(tester, find.byKey(const ValueKey('sleep-nightSweats')));
+    // Offered once, where the night is.
+    expect(find.byKey(const ValueKey('symptom-nightSweats')), findsNothing);
+
+    final entry = await harness.read(
+      (store) => store.database.readDay(harness.today),
+    );
+    expect(entry?.symptoms, {Symptom.nightSweats});
+
+    // A second tap takes it back.
+    await tapVisible(tester, find.byKey(const ValueKey('sleep-nightSweats')));
+    final after = await harness.read(
+      (store) => store.database.readDay(harness.today),
+    );
+    expect(after, isNull);
   });
 }

@@ -5,7 +5,7 @@ import 'package:material_ui/material_ui.dart';
 
 import 'harness.dart';
 
-const _homeText = 'Log today';
+const _homeText = 'Fill in my journal';
 const _lockedText = 'Fycle is locked';
 
 /// The app with made-up data, the lock being on or off beforehand.
@@ -201,6 +201,7 @@ void main() {
       final harness = await prepare(tester);
       await harness.pumpApp();
       // The entry of the day, with a note being typed.
+      await openJournal(tester);
       await tapVisible(tester, find.byKey(const ValueKey('log-today')));
       await tester.enterText(find.byType(TextField), 'Made-up note');
       await tester.pumpAndSettle();
@@ -214,7 +215,8 @@ void main() {
       harness.deviceAuth.outcome = AuthOutcome.success;
       await tester.tap(find.text('Unlock'));
       await tester.pumpAndSettle();
-      expect(find.text('Made-up note'), findsOneWidget);
+      // In the field being typed, and on the page of the journal behind it.
+      expect(find.widgetWithText(TextField, 'Made-up note'), findsOneWidget);
     });
   });
 

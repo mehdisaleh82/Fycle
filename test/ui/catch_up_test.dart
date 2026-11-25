@@ -146,6 +146,7 @@ void main() {
     await harness.seed(days: threePeriods());
     await harness.pumpApp();
 
+    await openJournal(tester);
     await tapVisible(tester, key('log-yesterday'));
     // The page of the day opens over the home screen.
     expect(key('day-done'), findsOneWidget);
@@ -163,6 +164,7 @@ void main() {
       ],
     );
     await logged.pumpApp();
+    await openJournal(tester);
     expect(key('log-yesterday'), findsNothing);
   });
 }

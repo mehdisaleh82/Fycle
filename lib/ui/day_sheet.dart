@@ -204,6 +204,13 @@ class _DaySheetState extends State<_DaySheet> {
                         onSelected: (selected) =>
                             _save(sleep: () => selected ? sleep : null),
                       ),
+                    // A sign of the night, logged where the night is.
+                    FilterChip(
+                      key: const ValueKey('sleep-nightSweats'),
+                      label: Text(symptomLabel(l10n, Symptom.nightSweats)),
+                      selected: _entry.symptoms.contains(Symptom.nightSweats),
+                      onSelected: (_) => _toggleSymptom(Symptom.nightSweats),
+                    ),
                   ],
                 ),
               ),
@@ -231,9 +238,11 @@ class _DaySheetState extends State<_DaySheet> {
                     for (final symptom in Symptom.values)
                       // The signs of a changing cycle are offered to those
                       // who follow it, and kept wherever they were ticked.
-                      if (!followerOnlySigns.contains(symptom) ||
-                          widget.model.followsCycleChanges ||
-                          _entry.symptoms.contains(symptom))
+                      // Night sweats are with the sleep, for everyone.
+                      if (symptom != Symptom.nightSweats &&
+                          (!followerOnlySigns.contains(symptom) ||
+                              widget.model.followsCycleChanges ||
+                              _entry.symptoms.contains(symptom)))
                         FilterChip(
                           key: ValueKey('symptom-${symptom.name}'),
                           label: Text(symptomLabel(l10n, symptom)),

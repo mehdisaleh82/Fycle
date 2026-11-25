@@ -847,6 +847,34 @@ Retour de la testeuse sur la compilation n° 9, rapporté par l'utilisateur : po
 178. **Fiches « Intimité » : plus d'encadré « À retenir »** (20 novembre 2026, modifie 168). Demandé par l'utilisateur. Les quinze fiches se terminent sur leur texte ; les quinze textes et le titre de l'encadré sont retirés des fichiers de langue. Les autres fiches gardent « Quand consulter ». Conséquence à connaître : les rappels de précaution que portaient ces encadrés (hygiène, protection contre les infections, quand en parler à un professionnel) ne figurent plus dans ces fiches.
 179. **Fiches « Intimité » réécrites : découverte, exploration, plaisir** (20 novembre 2026, modifie 168). Demandé par l'utilisateur : pas de conseils moralisateurs. Les quinze textes (français et anglais) invitent à essayer et à observer, sans injonction ni mise en garde. Restent, parce que ce sont des faits utiles et non une morale : la compatibilité des lubrifiants avec les jouets et le latex, la base évasée des jouets pour l'anal, et, dans la fiche sur la douleur, la mention qu'une douleur profonde ou qui revient relève d'un professionnel de santé. Les titres ne changent pas. Textes toujours en attente de relecture par un professionnel de santé (règle 7).
 
+## Retours de la testeuse du 25 novembre 2026
+
+Quatre retours après essai sur iPhone, corrigés à la demande de l'utilisateur (« Corrige, commit et déploie »).
+
+180. **Le journal du jour se remplit dans l'onglet Journal, plus sur l'accueil** (modifie 87 et la refonte de l'accueil). Retour : « remplir le journal dans l'accueil, c'est bizarre ».
+    - La carte « Mon journal du jour » (règles, douleur, humeur… en un appui, série de saisie, bouton vers la saisie complète) ouvre désormais l'onglet Journal, au-dessus du calendrier. Le bouton « Écrire la page d'aujourd'hui » du Journal, devenu doublon, est retiré.
+    - Sur l'accueil, il reste une petite carte : combien de rubriques sont remplies aujourd'hui, et un bouton « Remplir mon journal » qui mène à l'onglet Journal.
+
+181. **Sueurs nocturnes : avec le sommeil, pour toutes.** Dans la rubrique « Sommeil » de la saisie du jour et de la carte du journal. C'est le même signe que `Symptom.nightSweats` : rien ne change dans la base ni dans l'export. Il n'est plus proposé dans la liste des symptômes, où seules celles qui suivent un cycle qui change le voyaient (modifie la liste de `followerOnlySigns` à l'écran, pas dans les calculs).
+
+182. **Le conseil du jour répond d'abord à ce qui est noté aujourd'hui** (`lib/domain/daily_tip.dart`, Dart pur). Retour : « conseil du jour pas adapté aux symptômes ».
+    - Dix sujets, un conseil chacun : douleur ou crampes, mal de tête ou migraine, sueurs nocturnes ou bouffées de chaleur, mauvaise nuit ou insomnie, fatigue, mal de dos, ballonnements, nausées, seins sensibles, humeur lourde. Si plusieurs choses sont notées, la première de cette liste l'emporte : ce qui fait mal avant ce qui fatigue, le corps avant l'humeur.
+    - Rien de noté qui appelle un conseil : le conseil de la phase du cycle, comme avant. Le titre le dit : « Le conseil du jour, d'après ton journal ».
+    - **Règle 7.** Des gestes de confort du quotidien, formulés avec « souvent » : aucun médicament, aucun diagnostic, aucune promesse (un test le vérifie). **Les dix textes, en français et en anglais, sont à relire par un professionnel de santé avant tout test externe**, comme ceux des phases.
+    - Limite : la carte ne s'affiche toujours pas quand aucune phase n'est nommée (grossesse, contraception hormonale, règles en retard) ; le conseil d'après le journal non plus.
+
+183. **Anneau du cycle : ouvert en haut, et règles en cours montrées jusqu'à leur fin estimée.** Retour : après la saisie des règles, la couleur des règles prévues se lisait « avant », alors que les règles étaient en cours.
+    - **Cause.** L'anneau était fermé : la fourchette des prochaines règles, à la fin du cycle, touchait le début du cycle en haut du cercle. Et sans cycle terminé, l'arc des règles ne couvrait que les jours déjà saisis, soit un ou deux jours.
+    - **Anneau ouvert** (`CycleRing.opening`, 36°) : le cycle commence d'un côté de l'ouverture et finit de l'autre. Un doigt posé dans l'ouverture donne le jour le plus proche.
+    - **Règles en cours** : après les jours saisis, un arc plus clair va jusqu'à la fin estimée (`periodEndEstimate`, décision existante : ses règles passées, ou la durée qu'elle a indiquée). C'est une estimation, dessinée comme telle.
+
+184. **Deuxième vue de la carte du cycle : le cycle « en ligne », avec ses étapes** (`lib/ui/cycle_strip.dart`, remplace la vue « jours restants »). Retour : la deuxième vue montrait le même anneau avec un autre chiffre ; demande d'une vue différente, pratique, qui ne soit pas un calendrier.
+    - Une ligne du premier au dernier jour du cycle, dans le sens d'écriture, avec les mêmes couleurs et un point sur aujourd'hui. Une ligne a un début et une fin, ce qu'un cercle n'a pas.
+    - Dessous, les étapes dans l'ordre, chacune avec ses dates : règles commencées le…, fenêtre de fertilité estimée du… au… (si elle est affichée), règles prévues entre le… et le…, avec les jours restants. Toujours des fourchettes.
+    - Un appui sur la carte passe d'une vue à l'autre, comme avant ; les points sous le dessin restent. La ligne ne se parcourt pas au doigt : c'est l'anneau qui sert à cela. Les textes « jours restants » de l'anneau sont retirés.
+
+185. **Ce qui est vérifié, et où.** Sous Windows : tous les tests (737), dont le choix du conseil, les sueurs nocturnes, les deux vues de la carte, l'anneau ouvert, et les parcours existants déplacés vers l'onglet Journal ; rendu contrôlé sur des captures du moteur de test, en clair et en sombre. En attente de l'iPhone : le confort réel de la ligne et de l'anneau ouvert, et l'avis de la testeuse.
+
 ## Questions ouvertes
 
 - **Le nom « Fycle » dans l'appli** : l'utilisateur a demandé qu'il n'apparaisse plus. Fait pour l'en-tête (décision 118). Il reste au démarrage (« Bienvenue dans Fycle »), sur l'écran de verrouillage, dans les réglages et dans l'avertissement : à confirmer avant de le retirer partout.

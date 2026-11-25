@@ -11,13 +11,14 @@ import '../domain/mood.dart';
 import '../domain/pain_level.dart';
 import '../domain/sleep_quality.dart';
 import '../domain/start_profile.dart';
+import '../domain/symptom.dart';
 import '../l10n/app_localizations.dart';
 import 'cycle_model.dart';
 import 'home_cards.dart';
 import 'labels.dart';
 
-/// Logging today from the home screen, one tap at a time: period, pain and
-/// mood. A tap saves, a second tap takes it back, and whatever else is
+/// Logging today at the top of the journal, one tap at a time: period,
+/// pain and mood. A tap saves, a second tap takes it back, and whatever else is
 /// logged for the day is kept. A bar shows how much of the day is filled
 /// in, and a button opens the full entry.
 ///
@@ -132,6 +133,19 @@ class TodayCard extends StatelessWidget {
                     onSelected: (selected) =>
                         _save(entry.withSleep(selected ? sleep : null)),
                   ),
+                // A sign of the night, logged where the night is.
+                FilterChip(
+                  key: const ValueKey('quick-sleep-nightSweats'),
+                  label: Text(symptomLabel(l10n, Symptom.nightSweats)),
+                  selected: entry.symptoms.contains(Symptom.nightSweats),
+                  onSelected: (selected) => _save(
+                    entry.withSymptoms({
+                      for (final symptom in entry.symptoms)
+                        if (symptom != Symptom.nightSweats) symptom,
+                      if (selected) Symptom.nightSweats,
+                    }),
+                  ),
+                ),
               ],
             ),
             Tracked.libido => _Group(

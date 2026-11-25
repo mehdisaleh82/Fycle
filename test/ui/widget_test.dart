@@ -84,6 +84,7 @@ void main() {
       await harness.pumpApp();
 
       // A period logged today starts a new cycle.
+      await openJournal(tester);
       await tapVisible(tester, find.byKey(const ValueKey('quick-flow-medium')));
       expect(harness.widgets.current?.cycleStart, harness.today);
     });
@@ -96,6 +97,7 @@ void main() {
       await harness.pumpApp();
       final handed = harness.widgets.handed.length;
 
+      await openJournal(tester);
       await tapVisible(tester, find.byKey(const ValueKey('quick-mood-calm')));
       expect(harness.widgets.handed, hasLength(handed));
     });

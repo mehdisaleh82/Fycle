@@ -11,6 +11,7 @@ import '../domain/day_entry.dart';
 import '../domain/period_prediction.dart';
 import '../l10n/app_localizations.dart';
 import 'cycle_ring.dart';
+import 'cycle_strip.dart';
 import 'labels.dart';
 import 'theme.dart';
 
@@ -19,8 +20,8 @@ enum _View {
   /// The day of the cycle and the estimate for the next period.
   day,
 
-  /// The days left before the estimated range.
-  countdown,
+  /// The cycle laid flat, as a line, with its steps and their dates.
+  timeline,
 
   /// What she logged around this day in her past cycles.
   usual,
@@ -31,8 +32,8 @@ enum _View {
 /// always as a range. Says, without alarm, when the range is over.
 ///
 /// The card is meant to be touched. A tap anywhere goes to the next view
-/// (the days left, then what usually comes around this day), and dots under
-/// the ring show how many views there are. A finger sliding around the ring
+/// (the cycle as a line with its steps, then what usually comes around this
+/// day), and dots under the ring show how many views there are. A finger sliding around the ring
 /// goes through the cycle day by day: the date, what is estimated for it,
 /// what was logged on it and what usually comes around it. While no period
 /// is logged, one button logs that it starts today.
@@ -45,6 +46,7 @@ class PredictionCard extends StatefulWidget {
     this.cycleStart,
     this.fertileFromDay,
     this.fertileToDay,
+    this.periodEstimatedDays,
     this.ovulationLine,
     this.periodEndLine,
     this.usualSignsFor,
@@ -65,6 +67,10 @@ class PredictionCard extends StatefulWidget {
   /// user keeps that estimate on.
   final int? fertileFromDay;
   final int? fertileToDay;
+
+  /// The day of the cycle the period going on may last until, when her
+  /// past periods allow an estimate.
+  final int? periodEstimatedDays;
 
   /// The estimated range of ovulation, already worded, when the user keeps
   /// that estimate on and enough cycles are logged.
@@ -146,6 +152,7 @@ class _PredictionCardState extends State<PredictionCard> {
     final lines = <String>[];
     var counting = true;
     var estimated = false;
+    PeriodPrediction? shown;
     switch (status) {
       case NoEstimate():
         title = l10n.statusNoDataTitle;
@@ -163,6 +170,7 @@ class _PredictionCardState extends State<PredictionCard> {
         }
         lines.add(_range(l10n, next, next: true));
         estimated = true;
+        shown = next;
       case PeriodExpected(:final prediction, :final daysUntil):
         title = _countdown(l10n, daysUntil);
         // Where she is, in plain words, before the dates.
@@ -174,10 +182,12 @@ class _PredictionCardState extends State<PredictionCard> {
           )
           ..add(_range(l10n, prediction));
         estimated = true;
+        shown = prediction;
       case PeriodDue(:final prediction):
         title = l10n.countdownDue;
         lines.add(_range(l10n, prediction));
         estimated = true;
+        shown = prediction;
       case PeriodLate(:final prediction, :final daysLate):
         title = _range(l10n, prediction);
         lines
@@ -203,24 +213,26 @@ class _PredictionCardState extends State<PredictionCard> {
       ?expectedTo,
     ].reduce(math.max);
 
-    // The days left can be shown while the range is not behind: before it,
-    // inside it, and during a period, for the one after.
+    // The line shows what is ahead: offered while the range is not behind,
+    // before it, inside it, and during a period, for the one after.
     final canCount =
-        counting && earliest != null && latest != null && latest >= 0;
+        day != null && earliest != null && latest != null && latest >= 0;
     final usualFor = widget.usualSignsFor;
     final usualToday = day == null || usualFor == null
         ? const <UsualSign>[]
         : usualFor(day);
     final views = [
       _View.day,
-      if (canCount) _View.countdown,
+      if (canCount) _View.timeline,
       if (usualToday.isNotEmpty) _View.usual,
     ];
     final view = views[_view % views.length];
     final nextView = views[(_view + 1) % views.length];
 
     final cycleStart = widget.cycleStart;
-    final canExplore = day != null && cycleStart != null;
+    final flat = view == _View.timeline && day != null;
+    // The ring is gone through with a finger; the line is only read.
+    final canExplore = day != null && cycleStart != null && !flat;
     final explored = canExplore ? _explored?.clamp(1, totalDays) : null;
     final canTap = views.length > 1 || explored != null;
 
@@ -236,30 +248,33 @@ class _PredictionCardState extends State<PredictionCard> {
       });
     }
 
-    final String? centerText;
-    if (explored != null) {
-      centerText = '$explored';
-    } else if (view == _View.countdown && earliest != null && latest != null) {
-      final from = math.max(earliest, 0);
-      centerText = latest > from ? '$from–$latest' : '$from';
-    } else {
-      centerText = null;
-    }
-    final Widget drawing = CycleRing(
-      size: _ringSize,
-      dayOfCycle: day,
-      selectedDay: explored,
-      caption: explored == null && view == _View.countdown
-          ? l10n.ringCountdownCaption
-          : l10n.cycleDayCaption,
-      centerText: centerText,
-      totalDays: totalDays,
-      periodDays: counting ? overview.periodLength : 0,
-      expectedFromDay: expectedFrom,
-      expectedToDay: expectedTo,
-      fertileFromDay: widget.fertileFromDay,
-      fertileToDay: widget.fertileToDay,
-    );
+    final periodDays = counting ? overview.periodLength : 0;
+    final Widget drawing = flat
+        ? CycleStrip(
+            key: const ValueKey('cycle-strip'),
+            dayOfCycle: day,
+            totalDays: totalDays,
+            periodDays: periodDays,
+            periodEstimatedDays: widget.periodEstimatedDays,
+            expectedFromDay: expectedFrom,
+            expectedToDay: expectedTo,
+            fertileFromDay: widget.fertileFromDay,
+            fertileToDay: widget.fertileToDay,
+          )
+        : CycleRing(
+            size: _ringSize,
+            dayOfCycle: day,
+            selectedDay: explored,
+            caption: l10n.cycleDayCaption,
+            centerText: explored == null ? null : '$explored',
+            totalDays: totalDays,
+            periodDays: periodDays,
+            periodEstimatedDays: widget.periodEstimatedDays,
+            expectedFromDay: expectedFrom,
+            expectedToDay: expectedTo,
+            fertileFromDay: widget.fertileFromDay,
+            fertileToDay: widget.fertileToDay,
+          );
 
     Widget ring = drawing;
     if (canExplore) {
@@ -311,7 +326,7 @@ class _PredictionCardState extends State<PredictionCard> {
       } else if (views.length > 1) {
         label = switch (nextView) {
           _View.day => l10n.ringShowDay,
-          _View.countdown => l10n.ringShowCountdown,
+          _View.timeline => l10n.ringShowTimeline,
           _View.usual => l10n.ringShowUsual,
         };
       } else {
@@ -327,6 +342,9 @@ class _PredictionCardState extends State<PredictionCard> {
           : null;
       ring = Semantics(
         key: const ValueKey('cycle-ring'),
+        // A node of its own in both views: the line under it has nothing
+        // for a screen reader, the steps say it in words.
+        container: true,
         button: canTap,
         label: label,
         // For a screen reader, the ring is gone through like a slider.
@@ -373,9 +391,9 @@ class _PredictionCardState extends State<PredictionCard> {
       );
     }
 
-    if (day != null) {
+    if (day != null && !flat) {
       // Under the ring, outside what answers to the finger: what its
-      // colours stand for.
+      // colours stand for. The line says it in its steps.
       ring = Column(
         mainAxisSize: MainAxisSize.min,
         children: [
@@ -417,7 +435,7 @@ class _PredictionCardState extends State<PredictionCard> {
       ],
     );
 
-    final Widget text;
+    Widget text;
     Widget? actions;
     if (explored != null && cycleStart != null) {
       final date = cycleStart.addDays(explored - 1);
@@ -507,6 +525,59 @@ class _PredictionCardState extends State<PredictionCard> {
       );
     }
 
+    if (flat && explored == null) {
+      // Under the line, its steps in the order they come, each with its
+      // dates: what the colours stand for, and when.
+      final fertileFrom = widget.fertileFromDay;
+      final fertileTo = widget.fertileToDay;
+      final ongoing = status is PeriodOngoing;
+      final next = shown;
+      text = Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          block(
+            label: l10n.cycleDaySemantics(day),
+            labelKey: const ValueKey('cycle-day'),
+            title: title,
+            lines: const [],
+          ),
+          const SizedBox(height: 14),
+          Column(
+            key: const ValueKey('cycle-steps'),
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              if (cycleStart != null)
+                _Step(
+                  color: PeriodColors.of(context).fill,
+                  title: l10n.stepPeriodStarted(shortDate(l10n, cycleStart)),
+                  detail: ongoing ? widget.periodEndLine : null,
+                ),
+              if (cycleStart != null &&
+                  fertileFrom != null &&
+                  fertileTo != null)
+                _Step(
+                  color: onCard.withValues(alpha: 0.4),
+                  title: l10n.stepFertile(
+                    shortDate(l10n, cycleStart.addDays(fertileFrom - 1)),
+                    shortDate(l10n, cycleStart.addDays(fertileTo - 1)),
+                  ),
+                ),
+              if (next != null)
+                _Step(
+                  color: accent.mark,
+                  title: _range(l10n, next, next: ongoing),
+                  // During a period, the title counts its days: the days
+                  // left before the next one are said here.
+                  detail: ongoing && earliest != null
+                      ? _countdown(l10n, math.max(earliest, 0))
+                      : null,
+                ),
+            ],
+          ),
+        ],
+      );
+    }
+
     final start = widget.onPeriodStartsToday;
     return Card.filled(
       margin: EdgeInsets.zero,
@@ -540,7 +611,7 @@ class _PredictionCardState extends State<PredictionCard> {
                 ),
               ],
               const SizedBox(height: 16),
-              MergeSemantics(child: text),
+              flat ? text : MergeSemantics(child: text),
               if (actions != null) ...[const SizedBox(height: 12), actions],
               if (!counting && start != null) ...[
                 const SizedBox(height: 16),
@@ -615,6 +686,65 @@ class _RingLegend extends StatelessWidget {
             item(accent.onCard.withValues(alpha: 0.4), l10n.legendFertile),
           item(accent.onCard, l10n.legendToday),
         ],
+      ),
+    );
+  }
+}
+
+/// One step of the cycle under the line: a dot of its colour, what it is
+/// and when, and a detail when there is one.
+class _Step extends StatelessWidget {
+  const _Step({required this.color, required this.title, this.detail});
+
+  final Color color;
+  final String title;
+  final String? detail;
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final onCard = AccentColors.of(context).onCard;
+    final detail = this.detail;
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 5),
+      child: MergeSemantics(
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Padding(
+              padding: const EdgeInsetsDirectional.only(top: 5, end: 10),
+              child: ExcludeSemantics(
+                child: Container(
+                  width: 10,
+                  height: 10,
+                  decoration: BoxDecoration(
+                    color: color,
+                    shape: BoxShape.circle,
+                  ),
+                ),
+              ),
+            ),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    title,
+                    style: theme.textTheme.bodyMedium?.copyWith(
+                      color: onCard,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                  if (detail != null)
+                    Text(
+                      detail,
+                      style: theme.textTheme.bodySmall?.copyWith(color: onCard),
+                    ),
+                ],
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

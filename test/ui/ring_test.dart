@@ -28,8 +28,13 @@ List<String> middle(WidgetTester tester) => [
     text.data!,
 ];
 
+/// Whether the cycle is shown as a line, with its steps, instead of a ring.
+bool flat(WidgetTester tester) =>
+    find.byKey(const ValueKey('cycle-strip')).evaluate().isNotEmpty &&
+    find.byType(CycleRing).evaluate().isEmpty;
+
 void main() {
-  testWidgets('a tap on the ring switches its middle to the days left', (
+  testWidgets('a tap on the ring lays the cycle flat, with its steps', (
     tester,
   ) async {
     final harness = Harness(tester);
@@ -53,8 +58,15 @@ void main() {
     );
 
     await tapVisible(tester, _ring);
-    // A range, like the estimate it comes from.
-    expect(middle(tester), ['Days left', '5–11']);
+    // The same cycle as a line, and under it its steps with their dates:
+    // ranges, like the estimates they come from.
+    expect(flat(tester), isTrue);
+    expect(find.text('Period in 5 to 11 days'), findsOneWidget);
+    expect(find.text('Period started on Feb 28'), findsOneWidget);
+    expect(
+      find.text('Period expected between Mar 25 and Mar 31'),
+      findsOneWidget,
+    );
     expect(
       ticks.where((call) => call.method == 'HapticFeedback.vibrate'),
       isNotEmpty,
@@ -72,11 +84,11 @@ void main() {
     await harness.pumpApp(locale: 'fr');
 
     expect(
-      find.bySemanticsLabel('Afficher les jours restants'),
+      find.bySemanticsLabel('Afficher le cycle en ligne, avec ses étapes'),
       findsOneWidget,
     );
     await tapVisible(tester, _ring);
-    expect(middle(tester), ['Jours restants', '5–11']);
+    expect(flat(tester), isTrue);
     expect(find.bySemanticsLabel('Afficher le jour du cycle'), findsOneWidget);
     semantics.dispose();
   });
@@ -90,7 +102,9 @@ void main() {
     expect(middle(tester), ['Day', '2']);
 
     await tapVisible(tester, _ring);
-    expect(middle(tester), ['Days left', '24–30']);
+    expect(flat(tester), isTrue);
+    expect(find.text('Period in 24 to 30 days'), findsOneWidget);
+    expect(find.textContaining('Next period expected between'), findsOneWidget);
   });
 
   testWidgets('from the first day after the first launch', (tester) async {
@@ -100,7 +114,8 @@ void main() {
     expect(middle(tester), ['Day', '1']);
 
     await tapVisible(tester, _ring);
-    expect(middle(tester), ['Days left', '21–35']);
+    expect(flat(tester), isTrue);
+    expect(find.text('Period in 21 to 35 days'), findsOneWidget);
   });
 
   testWidgets('a tap anywhere on the card does it, not only on the ring', (
@@ -111,7 +126,7 @@ void main() {
     await harness.pumpApp();
 
     await tapVisible(tester, find.text('Period in 5 to 11 days'));
-    expect(middle(tester), ['Days left', '5–11']);
+    expect(flat(tester), isTrue);
     await tapVisible(tester, find.byKey(const ValueKey('cycle-day')));
     expect(middle(tester), ['Day', '21']);
   });
@@ -353,7 +368,8 @@ void main() {
         textDirection: TextDirection.rtl,
       );
       await tapVisible(tester, _ring);
-      expect(middle(tester), ['Jours restants', '5–11']);
+      expect(flat(tester), isTrue);
+      await tapVisible(tester, _ring);
 
       // And with a day of the ring looked at.
       final ring = find.byType(CycleRing);
@@ -367,4 +383,53 @@ void main() {
       expect(find.byKey(const ValueKey('explore-panel')), findsOneWidget);
     });
   }
+
+  group('the ring is open at the top', () {
+    const size = 168.0;
+
+    test('every day is found again where it is drawn', () {
+      for (final total in [21, 28, 35, 45]) {
+        for (var day = 1; day <= total; day++) {
+          expect(
+            CycleRing.dayAt(
+              CycleRing.positionOf(day, size, total),
+              size,
+              total,
+            ),
+            day,
+          );
+        }
+      }
+    });
+
+    test('the cycle starts on one side of the opening, ends on the other', () {
+      // Day 1 is right of the top, the last day left of it: the end of the
+      // cycle is not drawn against its start.
+      expect(CycleRing.positionOf(1, size, 28).dx, greaterThan(size / 2));
+      expect(CycleRing.positionOf(28, size, 28).dx, lessThan(size / 2));
+      // A finger in the opening gets the nearest end.
+      final radius = CycleRing.radiusFor(size);
+      expect(
+        CycleRing.dayAt(Offset(size / 2 + 2, size / 2 - radius), size, 28),
+        1,
+      );
+      expect(
+        CycleRing.dayAt(Offset(size / 2 - 2, size / 2 - radius), size, 28),
+        28,
+      );
+    });
+  });
+
+  testWidgets('the line shows how long the period going on may last', (
+    tester,
+  ) async {
+    final harness = Harness(tester, today: CalendarDay(2026, 3, 1));
+    await harness.seed(days: threePeriods());
+    await harness.pumpApp(locale: 'fr');
+
+    await tapVisible(tester, _ring);
+    expect(flat(tester), isTrue);
+    expect(find.text('Règles commencées le 28 févr.'), findsOneWidget);
+    expect(find.text('Règles dans 24 à 30 jours'), findsOneWidget);
+  });
 }

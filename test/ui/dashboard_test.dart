@@ -112,6 +112,7 @@ void main() {
       await harness.seed(days: threePeriods());
       await harness.pumpApp();
 
+      await openJournal(tester);
       expect(
         textOf(tester, 'today-progress'),
         '0 of 6 sections filled in today',
@@ -266,10 +267,7 @@ void main() {
       await openJournal(tester);
 
       expect(find.textContaining("Rien d'écrit pour l'instant"), findsOne);
-      await tapVisible(
-        tester,
-        find.byKey(const ValueKey('journal-write-today')),
-      );
+      await tapVisible(tester, find.byKey(const ValueKey('log-today')));
       expect(find.byKey(const ValueKey('day-done')), findsOneWidget);
     });
   });

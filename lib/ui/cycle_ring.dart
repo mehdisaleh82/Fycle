@@ -8,6 +8,10 @@ import 'theme.dart';
 /// days that follow, then the range in which the next period is expected.
 /// A dot marks today, and the day of the cycle is written in the middle.
 ///
+/// The ring is left open at the top: the cycle starts on one side of the
+/// opening and ends on the other, so the period expected at its end is not
+/// read as coming before the one it starts with.
+///
 /// A picture of the figures written next to it: it is hidden from screen
 /// readers, which read the text instead.
 ///
@@ -22,6 +26,7 @@ class CycleRing extends StatelessWidget {
     required this.periodDays,
     required this.expectedFromDay,
     required this.expectedToDay,
+    this.periodEstimatedDays,
     this.fertileFromDay,
     this.fertileToDay,
     this.centerText,
@@ -31,6 +36,16 @@ class CycleRing extends StatelessWidget {
 
   /// Width of the line the ring is drawn with.
   static const double stroke = 10;
+
+  /// Angle left open at the top, between the end of the cycle and its
+  /// start.
+  static const double opening = math.pi / 5;
+
+  /// Angle the days are spread over.
+  static const double sweep = 2 * math.pi - opening;
+
+  /// Angle at which day 1 starts.
+  static const double startAngle = -math.pi / 2 + opening / 2;
 
   /// Radius of the middle of the line, for a ring of [size].
   static double radiusFor(double size) => size / 2 - stroke / 2 - 2;
@@ -44,21 +59,23 @@ class CycleRing extends StatelessWidget {
   }
 
   /// The day of the cycle drawn in the direction of [position], inside a
-  /// ring of [size] that stands for [totalDays] days. Day 1 starts at the
-  /// top and the days go clockwise, whatever the writing direction: a
-  /// ring reads like a clock.
+  /// ring of [size] that stands for [totalDays] days. Day 1 starts just
+  /// after the opening at the top and the days go clockwise, whatever the
+  /// writing direction: a ring reads like a clock. A finger in the opening
+  /// gets the nearest end.
   static int dayAt(Offset position, double size, int totalDays) {
     final offset = position - Offset(size / 2, size / 2);
     final angle =
         (math.atan2(offset.dy, offset.dx) + math.pi / 2) % (2 * math.pi);
     final total = math.max(totalDays, 1);
-    return (angle / (2 * math.pi) * total).floor().clamp(0, total - 1) + 1;
+    final share = ((angle - opening / 2) / sweep).clamp(0.0, 1.0);
+    return (share * total).floor().clamp(0, total - 1) + 1;
   }
 
   /// Where the middle of [day] is drawn, inside a ring of [size].
   static Offset positionOf(int day, double size, int totalDays) {
     final total = math.max(totalDays, 1);
-    final angle = -math.pi / 2 + 2 * math.pi * (day - 0.5) / total;
+    final angle = startAngle + sweep * (day - 0.5) / total;
     final radius = radiusFor(size);
     return Offset(
       size / 2 + radius * math.cos(angle),
@@ -78,6 +95,10 @@ class CycleRing extends StatelessWidget {
 
   /// Days of the period, from day 1.
   final int periodDays;
+
+  /// The day the period going on may last until, when it is estimated to
+  /// go on after [periodDays]. Drawn lighter: an estimate.
+  final int? periodEstimatedDays;
 
   /// First and last day of the cycle in the expected range, if any.
   final int? expectedFromDay;
@@ -109,6 +130,7 @@ class CycleRing extends StatelessWidget {
             selectedDay: selectedDay,
             totalDays: math.max(totalDays, 1),
             periodDays: periodDays,
+            periodEstimatedDays: periodEstimatedDays,
             expectedFromDay: expectedFromDay,
             expectedToDay: expectedToDay,
             fertileFromDay: fertileFromDay,
@@ -169,6 +191,7 @@ class _RingPainter extends CustomPainter {
     required this.selectedDay,
     required this.totalDays,
     required this.periodDays,
+    required this.periodEstimatedDays,
     required this.expectedFromDay,
     required this.expectedToDay,
     required this.fertileFromDay,
@@ -184,6 +207,7 @@ class _RingPainter extends CustomPainter {
   final int? selectedDay;
   final int totalDays;
   final int periodDays;
+  final int? periodEstimatedDays;
   final int? expectedFromDay;
   final int? expectedToDay;
   final int? fertileFromDay;
@@ -196,8 +220,9 @@ class _RingPainter extends CustomPainter {
 
   static const double _stroke = CycleRing.stroke;
 
-  /// Angle at which day [day] starts (day 1 starts at the top).
-  double _angle(num day) => -math.pi / 2 + 2 * math.pi * (day - 1) / totalDays;
+  /// Angle at which day [day] starts (day 1 starts after the opening).
+  double _angle(num day) =>
+      CycleRing.startAngle + CycleRing.sweep * (day - 1) / totalDays;
 
   void _arc(
     Canvas canvas,
@@ -215,7 +240,7 @@ class _RingPainter extends CustomPainter {
     canvas.drawArc(
       rect,
       _angle(first),
-      2 * math.pi * (last - first + 1) / totalDays,
+      CycleRing.sweep * (last - first + 1) / totalDays,
       false,
       Paint()
         ..style = PaintingStyle.stroke
@@ -229,8 +254,8 @@ class _RingPainter extends CustomPainter {
     final rect = (Offset.zero & size).deflate(_stroke / 2 + 2);
     canvas.drawArc(
       rect,
-      0,
-      2 * math.pi,
+      CycleRing.startAngle,
+      CycleRing.sweep,
       false,
       Paint()
         ..style = PaintingStyle.stroke
@@ -255,6 +280,16 @@ class _RingPainter extends CustomPainter {
     final expectedTo = expectedToDay;
     if (expectedFrom != null && expectedTo != null) {
       _arc(canvas, rect, expectedFrom, expectedTo, expected);
+    }
+    final estimated = periodEstimatedDays;
+    if (estimated != null && estimated > periodDays) {
+      _arc(
+        canvas,
+        rect,
+        periodDays + 1,
+        estimated,
+        period.withValues(alpha: 0.4),
+      );
     }
     if (periodDays > 0) {
       _arc(canvas, rect, 1, periodDays, period);
@@ -302,6 +337,7 @@ class _RingPainter extends CustomPainter {
       old.selectedDay != selectedDay ||
       old.totalDays != totalDays ||
       old.periodDays != periodDays ||
+      old.periodEstimatedDays != periodEstimatedDays ||
       old.expectedFromDay != expectedFromDay ||
       old.expectedToDay != expectedToDay ||
       old.fertileFromDay != fertileFromDay ||

@@ -132,6 +132,7 @@ void main() {
 
       // A period logged today moves the estimate to the next cycle.
       await tapVisible(tester, find.byIcon(Icons.home_outlined));
+      await openJournal(tester);
       await tapVisible(tester, find.byKey(const ValueKey('log-today')));
       await tester.tap(find.byKey(const ValueKey('flow-medium')));
       await tester.pumpAndSettle();
@@ -174,6 +175,7 @@ void main() {
       await tapVisible(tester, switchOf('Daily entry reminder'));
 
       await tapVisible(tester, find.byIcon(Icons.home_outlined));
+      await openJournal(tester);
       await tapVisible(tester, find.byKey(const ValueKey('log-today')));
       await tester.tap(find.byKey(const ValueKey('flow-medium')));
       await tester.pumpAndSettle();

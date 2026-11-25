@@ -4,6 +4,7 @@ import '../domain/calendar_day.dart';
 import '../domain/catch_up.dart';
 import '../domain/cycle_overview.dart';
 import '../domain/cycle_status.dart';
+import '../domain/day_entry.dart';
 import '../domain/flow_intensity.dart';
 import '../domain/life_stage.dart';
 import '../domain/period_end_estimate.dart';
@@ -23,10 +24,9 @@ import 'labels.dart';
 import 'life_stage_cards.dart';
 import 'phase_card.dart';
 import 'prediction_card.dart';
-import 'today_card.dart';
 
-/// The home tab, kept to two things: the cycle, as a ring to touch, and the
-/// journal of the day. The summary of a cycle that just ended comes once,
+/// The home tab: the cycle, as a ring to touch, and what it says of today.
+/// The journal of the day is filled in the journal tab, one tap away. The summary of a cycle that just ended comes once,
 /// until it is closed. Everything else is in the review and the settings.
 class TodayTab extends StatelessWidget {
   const TodayTab({
@@ -46,17 +46,19 @@ class TodayTab extends StatelessWidget {
   /// Shown first and scrolled with the rest.
   final Widget header;
 
-  /// How long the period going on may still last, in words, when her past
-  /// periods allow an estimate.
-  String? _periodEnd(AppLocalizations l10n, CycleStatus status) {
-    if (status is! PeriodOngoing) {
-      return null;
-    }
-    final estimate = periodEndEstimate(
-      dayOfPeriod: status.dayOfPeriod,
-      cycles: model.cycles,
-      declaredPeriodLength: model.usualPeriodLength,
-    );
+  /// How long the period going on may still last, when her past periods
+  /// or what she said allow an estimate.
+  PeriodEndEstimate? _periodEndEstimate(CycleStatus status) =>
+      status is PeriodOngoing
+      ? periodEndEstimate(
+          dayOfPeriod: status.dayOfPeriod,
+          cycles: model.cycles,
+          declaredPeriodLength: model.usualPeriodLength,
+        )
+      : null;
+
+  /// The same, in words.
+  String? _periodEnd(AppLocalizations l10n, PeriodEndEstimate? estimate) {
     if (estimate == null) {
       return null;
     }
@@ -100,6 +102,7 @@ class TodayTab extends StatelessWidget {
         final cycleStart = model.cycles.isEmpty
             ? null
             : model.cycles.last.start;
+        final periodEnd = _periodEndEstimate(status);
         final summary = cycleSummaryToShow(model, today);
         final ask = catchUpOn(
           today,
@@ -134,7 +137,17 @@ class TodayTab extends StatelessWidget {
                           shortDate(l10n, current.earliestOvulation),
                           shortDate(l10n, current.latestOvulation),
                         ),
-                  periodEndLine: _periodEnd(l10n, status),
+                  periodEndLine: _periodEnd(l10n, periodEnd),
+                  // The ring shows, lighter, the days the period may still
+                  // last: it is going on, not over after the days logged.
+                  periodEstimatedDays:
+                      status is PeriodOngoing &&
+                          periodEnd != null &&
+                          cycleStart != null
+                      ? today.daysSince(cycleStart) +
+                            1 +
+                            periodEnd.latestDaysLeft
+                      : null,
                   fertileFromDay: current == null || cycleStart == null
                       ? null
                       : current.windowStart.daysSince(cycleStart) + 1,
@@ -154,14 +167,13 @@ class TodayTab extends StatelessWidget {
                 ),
               if (ask != null)
                 CatchUpCard(model: model, today: today, ask: ask),
-              // What she does every day comes first, right under the ring;
-              // then what the cycle says, what is ahead, and what to read.
+              // The journal is filled in its own tab: the home only says how
+              // far the day is, and leads there.
               gap,
-              TodayCard(
+              _JournalShortcut(
                 model: model,
                 today: today,
-                onOpenDay: () => onOpenDay(today),
-                onOpenYesterday: () => onOpenDay(today.addDays(-1)),
+                onOpen: () => onOpenTab(HomeTab.journal),
               ),
               PhaseCard(model: model, today: today, status: status),
               ComingSignsCard(model: model, today: today, status: status),
@@ -197,6 +209,60 @@ class TodayTab extends StatelessWidget {
           ),
         );
       },
+    );
+  }
+}
+
+/// How much of today's journal is filled in, and the way to the journal
+/// tab, where it is written.
+class _JournalShortcut extends StatelessWidget {
+  const _JournalShortcut({
+    required this.model,
+    required this.today,
+    required this.onOpen,
+  });
+
+  final CycleModel model;
+  final CalendarDay today;
+  final VoidCallback onOpen;
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
+    final theme = Theme.of(context);
+    final filled = model.entryFor(today).filledGroups;
+    return Card(
+      key: const ValueKey('journal-shortcut'),
+      child: Padding(
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            Semantics(
+              header: true,
+              child: Text(
+                l10n.todayEntryTitle,
+                style: theme.textTheme.titleMedium,
+              ),
+            ),
+            const SizedBox(height: 4),
+            Text(
+              l10n.todayEntryProgress(filled, DayEntry.groupCount),
+              key: const ValueKey('home-progress'),
+              style: theme.textTheme.bodySmall?.copyWith(
+                color: theme.colorScheme.onSurfaceVariant,
+              ),
+            ),
+            const SizedBox(height: 12),
+            FilledButton.icon(
+              key: const ValueKey('open-journal-today'),
+              onPressed: onOpen,
+              icon: const Icon(Icons.edit_outlined),
+              label: Text(l10n.homeOpenJournal),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }

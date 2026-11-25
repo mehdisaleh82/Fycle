@@ -118,6 +118,7 @@ void main() {
     final harness = Harness(tester);
     await harness.seed(days: periodFrom(CalendarDay(2026, 2, 28)));
     await harness.pumpApp();
+    await openJournal(tester);
     await tapVisible(tester, find.byKey(const ValueKey('log-today')));
 
     expect(find.byKey(const ValueKey('migraine-severe')), findsNothing);

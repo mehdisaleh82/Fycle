@@ -91,6 +91,7 @@ void main() {
       // Nothing to say of a reliability while nothing is estimated.
       expect(key('reliability-next'), findsNothing);
       // The journal of the day is still there.
+      await openJournal(tester);
       expect(key('log-today'), findsOneWidget);
     });
 
@@ -201,7 +202,9 @@ void main() {
       );
       await harness.pumpApp();
 
+      await openJournal(tester);
       await tap(tester, 'quick-flow-medium');
+      await openHome(tester);
 
       expect(key('postpartum-card'), findsNothing);
       expect(find.byType(PredictionCard), findsOneWidget);

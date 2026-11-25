@@ -4,6 +4,7 @@ import '../domain/calendar_day.dart';
 import '../domain/cycle_overview.dart';
 import '../domain/cycle_phase.dart';
 import '../domain/cycle_status.dart';
+import '../domain/daily_tip.dart';
 import '../domain/life_stage.dart';
 import '../domain/start_profile.dart';
 import '../l10n/app_localizations.dart';
@@ -59,8 +60,24 @@ PhaseText phaseText(AppLocalizations l10n, CyclePhase phase) => switch (phase) {
   ),
 };
 
+/// The tip that answers what she logged today.
+String tipText(AppLocalizations l10n, TipTopic topic) => switch (topic) {
+  TipTopic.pain => l10n.tipPain,
+  TipTopic.headache => l10n.tipHeadache,
+  TipTopic.nightSweats => l10n.tipNightSweats,
+  TipTopic.poorSleep => l10n.tipPoorSleep,
+  TipTopic.fatigue => l10n.tipFatigue,
+  TipTopic.backPain => l10n.tipBackPain,
+  TipTopic.bloating => l10n.tipBloating,
+  TipTopic.nausea => l10n.tipNausea,
+  TipTopic.breastTenderness => l10n.tipBreastTenderness,
+  TipTopic.lowMood => l10n.tipLowMood,
+};
+
 /// Where she is in her cycle today: the phase, a tip that changes every
 /// day, and, one tap away, what hormones, mood and body often do then.
+/// When what she logged today calls for it (pain, a bad night, a heavy
+/// mood), the tip answers that instead of the phase.
 /// A line says what she herself logged around this day, and another what
 /// her moment of life changes.
 ///
@@ -105,6 +122,9 @@ class _PhaseCardState extends State<PhaseCard> {
     final l10n = AppLocalizations.of(context);
     final theme = Theme.of(context);
     final text = phaseText(l10n, phase);
+    // What she logged today comes before the phase: a tip about energy
+    // means little on a day of cramps.
+    final topic = tipTopicFor(model.entryFor(today));
     final usual = cycleStart == null
         ? const <UsualSign>[]
         : usualSignsAround(
@@ -168,8 +188,10 @@ class _PhaseCardState extends State<PhaseCard> {
                   padding: const EdgeInsets.all(12),
                   child: _Line(
                     icon: Icons.lightbulb_outline,
-                    label: l10n.phaseTip,
-                    text: text.tips[tipIndexOn(today) % text.tips.length],
+                    label: topic == null ? l10n.phaseTip : l10n.phaseTipYours,
+                    text: topic == null
+                        ? text.tips[tipIndexOn(today) % text.tips.length]
+                        : tipText(l10n, topic),
                     textKey: const ValueKey('phase-tip'),
                     color: theme.colorScheme.onSecondaryContainer,
                   ),

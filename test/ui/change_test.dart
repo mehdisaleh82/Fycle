@@ -157,6 +157,7 @@ void main() {
         tracked: {Tracked.libido, Tracked.sleep},
       );
       await harness.pumpApp();
+      await openJournal(tester);
       await tapVisible(tester, find.byKey(const ValueKey('log-today')));
 
       double top(String key) => tester.getTopLeft(find.byKey(ValueKey(key))).dy;
@@ -170,6 +171,7 @@ void main() {
       final harness = Harness(tester);
       await harness.seed(days: threePeriods(), tracked: {Tracked.libido});
       await harness.pumpApp();
+      await openJournal(tester);
       await tapVisible(tester, find.byKey(const ValueKey('quick-libido-high')));
 
       final entry = await harness.read(
@@ -184,6 +186,7 @@ void main() {
       await harness.seed(days: threePeriods());
       await harness.pumpApp();
 
+      await openJournal(tester);
       expect(find.byKey(const ValueKey('quick-pain-mild')), findsOneWidget);
       expect(find.byKey(const ValueKey('quick-mood-calm')), findsOneWidget);
       expect(find.byKey(const ValueKey('quick-sleep-good')), findsNothing);
@@ -199,6 +202,7 @@ void main() {
       final harness = Harness(tester);
       await harness.seed(days: threePeriods(), goals: {Goal.perimenopause});
       await harness.pumpApp();
+      await openJournal(tester);
       await tapVisible(tester, find.byKey(const ValueKey('log-today')));
       await tapVisible(tester, find.byKey(hotFlashes));
       await tapVisible(tester, find.byKey(const ValueKey('day-done')));
@@ -213,11 +217,11 @@ void main() {
       final harness = Harness(tester);
       await harness.seed(days: threePeriods(), birthYear: 1980);
       await harness.pumpApp();
+      await openJournal(tester);
       await tapVisible(tester, find.byKey(const ValueKey('log-today')));
 
       for (final name in [
         'hotFlashes',
-        'nightSweats',
         'vaginalDryness',
         'jointPain',
         'brainFog',
@@ -225,12 +229,16 @@ void main() {
       ]) {
         expect(find.byKey(ValueKey('symptom-$name')), findsOneWidget);
       }
+      // Night sweats are with the sleep, for everyone, and nowhere else.
+      expect(find.byKey(const ValueKey('sleep-nightSweats')), findsOneWidget);
+      expect(find.byKey(const ValueKey('symptom-nightSweats')), findsNothing);
     });
 
     testWidgets('and not to the others', (tester) async {
       final harness = Harness(tester);
       await harness.seed(days: threePeriods());
       await harness.pumpApp();
+      await openJournal(tester);
       await tapVisible(tester, find.byKey(const ValueKey('log-today')));
 
       expect(find.byKey(const ValueKey('symptom-cramps')), findsOneWidget);

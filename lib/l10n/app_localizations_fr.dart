@@ -916,6 +916,9 @@ class AppLocalizationsFr extends AppLocalizations {
   String get todayEntryTitle => 'Mon journal du jour';
 
   @override
+  String get homeOpenJournal => 'Remplir mon journal';
+
+  @override
   String todayEntryProgress(int done, int total) {
     String _temp0 = intl.Intl.pluralLogic(
       done,
@@ -1035,9 +1038,6 @@ class AppLocalizationsFr extends AppLocalizations {
   @override
   String get journalEmpty =>
       'Rien d\'écrit pour l\'instant. Ta première page commence aujourd\'hui.';
-
-  @override
-  String get journalWriteToday => 'Écrire la page d\'aujourd\'hui';
 
   @override
   String get todayNoteTitle => 'Ta note';
@@ -1390,13 +1390,20 @@ class AppLocalizationsFr extends AppLocalizations {
   }
 
   @override
-  String get ringCountdownCaption => 'Jours restants';
-
-  @override
-  String get ringShowCountdown => 'Afficher les jours restants';
-
-  @override
   String get ringShowDay => 'Afficher le jour du cycle';
+
+  @override
+  String get ringShowTimeline => 'Afficher le cycle en ligne, avec ses étapes';
+
+  @override
+  String stepPeriodStarted(String date) {
+    return 'Règles commencées le $date';
+  }
+
+  @override
+  String stepFertile(String start, String end) {
+    return 'Fenêtre de fertilité estimée : du $start au $end';
+  }
 
   @override
   String get widgetTitle => 'Widget d\'écran d\'accueil';
@@ -3231,6 +3238,49 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get phaseTip => 'Le conseil du jour';
+
+  @override
+  String get phaseTipYours => 'Le conseil du jour, d\'après ton journal';
+
+  @override
+  String get tipPain =>
+      'Mal au ventre aujourd\'hui : du chaud dessus, bouillotte ou bain, soulage beaucoup de femmes. Bouger doucement aide souvent aussi.';
+
+  @override
+  String get tipHeadache =>
+      'Mal à la tête : boire de l\'eau et te poser un moment au calme, loin des écrans et de la lumière forte, aide souvent.';
+
+  @override
+  String get tipNightSweats =>
+      'Sueurs nocturnes ou bouffées de chaleur : une chambre fraîche, des draps en coton et des couches faciles à retirer rendent souvent la nuit plus supportable.';
+
+  @override
+  String get tipPoorSleep =>
+      'Après une mauvaise nuit : la lumière du jour le matin et un coucher à heure régulière aident souvent la nuit suivante.';
+
+  @override
+  String get tipFatigue =>
+      'Fatiguée aujourd\'hui : allège ce qui peut l\'être, et couche-toi un peu plus tôt si tu peux. Ce n\'est pas de la paresse.';
+
+  @override
+  String get tipBackPain =>
+      'Mal au dos : du chaud dans le bas du dos et quelques étirements doux font souvent du bien.';
+
+  @override
+  String get tipBloating =>
+      'Ventre gonflé : manger lentement et marcher un peu après le repas soulagent souvent.';
+
+  @override
+  String get tipNausea =>
+      'Nausées : de petites quantités, plus souvent, passent en général mieux qu\'un gros repas.';
+
+  @override
+  String get tipBreastTenderness =>
+      'Seins sensibles : un soutien-gorge souple, sans armature, est souvent plus confortable ces jours-là.';
+
+  @override
+  String get tipLowMood =>
+      'Journée lourde : dix minutes de marche dehors, ou quelques mots à quelqu\'un de confiance, allègent souvent un peu.';
 
   @override
   String get phaseMore => 'Décrypter';

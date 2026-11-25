@@ -1,6 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fycle/domain/calendar_day.dart';
 import 'package:fycle/domain/cycle_phase.dart';
+import 'package:fycle/domain/daily_tip.dart';
 import 'package:fycle/domain/day_entry.dart';
 import 'package:fycle/domain/life_stage.dart';
 import 'package:fycle/domain/start_profile.dart';
@@ -152,6 +153,76 @@ void main() {
           ]) {
             expect(line.toLowerCase(), isNot(contains(word)), reason: line);
           }
+        }
+      }
+    }
+  });
+
+  testWidgets('the tip answers what she logged today, before the phase', (
+    tester,
+  ) async {
+    final harness = Harness(tester);
+    await harness.seed(
+      days: [
+        ...threePeriods(),
+        DayEntry(day: CalendarDay(2026, 3, 20), symptoms: {Symptom.cramps}),
+      ],
+    );
+    await harness.pumpApp();
+    await show(tester, 'phase-tip');
+
+    final l10n = lookupAppLocalizations(const Locale('en'));
+    expect(textOf(tester, 'phase-tip'), l10n.tipPain);
+    expect(find.text("Today's tip, from your journal"), findsOneWidget);
+    expect(
+      phaseText(l10n, CyclePhase.midCycle).tips,
+      isNot(contains(textOf(tester, 'phase-tip'))),
+    );
+  });
+
+  testWidgets('it follows the journal as it is filled in, in French', (
+    tester,
+  ) async {
+    final harness = Harness(tester);
+    await harness.seed(days: threePeriods(), tracked: {Tracked.sleep});
+    await harness.pumpApp(locale: 'fr');
+    await show(tester, 'phase-tip');
+    expect(find.text('Le conseil du jour'), findsOneWidget);
+
+    await openJournal(tester);
+    await tapVisible(
+      tester,
+      find.byKey(const ValueKey('quick-sleep-nightSweats')),
+    );
+    await openHome(tester);
+    await show(tester, 'phase-tip');
+
+    final l10n = lookupAppLocalizations(const Locale('fr'));
+    expect(textOf(tester, 'phase-tip'), l10n.tipNightSweats);
+    expect(
+      find.text("Le conseil du jour, d'après ton journal"),
+      findsOneWidget,
+    );
+  });
+
+  test('no tip names a medicine, promises or diagnoses', () {
+    for (final locale in ['en', 'fr']) {
+      final l10n = lookupAppLocalizations(Locale(locale));
+      for (final topic in TipTopic.values) {
+        final line = tipText(l10n, topic).toLowerCase();
+        for (final word in [
+          'ibuprof',
+          'paracetamol',
+          'paracétamol',
+          'medic',
+          'médic',
+          'diagnos',
+          'you will',
+          'tu vas ',
+          ' vous ',
+          'votre',
+        ]) {
+          expect(line, isNot(contains(word)), reason: line);
         }
       }
     }

@@ -44,6 +44,7 @@ void main() {
         expect(find.byIcon(Icons.lock_outline), findsOneWidget);
         harness.deviceAuth.outcome = AuthOutcome.success;
         await tapVisible(tester, find.byType(FilledButton));
+        await openJournal(tester);
         expect(find.byKey(const ValueKey('log-today')), findsOneWidget);
       });
     }

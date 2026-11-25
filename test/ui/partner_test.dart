@@ -368,6 +368,7 @@ void main() {
     expect(find.text('Estimated between Mar 25 and Mar 31.'), findsOneWidget);
     // Read only: nothing to log, no tab.
     expect(key('log-today'), findsNothing);
+    expect(key('open-journal-today'), findsNothing);
 
     // The view is still there at the next launch.
     await harness.pumpApp();

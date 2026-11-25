@@ -1544,6 +1544,12 @@ abstract class AppLocalizations {
   /// **'My journal today'**
   String get todayEntryTitle;
 
+  /// No description provided for @homeOpenJournal.
+  ///
+  /// In en, this message translates to:
+  /// **'Fill in my journal'**
+  String get homeOpenJournal;
+
   /// No description provided for @todayEntryProgress.
   ///
   /// In en, this message translates to:
@@ -1681,12 +1687,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Nothing written yet. Your first page starts with today.'**
   String get journalEmpty;
-
-  /// No description provided for @journalWriteToday.
-  ///
-  /// In en, this message translates to:
-  /// **'Write today\'s page'**
-  String get journalWriteToday;
 
   /// No description provided for @todayNoteTitle.
   ///
@@ -2162,23 +2162,29 @@ abstract class AppLocalizations {
   /// **'{days, plural, =1{1 period day} other{{days} period days}}'**
   String monthPeriod(int days);
 
-  /// No description provided for @ringCountdownCaption.
-  ///
-  /// In en, this message translates to:
-  /// **'Days left'**
-  String get ringCountdownCaption;
-
-  /// No description provided for @ringShowCountdown.
-  ///
-  /// In en, this message translates to:
-  /// **'Show the days left'**
-  String get ringShowCountdown;
-
   /// No description provided for @ringShowDay.
   ///
   /// In en, this message translates to:
   /// **'Show the day of the cycle'**
   String get ringShowDay;
+
+  /// No description provided for @ringShowTimeline.
+  ///
+  /// In en, this message translates to:
+  /// **'Show the cycle as a line, with its steps'**
+  String get ringShowTimeline;
+
+  /// No description provided for @stepPeriodStarted.
+  ///
+  /// In en, this message translates to:
+  /// **'Period started on {date}'**
+  String stepPeriodStarted(String date);
+
+  /// No description provided for @stepFertile.
+  ///
+  /// In en, this message translates to:
+  /// **'Fertile window, estimate: {start} to {end}'**
+  String stepFertile(String start, String end);
 
   /// No description provided for @widgetTitle.
   ///
@@ -5017,6 +5023,72 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Today\'s tip'**
   String get phaseTip;
+
+  /// No description provided for @phaseTipYours.
+  ///
+  /// In en, this message translates to:
+  /// **'Today\'s tip, from your journal'**
+  String get phaseTipYours;
+
+  /// No description provided for @tipPain.
+  ///
+  /// In en, this message translates to:
+  /// **'Belly pain today: warmth on it, a hot-water bottle or a bath, eases many women. Moving gently often helps too.'**
+  String get tipPain;
+
+  /// No description provided for @tipHeadache.
+  ///
+  /// In en, this message translates to:
+  /// **'Headache: drinking water and a quiet moment away from screens and bright light often help.'**
+  String get tipHeadache;
+
+  /// No description provided for @tipNightSweats.
+  ///
+  /// In en, this message translates to:
+  /// **'Night sweats or hot flashes: a cool bedroom, cotton sheets and layers that come off easily often make the night easier.'**
+  String get tipNightSweats;
+
+  /// No description provided for @tipPoorSleep.
+  ///
+  /// In en, this message translates to:
+  /// **'After a bad night: daylight in the morning and a regular bedtime often help the next one.'**
+  String get tipPoorSleep;
+
+  /// No description provided for @tipFatigue.
+  ///
+  /// In en, this message translates to:
+  /// **'Tired today: lighten what can be lightened, and go to bed a little earlier if you can. It is not laziness.'**
+  String get tipFatigue;
+
+  /// No description provided for @tipBackPain.
+  ///
+  /// In en, this message translates to:
+  /// **'Back pain: warmth on the lower back and a few gentle stretches often feel good.'**
+  String get tipBackPain;
+
+  /// No description provided for @tipBloating.
+  ///
+  /// In en, this message translates to:
+  /// **'Bloated: eating slowly and a short walk after a meal often bring relief.'**
+  String get tipBloating;
+
+  /// No description provided for @tipNausea.
+  ///
+  /// In en, this message translates to:
+  /// **'Nausea: small amounts, more often, usually go down better than one big meal.'**
+  String get tipNausea;
+
+  /// No description provided for @tipBreastTenderness.
+  ///
+  /// In en, this message translates to:
+  /// **'Tender breasts: a soft bra without underwire is often more comfortable on these days.'**
+  String get tipBreastTenderness;
+
+  /// No description provided for @tipLowMood.
+  ///
+  /// In en, this message translates to:
+  /// **'A heavy day: ten minutes of walking outside, or a few words with someone you trust, often lighten it a little.'**
+  String get tipLowMood;
 
   /// No description provided for @phaseMore.
   ///

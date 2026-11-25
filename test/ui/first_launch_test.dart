@@ -142,6 +142,7 @@ void main() {
       findsOneWidget,
     );
     // The home offers in one tap what she said she follows.
+    await openJournal(tester);
     expect(find.byKey(const ValueKey('quick-sleep-good')), findsOneWidget);
     expect(find.byKey(const ValueKey('quick-libido-high')), findsOneWidget);
     expect(find.byKey(const ValueKey('quick-pain-mild')), findsNothing);
@@ -609,7 +610,7 @@ void main() {
 
     expect(find.text('Welcome to Fycle'), findsNothing);
     expect(find.text('No estimate yet'), findsOneWidget);
-    expect(find.text('Log today'), findsOneWidget);
+    expect(find.text('Fill in my journal'), findsOneWidget);
     final days = await harness.read((store) => store.database.readDays());
     expect(days, isEmpty);
 
@@ -627,7 +628,7 @@ void main() {
     await harness.pumpApp();
 
     expect(find.text('Welcome to Fycle'), findsNothing);
-    expect(find.text('Log today'), findsOneWidget);
+    expect(find.text('Fill in my journal'), findsOneWidget);
   });
 
   group('database whose key is gone', () {
@@ -688,7 +689,7 @@ void main() {
       await tester.tap(find.text('Restore'));
       await tester.pumpAndSettle();
 
-      expect(find.text('Log today'), findsOneWidget);
+      expect(find.text('Fill in my journal'), findsOneWidget);
       final length = await harness.read(
         (store) => store.database.usualCycleLength,
       );

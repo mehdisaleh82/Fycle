@@ -59,6 +59,7 @@ void main() {
     await harness.seed(days: threePeriods());
     await harness.pumpApp();
 
+    await openJournal(tester);
     await tapVisible(tester, key('log-today'));
     await tapVisible(tester, key('intimacy-unprotected'));
 
@@ -127,6 +128,7 @@ void main() {
     expect(key('ahead-desire'), findsNothing);
     expect(key('ahead-desire-general'), findsNothing);
     expect(key('ahead-period'), findsOneWidget);
+    await openJournal(tester);
     await tapVisible(tester, key('log-today'));
     expect(key('intimacy-protected'), findsNothing);
   });
